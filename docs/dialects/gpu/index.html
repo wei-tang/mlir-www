@@ -1,0 +1,168 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>GPU Dialect - MLIR: Multi-Level IR Compiler Framework</title><meta name=description content="&lt;insert something insighful here&gt;"><meta name=generator content="Hugo 0.59.1"><link href=https://joker-eph.github.io/www-mlir/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://joker-eph.github.io/www-mlir/docs/dialects/gpu/><link rel=stylesheet href=https://joker-eph.github.io/www-mlir/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://joker-eph.github.io/www-mlir/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://joker-eph.github.io/www-mlir/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><img src=https://joker-eph.github.io/www-mlir//mlir-logo.png width=40px>MLIR: Multi-Level IR Compiler Framework</h1><a href=https://github.com/llvm/llvm-project/mlir class=github><i class="fab fa-github"></i></a><p class=description>&lt;insert something insighful here&gt;</p></header><div class=global-menu><nav><ul><li><a href=/www-mlir/getting_started/faq/>FAQ</a></li><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li></ul></nav></div><div class=content-container><main><h1>GPU Dialect</h1><p>Note: this dialect is more likely to change than others in the near future; use
+with caution.</p><p>This dialect provides middle-level abstractions for launching GPU kernels
+following a programming model similar to that of CUDA or OpenCL. It provides
+abstractions for kernel invocations (and may eventually provide those for device
+management) that are not present at the lower level (e.g., as LLVM IR intrinsics
+for GPUs). Its goal is to abstract away device- and driver-specific
+manipulations to launch a GPU kernel and provide a simple path towards GPU
+execution from MLIR. It may be targeted, for example, by DSLs using MLIR. The
+dialect uses <code>gpu</code> as its canonical prefix.</p><h2 id=operations>Operations</h2><h3 id=gpu-block-dim><code>gpu.block_dim</code></h3><p>Returns the number of threads in the thread block (aka the block size) along the
+x, y, or z <code>dimension</code>.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  %bDimX = &#34;gpu.block_dim&#34;() {dimension = &#34;x&#34;} : () -&gt; (index)</code></pre></div><h3 id=gpu-block-id><code>gpu.block_id</code></h3><p>Returns the block id, i.e. the index of the current block within the grid along
+the x, y, or z <code>dimension</code>.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  %bIdY = &#34;gpu.block_id&#34;() {dimension = &#34;y&#34;} : () -&gt; (index)</code></pre></div><h3 id=gpu-grid-dim><code>gpu.grid_dim</code></h3><p>Returns the number of thread blocks in the grid along the x, y, or z
+<code>dimension</code>.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  %gDimZ = &#34;gpu.grid_dim&#34;() {dimension = &#34;z&#34;} : () -&gt; (index)</code></pre></div><h3 id=gpu-func><code>gpu.func</code></h3><p>Defines a function that can be executed on a GPU. This supports memory
+attribution and its body has a particular execution model.</p><p>GPU functions are either kernels (as indicated by the <code>kernel</code> attribute) or
+regular functions. The former can be launched from the host side, while the
+latter are device side only.</p><p>The memory attribution defines SSA values that correspond to memory buffers
+allocated in the memory hierarchy of the GPU (see below).</p><p>The operation has one attached region that corresponds to the body of the
+function. The region arguments consist of the function arguments without
+modification, followed by buffers defined in memory annotations. The body of a
+GPU function, when launched, is executed by multiple work items. There are no
+guarantees on the order in which work items execute, or on the connection
+between them. In particular, work items are not necessarily executed in
+lock-step. Synchronization ops such as &ldquo;gpu.barrier&rdquo; should be used to
+coordinate work items. Declarations of GPU functions, i.e. not having the body
+region, are not supported.</p><h4 id=memory-attribution>Memory attribution</h4><p>Memory buffers are defined at the function level, either in &ldquo;gpu.launch&rdquo; or in
+&ldquo;gpu.func&rdquo; ops. This encoding makes it clear where the memory belongs and makes
+the lifetime of the memory visible. The memory is only accessible while the
+kernel is launched/the function is currently invoked. The latter is more strict
+than actual GPU implementations but using static memory at the function level is
+just for convenience. It is also always possible to pass pointers to the
+workgroup memory into other functions, provided they expect the correct memory
+space.</p><p>The buffers are considered live throughout the execution of the GPU function
+body. The absence of memory attribution syntax means that the function does not
+require special buffers. Rationale: although the underlying models declare
+memory buffers at the module level, we chose to do it at the function level to
+provide some structuring for the lifetime of those buffers; this avoids the
+incentive to use the buffers for communicating between different kernels or
+launches of the same kernel, which should be done through function arguments
+intead; we chose not to use <code>alloca</code>-style approach that would require more
+complex lifetime analysis following the principles of MLIR that promote
+structure and representing analysis results in the IR.</p><p>Syntax:</p><div class=highlight><pre class=chroma><code class=language-.ebnf data-lang=.ebnf><span class=k>op </span><span class=err>::</span><span class=o>=</span> <span class=err>`</span><span class=k>gpu</span><span class=p>.</span><span class=k>func</span><span class=err>`</span> <span class=k>symbol-ref-id </span><span class=err>`(`</span> <span class=k>argument-list </span><span class=err>`)`</span> <span class=err>(`-&gt;`</span>
+<span class=k>function-result-list</span><span class=err>)?</span>
+       <span class=k>memory-attribution </span><span class=err>`</span><span class=k>kernel</span><span class=err>`?</span> <span class=k>function-attributes</span><span class=err>?</span> <span class=k>region</span>
+
+<span class=k>memory-attribution </span><span class=err>::</span><span class=o>=</span> <span class=p>(</span><span class=err>`</span><span class=k>workgroup</span><span class=err>`</span> <span class=err>`</span><span class=p>(</span><span class=err>`</span> <span class=k>ssa-id-and-type-list </span><span class=err>`</span><span class=p>)</span><span class=err>`</span><span class=p>)</span><span class=ni>?
+</span><span class=ni>                       (`private` `(` ssa-id-and-type-list `)`)?</span></code></pre></div><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">gpu.func @foo(%arg0: index)
+    workgroup(%workgroup: memref&lt;32xf32, 3&gt;)
+    private(%private: memref&lt;1xf32, 5&gt;)
+    kernel
+    attributes {qux: &#34;quux&#34;} {
+  gpu.return
+}</code></pre></div><p>The generic form illustrates the concept</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">&#34;gpu.func&#34;(%arg: index) {sym_name: &#34;foo&#34;, kernel, qux: &#34;quux&#34;} ({
+^bb0(%arg0: index, %workgroup: memref&lt;32xf32, 3&gt;, %private: memref&lt;1xf32, 5&gt;):
+  &#34;gpu.return&#34;() : () -&gt; ()
+}) : (index) -&gt; ()</code></pre></div><p>Note the non-default memory spaces used in memref types in memory-attribution.</p><h3 id=gpu-launch><code>gpu.launch</code></h3><p>Launch a kernel on the specified grid of thread blocks. The body of the kernel
+is defined by the single region that this operation contains. The operation
+takes at least six operands, with first three operands being grid sizes along
+x,y,z dimensions, the following three arguments being block sizes along x,y,z
+dimension, and the remaining operands are arguments of the kernel. When a
+lower-dimensional kernel is required, unused sizes must be explicitly set to
+<code>1</code>.</p><p>The body region has at least <em>twelve</em> arguments, grouped as follows:</p><ul><li>three arguments that contain block identifiers along x,y,z dimensions;</li><li>three arguments that contain thread identifiers along x,y,z dimensions;</li><li>operands of the <code>gpu.launch</code> operation as is, including six leading operands
+for grid and block sizes.</li></ul><p>Operations inside the body region, and any operations in the nested regions, are
+<em>not</em> allowed to use values defined outside the <em>body</em> region, as if this region
+was a function. If necessary, values must be passed as kernel arguments into the
+body region. Nested regions inside the kernel body are allowed to use values
+defined in their ancestor regions as long as they don&rsquo;t cross the kernel body
+region boundary.</p><p>Syntax:</p><div class=highlight><pre class=chroma><code class=language-.ebnf data-lang=.ebnf><span class=k>operation </span><span class=err>::</span><span class=o>=</span> <span class=err>`</span><span class=k>gpu</span><span class=p>.</span><span class=k>launch</span><span class=err>`</span> <span class=err>`</span><span class=k>block</span><span class=err>`</span> <span class=err>`(`</span> <span class=k>ssa-id-list </span><span class=err>`)`</span> <span class=err>`</span><span class=k>in</span><span class=err>`</span> <span class=k>ssa-reassignment</span>
+                         <span class=err>`</span><span class=k>threads</span><span class=err>`</span> <span class=err>`(`</span> <span class=k>ssa-id-list </span><span class=err>`)`</span> <span class=err>`</span><span class=k>in</span><span class=err>`</span> <span class=k>ssa-reassignment</span>
+                           <span class=err>(`</span><span class=k>args</span><span class=err>`</span> <span class=k>ssa-reassignment </span><span class=err>`:`</span> <span class=k>type-list</span><span class=err>)?</span>
+                           <span class=k>region attr-dict</span><span class=err>?</span>
+<span class=k>ssa-reassignment </span><span class=err>::</span><span class=o>=</span> <span class=err>`</span><span class=p>(</span><span class=err>`</span> <span class=k>ssa-id </span><span class=err>`=`</span> <span class=k>ssa-use </span><span class=p>(</span><span class=err>`</span><span class=p>,</span><span class=err>`</span> <span class=k>ssa-id </span><span class=err>`=`</span> <span class=k>ssa-use</span><span class=p>)</span><span class=err>*</span> <span class=err>`</span><span class=p>)</span><span class=err>`</span></code></pre></div><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">gpu.launch blocks(%bx, %by, %bz) in (%sz_bx = %0, %sz_by = %1, %sz_bz = %2)
+           threads(%tx, %ty, %tz) in (%sz_tx = %3, %sz_ty = %4, %sz_tz = %5)
+           args(%arg0 = %6, %arg1 = 7) : f32, memref&lt;?xf32, 1&gt; {
+  // Block and thread identifiers, as well as block/grid sizes are
+  // immediately usable inside body region.
+  &#34;some_op&#34;(%bx, %tx) : (index, index) -&gt; ()
+  %42 = load %arg1[%bx] : memref&lt;?xf32, 1&gt;
+}
+
+// Generic syntax explains how the pretty syntax maps to the IR structure.
+&#34;gpu.launch&#34;(%cst, %cst, %c1,  // Grid sizes.
+                    %cst, %c1, %c1,   // Block sizes.
+                    %arg0, %arg1)     // Actual arguments.
+    {/*attributes*/}
+    // All sizes and identifiers have &#34;index&#34; size.
+    : (index, index, index, index, index, index, f32, memref&lt;?xf32, 1&gt;) -&gt; () {
+// The operation passes block and thread identifiers, followed by grid and block
+// sizes, followed by actual arguments to the entry block of the region.
+^bb0(%bx : index, %by : index, %bz : index,
+     %tx : index, %ty : index, %tz : index,
+     %num_bx : index, %num_by : index, %num_bz : index,
+     %num_tx : index, %num_ty : index, %num_tz : index,
+     %arg0 : f32, %arg1 : memref&lt;?xf32, 1&gt;):
+  &#34;some_op&#34;(%bx, %tx) : (index, index) -&gt; ()
+  %3 = &#34;std.load&#34;(%arg1, %bx) : (memref&lt;?xf32, 1&gt;, index) -&gt; f32
+}</code></pre></div><p>Rationale: using operation/block arguments gives analyses a clear way of
+understanding that a value has additional semantics (e.g., we will need to know
+what value corresponds to threadIdx.x for coalescing). We can recover these
+properties by analyzing the operations producing values, but it is easier just
+to have that information by construction.</p><h3 id=gpu-launch-func><code>gpu.launch_func</code></h3><p>Launch a kernel function on the specified grid of thread blocks. <code>gpu.launch</code>
+operations are lowered to <code>gpu.launch_func</code> operations by outlining the kernel
+body into a function in a dedicated module, which reflects the separate
+compilation process. The kernel function is required to have the <code>gpu.kernel</code>
+attribute. The module containing the kernel function is required to have the
+<code>gpu.kernel_module</code> attribute and must be named. And finally, the module
+containing the kernel module (which thus cannot be the top-level module) is
+required to have the <code>gpu.container_module</code> attribute. The <code>gpu.launch_func</code>
+operation has a string attribute named <code>kernel</code> to specify the name of the
+kernel function to launch and an attribute named <code>kernel_module</code> to specify the
+name of the module containing that kernel function.</p><p>The operation takes at least six operands, with the first three operands being
+grid sizes along x,y,z dimensions and the following three being block sizes
+along x,y,z dimensions. When a lower-dimensional kernel is required, unused
+sizes must be explicitly set to <code>1</code>. The remaining operands are passed as
+arguments to the kernel function.</p><p>A custom syntax for this operation is currently not available.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">module attributes {gpu.container_module} {
+
+  // This module creates a separate compilation unit for the GPU compiler.
+  module @kernels attributes {gpu.kernel_module} {
+    func @kernel_1(%arg0 : f32, %arg1 : !llvm&lt;&#34;float*&#34;&gt;)
+        attributes { nvvm.kernel = true } {
+
+      // Operations that produce block/thread IDs and dimensions are injected when
+      // outlining the `gpu.launch` body to a function called by `gpu.launch_func`.
+      %tIdX = &#34;gpu.thread_id&#34;() {dimension = &#34;x&#34;} : () -&gt; (index)
+      %tIdY = &#34;gpu.thread_id&#34;() {dimension = &#34;y&#34;} : () -&gt; (index)
+      %tIdZ = &#34;gpu.thread_id&#34;() {dimension = &#34;z&#34;} : () -&gt; (index)
+
+      %bDimX = &#34;gpu.block_dim&#34;() {dimension = &#34;x&#34;} : () -&gt; (index)
+      %bDimY = &#34;gpu.block_dim&#34;() {dimension = &#34;y&#34;} : () -&gt; (index)
+      %bDimZ = &#34;gpu.block_dim&#34;() {dimension = &#34;z&#34;} : () -&gt; (index)
+
+      %bIdX = &#34;gpu.block_id&#34;() {dimension = &#34;x&#34;} : () -&gt; (index)
+      %bIdY = &#34;gpu.block_id&#34;() {dimension = &#34;y&#34;} : () -&gt; (index)
+      %bIdZ = &#34;gpu.block_id&#34;() {dimension = &#34;z&#34;} : () -&gt; (index)
+
+      %gDimX = &#34;gpu.grid_dim&#34;() {dimension = &#34;x&#34;} : () -&gt; (index)
+      %gDimY = &#34;gpu.grid_dim&#34;() {dimension = &#34;y&#34;} : () -&gt; (index)
+      %gDimZ = &#34;gpu.grid_dim&#34;() {dimension = &#34;z&#34;} : () -&gt; (index)
+
+      &#34;some_op&#34;(%bx, %tx) : (index, index) -&gt; ()
+      %42 = load %arg1[%bx] : memref&lt;?xf32, 1&gt;
+    }
+  }
+
+  &#34;gpu.launch_func&#34;(%cst, %cst, %cst,  // Grid sizes.
+                    %cst, %cst, %cst,  // Block sizes.
+                    %arg0, %arg1)      // Arguments passed to the kernel function.
+        { kernel_module = @kernels,    // Module containing the kernel function.
+          kernel = &#34;kernel_1&#34; }        // Kernel function.
+        : (index, index, index, index, index, index, f32, !llvm&lt;&#34;float*&#34;&gt;) -&gt; ()
+}</code></pre></div><h3 id=gpu-thread-id><code>gpu.thread_id</code></h3><p>Returns the thread id, i.e. the index of the current thread within the block
+along the x, y, or z <code>dimension</code>.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  %tIdX = &#34;gpu.thread_id&#34;() {dimension = &#34;x&#34;} : () -&gt; (index)</code></pre></div><h3 id=gpu-yield><code>gpu.yield</code></h3><p>Is a special terminator operation for blocks inside regions in gpu ops. It
+returns values to the immediately enclosing gpu op.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">gpu.yield %f0, %f1 : f32, f32</code></pre></div><h3 id=gpu-all-reduce><code>gpu.all_reduce</code></h3><p>The &ldquo;all_reduce&rdquo; op reduces the value of every work item across a local
+workgroup. The result is equal for all work items of a workgroup.</p><p>For example, both</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">%1 = &#34;gpu.all_reduce&#34;(%0) ({}) { op = &#34;add&#34; } : (f32) -&gt; (f32)
+%2 = &#34;gpu.all_reduce&#34;(%0) ({
+^bb(%lhs : f32, %rhs : f32):
+  %sum = addf %lhs, %rhs : f32
+  &#34;gpu.yield&#34;(%sum) : (f32) -&gt; ()
+}) : (f32) -&gt; (f32)</code></pre></div><p>compute the sum of each work item&rsquo;s %0 value. The first version specifies
+the accumulation as operation, whereas the second version specifies the
+accumulation as code region. The accumulation operation must either be
+<code>add</code> or <code>mul</code>.</p><p>Either none or all work items of a workgroup need to execute this op
+in convergence.</p><h3 id=gpu-barrier><code>gpu.barrier</code></h3><p>The &ldquo;barrier&rdquo; op synchronizes all work items of a workgroup. It is used
+to coordinate communication between the work items of the workgroup.</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">gpu.barrier</code></pre></div><p>waits until all work items in the workgroup have reached this point
+and all memory accesses made by these work items prior to the op are
+visible to all work items in the workgroup. Data hazards between work items
+accessing the same memory can be avoided by synchronizing work items
+in-between these accesses.</p><p>Either none or all work items of a workgroup need to execute this op
+in convergence.</p><div class=edit-meta>Last updated on 29 Nov 2019<br>Published on 29 Nov 2019<br><a href=https://github.com/joker-eph/www-mlir//edit/master/content/docs/Dialects/GPU.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/www-mlir/docs/dialects/affine/ title=Affine><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Affine</a>
+<a class="nav nav-next" href=/www-mlir/docs/dialects/llvm/ title="LLVM IR Dialect">Next - LLVM IR Dialect <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=open-menu><ul><li><a href=https://joker-eph.github.io/www-mlir/>Home</a></li><li><a href=/www-mlir/getting_started/>Getting Started</a><ul class=sub-menu><li><a href=/www-mlir/getting_started/faq/>FAQ</a></li><li><a href=/www-mlir/getting_started/developerguide/>Developer Guide</a></li><li><a href=/www-mlir/getting_started/glossary/>Glossary</a></li><li><a href=/www-mlir/getting_started/testingguide/>Testing Guide</a></li></ul></li><li class=parent><a href=/www-mlir/docs/>Docs</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/>Tutorials</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/dialectconversion/>Dialect Conversion</a></li><li><a href=/www-mlir/docs/tutorials/interfaces/>Interfaces</a></li><li><a href=/www-mlir/docs/tutorials/traits/>Introduction to Operation Traits</a></li><li><a href=/www-mlir/docs/tutorials/quickstartrewrites/>Quickstart on Graph Rewrite</a></li><li><a href=/www-mlir/docs/tutorials/toy/>Toy Tutorial</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/toy/ch-1/>Chapter 1: Intro</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li></ul></li><li class=parent><a href=/www-mlir/docs/dialects/>Dialect</a><ul class=sub-menu><li><a href=/www-mlir/docs/dialects/affine/>Affine</a></li><li class=active><a href=/www-mlir/docs/dialects/gpu/>GPU Dialect</a></li><li><a href=/www-mlir/docs/dialects/llvm/>LLVM IR Dialect</a></li><li><a href=/www-mlir/docs/dialects/spir-v/>SPIR-V Dialect</a></li><li><a href=/www-mlir/docs/dialects/standard/>Standard Dialect</a></li><li><a href=/www-mlir/docs/dialects/vector/>Vector Dialect</a></li></ul></li><li><a href=/www-mlir/docs/design/>Design</a><ul class=sub-menu><li><a href=/www-mlir/docs/design/canonicalization/>Canonicalization</a></li><li><a href=/www-mlir/docs/design/rationalesimplifiedpolyhedralform/>Case for a Simplified Polyhedral Form</a></li><li><a href=/www-mlir/docs/design/rationale/>Design Rationale</a></li><li><a href=/www-mlir/docs/design/diagnostics/>Diagnostics Infrastructure</a></li><li><a href=/www-mlir/docs/design/edsc/>EDSC: Declarative Builders</a></li><li><a href=/www-mlir/docs/design/genericdagrewriter/>Generic DAG Rewriter Infrastructure</a></li><li><a href=/www-mlir/docs/design/mlirforgraphalgorithms/>Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/www-mlir/docs/design/quantization/>Quantization</a></li><li><a href=/www-mlir/docs/design/declarativerewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/www-mlir/docs/design/opdefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/www-mlir/docs/design/usageofconst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li></ul></li><li><a href=/www-mlir/docs/conversiontollvmdialect/>Conversion to the LLVM Dialect</a></li><li><a href=/www-mlir/docs/langref/>Core Specification</a></li><li><a href=/www-mlir/docs/passes/>Passes</a></li><li><a href=/www-mlir/docs/definingattributesandtypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/www-mlir/docs/writingapass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

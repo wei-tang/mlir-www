@@ -1,0 +1,108 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Testing Guide - MLIR: Multi-Level IR Compiler Framework</title><meta name=description content="&lt;insert something insighful here&gt;"><meta name=generator content="Hugo 0.59.1"><link href=https://joker-eph.github.io/www-mlir/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://joker-eph.github.io/www-mlir/getting_started/testingguide/><link rel=stylesheet href=https://joker-eph.github.io/www-mlir/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://joker-eph.github.io/www-mlir/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://joker-eph.github.io/www-mlir/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><img src=https://joker-eph.github.io/www-mlir//mlir-logo.png width=40px>MLIR: Multi-Level IR Compiler Framework</h1><a href=https://github.com/llvm/llvm-project/mlir class=github><i class="fab fa-github"></i></a><p class=description>&lt;insert something insighful here&gt;</p></header><div class=global-menu><nav><ul><li><a href=/www-mlir/getting_started/faq/>FAQ</a></li><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li></ul></nav></div><div class=content-container><main><h1>Testing Guide</h1><p>Testing is an integral part of any software infrastructure. In general, all
+commits to the MLIR repository should include an accompanying test of some form.
+Commits that include no functional changes, such as API changes like symbol
+renaming, should be tagged with NFC(no functional changes). This signals to the
+reviewer why the change doesn&rsquo;t/shouldn&rsquo;t include a test.</p><p>MLIR generally separates testing into two main categories, <a href=#check-tests>Check</a>
+tests and <a href=#unit-tests>Unit</a> tests.</p><h2 id=check-tests>Check tests</h2><p>Check tests are tests that verify that some set of string tags appear in the
+output of some program. These tests generally encompass anything related to the
+state of the IR (and more); analysis, parsing, transformation, verification,
+etc. They are written utilizing several different tools:</p><h3 id=filecheck-tests>FileCheck tests</h3><p><a href=https://llvm.org/docs/CommandGuide/FileCheck.html>FileCheck</a> is a utility tool
+that &ldquo;reads two files (one from standard input, and one specified on the command
+line) and uses one to verify the other.&rdquo; Essentially, one file contains a set of
+tags that are expected to appear in the output file. MLIR utilizes FileCheck, in
+combination with <a href=https://llvm.org/docs/CommandGuide/lit.html>lit</a>, to verify
+different aspects of the IR - such as the output of a transformation pass.</p><p>An example FileCheck test is shown below:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// RUN: mlir-opt %s -cse | FileCheck %s
+
+// CHECK-LABEL: func @simple_constant
+func @simple_constant() -&gt; (i32, i32) {
+  // CHECK-NEXT: %[[RESULT:.*]] = constant 1
+  // CHECK-NEXT: return %[[RESULT]], %[[RESULT]]
+
+  %0 = constant 1 : i32
+  %1 = constant 1 : i32
+  return %0, %1 : i32, i32
+}</code></pre></div><p>The above test performs a check that after running Common Sub-Expression
+elimination, only one constant remains in the IR.</p><h4 id=filecheck-best-practices>FileCheck best practices</h4><p>FileCheck is an extremely useful utility, it allows for easily matching various
+parts of the output. This ease of use means that it becomes easy to write
+brittle tests that are essentially <code>diff</code> tests. FileCheck tests should be as
+self-contained as possible and focus on testing the minimal set of
+functionalities needed. Let&rsquo;s see an example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// RUN: mlir-opt %s -cse | FileCheck %s
+
+// CHECK-LABEL: func @simple_constant() -&gt; (i32, i32)
+func @simple_constant() -&gt; (i32, i32) {
+  // CHECK-NEXT: %result = constant 1 : i32
+  // CHECK-NEXT: return %result, %result : i32, i32
+  // CHECK-NEXT: }
+
+  %0 = constant 1 : i32
+  %1 = constant 1 : i32
+  return %0, %1 : i32, i32
+}</code></pre></div><p>The above example is another way to write the original example shown in the main
+<a href=#filecheck-tests>FileCheck tests</a> section. There are a few problems with this
+test; below is a breakdown of the no-nos of this test to specifically highlight
+best practices.</p><ul><li>Tests should be self-contained.</li></ul><p>This means that tests should not test lines or sections outside of what is
+intended. In the above example, we see lines such as <code>CHECK-NEXT: }</code>. This line
+in particular is testing pieces of the Parser/Printer of FuncOp, which is
+outside of the realm of concern for the CSE pass. This line should be removed.</p><ul><li>Tests should be minimal, and only check what is absolutely necessary.</li></ul><p>This means that anything in the output that is not core to the functionality
+that you are testing should <em>not</em> be present in a CHECK line. This is a separate
+bullet just to highlight the importance of it, especially when checking against
+IR output.</p><p>If we naively remove the unrelated <code>CHECK</code> lines in our source file, we may end
+up with:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// CHECK-LABEL: func @simple_constant
+func @simple_constant() -&gt; (i32, i32) {
+  // CHECK-NEXT: %result = constant 1 : i32
+  // CHECK-NEXT: return %result, %result : i32, i32
+
+  %0 = constant 1 : i32
+  %1 = constant 1 : i32
+  return %0, %1 : i32, i32
+}</code></pre></div><p>It may seem like this is a minimal test case, but it still checks several
+aspects of the output that are unrelated to the CSE transformation. Namely the
+result types of the <code>constant</code> and <code>return</code> operations, as well the actual SSA
+value names that are produced. FileCheck <code>CHECK</code> lines may contain
+<a href=https://llvm.org/docs/CommandGuide/FileCheck.html#filecheck-regex-matching-syntax>regex statements</a>
+as well as named
+<a href=https://llvm.org/docs/CommandGuide/FileCheck.html#filecheck-string-substitution-blocks>string substitution blocks</a>.
+Utilizing the above, we end up with the example shown in the main
+<a href=#filecheck-tests>FileCheck tests</a> section.</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// CHECK-LABEL: func @simple_constant
+func @simple_constant() -&gt; (i32, i32) {
+  /// Here we use a substitution variable as the output of the constant is
+  /// useful for the test, but we omit as much as possible of everything else.
+  // CHECK-NEXT: %[[RESULT:.*]] = constant 1
+  // CHECK-NEXT: return %[[RESULT]], %[[RESULT]]
+
+  %0 = constant 1 : i32
+  %1 = constant 1 : i32
+  return %0, %1 : i32, i32
+}</code></pre></div><h3 id=diagnostic-verification-tests>Diagnostic verification tests</h3><p>MLIR provides rich source location tracking that can be used to emit errors,
+warnings, etc. easily from anywhere throughout the codebase. Certain classes of
+tests are written to check that certain diagnostics are emitted for a given
+input program, such as an MLIR file. These tests are useful in that they allow
+checking specific invariants of the IR without transforming or changing
+anything. Some examples of tests in this category are: those that verify
+invariants of operations, or check the expected results of an analysis.
+Diagnostic verification tests are written utilizing the
+<a href=Diagnostics.md#sourcemgr-diagnostic-verifier-handler>source manager verifier handler</a>,
+accessible via the <code>verify-diagnostics</code> flag in mlir-opt.</p><p>An example .mlir test running under <code>mlir-opt</code> is shown below:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// RUN: mlir-opt %s -split-input-file -verify-diagnostics
+
+// Expect an error on the same line.
+func @bad_branch() {
+  br ^missing  // expected-error {{reference to an undefined block}}
+}
+
+// -----
+
+// Expect an error on an adjacent line.
+func @foo(%a : f32) {
+  // expected-error@+1 {{unknown comparison predicate &#34;foo&#34;}}
+  %result = cmpf &#34;foo&#34;, %a, %a : f32
+  return
+}</code></pre></div><h2 id=unit-tests>Unit tests</h2><p>Unit tests are written using
+<a href=https://github.com/google/googletest/blob/master/googletest/docs/primer.md>Google Test</a>
+and are located in the unittests/ directory. Tests of these form <em>should</em> be
+limited to API tests that cannot be reasonably written as <a href=#check-tests>Check</a>
+tests, e.g. those for data structures. It is important to keep in mind that the
+C++ APIs are not stable, and evolve over time. As such, directly testing the C++
+IR interfaces makes the tests more fragile as those C++ APIs evolve over time.
+This makes future API refactorings, which may happen frequently, much more
+cumbersome as the number of tests scale.</p><div class=edit-meta>Last updated on 29 Nov 2019<br>Published on 29 Nov 2019<br><a href=https://github.com/joker-eph/www-mlir//edit/master/content/getting_started/TestingGuide.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/www-mlir/getting_started/glossary/ title=Glossary><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Glossary</a>
+<a class="nav nav-next" href=/www-mlir/docs/ title=Docs>Next - Docs <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=open-menu><ul><li><a href=https://joker-eph.github.io/www-mlir/>Home</a></li><li class=parent><a href=/www-mlir/getting_started/>Getting Started</a><ul class=sub-menu><li><a href=/www-mlir/getting_started/faq/>FAQ</a></li><li><a href=/www-mlir/getting_started/developerguide/>Developer Guide</a></li><li><a href=/www-mlir/getting_started/glossary/>Glossary</a></li><li class=active><a href=/www-mlir/getting_started/testingguide/>Testing Guide</a></li></ul></li><li><a href=/www-mlir/docs/>Docs</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/>Tutorials</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/dialectconversion/>Dialect Conversion</a></li><li><a href=/www-mlir/docs/tutorials/interfaces/>Interfaces</a></li><li><a href=/www-mlir/docs/tutorials/traits/>Introduction to Operation Traits</a></li><li><a href=/www-mlir/docs/tutorials/quickstartrewrites/>Quickstart on Graph Rewrite</a></li><li><a href=/www-mlir/docs/tutorials/toy/>Toy Tutorial</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/toy/ch-1/>Chapter 1: Intro</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li></ul></li><li><a href=/www-mlir/docs/dialects/>Dialect</a><ul class=sub-menu><li><a href=/www-mlir/docs/dialects/affine/>Affine</a></li><li><a href=/www-mlir/docs/dialects/gpu/>GPU Dialect</a></li><li><a href=/www-mlir/docs/dialects/llvm/>LLVM IR Dialect</a></li><li><a href=/www-mlir/docs/dialects/spir-v/>SPIR-V Dialect</a></li><li><a href=/www-mlir/docs/dialects/standard/>Standard Dialect</a></li><li><a href=/www-mlir/docs/dialects/vector/>Vector Dialect</a></li></ul></li><li><a href=/www-mlir/docs/design/>Design</a><ul class=sub-menu><li><a href=/www-mlir/docs/design/canonicalization/>Canonicalization</a></li><li><a href=/www-mlir/docs/design/rationalesimplifiedpolyhedralform/>Case for a Simplified Polyhedral Form</a></li><li><a href=/www-mlir/docs/design/rationale/>Design Rationale</a></li><li><a href=/www-mlir/docs/design/diagnostics/>Diagnostics Infrastructure</a></li><li><a href=/www-mlir/docs/design/edsc/>EDSC: Declarative Builders</a></li><li><a href=/www-mlir/docs/design/genericdagrewriter/>Generic DAG Rewriter Infrastructure</a></li><li><a href=/www-mlir/docs/design/mlirforgraphalgorithms/>Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/www-mlir/docs/design/quantization/>Quantization</a></li><li><a href=/www-mlir/docs/design/declarativerewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/www-mlir/docs/design/opdefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/www-mlir/docs/design/usageofconst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li></ul></li><li><a href=/www-mlir/docs/conversiontollvmdialect/>Conversion to the LLVM Dialect</a></li><li><a href=/www-mlir/docs/langref/>Core Specification</a></li><li><a href=/www-mlir/docs/passes/>Passes</a></li><li><a href=/www-mlir/docs/definingattributesandtypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/www-mlir/docs/writingapass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

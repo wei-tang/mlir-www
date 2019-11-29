@@ -1,0 +1,204 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Conversion to the LLVM Dialect - MLIR: Multi-Level IR Compiler Framework</title><meta name=description content="&lt;insert something insighful here&gt;"><meta name=generator content="Hugo 0.59.1"><link href=https://joker-eph.github.io/www-mlir/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://joker-eph.github.io/www-mlir/docs/conversiontollvmdialect/><link rel=stylesheet href=https://joker-eph.github.io/www-mlir/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://joker-eph.github.io/www-mlir/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://joker-eph.github.io/www-mlir/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><img src=https://joker-eph.github.io/www-mlir//mlir-logo.png width=40px>MLIR: Multi-Level IR Compiler Framework</h1><a href=https://github.com/llvm/llvm-project/mlir class=github><i class="fab fa-github"></i></a><p class=description>&lt;insert something insighful here&gt;</p></header><div class=global-menu><nav><ul><li><a href=/www-mlir/getting_started/faq/>FAQ</a></li><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li></ul></nav></div><div class=content-container><main><h1>Conversion to the LLVM Dialect</h1><p>Conversion from the Standard to the <a href=Dialects/LLVM.md>LLVM Dialect</a> can be
+performed by the specialized dialect conversion pass by running</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh>mlir-opt -convert-std-to-llvm &lt;filename.mlir&gt;</code></pre></div><p>It performs type and operation conversions for a subset of operations from
+standard dialect (operations on scalars and vectors, control flow operations) as
+described in this document. We use the terminology defined by the
+<a href=Dialects/LLVM.md>LLVM IR Dialect description</a> throughout this document.</p><p>[TOC]</p><h2 id=type-conversion>Type Conversion</h2><h3 id=scalar-types>Scalar Types</h3><p>Scalar types are converted to their LLVM counterparts if they exist. The
+following conversions are currently implemented.</p><ul><li><code>i*</code> converts to <code>!llvm.type&lt;&quot;i*&quot;&gt;</code></li><li><code>f16</code> converts to <code>!llvm.type&lt;&quot;half&quot;&gt;</code></li><li><code>f32</code> converts to <code>!llvm.type&lt;&quot;float&quot;&gt;</code></li><li><code>f64</code> converts to <code>!llvm.type&lt;&quot;double&quot;&gt;</code></li></ul><p>Note: <code>bf16</code> type is not supported by LLVM IR and cannot be converted.</p><h3 id=index-type>Index Type</h3><p>Index type is converted to a wrapped LLVM IR integer with bitwidth equal to the
+bitwidth of the pointer size as specified by the
+<a href=https://llvm.org/docs/LangRef.html#data-layout>data layout</a> of the LLVM module
+<a href=Dialects/LLVM.md#context-and-module-association>contained</a> in the LLVM Dialect
+object. For example, on x86-64 CPUs it converts to <code>!llvm.type&lt;&quot;i64&quot;&gt;</code>.</p><h3 id=vector-types>Vector Types</h3><p>LLVM IR only supports <em>one-dimensional</em> vectors, unlike MLIR where vectors can
+be multi-dimensional. Vector types cannot be nested in either IR. In the
+one-dimensional case, MLIR vectors are converted to LLVM IR vectors of the same
+size with element type converted using these conversion rules. In the
+n-dimensional case, MLIR vectors are converted to (n-1)-dimensional array types
+of one-dimensional vectors.</p><p>For example, <code>vector&lt;4 x f32&gt;</code> converts to <code>!llvm.type&lt;&quot;&lt;4 x float&gt;&quot;&gt;</code> and
+<code>vector&lt;4 x 8 x 16 f32&gt;</code> converts to <code>!llvm&lt;&quot;[4 x [8 x &lt;16 x float&gt;]]&quot;&gt;</code>.</p><h3 id=memref-types>Memref Types</h3><p>Memref types in MLIR have both static and dynamic information associated with
+them. The dynamic information comprises the buffer pointer as well as sizes and
+strides of any dynamically sized dimensions. Memref types are normalized and
+converted to a descriptor that is only dependent on the rank of the memref. The
+descriptor contains:</p><ol><li>the pointer to the data buffer, followed by</li><li>the pointer to properly aligned data payload that the memref indexes,
+followed by</li><li>a lowered <code>index</code>-type integer containing the distance between the beginning
+of the buffer and the first element to be accessed through the memref,
+followed by</li><li>an array containing as many <code>index</code>-type integers as the rank of the memref:
+the array represents the size, in number of elements, of the memref along
+the given dimension. For constant MemRef dimensions, the corresponding size
+entry is a constant whose runtime value must match the static value,
+followed by</li><li>a second array containing as many 64-bit integers as the rank of the MemRef:
+the second array represents the &ldquo;stride&rdquo; (in tensor abstraction sense), i.e.
+the number of consecutive elements of the underlying buffer.</li></ol><p>For constant memref dimensions, the corresponding size entry is a constant whose
+runtime value matches the static value. This normalization serves as an ABI for
+the memref type to interoperate with externally linked functions. In the
+particular case of rank <code>0</code> memrefs, the size and stride arrays are omitted,
+resulting in a struct containing two pointers + offset.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">memref&lt;f32&gt; -&gt; !llvm.type&lt;&#34;{ float*, float*, i64 }&#34;&gt;
+memref&lt;1 x f32&gt; -&gt; !llvm.type&lt;&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;&gt;
+memref&lt;? x f32&gt; -&gt; !llvm.type&lt;&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;&gt;
+memref&lt;10x42x42x43x123 x f32&gt; -&gt; !llvm.type&lt;&#34;{ float*, float*, i64, [5 x i64], [5 x i64] }&#34;&gt;
+memref&lt;10x?x42x?x123 x f32&gt; -&gt; !llvm.type&lt;&#34;{ float*, float*, i64, [5 x i64], [5 x i64]  }&#34;&gt;
+
+// Memref types can have vectors as element types
+memref&lt;1x? x vector&lt;4xf32&gt;&gt; -&gt; !llvm.type&lt;&#34;{ &lt;4 x float&gt;*, &lt;4 x float&gt;*, i64, [1 x i64], [1 x i64] }&#34;&gt;</code></pre></div><h3 id=function-types>Function Types</h3><p>Function types get converted to LLVM function types. The arguments are converted
+individually according to these rules. The result types need to accommodate the
+fact that LLVM IR functions always have a return type, which may be a Void type.
+The converted function always has a single result type. If the original function
+type had no results, the converted function will have one result of the wrapped
+<code>void</code> type. If the original function type had one result, the converted
+function will have one result converted using these rules. Otherwise, the result
+type will be a wrapped LLVM IR structure type where each element of the
+structure corresponds to one of the results of the original function, converted
+using these rules. In high-order functions, function-typed arguments and results
+are converted to a wrapped LLVM IR function pointer type (since LLVM IR does not
+allow passing functions to functions without indirection) with the pointee type
+converted using these rules.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// zero-ary function type with no results.
+() -&gt; ()
+// is converted to a zero-ary function with `void` result
+!llvm.type&lt;&#34;void ()&#34;&gt;
+
+// unary function with one result
+(i32) -&gt; (i64)
+// has its argument and result type converted, before creating the LLVM IR function type
+!llvm.type&lt;&#34;i64 (i32)&#34;&gt;
+
+// binary function with one result
+(i32, f32) -&gt; (i64)
+// has its arguments handled separately
+!llvm.type&lt;&#34;i64 (i32, float)&#34;&gt;
+
+// binary function with two results
+(i32, f32) -&gt; (i64, f64)
+// has its result aggregated into a structure type
+!llvm.type&lt;&#34;{i64, double} (i32, f32)&#34;&gt;
+
+// function-typed arguments or results in higher-order functions
+(() -&gt; ()) -&gt; (() -&gt; ())
+// are converted into pointers to functions
+!llvm.type&lt;&#34;void ()* (void ()*)&#34;&gt;</code></pre></div><h2 id=calling-convention>Calling Convention</h2><h3 id=function-signature-conversion>Function Signature Conversion</h3><p>LLVM IR functions are defined by a custom operation. The function itself has a
+wrapped LLVM IR function type converted as described above. The function
+definition operation uses MLIR syntax.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// zero-ary function type with no results.
+func @foo() -&gt; ()
+// gets LLVM type void().
+llvm.func @foo() -&gt; ()
+
+// function with one result
+func @bar(i32) -&gt; (i64)
+// gets converted to LLVM type i64(i32).
+func @bar(!llvm.i32) -&gt; !llvm.i64
+
+// function with two results
+func @qux(i32, f32) -&gt; (i64, f64)
+// has its result aggregated into a structure type
+func @qux(!llvm.i32, !llvm.float) -&gt; !llvm.type&lt;&#34;{i64, double}&#34;&gt;
+
+// function-typed arguments or results in higher-order functions
+func @quux(() -&gt; ()) -&gt; (() -&gt; ())
+// are converted into pointers to functions
+func @quux(!llvm.type&lt;&#34;void ()*&#34;&gt;) -&gt; !llvm.type&lt;&#34;void ()*&#34;&gt;
+// the call flow is handled by the LLVM dialect `call` operation supporting both
+// direct and indirect calls</code></pre></div><h3 id=result-packing>Result Packing</h3><p>In case of multi-result functions, the returned values are inserted into a
+structure-typed value before being returned and extracted from it at the call
+site. This transformation is a part of the conversion and is transparent to the
+defines and uses of the values being returned.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">func @foo(%arg0: i32, %arg1: i64) -&gt; (i32, i64) {
+  return %arg0, %arg1 : i32, i64
+}
+func @bar() {
+  %0 = constant 42 : i32
+  %1 = constant 17 : i64
+  %2:2 = call @foo(%0, %1) : (i32, i64) -&gt; (i32, i64)
+  &#34;use_i32&#34;(%2#0) : (i32) -&gt; ()
+  &#34;use_i64&#34;(%2#1) : (i64) -&gt; ()
+}
+
+// is transformed into
+
+func @foo(%arg0: !llvm.type&lt;&#34;i32&#34;&gt;, %arg1: !llvm.type&lt;&#34;i64&#34;&gt;) -&gt; !llvm.type&lt;&#34;{i32, i64}&#34;&gt; {
+  // insert the vales into a structure
+  %0 = llvm.mlir.undef :  !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+  %1 = llvm.insertvalue %arg0, %0[0] : !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+  %2 = llvm.insertvalue %arg1, %1[1] : !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+
+  // return the structure value
+  llvm.return %2 : !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+}
+func @bar() {
+  %0 = llvm.mlir.constant(42 : i32) : !llvm.type&lt;&#34;i32&#34;&gt;
+  %1 = llvm.mlir.constant(17) : !llvm.type&lt;&#34;i64&#34;&gt;
+
+  // call and extract the values from the structure
+  %2 = llvm.call @bar(%0, %1) : (%arg0: !llvm.type&lt;&#34;i32&#34;&gt;, %arg1: !llvm.type&lt;&#34;i64&#34;&gt;) -&gt; !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+  %3 = llvm.extractvalue %2[0] : !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+  %4 = llvm.extractvalue %2[1] : !llvm.type&lt;&#34;{i32, i64}&#34;&gt;
+
+  // use as before
+  &#34;use_i32&#34;(%3) : (!llvm.type&lt;&#34;i32&#34;&gt;) -&gt; ()
+  &#34;use_i64&#34;(%4) : (!llvm.type&lt;&#34;i64&#34;&gt;) -&gt; ()
+}</code></pre></div><h2 id=repeated-successor-removal>Repeated Successor Removal</h2><p>Since the goal of the LLVM IR dialect is to reflect LLVM IR in MLIR, the dialect
+and the conversion procedure must account for the differences between block
+arguments and LLVM IR PHI nodes. In particular, LLVM IR disallows PHI nodes with
+different values coming from the same source. Therefore, the LLVM IR dialect
+disallows operations that have identical successors accepting arguments, which
+would lead to invalid PHI nodes. The conversion process resolves the potential
+PHI source ambiguity by injecting dummy blocks if the same block is used more
+than once as a successor in an instruction. These dummy blocks branch
+unconditionally to the original successors, pass them the original operands
+(available in the dummy block because it is dominated by the original block) and
+are used instead of them in the original terminator operation.</p><p>Example:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  cond_br %0, ^bb1(%1 : i32), ^bb1(%2 : i32)
+^bb1(%3 : i32)
+  &#34;use&#34;(%3) : (i32) -&gt; ()</code></pre></div><p>leads to a new basic block being inserted,</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  cond_br %0, ^bb1(%1 : i32), ^dummy
+^bb1(%3 : i32):
+  &#34;use&#34;(%3) : (i32) -&gt; ()
+^dummy:
+  br ^bb1(%4 : i32)</code></pre></div><p>before the conversion to the LLVM IR dialect:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">  llvm.cond_br  %0, ^bb1(%1 : !llvm.type&lt;&#34;i32&#34;&gt;), ^dummy
+^bb1(%3 : !llvm.type&lt;&#34;i32&#34;&gt;):
+  &#34;use&#34;(%3) : (!llvm.type&lt;&#34;i32&#34;&gt;) -&gt; ()
+^dummy:
+  llvm.br ^bb1(%2 : !llvm.type&lt;&#34;i32&#34;&gt;)</code></pre></div><h2 id=memref-model>Memref Model</h2><h3 id=memref-descriptor>Memref Descriptor</h3><p>Within a converted function, a <code>memref</code>-typed value is represented by a memref
+<em>descriptor</em>, the type of which is the structure type obtained by converting
+from the memref type. This descriptor holds a pointer to a linear buffer storing
+the data, and dynamic sizes of the memref value. It is created by the allocation
+operation and is updated by the conversion operations that may change static
+dimensions into dynamic and vice versa.</p><p>Note: LLVM IR conversion does not support <code>memref</code>s in non-default memory spaces
+or <code>memref</code>s with non-identity layouts.</p><h3 id=index-linearization>Index Linearization</h3><p>Accesses to a memref element are transformed into an access to an element of the
+buffer pointed to by the descriptor. The position of the element in the buffer
+is calculated by linearizing memref indices in row-major order (lexically first
+index is the slowest varying, similar to C). The computation of the linear
+address is emitted as arithmetic operation in the LLVM IR dialect. Static sizes
+are introduced as constants. Dynamic sizes are extracted from the memref
+descriptor.</p><p>Accesses to zero-dimensional memref (that are interpreted as pointers to the
+elemental type) are directly converted into <code>llvm.load</code> or <code>llvm.store</code> without
+any pointer manipulations.</p><p>Examples:</p><p>An access to a zero-dimensional memref is converted into a plain load:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// before
+%0 = load %m[] : memref&lt;f32&gt;
+
+// after
+%0 = llvm.load %m : !llvm.type&lt;&#34;float*&#34;&gt;</code></pre></div><p>An access to a memref with indices:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">%0 = load %m[1,2,3,4] : memref&lt;10x?x13x?xf32&gt;</code></pre></div><p>is transformed into the equivalent of the following code:</p><div class=highlight><pre class=chroma><code class="language-mlir {.mlir}" data-lang="mlir {.mlir}">// obtain the buffer pointer
+%b = llvm.extractvalue %m[0] : !llvm.type&lt;&#34;{float*, i64, i64}&#34;&gt;
+
+// obtain the components for the index
+%sub1 = llvm.mlir.constant(1) : !llvm.type&lt;&#34;i64&#34;&gt;  // first subscript
+%sz2 = llvm.extractvalue %m[1]
+    : !llvm.type&lt;&#34;{float*, i64, i64}&#34;&gt; // second size (dynamic, second descriptor element)
+%sub2 = llvm.mlir.constant(2) : !llvm.type&lt;&#34;i64&#34;&gt;  // second subscript
+%sz3 = llvm.mlir.constant(13) : !llvm.type&lt;&#34;i64&#34;&gt;  // third size (static)
+%sub3 = llvm.mlir.constant(3) : !llvm.type&lt;&#34;i64&#34;&gt;  // third subscript
+%sz4 = llvm.extractvalue %m[1]
+    : !llvm.type&lt;&#34;{float*, i64, i64}&#34;&gt; // fourth size (dynamic, third descriptor element)
+%sub4 = llvm.mlir.constant(4) : !llvm.type&lt;&#34;i64&#34;&gt;  // fourth subscript
+
+// compute the linearized index
+// %sub4 + %sub3 * %sz4 + %sub2 * (%sz3 * %sz4) + %sub1 * (%sz2 * %sz3 * %sz4) =
+// = ((%sub1 * %sz2 + %sub2) * %sz3 + %sub3) * %sz4 + %sub4
+%idx0 = llvm.mul %sub1, %sz2 : !llvm.type&lt;&#34;i64&#34;&gt;
+%idx1 = llvm.add %idx0, %sub : !llvm.type&lt;&#34;i64&#34;&gt;
+%idx2 = llvm.mul %idx1, %sz3 : !llvm.type&lt;&#34;i64&#34;&gt;
+%idx3 = llvm.add %idx2, %sub3 : !llvm.type&lt;&#34;i64&#34;&gt;
+%idx4 = llvm.mul %idx3, %sz4 : !llvm.type&lt;&#34;i64&#34;&gt;
+%idx5 = llvm.add %idx4, %sub4 : !llvm.type&lt;&#34;i64&#34;&gt;
+
+// obtain the element address
+%a = llvm.getelementptr %b[%idx5] : (!llvm.type&lt;&#34;float*&#34;&gt;, !llvm.type&lt;&#34;i64&#34;&gt;) -&gt; !llvm.type&lt;&#34;float*&#34;&gt;
+
+// perform the actual load
+%0 = llvm.load %a : !llvm.type&lt;&#34;float*&#34;&gt;</code></pre></div><p>In practice, the subscript and size extraction will be interleaved with the
+linear index computation. For stores, the address computation code is identical
+and only the actual store operation is different.</p><p>Note: the conversion does not perform any sort of common subexpression
+elimination when emitting memref accesses.</p><div class=edit-meta>Last updated on 29 Nov 2019<br>Published on 29 Nov 2019<br><a href=https://github.com/joker-eph/www-mlir//edit/master/content/docs/ConversionToLLVMDialect.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/www-mlir/docs/design/usageofconst/ title="Usage of 'Const' in MLIR, for core IR types"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Usage of &#39;Const&#39; in MLIR, for core IR types</a>
+<a class="nav nav-next" href=/www-mlir/docs/tutorials/ title=Tutorials>Next - Tutorials <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=open-menu><ul><li><a href=https://joker-eph.github.io/www-mlir/>Home</a></li><li><a href=/www-mlir/getting_started/>Getting Started</a><ul class=sub-menu><li><a href=/www-mlir/getting_started/faq/>FAQ</a></li><li><a href=/www-mlir/getting_started/developerguide/>Developer Guide</a></li><li><a href=/www-mlir/getting_started/glossary/>Glossary</a></li><li><a href=/www-mlir/getting_started/testingguide/>Testing Guide</a></li></ul></li><li class=parent><a href=/www-mlir/docs/>Docs</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/>Tutorials</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/dialectconversion/>Dialect Conversion</a></li><li><a href=/www-mlir/docs/tutorials/interfaces/>Interfaces</a></li><li><a href=/www-mlir/docs/tutorials/traits/>Introduction to Operation Traits</a></li><li><a href=/www-mlir/docs/tutorials/quickstartrewrites/>Quickstart on Graph Rewrite</a></li><li><a href=/www-mlir/docs/tutorials/toy/>Toy Tutorial</a><ul class=sub-menu><li><a href=/www-mlir/docs/tutorials/toy/ch-1/>Chapter 1: Intro</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/www-mlir/docs/tutorials/toy/ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li></ul></li><li><a href=/www-mlir/docs/dialects/>Dialect</a><ul class=sub-menu><li><a href=/www-mlir/docs/dialects/affine/>Affine</a></li><li><a href=/www-mlir/docs/dialects/gpu/>GPU Dialect</a></li><li><a href=/www-mlir/docs/dialects/llvm/>LLVM IR Dialect</a></li><li><a href=/www-mlir/docs/dialects/spir-v/>SPIR-V Dialect</a></li><li><a href=/www-mlir/docs/dialects/standard/>Standard Dialect</a></li><li><a href=/www-mlir/docs/dialects/vector/>Vector Dialect</a></li></ul></li><li><a href=/www-mlir/docs/design/>Design</a><ul class=sub-menu><li><a href=/www-mlir/docs/design/canonicalization/>Canonicalization</a></li><li><a href=/www-mlir/docs/design/rationalesimplifiedpolyhedralform/>Case for a Simplified Polyhedral Form</a></li><li><a href=/www-mlir/docs/design/rationale/>Design Rationale</a></li><li><a href=/www-mlir/docs/design/diagnostics/>Diagnostics Infrastructure</a></li><li><a href=/www-mlir/docs/design/edsc/>EDSC: Declarative Builders</a></li><li><a href=/www-mlir/docs/design/genericdagrewriter/>Generic DAG Rewriter Infrastructure</a></li><li><a href=/www-mlir/docs/design/mlirforgraphalgorithms/>Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/www-mlir/docs/design/quantization/>Quantization</a></li><li><a href=/www-mlir/docs/design/declarativerewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/www-mlir/docs/design/opdefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/www-mlir/docs/design/usageofconst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li></ul></li><li class=active><a href=/www-mlir/docs/conversiontollvmdialect/>Conversion to the LLVM Dialect</a></li><li><a href=/www-mlir/docs/langref/>Core Specification</a></li><li><a href=/www-mlir/docs/passes/>Passes</a></li><li><a href=/www-mlir/docs/definingattributesandtypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/www-mlir/docs/writingapass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
