@@ -1,0 +1,150 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect &#39;linalg&#39; definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=http://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=http://mlir.llvm.org/docs/dialects/linalgops/><link rel=stylesheet href=http://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=http://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=http://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=http://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Dialect &#39;linalg&#39; definition</h1><p>The <code>linalg</code> dialect groups together a set of types, operations and
+transformations that are useful to implement a structured abstraction where
+ops can lower to scalar load/store and operations or to more general library
+calls.</p><p>The <code>linalg</code> dialect manipulates the following types and operations:</p><h3 id=core-data-types-and-special-ops>Core data types and special ops.</h3><p>The following abstractions are used by the <code>linalg</code> dialect:</p><h4 id=views>Views</h4><p>The current implementation uses the strided memref abstraction. In the
+future other abstractions than strided memref will be used.</p><h4 id=linalg-range><code>!linalg.range</code></h4><p>This data type is currently just a triple (<code>min</code>,<code>max</code>, <code>step</code>) that does
+not pass function boundaries.</p><h4 id=linalg-yield><code>linalg.yield</code></h4><p>This op is used as a terminator within the appropriate <code>linalg</code> regions.</p><p>In the future, richer <code>view</code> and <code>range</code> representations are expected, in
+particular to represent sparse traversals.</p><h3 id=metadata-ops>Metadata Ops</h3><p>A set of ops that manipulate metadata but do not move memory. These ops take
+<code>view</code> operands + extra attributes and return new <code>view</code>s. The returned
+<code>view</code>s generally alias the operand <code>view</code>. At the moment the existing ops
+are:</p><pre><code>* `std.view`,
+* `std.subview`,
+* `linalg.range`,
+* `linalg.slice`,
+* `linalg.transpose`.
+</code></pre><p>Future ops are added on a per-need basis but should include:</p><pre><code>* `linalg.reshape`,
+* `linalg.tile`,
+* `linalg.intersection`,
+* `linalg.convex_union`,
+* `linalg.difference` (would need to work on a list of views).
+</code></pre><h3 id=payload-ops>Payload Ops</h3><p>A set of payload carrying operations that implement the <a href="https://docs.google.com/presentation/d/1P-j1GrH6Q5gLBjao0afQ-GfvcAeF-QU4GXXeSy0eJ9I/edit#slide=id.p">structured ops</a>
+abstraction on buffers. <code>linalg</code> has <code>2</code> generic operations <code>linalg.generic</code>
+and <code>linalg.indexed_generic</code> for expressing custom operations. This is
+subject to further evolution as transformations and analyses continue to be
+developed.</p><p>Additionally, <code>linalg</code> provides some common named operations:</p><pre><code>* `linalg.copy`,
+* `linalg.fill`,
+* `linalg.dot`,
+* `linalg.matmul`,
+* `linalg.conv`.
+</code></pre><p>Future ops are added on a per-need basis but should include:</p><pre><code>* `linalg.pad`.
+</code></pre><p>In an ideal world, all the named ops would be automatically generated from
+a description in terms of only the <code>2</code> generic ops. Unfortunately we do not
+have such support yet (contributions are most welcome).</p><h3 id=convention-for-external-library-interop>Convention for external library interop</h3><p>The <code>linalg</code> dialect adopts a convention that is similar to <code>BLAS</code> when
+offloading operations to fast library implementations: pass a non-owning
+pointer to input and output data with additional metadata. This convention
+is also found in libraries such as <code>MKL</code>, <code>OpenBLAS</code>, <code>BLIS</code>, <code>cuBLAS</code>,
+<code>cuDNN</code>, etc.. and more generally at interface points across language
+boundaries (e.g. C++ / Python).</p><p>Generally, <code>linalg</code> passes non-owning pointers to strided memref data
+structures to precompiled library calls linked externally. The name <code>view</code>
+is used interchangeably in <code>linalg</code> to signify strided memref discussed at
+length in the <a href=https://groups.google.com/a/tensorflow.org/g/mlir/c/MaL8m2nXuio/m/a_v07o9yBwAJ>strided memref RFC</a>.</p><p>[TOC]</p><h2 id=operation-definition>Operation definition</h2><h3 id=linalg-range-linalg-rangeop>linalg.range (linalg::RangeOp)</h3><p>Create a <code>range</code> type value, used to create <code>view</code>s</p><h4 id=description>Description:</h4><p>The <code>linalg.range</code> op creates a <code>!linalg.range</code> from 3 values of type
+<code>index</code> that represent the min, max and step values of the <code>range</code>. This
+type does not pass function boundaries at the moment.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  %3 = linalg.range %0:%1:%2 : !linalg.range
+````
+
+#### Operands:
+
+1. `min`: index
+1. `max`: index
+1. `step`: index
+
+#### Attributes:
+
+
+#### Results:
+
+1. &amp;laquo;unnamed&amp;raquo;: range
+
+### linalg.slice (linalg::SliceOp)
+Produce a rank-reduced `subview` of a base `view`.
+
+#### Description:
+
+
+The `linalg.slice` op allows defining a subregion of a smaller rank than the
+operand `view` within the underlying buffer.
+
+A `linalg.slice` op takes a view and a variadic number of indexings and
+produces a `view` of the same elemental type. An indexing is either:
+  1. a `linalg.range`, in which case it does not reduce the rank of the
+     parent `view` along the corresponding dimension.
+  2. an `index`, in which case it reduces the rank of the parent view by
+     one.
+
+If an indexing extends past the size of the `view`, this is undefined
+behavior. Ideally the `linalg.slice` operation would automatically truncate
+it to be within bounds but there are tradeoffs involved now that `std.view`
+is a standard op.
+
+Examples:
+
+  1. rank-preserving `slice`:</code></pre></div><p>mlir
+%4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
+!linalg.range, !linalg.range, memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
+  2. rank-reducing `slice` (from 2-D to 1-D):
+
+</code></pre><p>mlir
+%4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
+index, !linalg.range, memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
+  3. rank-reducing `slice` (from 2-D to 0-D):
+
+</code></pre><p>mlir
+%4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
+index, index, memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
+#### Operands:
+
+1. `view`: strided memref of any type values
+1. `indexings`: range or index
+
+#### Attributes:
+
+
+#### Results:
+
+1. &amp;laquo;unnamed&amp;raquo;: strided memref of any type values
+
+### linalg.transpose (linalg::TransposeOp)
+transpose operation produces a new strided memref (metadata-only)
+
+#### Description:
+
+
+The `linalg.transpose` op produces a strided memref whose sizes and strides
+are a permutation of the original `view`. This is a pure metadata
+transformation.
+
+Example:
+
+</code></pre><p>mlir
+%1 = linalg.transpose %0 (i, j) -&gt; (j, i) : memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
+#### Operands:
+
+1. `view`: strided memref of any type values
+
+#### Attributes:
+
+| Attribute | MLIR Type | Description |
+| :-------: | :-------: | ----------- |
+| `permutation` | `AffineMapAttr` | AffineMap attribute attribute |
+
+#### Results:
+
+1. &amp;laquo;unnamed&amp;raquo;: strided memref of any type values
+
+### linalg.yield (linalg::YieldOp)
+Linalg yield operation
+
+#### Description:
+
+
+`linalg.yield` is a special terminator operation for blocks inside regions
+in `linalg` generic ops. It returns values to the immediately enclosing
+`linalg` generic op.
+
+Example:
+
+</code></pre><p>mlir
+linalg.yield %f0, %f1 : f32, f32
+```</p><h4 id=operands>Operands:</h4><ol><li><code>values</code>: any type</li></ol><h4 id=attributes>Attributes:</h4><h4 id=results>Results:</h4><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/content/docs/Dialects/LinalgOps.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/dialects/gpuops/ title="Dialect 'gpu' definition"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Dialect &#39;gpu&#39; definition</a>
+<a class="nav nav-next" href=/docs/dialects/loopops/ title="Dialect 'loop' definition">Next - Dialect &#39;loop&#39; definition <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=open-menu><ul><li><a href=http://mlir.llvm.org/>Home</a></li><li><a href=/getting_started/>Getting Started</a><ul class=sub-menu><li><a href=/getting_started/faq/>FAQ</a></li><li><a href=/getting_started/developerguide/>Developer Guide</a></li><li><a href=/getting_started/glossary/>Glossary</a></li><li><a href=/getting_started/testingguide/>Testing Guide</a></li></ul></li><li class=parent><a href=/docs/>Docs</a><ul class=sub-menu><li><a href=/docs/tutorials/>Tutorials</a><ul class=sub-menu><li><a href=/docs/tutorials/dialectconversion/>Dialect Conversion</a></li><li><a href=/docs/tutorials/interfaces/>Interfaces</a></li><li><a href=/docs/tutorials/traits/>Introduction to Operation Traits</a></li><li><a href=/docs/tutorials/quickstartrewrites/>Quickstart on Graph Rewrite</a></li><li><a href=/docs/tutorials/toy/>Toy Tutorial</a><ul class=sub-menu><li><a href=/docs/tutorials/toy/ch-1/>Chapter 1: Intro</a></li><li><a href=/docs/tutorials/toy/ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/tutorials/toy/ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/tutorials/toy/ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/tutorials/toy/ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/tutorials/toy/ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/tutorials/toy/ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li></ul></li><li class=parent><a href=/docs/dialects/>Dialect</a><ul class=sub-menu><li><a href=/docs/dialects/affine/>Affine</a></li><li><a href=/docs/dialects/gpu/>GPU Dialect</a></li><li><a href=/docs/dialects/llvm/>LLVM IR Dialect</a></li><li><a href=/docs/dialects/spir-v/>SPIR-V Dialect</a></li><li><a href=/docs/dialects/standard/>Standard Dialect</a></li><li><a href=/docs/dialects/vector/>Vector Dialect</a></li><li><a href=/docs/dialects/affineops/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/dialects/fxpmathops/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/dialects/gpuops/>Dialect &#39;gpu&#39; definition</a></li><li class=active><a href=/docs/dialects/linalgops/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/dialects/loopops/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/dialects/nvvmops/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/dialects/quantops/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/dialects/rocdlops/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/dialects/spirvops/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/dialects/vectorops/>Dialect &#39;vector&#39; definition</a></li></ul></li><li><a href=/docs/design/>Design</a><ul class=sub-menu><li><a href=/docs/design/canonicalization/>Canonicalization</a></li><li><a href=/docs/design/rationalesimplifiedpolyhedralform/>Case for a Simplified Polyhedral Form</a></li><li><a href=/docs/design/rationale/>Design Rationale</a></li><li><a href=/docs/design/diagnostics/>Diagnostics Infrastructure</a></li><li><a href=/docs/design/edsc/>EDSC: Declarative Builders</a></li><li><a href=/docs/design/genericdagrewriter/>Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/design/mlirforgraphalgorithms/>Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/design/quantization/>Quantization</a></li><li><a href=/docs/design/declarativerewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/design/opdefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/design/usageofconst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li></ul></li><li><a href=/docs/conversiontollvmdialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/langref/>Core Specification</a></li><li><a href=/docs/passes/>Passes</a></li><li><a href=/docs/definingattributesandtypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/writingapass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
