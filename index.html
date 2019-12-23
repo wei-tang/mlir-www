@@ -1,70 +1,44 @@
 <!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
-MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1 id=multi-level-intermediate-representation-overview>Multi-Level Intermediate Representation Overview</h1><p>The MLIR project aims to define a common intermediate representation (IR) that
-will unify the infrastructure required to execute high performance machine
-learning models in TensorFlow and similar ML frameworks. This project will
-include the application of HPC techniques, along with integration of search
-algorithms like reinforcement learning. This project aims to reduce the cost to
-bring up new hardware, and improve usability for existing TensorFlow users.</p><p>Note that this repository contains the core of the MLIR framework. The
-TensorFlow compilers we are building on top of MLIR will be part of the
-main TensorFlow repository soon.</p><h1 id=how-to-contribute>How to Contribute</h1><p>Thank you for your interest in contributing to MLIR! If you want to contribute
-to MLIR, be sure to review the <a href=CONTRIBUTING.md>contribution guidelines</a>.</p><h2 id=more-resources>More resources</h2><p>For more information on MLIR, please see:</p><ul><li><a href=g3doc/LangRef.md>The MLIR draft specification</a>, which describes the IR
-itself.</li><li><a href=g3doc/Rationale.md>The MLIR rationale document</a>, covering motivation
-behind some decisions.</li><li>Previous external <a href=#mlir-talks>talks</a>.</li></ul><p>Join the <a href=https://groups.google.com/a/tensorflow.org/forum/#!forum/mlir>MLIR mailing list</a>
-to hear about announcements and discussions.</p><p>We also have an <a href=https://github.com/tensorflow/community/blob/master/sigs/mlir/CHARTER.md>MLIR SIG</a>
-which was created to enable collaboration and form a strong
-engineering-driven open community. We have weekly &lsquo;Open Design Meetings&rsquo;. If you’d like
-to discuss a particular topic or have questions, please add it to the <a href=https://docs.google.com/document/d/1y_9f1AbfgcoVdJh4_aM6-BaSHvrHl8zuA5G4jv_94K8/edit#>agenda doc</a>.
-Details on how to join the meeting are in the agenda doc. You
-should also get an invite when you join the mailing list.</p><p>Please be mindful of the <a href=https://github.com/tensorflow/tensorflow/blob/master/CODE_OF_CONDUCT.md>TensorFlow Code of Conduct</a>,
-which pledges to foster an open and welcoming environment.</p><h2 id=what-is-mlir-for>What is MLIR for?</h2><p>MLIR is intended to be a hybrid IR which can support multiple different
-requirements in a unified infrastructure. For example, this includes:</p><ul><li>The ability to represent all TensorFlow graphs, including dynamic shapes,
-the user-extensible op ecosystem, TensorFlow variables, etc.</li><li>Optimizations and transformations typically done on a TensorFlow graph, e.g.
-in Grappler.</li><li>Quantization and other graph transformations done on a TensorFlow graph or
-the TF Lite representation.</li><li>Representation of kernels for ML operations in a form suitable for
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1 id=multi-level-intermediate-representation-overview>Multi-Level Intermediate Representation Overview</h1><p>The MLIR project is a novel approach to building reusable and extensible
+compiler infrastructure. MLIR aims to address software fragmentation, improve
+compilation for heterogeneous hardware, significantly reduce the cost of
+building domain specific compilers, and aid in connecting existing compilers
+together.</p><h1 id=how-to-contribute>How to Contribute</h1><p>Thank you for your interest in contributing to MLIR! If you want to contribute
+to MLIR, be sure to review the <a href=https://github.com/llvm/llvm-project/tree/master/mlir/CONTRIBUTING.md>contribution guidelines</a>.</p><p>We don&rsquo;t accept pull-request on GitHub, instead we use <a href=https://llvm.org/docs/Phabricator.html>Phabricator</a>.</p><p>Please be mindful of the <a href=https://llvm.org/docs/CodeOfConduct.html>LLVM Code of Conduct</a>,
+which pledges to foster an open and welcoming environment.</p><h2 id=more-resources>More resources</h2><p>For more information on MLIR, please see:</p><ul><li>The MLIR section of the <a href=https://llvm.discourse.group/c/llvm-project/mlir>LLVM forums</a> for any questions.</li><li>Real-time discussion on the MLIR channel of the <a href=https://discordapp.com/invite/JUQUPAZ>LLVM discord</a> server.</li><li>Previous <a href=#mlir-talks>talks</a>.</li></ul><p>See also the <a href=https://github.com/tensorflow/community/blob/master/sigs/mlir/CHARTER.md>TensorFlow MLIR SIG</a>
+which is organizing weekly public &lsquo;Open Design Meetings&rsquo; about MLIR. If you’d like
+to discuss a particular topic or have questions, please add it to the
+<a href=https://docs.google.com/document/d/1y_9f1AbfgcoVdJh4_aM6-BaSHvrHl8zuA5G4jv_94K8/edit#>agenda doc</a>.
+Details on how to join the meeting are in the agenda doc.</p><h2 id=what-is-mlir-for>What is MLIR for?</h2><p>MLIR is intended to be a hybrid IR which can support multiple different
+requirements in a unified infrastructure. For example, this includes:</p><ul><li>The ability to represent dataflow graph (such as TensorFlow), including
+dynamic shapes, the user-extensible op ecosystem, TensorFlow variables, etc.</li><li>Optimizations and transformations typically done on a such graph (e.g. in
+Grappler).</li><li>Representation of kernels for ML operations in a form suitable for
 optimization.</li><li>Ability to host high-performance-computing-style loop optimizations across
 kernels (fusion, loop interchange, tiling, etc) and to transform memory
 layouts of data.</li><li>Code generation &ldquo;lowering&rdquo; transformations such as DMA insertion, explicit
 cache management, memory tiling, and vectorization for 1D and 2D register
-architectures.</li><li>Ability to represent target-specific operations, e.g. the MXU on TPUs.</li></ul><p>MLIR is a common IR that also supports hardware specific operations. Thus,
+architectures.</li><li>Ability to represent target-specific operations, e.g. accelerator-specific
+high-level operations.</li><li>Quantization and other graph transformations done on a Deep-Learning graph.</li></ul><p>MLIR is a common IR that also supports hardware specific operations. Thus,
 any investment into the infrastructure surrounding MLIR (e.g. the compiler
 passes that work on it) should yield good returns; many targets can use that
 infrastructure and will benefit from it.</p><p>MLIR is a powerful representation, but it also has non-goals. We do not try to
 support low level machine code generation algorithms (like register allocation
 and instruction scheduling). They are a better fit for lower level optimizers
 (such as LLVM). Also, we do not intend MLIR to be a source language that
-end-users would themselves write kernels in (analogous to CUDA C++). While we
-would love to see a kernel language happen someday, that will be an independent
-project that compiles down to MLIR.</p><h2 id=compiler-infrastructure>Compiler infrastructure</h2><p>We benefited from experience gained from building other IRs (HLO, LLVM and SIL)
-when building MLIR. We will directly adopt existing best practices, e.g. writing
-and maintaining an IR spec, building an IR verifier, providing the ability to
-dump and parse MLIR files to text, writing extensive unit tests with the
-<a href=https://llvm.org/docs/CommandGuide/FileCheck.html>FileCheck</a> tool, and
-building the infrastructure as a set of modular libraries that can be combined
-in new ways. We plan to use the infrastructure developed by the XLA team for
-performance analysis and benchmarking.</p><p>Other lessons have been incorporated and integrated into the design in subtle
+end-users would themselves write kernels in (analogous to CUDA C++). On the
+other hand, MLIR provides the backbone for representing any such DSL and
+integrating it in the ecosystem.</p><h2 id=compiler-infrastructure>Compiler infrastructure</h2><p>We benefited from experience gained from building other IRs (LLVM IR, XLA HLO,
+and Swift SIL) when building MLIR. The MLIR framework encourage the existing
+best practices, e.g. writing and maintaining an IR spec, building IR verifier,
+providing the ability to dump and parse MLIR files to text, writing extensive
+unit tests with the <a href=https://llvm.org/docs/CommandGuide/FileCheck.html>FileCheck</a>
+tool, and building the infrastructure as a set of modular libraries that can be
+combined in new ways.</p><p>Other lessons have been incorporated and integrated into the design in subtle
 ways. For example, LLVM has non-obvious design mistakes that prevent a
 multithreaded compiler from working on multiple functions in an LLVM module at
-the same time. MLIR solves these problems by having per-function constant pools
-and by making references explicit with <code>function_ref</code>.</p><h1 id=getting-started-with-mlir>Getting started with MLIR</h1><p>The following instructions for compiling and testing MLIR assume that you have
-<code>git</code>, <a href=https://ninja-build.org/><code>ninja</code></a>, and a working C++ toolchain. In the
-future, we aim to align on the same level of platform support as
-<a href=https://llvm.org/docs/GettingStarted.html#requirements>LLVM</a>. For now, MLIR
-has been tested on Linux and macOS, with recent versions of clang and with
-gcc 7.</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh>git clone https://github.com/llvm/llvm-project.git
-git clone https://github.com/tensorflow/mlir llvm-project/llvm/projects/mlir
-mkdir llvm-project/build
-<span class=nb>cd</span> llvm-project/build
-cmake -G Ninja ../llvm -DLLVM_BUILD_EXAMPLES<span class=o>=</span>ON -DLLVM_TARGETS_TO_BUILD<span class=o>=</span><span class=s2>&#34;host&#34;</span>
-cmake --build . --target check-mlir</code></pre></div><p>To compile and test on Windows using Visual Studio 2017:</p><div class=highlight><pre class=chroma><code class=language-bat data-lang=bat><span class=c1>REM In shell with Visual Studio environment set up, e.g., with command such as</span>
-<span class=c1>REM   $visual-studio-install\Auxiliary\Build\vcvarsall.bat&#34; x64</span>
-<span class=c1>REM invoked.</span>
-git clone https://github.com/llvm/llvm-project.git
-git clone https://github.com/tensorflow/mlir llvm-project\llvm\projects\mlir
-<span class=k>mkdir</span> llvm-project\build
-<span class=k>cd</span> llvm-project\build
-cmake ..\llvm -G <span class=s2>&#34;Visual Studio 15 2017 Win64&#34;</span> -DLLVM_BUILD_EXAMPLES=ON -DLLVM_TARGETS_TO_BUILD=<span class=s2>&#34;host&#34;</span> -DCMAKE_BUILD_TYPE=Release -Thost=x64
-cmake --build . --target check-mlir</code></pre></div><p>As a starter, you may try <a href=g3doc/Tutorials/Toy/Ch-1.md>the tutorial</a> on
-building a compiler for a Toy language.</p><h1 id=mlir-talks>MLIR talks</h1><ul><li>&ldquo;<a href=https://ai.google/research/pubs/pub48035.pdf>MLIR Primer: A Compiler Infrastructure for the End of Moore’s Law</a>&ldquo;<ul><li>Chris Lattner &amp; Jacques Pienaar, Google at
+the same time. MLIR solves these problems by having limited SSA scope to reduce
+the use-def chains and by replacing cross-function references with explicit
+<a href=doc/LangRef/#symbol-reference-attribute><code>symbol reference</code></a>.</p><h1 id=mlir-talks>MLIR talks</h1><ul><li>&ldquo;<a href=https://ai.google/research/pubs/pub48035.pdf>MLIR Primer: A Compiler Infrastructure for the End of Moore’s Law</a>&ldquo;<ul><li>Chris Lattner &amp; Jacques Pienaar, Google at
 <a href=https://www.c4ml.org/>Compilers for Machine Learning</a> workshop at
 <a href=http://cgo.org/cgo2019/>CGO 2019</a></li></ul></li><li>&ldquo;<a href=https://llvm.org/devmtg/2019-04/talks.html#Keynote_1>MLIR: Multi-Level Intermediate Representation for Compiler
 Infrastructure</a>&ldquo;<ul><li>Tatiana Shpeisman &amp; Chris Lattner, Google at
