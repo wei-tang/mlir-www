@@ -1,0 +1,821 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Specification - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/langref/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>MLIR Specification</h1><p>MLIR (Multi-Level IR) is a compiler intermediate representation with
+similarities to traditional three-address SSA representations (like
+<a href=http://llvm.org/docs/LangRef.html>LLVM IR</a> or
+<a href=https://github.com/apple/swift/blob/master/docs/SIL.rst>SIL</a>), but which
+introduces notions from polyhedral loop optimization as first-class concepts.
+This hybrid design is optimized to represent, analyze, and transform high level
+dataflow graphs as well as target-specific code generated for high performance
+data parallel systems. Beyond its representational capabilities, its single
+continuous design provides a framework to lower from dataflow graphs to
+high-performance target-specific code.</p><p>This document defines and describes the key concepts in MLIR, and is intended to
+be a dry reference document - the <a href=Rationale.md>rationale documentation</a>,
+<a href=Glossary.md>glossary</a>, and other content are hosted elsewhere.</p><p>MLIR is designed to be used in three different forms: a human-readable textual
+form suitable for debugging, an in-memory form suitable for programmatic
+transformations and analysis, and a compact serialized form suitable for storage
+and transport. The different forms all describe the same semantic content. This
+document describes the human-readable textual form.</p><p>[TOC]</p><h2 id=high-level-structure>High-Level Structure</h2><p>MLIR is an
+<a href=https://en.wikipedia.org/wiki/Static_single_assignment_form>SSA-based</a> IR,
+which means that values are defined before use and have scope defined by their
+dominance relations. Operations may produce zero or more results, and each is a
+distinct SSA value with its own type defined by the <a href=#type-system>type system</a>.</p><p>The unit of code in MLIR is an <a href=#operations>Operation</a>. Operations allow for
+representing many different concepts: allocating buffers, producing views to
+transform them, target-independent arithmetic, target-specific operations, and
+even arbitrary user-defined high-level operations including the
+<a href=#module>Module</a> and <a href=#functions>Function</a> operations. Operations may contain
+<a href=#regions>Regions</a> that represent a Control Flow Graph (CFG) of
+<a href=#blocks>Blocks</a>, that contain operations and end with a
+<a href=#terminator-operations>terminator operation</a> (like branches).</p><p>Here&rsquo;s an example of an MLIR module:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Compute A*B using an implementation of multiply kernel and print the
+// result using a TensorFlow op. The dimensions of A and B are partially
+// known. The shapes are assumed to match.
+func @mul(%A: tensor&lt;100x?xf32&gt;, %B: tensor&lt;?x50xf32&gt;) -&gt; (tensor&lt;100x50xf32&gt;) {
+  // Compute the inner dimension of %A using the dim operation.
+  %n = dim %A, 1 : tensor&lt;100x?xf32&gt;
+
+  // Allocate addressable &#34;buffers&#34; and copy tensors %A and %B into them.
+  %A_m = alloc(%n) : memref&lt;100x?xf32&gt;
+  tensor_store %A to %A_m : memref&lt;100x?xf32&gt;
+
+  %B_m = alloc(%n) : memref&lt;?x50xf32&gt;
+  tensor_store %B to %B_m : memref&lt;?x50xf32&gt;
+
+  // Call function @multiply passing memrefs as arguments,
+  // and getting returned the result of the multiplication.
+  %C_m = call @multiply(%A_m, %B_m)
+          : (memref&lt;100x?xf32&gt;, memref&lt;?x50xf32&gt;) -&gt; (memref&lt;100x50xf32&gt;)
+
+  dealloc %A_m : memref&lt;100x?xf32&gt;
+  dealloc %B_m : memref&lt;?x50xf32&gt;
+
+  // Load the buffer data into a higher level &#34;tensor&#34; value.
+  %C = tensor_load %C_m : memref&lt;100x50xf32&gt;
+  dealloc %C_m : memref&lt;100x50xf32&gt;
+
+  // Call TensorFlow built-in function to print the result tensor.
+  &#34;tf.Print&#34;(%C){message: &#34;mul result&#34;}
+                  : (tensor&lt;100x50xf32) -&gt; (tensor&lt;100x50xf32&gt;)
+
+  return %C : tensor&lt;100x50xf32&gt;
+}
+
+// A function that multiplies two memrefs and returns the result.
+func @multiply(%A: memref&lt;100x?xf32&gt;, %B: memref&lt;?x50xf32&gt;)
+          -&gt; (memref&lt;100x50xf32&gt;)  {
+  // Compute the inner dimension of %A.
+  %n = dim %A, 1 : memref&lt;100x?xf32&gt;
+
+  // Allocate memory for the multiplication result.
+  %C = alloc() : memref&lt;100x50xf32&gt;
+
+  // Multiplication loop nest.
+  affine.for %i = 0 to 100 {
+     affine.for %j = 0 to 50 {
+        store 0 to %C[%i, %j] : memref&lt;100x50xf32&gt;
+        affine.for %k = 0 to %n {
+           %a_v  = load %A[%i, %k] : memref&lt;100x?xf32&gt;
+           %b_v  = load %B[%k, %j] : memref&lt;?x50xf32&gt;
+           %prod = mulf %a_v, %b_v : f32
+           %c_v  = load %C[%i, %j] : memref&lt;100x50xf32&gt;
+           %sum  = addf %c_v, %prod : f32
+           store %sum, %C[%i, %j] : memref&lt;100x50xf32&gt;
+        }
+     }
+  }
+  return %C : memref&lt;100x50xf32&gt;
+}</code></pre></div><h2 id=notation>Notation</h2><p>MLIR has a simple and unambiguous grammar, allowing it to reliably round-trip
+through a textual form. This is important for development of the compiler - e.g.
+for understanding the state of code as it is being transformed and writing test
+cases.</p><p>This document describes the grammar using
+<a href=https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form>Extended Backus-Naur Form (EBNF)</a>.</p><p>This is the EBNF grammar used in this document, presented in yellow boxes.</p><pre><code>alternation ::= expr0 | expr1 | expr2  // Either expr0 or expr1 or expr2.
+sequence    ::= expr0 expr1 expr2      // Sequence of expr0 expr1 expr2.
+repetition0 ::= expr*  // 0 or more occurrences.
+repetition1 ::= expr+  // 1 or more occurrences.
+optionality ::= expr?  // 0 or 1 occurrence.
+grouping    ::= (expr) // Everything inside parens is grouped together.
+literal     ::= `abcd` // Matches the literal `abcd`.
+</code></pre><p>Code examples are presented in blue boxes.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// This is an example use of the grammar above:
+// This matches things like: ba, bana, boma, banana, banoma, bomana...
+example ::= `b` (`an` | `om`)* `a`</code></pre></div><h3 id=common-syntax>Common syntax</h3><p>The following core grammar productions are used in this document:</p><pre><code>// TODO: Clarify the split between lexing (tokens) and parsing (grammar).
+digit     ::= [0-9]
+hex_digit ::= [0-9a-fA-F]
+letter    ::= [a-zA-Z]
+id-punct  ::= [$._-]
+
+integer-literal ::= decimal-literal | hexadecimal-literal
+decimal-literal ::= digit+
+hexadecimal-literal ::= `0x` hex_digit+
+float-literal ::= [-+]?[0-9]+[.][0-9]*([eE][-+]?[0-9]+)?
+string-literal  ::= `&quot;` [^&quot;\n\f\v\r]* `&quot;`   TODO define escaping rules
+</code></pre><p>Not listed here, but MLIR does support comments. They use standard BCPL syntax,
+starting with a <code>//</code> and going until the end of the line.</p><h3 id=identifiers-and-keywords>Identifiers and keywords</h3><p>Syntax:</p><pre><code>// Identifiers
+bare-id ::= (letter|[_]) (letter|digit|[_$.])*
+bare-id-list ::= bare-id (`,` bare-id)*
+ssa-id ::= `%` suffix-id
+suffix-id ::= (digit+ | ((letter|id-punct) (letter|id-punct|digit)*))
+
+symbol-ref-id ::= `@` (suffix-id | string-literal)
+ssa-id-list ::= ssa-id (`,` ssa-id)*
+
+// Uses of an SSA value, e.g. in an operand list to an operation.
+ssa-use ::= ssa-id
+ssa-use-list ::= ssa-use (`,` ssa-use)*
+</code></pre><p>Identifiers name entities such as SSA values, types and functions, and are
+chosen by the writer of MLIR code. Identifiers may be descriptive (e.g.
+<code>%batch_size</code>, <code>@matmul</code>), or may be non-descriptive when they are
+auto-generated (e.g. <code>%23</code>, <code>@func42</code>). Identifier names for SSA values may be
+used in an MLIR text file but are not persisted as part of the IR - the printer
+will give them anonymous names like <code>%42</code>.</p><p>MLIR guarantees identifiers never collide with keywords by prefixing identifiers
+with a sigil (e.g. <code>%</code>, <code>#</code>, <code>@</code>, <code>^</code>, <code>!</code>). In certain unambiguous contexts
+(e.g. affine expressions), identifiers are not prefixed, for brevity. New
+keywords may be added to future versions of MLIR without danger of collision
+with existing identifiers.</p><p>The scope of SSA values is defined based on the standard definition of
+<a href=https://en.wikipedia.org/wiki/Dominator_(graph_theory)>dominance</a>. Argument
+identifiers in mapping functions are in scope for the mapping body. Function
+identifiers and mapping identifiers are visible across the entire module.</p><h2 id=dialects>Dialects</h2><p>Dialects are the mechanism by which to engage with and extend the MLIR
+ecosystem. They allow for defining new <a href=#operations>operations</a>, as well as
+<a href=#attributes>attributes</a> and <a href=#type-system>types</a>. Each dialect is given a
+unique <code>namespace</code> that is prefixed to each defined attribute/operation/type.
+For example, the <a href=Dialects/Affine.md>Affine dialect</a> defines the namespace:
+<code>affine</code>.</p><p>MLIR allows for multiple dialects, even those outside of the main tree, to
+co-exist together within one module. Dialects are produced and consumed by
+certain passes. MLIR provides a <a href=DialectConversion.md>framework</a> to convert
+between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=Dialects/Affine.md>Affine dialect</a></li><li><a href=Dialects/GPU.md>GPU dialect</a></li><li><a href=Dialects/LLVM.md>LLVM dialect</a></li><li><a href=Dialects/SPIR-V.md>SPIR-V dialect</a></li><li><a href=Dialects/Standard.md>Standard dialect</a></li><li><a href=Dialects/Vector.md>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations</h3><p>Dialects provide a modular way in which targets can expose target-specific
+operations directly through to MLIR. As an example, some targets go through
+LLVM. LLVM has a rich set of intrinsics for certain target-independent
+operations (e.g. addition with overflow check) as well as providing access to
+target-specific operations for the targets it supports (e.g. vector permutation
+operations). LLVM intrinsics in MLIR are represented via operations that start
+with an &ldquo;llvm.&rdquo; name.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// LLVM: %x = call {i16, i1} @llvm.sadd.with.overflow.i16(i16 %a, i16 %b)
+%x:2 = &#34;llvm.sadd.with.overflow.i16&#34;(%a, %b) : (i16, i16) -&gt; (i16, i1)</code></pre></div><p>These operations only work when targeting LLVM as a backend (e.g. for CPUs and
+GPUs), and are required to align with the LLVM definition of these intrinsics.</p><h2 id=operations>Operations</h2><p>Syntax:</p><pre><code>operation         ::= op-result-list? (generic-operation | custom-operation)
+                      trailing-location?
+generic-operation ::= string-literal '(' ssa-use-list? ')' attribute-dict?
+                      `:` function-type
+custom-operation  ::= bare-id custom-operation-format
+op-result-list    ::= op-result (`,` op-result)* `=`
+op-result         ::= ssa-id (`:` integer-literal)
+successor-list    ::= successor (`,` successor)*
+successor         ::= caret-id (`:` bb-arg-list)?
+region-list       ::= region (`,` region)*
+trailing-location ::= (`loc` `(` location `)`)?
+</code></pre><p>MLIR introduces a uniform concept called <em>operations</em> to enable describing many
+different levels of abstractions and computations. Operations in MLIR are fully
+extensible (there is no fixed list of operations) and have application-specific
+semantics. For example, MLIR supports
+<a href=Dialects/Standard.md#memory-operations>target-independent operations</a>,
+<a href=Dialects/Affine.md>affine operations</a>, and
+<a href=#target-specific-operations>target-specific machine operations</a>.</p><p>The internal representation of an operation is simple: an operation is
+identified by a unique string (e.g. <code>dim</code>, <code>tf.Conv2d</code>, <code>x86.repmovsb</code>,
+<code>ppc.eieio</code>, etc), can return zero or more results, take zero or more SSA
+operands, may have zero or more attributes, may have zero or more successors,
+and zero or more enclosed <a href=#regions>regions</a>. The generic printing form
+includes all these elements literally, with a function type to indicate the
+types of the results and operands.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// An operation that produces two results.
+// The results of %result can be accessed via the &lt;name&gt; `#` &lt;opNo&gt; syntax.
+%result:2 = &#34;foo_div&#34;() : () -&gt; (f32, i32)
+
+// Pretty form that defines a unique name for each result.
+%foo, %bar = &#34;foo_div&#34;() : () -&gt; (f32, i32)
+
+// Invoke a TensorFlow function called tf.scramble with two inputs
+// and an attribute &#34;fruit&#34;.
+%2 = &#34;tf.scramble&#34;(%result#0, %bar) {fruit: &#34;banana&#34;} : (f32, i32) -&gt; f32</code></pre></div><p>In addition to the basic syntax above, dialects may register known operations.
+This allows those dialects to support <em>custom assembly form</em> for parsing and
+printing operations. In the operation sets listed below, we show both forms.</p><h3 id=terminator-operations>Terminator Operations</h3><p>These are a special category of operations that <em>must</em> terminate a block, e.g.
+<a href=Dialects/Standard.md#terminator-operations>branches</a>. These operations may
+also have a list of successors (<a href=#blocks>blocks</a> and their arguments).</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Branch to ^bb1 or ^bb2 depending on the condition %cond.
+// Pass value %v to ^bb2, but not to ^bb1.
+&#34;cond_br&#34;(%cond)[^bb1, ^bb2(%v : index)] : (i1) -&gt; ()</code></pre></div><h3 id=module>Module</h3><pre><code>module ::= `module` symbol-ref-id? (`attributes` attribute-dict)? region
+</code></pre><p>An MLIR module represents an opaque top-level container operation. It contains a
+single region containing a single block that is comprised of any operations.
+Operations within this region must not implicitly capture values defined above
+it. Modules have an optional symbol name that can be used to refer to them in
+operations.</p><h3 id=functions>Functions</h3><p>An MLIR Function is an operation with a name containing one <a href=#regions>region</a>.
+The region of a function is not allowed to implicitly capture values defined
+outside of the function, and all external references must use function arguments
+or attributes that establish a symbolic connection (e.g. symbols referenced by
+name via a string attribute like <a href=#symbol-reference-attribute>SymbolRefAttr</a>):</p><pre><code>function ::= `func` function-signature function-attributes? function-body?
+
+function-signature ::= symbol-ref-id `(` argument-list `)`
+                       (`-&gt;` function-result-list)?
+
+argument-list ::= (named-argument (`,` named-argument)*) | /*empty*/
+argument-list ::= (type attribute-dict? (`,` type attribute-dict?)*) | /*empty*/
+named-argument ::= ssa-id `:` type attribute-dict?
+
+function-result-list ::= function-result-list-parens
+                       | non-function-type
+function-result-list-parens ::= `(` `)`
+                              | `(` function-result-list-no-parens `)`
+function-result-list-no-parens ::= function-result (`,` function-result)*
+function-result ::= type attribute-dict?
+
+function-attributes ::= `attributes` attribute-dict
+function-body ::= region
+</code></pre><p>An external function declaration (used when referring to a function declared in
+some other module) has no body. While the MLIR textual form provides a nice
+inline syntax for function arguments, they are internally represented as &ldquo;block
+arguments&rdquo; to the first block in the region.</p><p>Only dialect attribute names may be specified in the attribute dictionaries for
+function arguments, results, or the function itself.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// External function definitions.
+func @abort()
+func @scribble(i32, i64, memref&lt;? x 128 x f32, #layout_map0&gt;) -&gt; f64
+
+// A function that returns its argument twice:
+func @count(%x: i64) -&gt; (i64, i64)
+  attributes {fruit: &#34;banana&#34;} {
+  return %x, %x: i64, i64
+}
+
+// A function with an argument attribute
+func @example_fn_arg(%x: i32 {swift.self = unit})
+
+// A function with a result attribute
+func @example_fn_result() -&gt; (f64 {dialectName.attrName = 0 : i64})
+
+// A function with an attribute
+func @example_fn_attr() attributes {dialectName.attrName = false}</code></pre></div><h2 id=blocks>Blocks</h2><p>Syntax:</p><pre><code>block           ::= block-label operation+
+block-label     ::= block-id block-arg-list? `:`
+block-id        ::= caret-id
+caret-id        ::= `^` suffix-id
+ssa-id-and-type ::= ssa-id `:` type
+
+// Non-empty list of names and types.
+ssa-id-and-type-list ::= ssa-id-and-type (`,` ssa-id-and-type)*
+
+block-arg-list ::= `(` ssa-id-and-type-list? `)`
+</code></pre><p>A <a href=https://en.wikipedia.org/wiki/Basic_block>block</a> is a sequential list of
+operations without control flow (calls are not considered control flow for this
+purpose) that are executed from top to bottom. The last operation in a block is
+a <a href=#terminator-operations>terminator operation</a>, which ends the block.</p><p>Blocks in MLIR take a list of block arguments, which represent SSA PHI nodes in
+a functional notation. The arguments are defined by the block, and values are
+provided for these block arguments by branches that go to the block.</p><p>Here is a simple example function showing branches, returns, and block
+arguments:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>func @simple(i64, i1) -&gt; i64 {
+^bb0(%a: i64, %cond: i1): // Code dominated by ^bb0 may refer to %a
+  cond_br %cond, ^bb1, ^bb2
+
+^bb1:
+  br ^bb3(%a: i64)    // Branch passes %a as the argument
+
+^bb2:
+  %b = addi %a, %a : i64
+  br ^bb3(%b: i64)    // Branch passes %b as the argument
+
+// ^bb3 receives an argument, named %c, from predecessors
+// and passes it on to bb4 twice.
+^bb3(%c: i64):
+  br ^bb4(%c, %c : i64, i64)
+
+^bb4(%d : i64, %e : i64):
+  %0 = addi %d, %e : i64
+  return %0 : i64
+}</code></pre></div><p><strong>Context:</strong> The &ldquo;block argument&rdquo; representation eliminates a number of special
+cases from the IR compared to traditional &ldquo;PHI nodes are operations&rdquo; SSA IRs
+(like LLVM). For example, the
+<a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.524.5461&amp;rep=rep1&amp;type=pdf">parallel copy semantics</a>
+of SSA is immediately apparent, and function arguments are no longer a special
+case: they become arguments to the entry block
+[<a href=Rationale.md#block-arguments-vs-phi-nodes>more rationale</a>].</p><h2 id=regions>Regions</h2><h3 id=definition>Definition</h3><p>A region is a CFG of MLIR <a href=#blocks>Blocks</a>. Regions serve to group semantically
+connected blocks, where the semantics is not imposed by the IR. Instead, the
+containing operation defines the semantics of the regions it contains. Regions
+do not have a name or an address, only the blocks contained in a region do.
+Regions are meaningless outside of the containing entity and have no type or
+attributes.</p><p>The first block in the region cannot be a successor of any other block. The
+syntax for the region is as follows:</p><pre><code>region ::= `{` block* `}`
+</code></pre><p>The function body is an example of a region: it consists of a CFG of blocks and
+has additional semantic restrictions that other types of regions may not have
+(block terminators must either branch to a different block, or return from a
+function where the types of the <code>return</code> arguments must match the result types
+of the function signature).</p><h3 id=control-and-value-scoping>Control and Value Scoping</h3><p>Regions provide nested control isolation: it is impossible to branch to a block
+within a region from outside it or to branch from within a region to a block
+outside it. Similarly, it provides a natural scoping for value visibility: SSA
+values defined in a region don&rsquo;t escape to the enclosing region, if any. By
+default, a region can reference values defined outside of the region whenever it
+would have been legal to use them as operands to the enclosing operation.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>func @accelerator_compute(i64, i1) -&gt; i64 {
+^bb0(%a: i64, %cond: i1): // Code dominated by ^bb0 may refer to %a
+  cond_br %cond, ^bb1, ^bb2
+
+^bb1:
+  // This def for %value does not dominate ^bb2
+  %value = &#34;op.convert&#34;(%a) : (i64) -&gt; i64
+  br ^bb3(%a: i64)    // Branch passes %a as the argument
+
+^bb2:
+  &#34;accelerator.launch&#34;() {
+    ^bb0:
+      // Region of code nested under &#34;accelerator.launch&#34;, it can reference %a but
+      // not %value.
+      %new_value = &#34;accelerator.do_something&#34;(%a) : (i64) -&gt; ()
+  }
+  // %new_value cannot be referenced outside of the region
+
+^bb3:
+  ...
+}</code></pre></div><p>This can be further restricted using the custom verifier associated with the
+enclosing operation, for example, disallowing references to values defined
+outside the region completely.</p><h3 id=control-flow>Control Flow</h3><p>Regions are Single-Entry-Multiple-Exit (SEME). This means that control can only
+flow into the first block of the region, but can flow out of the region at the
+end of any of the contained blocks (This behavior is similar to that of a
+function body in most programming languages). When exiting a Region, control is
+returned to the enclosing operation.</p><p>The enclosing operation determines the way in which control is transmitted into
+the entry block of a Region. The successor to a region’s exit points may not
+necessarily exist: for example a call to a function that does not return.
+Concurrent or asynchronous execution of regions is unspecified. Operations may
+define specific rules of execution, e.g. sequential loops or switch cases.</p><p>A Region may also enter another region within the enclosing operation. If an
+operation has multiple regions, the semantics of the operation defines into
+which regions the control flows and in which order, if any. An operation may
+transmit control into regions that were specified in other operations, in
+particular those that defined the values the given operation uses. Thus such
+operations can be treated opaquely in the enclosing control flow graph,
+providing a level of control flow isolation similar to that of the call
+operation.</p><h4 id=closure>Closure</h4><p>Regions allow defining an operation that creates a closure, for example by
+“boxing” the body of the region into a value they produce. It remains up to the
+operation to define its semantics. Note that if an operation triggers
+asynchronous execution of the region, it is under the responsibility of the
+operation caller to wait for the region to be executed guaranteeing that any
+directly used values remain live.</p><h3 id=arguments-and-results>Arguments and Results</h3><p>The arguments of the first block of a region are treated as arguments of the
+region. The source of these arguments is defined by the semantics of the parent
+operation. They may correspond to some of the values the operation itself uses.</p><p>Regions produce a (possibly empty) list of values. The operation semantics
+defines the relation between the region results and the operation results.</p><h2 id=type-system>Type System</h2><p>Each SSA value in MLIR has a type defined by the type system below. There are a
+number of primitive types (like integers) and also aggregate types for tensors
+and memory buffers. MLIR <a href=#standard-types>standard types</a> do not include
+structures, arrays, or dictionaries.</p><p>MLIR has an open type system (i.e. there is no fixed list of types), and types
+may have application-specific semantics. For example, MLIR supports a set of
+<a href=#dialect-types>dialect types</a>.</p><pre><code>type ::= type-alias | dialect-type | standard-type
+
+type-list-no-parens ::=  type (`,` type)*
+type-list-parens ::= `(` `)`
+                   | `(` type-list-no-parens `)`
+
+// This is a common way to refer to an SSA value with a specified type.
+ssa-use-and-type ::= ssa-use `:` type
+
+// Non-empty list of names and types.
+ssa-use-and-type-list ::= ssa-use-and-type (`,` ssa-use-and-type)*
+</code></pre><h3 id=type-aliases>Type Aliases</h3><pre><code>type-alias-def ::= '!' alias-name '=' 'type' type
+type-alias ::= '!' alias-name
+</code></pre><p>MLIR supports defining named aliases for types. A type alias is an identifier
+that can be used in the place of the type that it defines. These aliases <em>must</em>
+be defined before their uses. Alias names may not contain a &lsquo;.&rsquo;, since those
+names are reserved for <a href=#dialect-types>dialect types</a>.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>!avx_m128 = type vector&lt;4 x f32&gt;
+
+// Using the original type.
+&#34;foo&#34;(%x) : vector&lt;4 x f32&gt; -&gt; ()
+
+// Using the type alias.
+&#34;foo&#34;(%x) : !avx_m128 -&gt; ()</code></pre></div><h3 id=dialect-types>Dialect Types</h3><p>Similarly to operations, dialects may define custom extensions to the type
+system.</p><pre><code>dialect-namespace ::= bare-id
+
+opaque-dialect-item ::= dialect-namespace '&lt;' string-literal '&gt;'
+
+pretty-dialect-item ::= dialect-namespace '.' pretty-dialect-item-lead-ident
+                                              pretty-dialect-item-body?
+
+pretty-dialect-item-lead-ident ::= '[A-Za-z][A-Za-z0-9._]*'
+pretty-dialect-item-body ::= '&lt;' pretty-dialect-item-contents+ '&gt;'
+pretty-dialect-item-contents ::= pretty-dialect-item-body
+                              | '(' pretty-dialect-item-contents+ ')'
+                              | '[' pretty-dialect-item-contents+ ']'
+                              | '{' pretty-dialect-item-contents+ '}'
+                              | '[^[&lt;({&gt;\])}\0]+'
+
+dialect-type ::= '!' opaque-dialect-item
+dialect-type ::= '!' pretty-dialect-item
+</code></pre><p>Dialect types can be specified in a verbose form, e.g. like this:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// LLVM type that wraps around llvm IR types.
+!llvm&lt;&#34;i32*&#34;&gt;
+
+// Tensor flow string type.
+!tf.string
+
+// Complex type
+!foo&lt;&#34;something&lt;abcd&gt;&#34;&gt;
+
+// Even more complex type
+!foo&lt;&#34;something&lt;a%%123^^^&gt;&gt;&gt;&#34;&gt;</code></pre></div><p>Dialect types that are simple enough can use the pretty format, which is a
+lighter weight syntax that is equivalent to the above forms:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Tensor flow string type.
+!tf.string
+
+// Complex type
+!foo.something&lt;abcd&gt;</code></pre></div><p>Sufficiently complex dialect types are required to use the verbose form for
+generality. For example, the more complex type shown above wouldn&rsquo;t be valid in
+the lighter syntax: <code>!foo.something&lt;a%%123^^^&gt;&gt;&gt;</code> because it contains characters
+that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;&gt;</code>
+characters.</p><p>See <a href=DefiningAttributesAndTypes.md>here</a> to learn how to define dialect types.</p><h3 id=standard-types>Standard Types</h3><p>Standard types are a core set of <a href=#dialect-types>dialect types</a> that are
+defined in a builtin dialect and thus available to all users of MLIR.</p><pre><code>standard-type ::=     complex-type
+                    | float-type
+                    | function-type
+                    | index-type
+                    | integer-type
+                    | memref-type
+                    | none-type
+                    | tensor-type
+                    | tuple-type
+                    | vector-type
+</code></pre><h4 id=complex-type>Complex Type</h4><p>Syntax:</p><pre><code>complex-type ::= `complex` `&lt;` type `&gt;`
+</code></pre><p>The value of <code>complex</code> type represents a complex number with a parameterized
+element type, which is composed of a real and imaginary value of that element
+type. The element must be a floating point or integer scalar type.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>complex&lt;f32&gt;
+complex&lt;i32&gt;</code></pre></div><h4 id=floating-point-types>Floating Point Types</h4><p>Syntax:</p><pre><code>// Floating point.
+float-type ::= `f16` | `bf16` | `f32` | `f64`
+</code></pre><p>MLIR supports float types of certain widths that are widely used as indicated
+above.</p><h4 id=function-type>Function Type</h4><p>Syntax:</p><pre><code>// MLIR functions can return multiple values.
+function-result-type ::= type-list-parens
+                       | non-function-type
+
+function-type ::= type-list-parens `-&gt;` function-result-type
+</code></pre><p>MLIR supports first-class functions: for example, the
+<a href=Dialects/Standard.md#constant-operation><code>constant</code> operation</a> produces the
+address of a function as an SSA value. This SSA value may be passed to and
+returned from functions, merged across control flow boundaries with
+<a href=#blocks>block arguments</a>, and called with the
+<a href=Dialects/Standard.md#call-indirect-operation><code>call_indirect</code> operation</a>.</p><p>Function types are also used to indicate the arguments and results of
+<a href=#operations>operations</a>.</p><h4 id=index-type>Index Type</h4><p>Syntax:</p><pre><code>// Target word-sized integer.
+index-type ::= `index`
+</code></pre><p>The <code>index</code> type is a signless integer whose size is equal to the natural
+machine word of the target (<a href=Rationale.md#signless-types>rationale</a>) and is
+used by the affine constructs in MLIR. Unlike fixed-size integers, it cannot be
+used as an element of vector, tensor or memref type
+(<a href=Rationale.md#index-type-disallowed-in-vectortensormemref-types>rationale</a>).</p><p><strong>Rationale:</strong> integers of platform-specific bit widths are practical to express
+sizes, dimensionalities and subscripts.</p><h4 id=integer-type>Integer Type</h4><p>Syntax:</p><pre><code>// Sized integers like i1, i4, i8, i16, i32.
+integer-type ::= `i` [1-9][0-9]*
+</code></pre><p>MLIR supports arbitrary precision integer types. Integer types are signless, but
+have a designated width.</p><p><strong>Rationale:</strong> low precision integers (like <code>i2</code>, <code>i4</code> etc) are useful for
+low-precision inference chips, and arbitrary precision integers are useful for
+hardware synthesis (where a 13 bit multiplier is a lot cheaper/smaller than a 16
+bit one).</p><p>TODO: Need to decide on a representation for quantized integers
+(<a href=Rationale.md#quantized-integer-operations>initial thoughts</a>).</p><h4 id=memref-type>Memref Type</h4><p>Syntax:</p><pre><code>memref-type ::= ranked-memref-type | unranked-memref-type
+
+ranked-memref-type ::= `memref` `&lt;` dimension-list-ranked tensor-memref-element-type
+                      (`,` layout-specification)? |
+                      (`,` memory-space)? `&gt;`
+
+unranked-memref-type ::= `memref` `&lt;*x` tensor-memref-element-type
+                         (`,` memory-space)? `&gt;`
+
+stride-list ::= `[` (dimension (`,` dimension)*)? `]`
+strided-layout ::= `offset:` dimension `,` `strides: ` stride-list
+layout-specification ::= semi-affine-map | strided-layout
+memory-space ::= integer-literal /* | TODO: address-space-id */
+</code></pre><p>A <code>memref</code> type is a reference to a region of memory (similar to a buffer
+pointer, but more powerful). The buffer pointed to by a memref can be allocated,
+aliased and deallocated. A memref can be used to read and write data from/to the
+memory region which it references. Memref types use the same shape specifier as
+tensor types. Note that <code>memref&lt;f32&gt;</code>, <code>memref&lt;0 x f32&gt;</code>, <code>memref&lt;1 x 0 x f32&gt;</code>,
+and <code>memref&lt;0 x 1 x f32&gt;</code> are all different types.</p><p>A <code>memref</code> is allowed to have an unknown rank (e.g. <code>memref&lt;*xf32&gt;</code>). The
+purpose of unranked memrefs is to allow external library functions to receive
+memref arguments of any rank without versioning the functions based on the rank.
+Other uses of this type are disallowed or will have undefined behavior.</p><h5 id=codegen-of-unranked-memref>Codegen of Unranked Memref</h5><p>Using unranked memref in codegen besides the case mentioned above is highly
+discouraged. Codegen is concerned with generating loop nests and specialized
+instructions for high-performance, unranked memref is concerned with hiding the
+rank and thus, the number of enclosing loops required to iterate over the data.
+However, if there is a need to code-gen unranked memref, one possible path is to
+cast into a static ranked type based on the dynamic rank. Another possible path
+is to emit a single while loop conditioned on a linear index and perform
+delinearization of the linear index to a dynamic array containing the (unranked)
+indices. While this is possible, it is expected to not be a good idea to perform
+this during codegen as the cost of the translations is expected to be
+prohibitive and optimizations at this level are not expected to be worthwhile.
+If expressiveness is the main concern, irrespective of performance, passing
+unranked memrefs to an external C++ library and implementing rank-agnostic logic
+there is expected to be significantly simpler.</p><p>Unranked memrefs may provide expressiveness gains in the future and help bridge
+the gap with unranked tensors. Unranked memrefs will not be expected to be
+exposed to codegen but one may query the rank of an unranked memref (a special
+op will be needed for this purpose) and perform a switch and cast to a ranked
+memref as a prerequisite to codegen.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// With static ranks, we need a function for each possible argument type
+%A = alloc() : memref&lt;16x32xf32&gt; %B = alloc() :
+memref&lt;16x32x64xf32&gt; call @helper_2D(%A) : (memref&lt;16x32xf32&gt;)-&gt;() call
+@helper_3D(%B) : (memref&lt;16x32x64xf32&gt;)-&gt;()
+
+// With unknown rank, the functions can be unified under one unranked type
+%A = alloc() : memref&lt;16x32xf32&gt;
+%B = alloc() : memref&lt;16x32x64xf32&gt;
+// Remove rank info
+%A_u = memref_cast %A : memref&lt;16x32xf32&gt; -&gt; memref&lt;*xf32&gt;
+%B_u = memref_cast %B : memref&lt;16x32x64xf32&gt; -&gt; memref&lt;*xf32&gt;
+// call same function with dynamic ranks
+call @helper(%A_u) : (memref&lt;*xf32&gt;)-&gt;()
+call @helper(%B_u) : (memref&lt;*xf32&gt;)-&gt;()</code></pre></div><p>The core syntax and representation of a layout specification is a
+<a href=Dialects/Affine.md#semi-affine-maps>semi-affine map</a>. Additionally, syntactic
+sugar is supported to make certain layout specifications more intuitive to read.
+For the moment, a <code>memref</code> supports parsing a strided form which is converted to
+a semi-affine map automatically.</p><p>The memory space of a memref is specified by a target-specific integer index. If
+no memory space is specified, then the default memory space (0) is used. The
+default space is target specific but always at index 0.</p><p>TODO: MLIR will eventually have target-dialects which allow symbolic use of
+memory hierarchy names (e.g. L3, L2, L1, &hellip;) but we have not spec&rsquo;d the details
+of that mechanism yet. Until then, this document pretends that it is valid to
+refer to these memories by <code>bare-id</code>.</p><p>The notionally dynamic value of a memref value includes the address of the
+buffer allocated, as well as the symbols referred to by the shape, layout map,
+and index maps.</p><p>Examples of memref static type</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Identity index/layout map
+#identity = (d0, d1) -&gt; (d0, d1)
+
+// Column major layout.
+#col_major = (d0, d1, d2) -&gt; (d2, d1, d0)
+
+// A 2-d tiled layout with tiles of size 128 x 256.
+#tiled_2d_128x256 = (d0, d1) -&gt; (d0 div 128, d1 div 256, d0 mod 128, d1 mod 256)
+
+// A tiled data layout with non-constant tile sizes.
+#tiled_dynamic = (d0, d1)[s0, s1] -&gt; (d0 floordiv s0, d1 floordiv s1,
+                              d0 mod s0, d1 mod s1)
+
+// A layout that yields a padding on two at either end of the minor dimension.
+#padded = (d0, d1) -&gt; (d0, (d1 + 2) floordiv 2, (d1 + 2) mod 2)
+
+
+// The dimension list &#34;16x32&#34; defines the following 2D index space:
+//
+//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
+//
+memref&lt;16x32xf32, #identity, memspace0&gt;
+
+// The dimension list &#34;16x4x?&#34; defines the following 3D index space:
+//
+//   { (i, j, k) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 4, 0 &lt;= k &lt; N }
+//
+// where N is a symbol which represents the runtime value of the size of
+// the third dimension.
+//
+// %N here binds to the size of the third dimension.
+%A = alloc(%N) : memref&lt;16x4x?xf32, #col_major, memspace0&gt;
+
+// A 2-d dynamic shaped memref that also has a dynamically sized tiled layout.
+// The memref index space is of size %M x %N, while %B1 and %B2 bind to the
+// symbols s0, s1 respectively of the layout map #tiled_dynamic. Data tiles of
+// size %B1 x %B2 in the logical space will be stored contiguously in memory.
+// The allocation size will be (%M ceildiv %B1) * %B1 * (%N ceildiv %B2) * %B2
+// f32 elements.
+%T = alloc(%M, %N) [%B1, %B2] : memref&lt;?x?xf32, #tiled_dynamic&gt;
+
+// A memref that has a two-element padding at either end. The allocation size
+// will fit 16 * 68 float elements of data.
+%P = alloc() : memref&lt;16x64xf32, #padded&gt;
+
+// Affine map with symbol &#39;s0&#39; used as offset for the first dimension.
+#imapS = (d0, d1) [s0] -&gt; (d0 + s0, d1)
+// Allocate memref and bind the following symbols:
+// &#39;%n&#39; is bound to the dynamic second dimension of the memref type.
+// &#39;%o&#39; is bound to the symbol &#39;s0&#39; in the affine map of the memref type.
+%n = ...
+%o = ...
+%A = alloc (%n)[%o] : &lt;16x?xf32, #imapS&gt;</code></pre></div><h5 id=index-space>Index Space</h5><p>A memref dimension list defines an index space within which the memref can be
+indexed to access data.</p><h5 id=index>Index</h5><p>Data is accessed through a memref type using a multidimensional index into the
+multidimensional index space defined by the memref&rsquo;s dimension list.</p><p>Examples</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Allocates a memref with 2D index space:
+//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
+%A = alloc() : memref&lt;16x32xf32, #imapA, memspace0&gt;
+
+// Loads data from memref &#39;%A&#39; using a 2D index: (%i, %j)
+%v = load %A[%i, %j] : memref&lt;16x32xf32, #imapA, memspace0&gt;</code></pre></div><h5 id=index-map>Index Map</h5><p>An index map is a one-to-one
+<a href=Dialects/Affine.md#semi-affine-maps>semi-affine map</a> that transforms a
+multidimensional index from one index space to another. For example, the
+following figure shows an index map which maps a 2-dimensional index from a 2x2
+index space to a 3x3 index space, using symbols <code>S0</code> and <code>S1</code> as offsets.</p><p><img src=includes/img/index-map.svg alt="Index Map Example"></p><p>The number of domain dimensions and range dimensions of an index map can be
+different, but must match the number of dimensions of the input and output index
+spaces on which the map operates. The index space is always non-negative and
+integral. In addition, an index map must specify the size of each of its range
+dimensions onto which it maps. Index map symbols must be listed in order with
+symbols for dynamic dimension sizes first, followed by other required symbols.</p><h5 id=layout-map>Layout Map</h5><p>A layout map is a <a href=Dialects/Affine.md#semi-affine-maps>semi-affine map</a> which
+encodes logical to physical index space mapping, by mapping input dimensions to
+their ordering from most-major (slowest varying) to most-minor (fastest
+varying). Therefore, an identity layout map corresponds to a row-major layout.
+Identity layout maps do not contribute to the MemRef type identification and are
+discarded on construction. That is, a type with an explicit identity map is
+<code>memref&lt;?x?xf32, (i,j)-&gt;(i,j)&gt;</code> is strictly the same as the one without layout
+maps, <code>memref&lt;?x?xf32&gt;</code>.</p><p>Layout map examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// MxN matrix stored in row major layout in memory:
+#layout_map_row_major = (i, j) -&gt; (i, j)
+
+// MxN matrix stored in column major layout in memory:
+#layout_map_col_major = (i, j) -&gt; (j, i)
+
+// MxN matrix stored in a 2-d blocked/tiled layout with 64x64 tiles.
+#layout_tiled = (i, j) -&gt; (i floordiv 64, j floordiv 64, i mod 64, j mod 64)</code></pre></div><h5 id=affine-map-composition>Affine Map Composition</h5><p>A memref specifies a semi-affine map composition as part of its type. A
+semi-affine map composition is a composition of semi-affine maps beginning with
+zero or more index maps, and ending with a layout map. The composition must be
+conformant: the number of dimensions of the range of one map, must match the
+number of dimensions of the domain of the next map in the composition.</p><p>The semi-affine map composition specified in the memref type, maps from accesses
+used to index the memref in load/store operations to other index spaces (i.e.
+logical to physical index mapping). Each of the
+<a href=Dialects/Affine.md>semi-affine maps</a> and thus its composition is required to
+be one-to-one.</p><p>The semi-affine map composition can be used in dependence analysis, memory
+access pattern analysis, and for performance optimizations like vectorization,
+copy elision and in-place updates. If an affine map composition is not specified
+for the memref, the identity affine map is assumed.</p><h5 id=strided-memref>Strided MemRef</h5><p>A memref may specify strides as part of its type. A stride specification is a
+list of integer values that are either static or <code>?</code> (dynamic case). Strides
+encode the distance, in number of elements, in (linear) memory between
+successive entries along a particular dimension. A stride specification is
+syntactic sugar for an equivalent strided memref representation using
+semi-affine maps. For example, <code>memref&lt;42x16xf32, offset: 33 strides: [1, 64]&gt;</code>
+specifies a non-contiguous memory region of <code>42</code> by <code>16</code> <code>f32</code> elements such
+that:</p><ol><li>the minimal size of the enclosing memory region must be <code>33 + 42 * 1 + 16 *
+64 = 1066</code> elements;</li><li>the address calculation for accessing element <code>(i, j)</code> computes <code>33 + i +
+64 * j</code></li><li>the distance between two consecutive elements along the outer dimension is
+<code>1</code> element and the distance between two consecutive elements along the
+outer dimension is <code>64</code> elements.</li></ol><p>This corresponds to a column major view of the memory region and is internally
+represented as the type <code>memref&lt;42x16xf32, (i, j) -&gt; (33 + i + 64 * j)&gt;</code>.</p><p>The specification of strides must not alias: given an n-D strided memref,
+indices <code>(i1, ..., in)</code> and <code>(j1, ..., jn)</code> may not refer to the same memory
+address unless <code>i1 == j1, ..., in == jn</code>.</p><p>Strided memrefs represent a view abstraction over preallocated data. They are
+constructed with special ops, yet to be introduced. Strided memrefs are a
+special subclass of memrefs with generic semi-affine map and correspond to a
+normalized memref descriptor when lowering to LLVM.</p><h4 id=none-type>None Type</h4><p>Syntax:</p><pre><code>none-type ::= `none`
+</code></pre><p>The <code>none</code> type is a unit type, i.e. a type with exactly one possible value,
+where its value does not have a defined dynamic representation.</p><h4 id=tensor-type>Tensor Type</h4><p>Syntax:</p><pre><code>tensor-type ::= `tensor` `&lt;` dimension-list tensor-memref-element-type `&gt;`
+tensor-memref-element-type ::= vector-element-type | vector-type | complex-type
+
+// memref requires a known rank, but tensor does not.
+dimension-list ::= dimension-list-ranked | (`*` `x`)
+dimension-list-ranked ::= (dimension `x`)*
+dimension ::= `?` | decimal-literal
+</code></pre><p>SSA values of tensor type represents aggregate N-dimensional data values, and
+have a known element type. It may have an unknown rank (indicated by <code>*</code>) or may
+have a fixed rank with a list of dimensions. Each dimension may be a static
+non-negative decimal constant or be dynamically determined (indicated by <code>?</code>).</p><p>The runtime representation of the MLIR tensor type is intentionally abstracted -
+you cannot control layout or get a pointer to the data. For low level buffer
+access, MLIR has a <a href=#memref-type><code>memref</code> type</a>. This abstracted runtime
+representation holds both the tensor data values as well as information about
+the (potentially dynamic) shape of the tensor. The
+<a href=Dialects/Standard.md#dim-operation><code>dim</code> operation</a> returns the size of a
+dimension from a value of tensor type.</p><p>Note: hexadecimal integer literals are not allowed in tensor type declarations
+to avoid confusion between <code>0xf32</code> and <code>0 x f32</code>. Zero sizes are allowed in
+tensors and treated as other sizes, e.g., <code>tensor&lt;0 x 1 x i32&gt;</code> and <code>tensor&lt;1 x
+0 x i32&gt;</code> are different types. Since zero sizes are not allowed in some other
+types, such tensors should be optimized away before lowering tensors to vectors.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Tensor with unknown rank.
+tensor&lt;* x f32&gt;
+
+// Known rank but unknown dimensions.
+tensor&lt;? x ? x ? x ? x f32&gt;
+
+// Partially known dimensions.
+tensor&lt;? x ? x 13 x ? x f32&gt;
+
+// Full static shape.
+tensor&lt;17 x 4 x 13 x 4 x f32&gt;
+
+// Tensor with rank zero. Represents a scalar.
+tensor&lt;f32&gt;
+
+// Zero-element dimensions are allowed.
+tensor&lt;0 x 42 x f32&gt;
+
+// Zero-element tensor of f32 type (hexadecimal literals not allowed here).
+tensor&lt;0xf32&gt;</code></pre></div><h4 id=tuple-type>Tuple Type</h4><p>Syntax:</p><pre><code>tuple-type ::= `tuple` `&lt;` (type ( `,` type)*)? `&gt;`
+</code></pre><p>The value of <code>tuple</code> type represents a fixed-size collection of elements, where
+each element may be of a different type.</p><p><strong>Rationale:</strong> Though this type is first class in the type system, MLIR provides
+no standard operations for operating on <code>tuple</code> types
+(<a href=Rationale.md#tuple-types>rationale</a>).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Empty tuple.
+tuple&lt;&gt;
+
+// Single element
+tuple&lt;f32&gt;
+
+// Many elements.
+tuple&lt;i32, f32, tensor&lt;i1&gt;, i5&gt;</code></pre></div><h4 id=vector-type>Vector Type</h4><p>Syntax:</p><pre><code>vector-type ::= `vector` `&lt;` static-dimension-list vector-element-type `&gt;`
+vector-element-type ::= float-type | integer-type
+
+static-dimension-list ::= (decimal-literal `x`)+
+</code></pre><p>The vector type represents a SIMD style vector, used by target-specific
+operation sets like AVX. While the most common use is for 1D vectors (e.g.
+vector<16 x f32>) we also support multidimensional registers on targets that
+support them (like TPUs).</p><p>Vector shapes must be positive decimal integers.</p><p>Note: hexadecimal integer literals are not allowed in vector type declarations,
+<code>vector&lt;0x42xi32&gt;</code> is invalid because it is interpreted as a 2D vector with
+shape <code>(0, 42)</code> and zero shapes are not allowed.</p><h2 id=attributes>Attributes</h2><p>Syntax:</p><pre><code>attribute-dict ::= `{` `}`
+                 | `{` attribute-entry (`,` attribute-entry)* `}`
+attribute-entry ::= dialect-attribute-entry | dependent-attribute-entry
+dialect-attribute-entry ::= dialect-namespace `.` bare-id `=` attribute-value
+dependent-attribute-entry ::= dependent-attribute-name `=` attribute-value
+dependent-attribute-name ::= (letter|[_]) (letter|digit|[_$])*
+</code></pre><p>Attributes are the mechanism for specifying constant data on operations in
+places where a variable is never allowed - e.g. the index of a
+<a href=Dialects/Standard.md#dim-operation><code>dim</code> operation</a>, or the stride of a
+convolution. They consist of a name and a concrete attribute value. The set of
+expected attributes, their structure, and their interpretation are all
+contextually dependent on what they are attached to.</p><p>There are two main classes of attributes: dependent and dialect. Dependent
+attributes derive their structure and meaning from what they are attached to;
+e.g., the meaning of the <code>index</code> attribute on a <code>dim</code> operation is defined by
+the <code>dim</code> operation. Dialect attributes, on the other hand, derive their context
+and meaning from a specific dialect. An example of a dialect attribute may be a
+<code>swift.self</code> function argument attribute that indicates an argument is the
+self/context parameter. The context of this attribute is defined by the <code>swift</code>
+dialect and not the function argument.</p><p>Attribute values are represented by the following forms:</p><pre><code>attribute-value ::= attribute-alias | dialect-attribute | standard-attribute
+</code></pre><h3 id=attribute-value-aliases>Attribute Value Aliases</h3><pre><code>attribute-alias ::= '#' alias-name '=' attribute-value
+attribute-alias ::= '#' alias-name
+</code></pre><p>MLIR supports defining named aliases for attribute values. An attribute alias is
+an identifier that can be used in the place of the attribute that it defines.
+These aliases <em>must</em> be defined before their uses. Alias names may not contain a
+&lsquo;.&rsquo;, since those names are reserved for
+<a href=#dialect-attribute-values>dialect attributes</a>.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>#map = (d0) -&gt; (d0 + 10)
+
+// Using the original attribute.
+%b = affine.apply (d0) -&gt; (d0 + 10) (%a)
+
+// Using the attribute alias.
+%b = affine.apply #map(%a)</code></pre></div><h3 id=dialect-attribute-values>Dialect Attribute Values</h3><p>Similarly to operations, dialects may define custom attribute values. The
+syntactic structure of these values is identical to custom dialect type values,
+except that dialect attributes values are distinguished with a leading &lsquo;#&rsquo;,
+while dialect types are distinguished with a leading &lsquo;!&rsquo;.</p><pre><code>dialect-attribute ::= '#' opaque-dialect-item
+dialect-attribute ::= '#' pretty-dialect-item
+</code></pre><p>Dialect attributes can be specified in a verbose form, e.g. like this:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Complex attribute
+#foo&lt;&#34;something&lt;abcd&gt;&#34;&gt;
+
+// Even more complex attribute
+#foo&lt;&#34;something&lt;a%%123^^^&gt;&gt;&gt;&#34;&gt;</code></pre></div><p>Dialect attributes that are simple enough can use the pretty format, which is a
+lighter weight syntax that is equivalent to the above forms:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Complex attribute
+#foo.something&lt;abcd&gt;</code></pre></div><p>Sufficiently complex dialect attributes are required to use the verbose form for
+generality. For example, the more complex type shown above wouldn&rsquo;t be valid in
+the lighter syntax: <code>#foo.something&lt;a%%123^^^&gt;&gt;&gt;</code> because it contains characters
+that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;&gt;</code>
+characters.</p><p>See <a href=DefiningAttributesAndTypes.md>here</a> to learn how to define dialect
+attribute values.</p><h3 id=standard-attribute-values>Standard Attribute Values</h3><p>Standard attributes are a core set of
+<a href=#dialect-attribute-values>dialect attributes</a> that are defined in a builtin
+dialect and thus available to all users of MLIR.</p><pre><code>standard-attribute ::=   affine-map-attribute
+                       | array-attribute
+                       | bool-attribute
+                       | dictionary-attribute
+                       | elements-attribute
+                       | float-attribute
+                       | integer-attribute
+                       | integer-set-attribute
+                       | string-attribute
+                       | symbol-ref-attribute
+                       | type-attribute
+                       | unit-attribute
+</code></pre><h4 id=affinemap-attribute>AffineMap Attribute</h4><p>Syntax:</p><pre><code>affine-map-attribute ::= affine-map
+</code></pre><p>An affine-map attribute is an attribute that represents a affine-map object.</p><h4 id=array-attribute>Array Attribute</h4><p>Syntax:</p><pre><code>array-attribute ::= `[` (attribute-value (`,` attribute-value)*)? `]`
+</code></pre><p>An array attribute is an attribute that represents a collection of attribute
+values.</p><h4 id=boolean-attribute>Boolean Attribute</h4><p>Syntax:</p><pre><code>bool-attribute ::= bool-literal
+</code></pre><p>A boolean attribute is a literal attribute that represents a one-bit boolean
+value, true or false.</p><h4 id=dictionary-attribute>Dictionary Attribute</h4><p>Syntax:</p><pre><code>dictionary-attribute ::= `{` (attribute-entry (`,` attribute-entry)*)? `}`
+</code></pre><p>A dictionary attribute is an attribute that represents a sorted collection of
+named attribute values. The elements are sorted by name, and each name must be
+unique within the collection.</p><h4 id=elements-attributes>Elements Attributes</h4><p>Syntax:</p><pre><code>elements-attribute ::= dense-elements-attribute
+                     | opaque-elements-attribute
+                     | sparse-elements-attribute
+</code></pre><p>An elements attribute is a literal attribute that represents a constant
+<a href=#vector-type>vector</a> or <a href=#tensor-type>tensor</a> value.</p><h5 id=dense-elements-attribute>Dense Elements Attribute</h5><p>Syntax:</p><pre><code>dense-elements-attribute ::= `dense` `&lt;` attribute-value `&gt;` `:`
+                             ( tensor-type | vector-type )
+</code></pre><p>A dense elements attribute is an elements attribute where the storage for the
+constant vector or tensor value has been packed to the element bitwidth. The
+element type of the vector or tensor constant must be of integer, index, or
+floating point type.</p><h5 id=opaque-elements-attribute>Opaque Elements Attribute</h5><p>Syntax:</p><pre><code>opaque-elements-attribute ::= `opaque` `&lt;` dialect-namespace  `,`
+                              hex-string-literal `&gt;` `:`
+                              ( tensor-type | vector-type )
+</code></pre><p>An opaque elements attribute is an elements attribute where the content of the
+value is opaque. The representation of the constant stored by this elements
+attribute is only understood, and thus decodable, by the dialect that created
+it.</p><p>Note: The parsed string literal must be in hexadecimal form.</p><h5 id=sparse-elements-attribute>Sparse Elements Attribute</h5><p>Syntax:</p><pre><code>sparse-elements-attribute ::= `sparse` `&lt;` attribute-value `,` attribute-value
+                              `&gt;` `:` ( tensor-type | vector-type )
+</code></pre><p>A sparse elements attribute is an elements attribute that represents a sparse
+vector or tensor object. This is where very few of the elements are non-zero.</p><p>The attribute uses COO (coordinate list) encoding to represent the sparse
+elements of the elements attribute. The indices are stored via a 2-D tensor of
+64-bit integer elements with shape [N, ndims], which specifies the indices of
+the elements in the sparse tensor that contains non-zero values. The element
+values are stored via a 1-D tensor with shape [N], that supplies the
+corresponding values for the indices.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  sparse&lt;[[0, 0], [1, 2]], [1, 5]&gt; : tensor&lt;3x4xi32&gt;
+
+// This represents the following tensor:
+///  [[1, 0, 0, 0],
+///   [0, 0, 5, 0],
+///   [0, 0, 0, 0]]</code></pre></div><h4 id=float-attribute>Float Attribute</h4><p>Syntax:</p><pre><code>float-attribute ::= (float-literal (`:` float-type)?)
+                  | (hexadecimal-literal `:` float-type)
+</code></pre><p>A float attribute is a literal attribute that represents a floating point value
+of the specified <a href=#floating-point-types>float type</a>. It can be represented in
+the hexadecimal form where the hexadecimal value is interpreted as bits of the
+underlying binary representation. This form is useful for representing infinity
+and NaN floating point values. To avoid confusion with integer attributes,
+hexadecimal literals <em>must</em> be followed by a float type to define a float
+attribute.</p><p>Examples:</p><pre><code>42.0         // float attribute defaults to f64 type
+42.0 : f32   // float attribute of f32 type
+0x7C00 : f16 // positive infinity
+0x7CFF : f16 // NaN (one of possible values)
+42 : f32     // Error: expected integer type
+</code></pre><h4 id=integer-attribute>Integer Attribute</h4><p>Syntax:</p><pre><code>integer-attribute ::= integer-literal ( `:` (index-type | integer-type) )?
+</code></pre><p>An integer attribute is a literal attribute that represents an integral value of
+the specified integer or index type. The default type for this attribute, if one
+is not specified, is a 64-bit integer.</p><h5 id=integer-set-attribute>Integer Set Attribute</h5><p>Syntax:</p><pre><code>integer-set-attribute ::= affine-map
+</code></pre><p>An integer-set attribute is an attribute that represents an integer-set object.</p><h4 id=string-attribute>String Attribute</h4><p>Syntax:</p><pre><code>string-attribute ::= string-literal (`:` type)?
+</code></pre><p>A string attribute is an attribute that represents a string literal value.</p><h4 id=symbol-reference-attribute>Symbol Reference Attribute</h4><p>Syntax:</p><pre><code>symbol-ref-attribute ::= symbol-ref-id (`::` symbol-ref-id)*
+</code></pre><p>A symbol reference attribute is a literal attribute that represents a named
+reference to an operation that is nested within an operation with the
+<code>OpTrait::SymbolTable</code> trait. As such, this reference is given meaning by the
+nearest parent operation containing the <code>OpTrait::SymbolTable</code> trait. It may
+optionally contain a set of nested references that further resolve to a symbol
+nested within a different symbol table.</p><p>This attribute can only be held internally by
+<a href=#array-attribute>array attributes</a> and
+<a href=#dictionary-attribute>dictionary attributes</a>(including the top-level operation
+attribute dictionary), i.e. no other attribute kinds such as Locations or
+extended attribute kinds. If a reference to a symbol is necessary from outside
+of the symbol table that the symbol is defined in, a
+<a href=string-attribute>string attribute</a> can be used to refer to the symbol name.</p><p><strong>Rationale:</strong> Given that MLIR models global accesses with symbol references, to
+enable efficient multi-threading, it becomes difficult to effectively reason
+about their uses. By restricting the places that can legally hold a symbol
+reference, we can always opaquely reason about a symbols usage characteristics.</p><h4 id=type-attribute>Type Attribute</h4><p>Syntax:</p><pre><code>type-attribute ::= type
+</code></pre><p>A type attribute is an attribute that represents a <a href=#type-system>type object</a>.</p><h4 id=unit-attribute>Unit Attribute</h4><pre><code>unit-attribute ::= `unit`
+</code></pre><p>A unit attribute is an attribute that represents a value of <code>unit</code> type. The
+<code>unit</code> type allows only one value forming a singleton set. This attribute value
+is used to represent attributes that only have meaning from their existence.</p><p>One example of such an attribute could be the <code>swift.self</code> attribute. This
+attribute indicates that a function parameter is the self/context parameter. It
+could be represented as a <a href=#boolean-attribute>boolean attribute</a>(true or
+false), but a value of false doesn&rsquo;t really bring any value. The parameter
+either is the self/context or it isn&rsquo;t.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// A unit attribute defined with the `unit` value specifier.
+func @verbose_form(i1) attributes {dialectName.unitAttr = unit}
+
+// A unit attribute can also be defined without the value specifier.
+func @simple_form(i1) attributes {dialectName.unitAttr}</code></pre></div><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/content/docs/LangRef.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/tutorials/toy/ch-7/ title="Chapter 7: Adding a Composite Type to Toy"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Chapter 7: Adding a Composite Type to Toy</a>
+<a class="nav nav-next" href=/docs/dialects/ title=Dialects>Next - Dialects <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=open-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/getting_started/>Getting Started</a><ul class=sub-menu><li><a href=/getting_started/faq/>FAQ</a></li><li><a href=/getting_started/contributing/>How to Contribute</a></li><li><a href=/getting_started/developerguide/>Developer Guide</a></li><li><a href=/getting_started/glossary/>Glossary</a></li><li><a href=/getting_started/testingguide/>Testing Guide</a></li></ul></li><li class=parent><a href=/docs/>.</a><ul class=sub-menu><li><a href=/docs/dialects/>Dialects</a><ul class=sub-menu><li><a href=/docs/dialects/affine/>Affine Dialect</a></li><li><a href=/docs/dialects/affineops/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/dialects/fxpmathops/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/dialects/gpuops/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/dialects/linalgdoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/dialects/loopops/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/dialects/nvvmops/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/dialects/quantops/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/dialects/rocdlops/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/dialects/spirvops/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/dialects/vectorops/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/dialects/gpu/>GPU Dialect</a></li><li><a href=/docs/dialects/linalg/>Linalg Dialect</a></li><li><a href=/docs/dialects/llvm/>LLVM IR Dialect</a></li><li><a href=/docs/dialects/spir-v/>SPIR-V Dialect</a></li><li><a href=/docs/dialects/standard/>Standard Dialect</a></li><li><a href=/docs/dialects/vector/>Vector Dialect</a></li></ul></li><li><a href=/docs/includes/>includes</a><ul class=sub-menu><li><a href=/docs/includes/img/>includes/img</a></li></ul></li><li><a href=/docs/tutorials/>Tutorials</a><ul class=sub-menu><li><a href=/docs/tutorials/toy/>Tutorials/Toy</a><ul class=sub-menu><li><a href=/docs/tutorials/toy/ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/tutorials/toy/ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/tutorials/toy/ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/tutorials/toy/ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/tutorials/toy/ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/tutorials/toy/ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/tutorials/toy/ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li></ul></li><li><a href=/docs/edsc/>Background: declarative builders API</a></li><li><a href=/docs/conversiontollvmdialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/developerguide/>Developer Guide</a></li><li><a href=/docs/dialectconversion/>Dialect Conversion</a></li><li><a href=/docs/diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/genericdagrewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/glossary/>MLIR Glossary</a></li><li><a href=/docs/passes/>MLIR Passes</a></li><li><a href=/docs/quantization/>MLIR Quantization</a></li><li><a href=/docs/rationale/>MLIR Rationale</a></li><li class=active><a href=/docs/langref/>MLIR Specification</a></li><li><a href=/docs/mlirforgraphalgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/rationalesimplifiedpolyhedralform/>MLIR: The case for a &lt;em&gt;simplified&lt;/em&gt; polyhedral form</a></li><li><a href=/docs/canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/quickstartrewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/definingattributesandtypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/declarativerewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/opdefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/testingguide/>Testing Guide</a></li><li><a href=/docs/usageofconst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/writingapass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
