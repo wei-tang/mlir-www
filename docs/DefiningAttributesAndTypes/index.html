@@ -1,0 +1,201 @@
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quickstart tutorial to defining custom dialect attributes and types - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/DefiningAttributesAndTypes/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Quickstart tutorial to defining custom dialect attributes and types</h1><p>This document is a quickstart to defining dialect specific extensions to the
+<a href=LangRef.md#attributes>attribute</a> and <a href=LangRef.md#type-system>type system</a>.
+The main part of the tutorial focuses on defining types, but the instructions
+are nearly identical for defining attributes.</p><p>See <a href=LangRef.md>MLIR specification</a> for more information about MLIR, the
+structure of the IR, operations, etc.</p><h2 id=types>Types</h2><p>Types in MLIR (like attributes, locations, and many other things) are
+value-typed. This means that instances of <code>Type</code> should be passed around
+by-value, as opposed to by-pointer or by-reference. The <code>Type</code> class in itself
+acts as a wrapper around an internal storage object that is uniqued within an
+instance of an <code>MLIRContext</code>.</p><h3 id=reserving-a-range-of-type-kinds>Reserving a range of type kinds</h3><p>Types in MLIR rely on having a unique <code>kind</code> value to ensure that casting checks
+remain extremely
+efficient(<a href=Rationale.md#reserving-dialect-type-kinds>rationale</a>. For a dialect
+author, this means that a range of type <code>kind</code> values must be explicitly, and
+statically, reserved. A dialect can reserve a range of values by adding a new
+entry to the
+<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/DialectSymbolRegistry.def>DialectSymbolRegistry</a>.
+To support out-of-tree and experimental dialects, the registry predefines a set
+of privates ranges, <code>PRIVATE_EXPERIMENTAL_[0-9]</code>, that are free for immediate
+use.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>LINALG</span><span class=p>)</span> <span class=c1>// Linear Algebra Dialect
+</span><span class=c1></span><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>TOY</span><span class=p>)</span>    <span class=c1>// Toy language (tutorial) Dialect
+</span><span class=c1></span>
+<span class=c1>// The following ranges are reserved for experimenting with MLIR dialects in a
+</span><span class=c1>// private context without having to register them here.
+</span><span class=c1></span><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>PRIVATE_EXPERIMENTAL_0</span><span class=p>)</span>
+</code></pre></div><p>For the sake of this tutorial, we will use the predefined
+<code>PRIVATE_EXPERIMENTAL_0</code> range. These definitions will provide a range in the
+Type::Kind enum to use when defining the derived types.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>namespace</span> <span class=n>MyTypes</span> <span class=p>{</span>
+<span class=k>enum</span> <span class=nc>Kinds</span> <span class=p>{</span>
+  <span class=c1>// These kinds will be used in the examples below.
+</span><span class=c1></span>  <span class=n>Simple</span> <span class=o>=</span> <span class=n>Type</span><span class=o>::</span><span class=n>Kind</span><span class=o>::</span><span class=n>FIRST_PRIVATE_EXPERIMENTAL_0_TYPE</span><span class=p>,</span>
+  <span class=n>Complex</span>
+<span class=p>};</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=defining-the-type-class>Defining the type class</h3><p>As described above, <code>Type</code> objects in MLIR are value-typed and rely on having an
+implicitly internal storage object that holds the actual data for the type. When
+defining a new <code>Type</code> it isn&rsquo;t always necessary to define a new storage class.
+So before defining the derived <code>Type</code>, it&rsquo;s important to know which of the two
+classes of <code>Type</code> we are defining. Some types are <code>primitives</code> meaning they do
+not have any parameters and are singletons uniqued by kind, like the
+<a href=LangRef.md#index-type><code>index</code> type</a>. Parametric types on the other hand, have
+additional information that differentiates different instances of the same
+<code>Type</code> kind. For example the <a href=LangRef.md#integer-type><code>integer</code> type</a> has a
+bitwidth, making <code>i8</code> and <code>i16</code> be different instances of
+<a href=LangRef.md#integer-type><code>integer</code> type</a>.</p><h4 id=simple-non-parametric-types>Simple non-parametric types</h4><p>For simple parameterless types, we can jump straight into defining the derived
+type class. Given that these types are uniqued solely on <code>kind</code>, we don&rsquo;t need
+to provide our own storage class.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This class defines a simple parameterless type. All derived types must
+</span><span class=c1>/// inherit from the CRTP class &#39;Type::TypeBase&#39;. It takes as template
+</span><span class=c1>/// parameters the concrete type (SimpleType), and the base class to use (Type).
+</span><span class=c1>/// &#39;Type::TypeBase&#39; also provides several utility methods to simplify type
+</span><span class=c1>/// construction.
+</span><span class=c1></span><span class=k>class</span> <span class=nc>SimpleType</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Type</span><span class=o>::</span><span class=n>TypeBase</span><span class=o>&lt;</span><span class=n>SimpleType</span><span class=p>,</span> <span class=n>Type</span><span class=o>&gt;</span> <span class=p>{</span>
+<span class=k>public</span><span class=o>:</span>
+  <span class=c1>/// Inherit some necessary constructors from &#39;TypeBase&#39;.
+</span><span class=c1></span>  <span class=k>using</span> <span class=n>Base</span><span class=o>::</span><span class=n>Base</span><span class=p>;</span>
+
+  <span class=c1>/// This static method is used to support type inquiry through isa, cast,
+</span><span class=c1></span>  <span class=c1>/// and dyn_cast.
+</span><span class=c1></span>  <span class=k>static</span> <span class=kt>bool</span> <span class=nf>kindof</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>kind</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=n>kind</span> <span class=o>==</span> <span class=n>MyTypes</span><span class=o>::</span><span class=n>Simple</span><span class=p>;</span> <span class=p>}</span>
+
+  <span class=c1>/// This method is used to get an instance of the &#39;SimpleType&#39;. Given that
+</span><span class=c1></span>  <span class=c1>/// this is a parameterless type, it just needs to take the context for
+</span><span class=c1></span>  <span class=c1>/// uniquing purposes.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>SimpleType</span> <span class=nf>get</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// Call into a helper &#39;get&#39; method in &#39;TypeBase&#39; to get a uniqued instance
+</span><span class=c1></span>    <span class=c1>// of this type.
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>::</span><span class=n>get</span><span class=p>(</span><span class=n>context</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>::</span><span class=n>Simple</span><span class=p>);</span>
+  <span class=p>}</span>
+<span class=p>};</span>
+</code></pre></div><h4 id=parametric-types>Parametric types</h4><p>Parametric types are those that have additional construction or uniquing
+constraints outside of the type <code>kind</code>. As such, these types require defining a
+type storage class.</p><h5 id=defining-a-type-storage>Defining a type storage</h5><p>Type storage objects contain all of the data necessary to construct and unique a
+parametric type instance. The storage classes must obey the following:</p><ul><li>Inherit from the base type storage class <code>TypeStorage</code>.</li><li>Define a type alias, <code>KeyTy</code>, that maps to a type that uniquely identifies
+an instance of the parent type.</li><li>Provide a construction method that is used to allocate a new instance of the
+storage class.<ul><li><code>Storage *construct(TypeStorageAllocator &amp;, const KeyTy &amp;key)</code></li></ul></li><li>Provide a comparison method between the storage and <code>KeyTy</code>.<ul><li><code>bool operator==(const KeyTy &amp;) const</code></li></ul></li><li>Provide a method to generate the <code>KeyTy</code> from a list of arguments passed to
+the uniquer. (Note: This is only necessary if the <code>KeyTy</code> cannot be default
+constructed from these arguments).<ul><li><code>static KeyTy getKey(Args...&amp;&amp; args)</code></li></ul></li><li>Provide a method to hash an instance of the <code>KeyTy</code>. (Note: This is not
+necessary if an <code>llvm::DenseMapInfo&lt;KeyTy&gt;</code> specialization exists)<ul><li><code>static llvm::hash_code hashKey(const KeyTy &amp;)</code></li></ul></li></ul><p>Let&rsquo;s look at an example:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Here we define a storage class for a ComplexType, that holds a non-zero
+</span><span class=c1>/// integer and an integer type.
+</span><span class=c1></span><span class=k>struct</span> <span class=nc>ComplexTypeStorage</span> <span class=o>:</span> <span class=k>public</span> <span class=n>TypeStorage</span> <span class=p>{</span>
+  <span class=n>ComplexTypeStorage</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nonZeroParam</span><span class=p>,</span> <span class=n>Type</span> <span class=n>integerType</span><span class=p>)</span>
+      <span class=o>:</span> <span class=n>nonZeroParam</span><span class=p>(</span><span class=n>nonZeroParam</span><span class=p>),</span> <span class=n>integerType</span><span class=p>(</span><span class=n>integerType</span><span class=p>)</span> <span class=p>{}</span>
+
+  <span class=c1>/// The hash key for this storage is a pair of the integer and type params.
+</span><span class=c1></span>  <span class=k>using</span> <span class=n>KeyTy</span> <span class=o>=</span> <span class=n>std</span><span class=o>::</span><span class=n>pair</span><span class=o>&lt;</span><span class=kt>unsigned</span><span class=p>,</span> <span class=n>Type</span><span class=o>&gt;</span><span class=p>;</span>
+
+  <span class=c1>/// Define the comparison function for the key type.
+</span><span class=c1></span>  <span class=kt>bool</span> <span class=k>operator</span><span class=o>==</span><span class=p>(</span><span class=k>const</span> <span class=n>KeyTy</span> <span class=o>&amp;</span><span class=n>key</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=n>key</span> <span class=o>==</span> <span class=n>KeyTy</span><span class=p>(</span><span class=n>nonZeroParam</span><span class=p>,</span> <span class=n>integerType</span><span class=p>);</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// Define a hash function for the key type.
+</span><span class=c1></span>  <span class=c1>/// Note: This isn&#39;t necessary because std::pair, unsigned, and Type all have
+</span><span class=c1></span>  <span class=c1>/// hash functions already available.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>llvm</span><span class=o>::</span><span class=n>hash_code</span> <span class=n>hashKey</span><span class=p>(</span><span class=k>const</span> <span class=n>KeyTy</span> <span class=o>&amp;</span><span class=n>key</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=n>llvm</span><span class=o>::</span><span class=n>hash_combine</span><span class=p>(</span><span class=n>key</span><span class=p>.</span><span class=n>first</span><span class=p>,</span> <span class=n>key</span><span class=p>.</span><span class=n>second</span><span class=p>);</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// Define a construction function for the key type.
+</span><span class=c1></span>  <span class=c1>/// Note: This isn&#39;t necessary because KeyTy can be directly constructed with
+</span><span class=c1></span>  <span class=c1>/// the given parameters.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>KeyTy</span> <span class=nf>getKey</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>nonZeroParam</span><span class=p>,</span> <span class=n>Type</span> <span class=n>integerType</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=n>KeyTy</span><span class=p>(</span><span class=n>nonZeroParam</span><span class=p>,</span> <span class=n>integerType</span><span class=p>);</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// Define a construction method for creating a new instance of this storage.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexTypeStorage</span> <span class=o>*</span><span class=nf>construct</span><span class=p>(</span><span class=n>TypeStorageAllocator</span> <span class=o>&amp;</span><span class=n>allocator</span><span class=p>,</span>
+                                       <span class=k>const</span> <span class=n>KeyTy</span> <span class=o>&amp;</span><span class=n>key</span><span class=p>)</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=k>new</span> <span class=p>(</span><span class=n>allocator</span><span class=p>.</span><span class=n>allocate</span><span class=o>&lt;</span><span class=n>ComplexTypeStorage</span><span class=o>&gt;</span><span class=p>())</span>
+        <span class=n>ComplexTypeStorage</span><span class=p>(</span><span class=n>key</span><span class=p>.</span><span class=n>first</span><span class=p>,</span> <span class=n>key</span><span class=p>.</span><span class=n>second</span><span class=p>);</span>
+  <span class=p>}</span>
+
+  <span class=kt>unsigned</span> <span class=n>nonZeroParam</span><span class=p>;</span>
+  <span class=n>Type</span> <span class=n>integerType</span><span class=p>;</span>
+<span class=p>};</span>
+</code></pre></div><h5 id=type-class-definition>Type class definition</h5><p>Now that the storage class has been created, the derived type class can be
+defined. This structure is similar to the
+<a href=#simple-non-parametric-types>simple type</a>, except for a bit more of the
+functionality of <code>Type::TypeBase</code> is put to use.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This class defines a parametric type. All derived types must inherit from
+</span><span class=c1>/// the CRTP class &#39;Type::TypeBase&#39;. It takes as template parameters the
+</span><span class=c1>/// concrete type (ComplexType), the base class to use (Type), and the storage
+</span><span class=c1>/// class (ComplexTypeStorage). &#39;Type::TypeBase&#39; also provides several utility
+</span><span class=c1>/// methods to simplify type construction and verification.
+</span><span class=c1></span><span class=k>class</span> <span class=nc>ComplexType</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Type</span><span class=o>::</span><span class=n>TypeBase</span><span class=o>&lt;</span><span class=n>ComplexType</span><span class=p>,</span> <span class=n>Type</span><span class=p>,</span>
+                                          <span class=n>ComplexTypeStorage</span><span class=o>&gt;</span> <span class=p>{</span>
+<span class=k>public</span><span class=o>:</span>
+  <span class=c1>/// Inherit some necessary constructors from &#39;TypeBase&#39;.
+</span><span class=c1></span>  <span class=k>using</span> <span class=n>Base</span><span class=o>::</span><span class=n>Base</span><span class=p>;</span>
+
+  <span class=c1>/// This static method is used to support type inquiry through isa, cast,
+</span><span class=c1></span>  <span class=c1>/// and dyn_cast.
+</span><span class=c1></span>  <span class=k>static</span> <span class=kt>bool</span> <span class=nf>kindof</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>kind</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=n>kind</span> <span class=o>==</span> <span class=n>MyTypes</span><span class=o>::</span><span class=n>Complex</span><span class=p>;</span> <span class=p>}</span>
+
+  <span class=c1>/// This method is used to get an instance of the &#39;ComplexType&#39;. This method
+</span><span class=c1></span>  <span class=c1>/// asserts that all of the construction invariants were satisfied. To
+</span><span class=c1></span>  <span class=c1>/// gracefully handle failed construction, getChecked should be used instead.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexType</span> <span class=nf>get</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// Call into a helper &#39;get&#39; method in &#39;TypeBase&#39; to get a uniqued instance
+</span><span class=c1></span>    <span class=c1>// of this type. All parameters to the storage class are passed after the
+</span><span class=c1></span>    <span class=c1>// type kind.
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>::</span><span class=n>get</span><span class=p>(</span><span class=n>context</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>::</span><span class=n>Complex</span><span class=p>,</span> <span class=n>param</span><span class=p>,</span> <span class=n>type</span><span class=p>);</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// This method is used to get an instance of the &#39;ComplexType&#39;, defined at
+</span><span class=c1></span>  <span class=c1>/// the given location. If any of the construction invariants are invalid,
+</span><span class=c1></span>  <span class=c1>/// errors are emitted with the provided location and a null type is returned.
+</span><span class=c1></span>  <span class=c1>/// Note: This method is completely optional.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexType</span> <span class=nf>getChecked</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>,</span>
+                                <span class=n>Location</span> <span class=n>location</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// Call into a helper &#39;getChecked&#39; method in &#39;TypeBase&#39; to get a uniqued
+</span><span class=c1></span>    <span class=c1>// instance of this type. All parameters to the storage class are passed
+</span><span class=c1></span>    <span class=c1>// after the type kind.
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>::</span><span class=n>getChecked</span><span class=p>(</span><span class=n>location</span><span class=p>,</span> <span class=n>context</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>::</span><span class=n>Complex</span><span class=p>,</span> <span class=n>param</span><span class=p>,</span> <span class=n>type</span><span class=p>);</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// This method is used to verify the construction invariants passed into the
+</span><span class=c1></span>  <span class=c1>/// &#39;get&#39; and &#39;getChecked&#39; methods. Note: This method is completely optional.
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>LogicalResult</span> <span class=nf>verifyConstructionInvariants</span><span class=p>(</span>
+      <span class=n>llvm</span><span class=o>::</span><span class=n>Optional</span><span class=o>&lt;</span><span class=n>Location</span><span class=o>&gt;</span> <span class=n>loc</span><span class=p>,</span> <span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span>
+      <span class=n>Type</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>// Our type only allows non-zero parameters.
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>param</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
+      <span class=k>if</span> <span class=p>(</span><span class=n>loc</span><span class=p>)</span>
+        <span class=n>context</span><span class=o>-&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=n>loc</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;non-zero parameter passed to &#39;ComplexType&#39;&#34;</span><span class=p>;</span>
+      <span class=k>return</span> <span class=n>failure</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=c1>// Our type also expects an integer type.
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>type</span><span class=p>.</span><span class=n>isa</span><span class=o>&lt;</span><span class=n>IntegerType</span><span class=o>&gt;</span><span class=p>())</span> <span class=p>{</span>
+      <span class=k>if</span> <span class=p>(</span><span class=n>loc</span><span class=p>)</span>
+        <span class=n>context</span><span class=o>-&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=n>loc</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;non integer-type passed to &#39;ComplexType&#39;&#34;</span><span class=p>;</span>
+      <span class=k>return</span> <span class=n>failure</span><span class=p>();</span>
+    <span class=p>}</span>
+    <span class=k>return</span> <span class=n>success</span><span class=p>();</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// Return the parameter value.
+</span><span class=c1></span>  <span class=kt>unsigned</span> <span class=nf>getParameter</span><span class=p>()</span> <span class=p>{</span>
+    <span class=c1>// &#39;getImpl&#39; returns a pointer to our internal storage instance.
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>getImpl</span><span class=p>()</span><span class=o>-&gt;</span><span class=n>nonZeroParam</span><span class=p>;</span>
+  <span class=p>}</span>
+
+  <span class=c1>/// Return the integer parameter type.
+</span><span class=c1></span>  <span class=n>IntegerType</span> <span class=nf>getParameterType</span><span class=p>()</span> <span class=p>{</span>
+    <span class=c1>// &#39;getImpl&#39; returns a pointer to our internal storage instance.
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>getImpl</span><span class=p>()</span><span class=o>-&gt;</span><span class=n>integerType</span><span class=p>;</span>
+  <span class=p>}</span>
+<span class=p>};</span>
+</code></pre></div><h3 id=registering-types-with-a-dialect>Registering types with a Dialect</h3><p>Once the dialect types have been defined, they must then be registered with a
+<code>Dialect</code>. This is done via similar mechanism to
+<a href=LangRef.md#operations>operations</a>, <code>addTypes</code>.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>MyDialect</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Dialect</span> <span class=p>{</span>
+  <span class=n>MyDialect</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>)</span> <span class=o>:</span> <span class=n>Dialect</span><span class=p>(</span><span class=cm>/*name=*/</span><span class=s>&#34;mydialect&#34;</span><span class=p>,</span> <span class=n>context</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c1>/// Add these types to the dialect.
+</span><span class=c1></span>    <span class=n>addTypes</span><span class=o>&lt;</span><span class=n>SimpleType</span><span class=p>,</span> <span class=n>ComplexType</span><span class=o>&gt;</span><span class=p>();</span>
+  <span class=p>}</span>
+<span class=p>};</span>
+</code></pre></div><h3 id=parsing-and-printing>Parsing and Printing</h3><p>As a final step after registration, a dialect must override the <code>printType</code> and
+<code>parseType</code> hooks. These enable native support for roundtripping the type in the
+textual IR.</p><h2 id=attributes>Attributes</h2><p>As stated in the introduction, the process for defining dialect attributes is
+nearly identical to that of defining dialect types. That key difference is that
+the things named <code>*Type</code> are generally now named <code>*Attr</code>.</p><ul><li><code>Type::TypeBase</code> -&gt; <code>Attribute::AttrBase</code></li><li><code>TypeStorageAllocator</code> -&gt; <code>AttributeStorageAllocator</code></li><li><code>addTypes</code> -&gt; <code>addAttributes</code></li></ul><p>Aside from that, all of the interfaces for uniquing and storage construction are
+all the same.</p><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/content/docs/DefiningAttributesAndTypes.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/Tutorials/Toy/Ch-7/ title="Chapter 7: Adding a Composite Type to Toy"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Chapter 7: Adding a Composite Type to Toy</a>
+<a class="nav nav-next" href=/docs/Dialects/ title=Dialects>Next - Dialects <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=open-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li><a href=/getting_started/>Getting Started</a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class=parent><a href=/docs/>Code Documentation</a><ul class=sub-menu><li><a href=/docs/Dialects/>Dialects</a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li><a href=/docs/Tutorials/Toy/>Toy</a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a &lt;em&gt;simplified&lt;/em&gt; polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li class=active><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
