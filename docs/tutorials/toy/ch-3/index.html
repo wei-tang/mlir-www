@@ -59,7 +59,7 @@ MLIR <code>Canonicalizer</code> pass by implementing a <code>RewritePattern</cod
   <span class=n>matchAndRewrite</span><span class=p>(</span><span class=n>TransposeOp</span> <span class=n>op</span><span class=p>,</span>
                   <span class=n>mlir</span><span class=o>::</span><span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
     <span class=c1>// Look through the input of the current transpose.
-</span><span class=c1></span>    <span class=n>mlir</span><span class=o>::</span><span class=n>ValuePtr</span> <span class=n>transposeInput</span> <span class=o>=</span> <span class=n>op</span><span class=p>.</span><span class=n>getOperand</span><span class=p>();</span>
+</span><span class=c1></span>    <span class=n>mlir</span><span class=o>::</span><span class=n>Value</span> <span class=n>transposeInput</span> <span class=o>=</span> <span class=n>op</span><span class=p>.</span><span class=n>getOperand</span><span class=p>();</span>
     <span class=n>TransposeOp</span> <span class=n>transposeInputOp</span> <span class=o>=</span>
         <span class=n>llvm</span><span class=o>::</span><span class=n>dyn_cast_or_null</span><span class=o>&lt;</span><span class=n>TransposeOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>transposeInput</span><span class=o>-&gt;</span><span class=n>getDefiningOp</span><span class=p>());</span>
     <span class=c1>// If the input is defined by another Transpose, bingo!

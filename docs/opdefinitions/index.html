@@ -182,7 +182,7 @@ below).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=la
 
     // A new non-static method accepting an input argument.
     InterfaceMethod&lt;&#34;/*insert doc here*/&#34;,
-      &#34;ValuePtr &#34;, &#34;bar&#34;, (ins &#34;unsigned&#34;:$i)
+      &#34;Value &#34;, &#34;bar&#34;, (ins &#34;unsigned&#34;:$i)
     &gt;,
 
     // Query a static property of the derived operation.
@@ -246,7 +246,7 @@ the arguments and returns types. For example, given the following op definition:
 </span><span class=c1>// for attributes are of mlir::Attribute types.
 </span><span class=c1></span><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>tblgen_builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>tblgen_state</span><span class=p>,</span>
                   <span class=n>Type</span> <span class=n>i32_result</span><span class=p>,</span> <span class=n>Type</span> <span class=n>f32_result</span><span class=p>,</span> <span class=p>...,</span>
-                  <span class=n>ValuePtr</span> <span class=n>i32_operand</span><span class=p>,</span> <span class=n>ValuePtr</span> <span class=n>f32_operand</span><span class=p>,</span> <span class=p>...,</span>
+                  <span class=n>Value</span> <span class=n>i32_operand</span><span class=p>,</span> <span class=n>Value</span> <span class=n>f32_operand</span><span class=p>,</span> <span class=p>...,</span>
                   <span class=n>IntegerAttr</span> <span class=n>i32_attr</span><span class=p>,</span> <span class=n>FloatAttr</span> <span class=n>f32_attr</span><span class=p>,</span> <span class=p>...);</span>
 
 <span class=c1>// Each result-type/operand/attribute has a separate parameter. The parameters
@@ -255,13 +255,13 @@ the arguments and returns types. For example, given the following op definition:
 </span><span class=c1>// explanation for more details.)
 </span><span class=c1></span><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>tblgen_builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>tblgen_state</span><span class=p>,</span>
                   <span class=n>Type</span> <span class=n>i32_result</span><span class=p>,</span> <span class=n>Type</span> <span class=n>f32_result</span><span class=p>,</span> <span class=p>...,</span>
-                  <span class=n>ValuePtr</span> <span class=n>i32_operand</span><span class=p>,</span> <span class=n>ValuePtr</span> <span class=n>f32_operand</span><span class=p>,</span> <span class=p>...,</span>
+                  <span class=n>Value</span> <span class=n>i32_operand</span><span class=p>,</span> <span class=n>Value</span> <span class=n>f32_operand</span><span class=p>,</span> <span class=p>...,</span>
                   <span class=n>APInt</span> <span class=n>i32_attr</span><span class=p>,</span> <span class=n>StringRef</span> <span class=n>f32_attr</span><span class=p>,</span> <span class=p>...);</span>
 
 <span class=c1>// Each operand/attribute has a separate parameter but result type is aggregate.
 </span><span class=c1></span><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>tblgen_builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>tblgen_state</span><span class=p>,</span>
                   <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Type</span><span class=o>&gt;</span> <span class=n>resultTypes</span><span class=p>,</span>
-                  <span class=n>ValuePtr</span> <span class=n>i32_operand</span><span class=p>,</span> <span class=n>ValuePtr</span> <span class=n>f32_operand</span><span class=p>,</span> <span class=p>...,</span>
+                  <span class=n>Value</span> <span class=n>i32_operand</span><span class=p>,</span> <span class=n>Value</span> <span class=n>f32_operand</span><span class=p>,</span> <span class=p>...,</span>
                   <span class=n>IntegerAttr</span> <span class=n>i32_attr</span><span class=p>,</span> <span class=n>FloatAttr</span> <span class=n>f32_attr</span><span class=p>,</span> <span class=p>...);</span>
 
 <span class=c1>// All operands/attributes have aggregate parameters.
@@ -346,18 +346,17 @@ match exactly with the operation name as explained in
 coding style requirements.</p><h4 id=operand-adaptors>Operand adaptors</h4><p>For each operation, we automatically generate an <em>operand adaptor</em>. This class
 solves the problem of accessing operands provided as a list of <code>Value</code>s without
 using &ldquo;magic&rdquo; constants. The operand adaptor takes a reference to an array of
-<code>ValuePtr</code> and provides methods with the same names as those in the operation
-class to access them. For example, for a binary arithmetic operation, it may
-provide <code>.lhs()</code> to access the first operand and <code>.rhs()</code> to access the second
-operand.</p><p>The operand adaptor class lives in the same namespace as the operation class,
+<code>Value</code> and provides methods with the same names as those in the operation class
+to access them. For example, for a binary arithmetic operation, it may provide
+<code>.lhs()</code> to access the first operand and <code>.rhs()</code> to access the second operand.</p><p>The operand adaptor class lives in the same namespace as the operation class,
 and has the name of the operation followed by <code>OperandAdaptor</code>. A template
 declaration <code>OperandAdaptor&lt;&gt;</code> is provided to look up the operand adaptor for
 the given operation.</p><p>Operand adaptors can be used in function templates that also process operations:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>BinaryOpTy</span><span class=o>&gt;</span>
-<span class=n>std</span><span class=o>::</span><span class=n>pair</span><span class=o>&lt;</span><span class=n>ValuePtr</span><span class=p>,</span> <span class=n>ValuePtr</span><span class=o>&gt;</span> <span class=n>zip</span><span class=p>(</span><span class=n>BinaryOpTy</span> <span class=o>&amp;&amp;</span><span class=n>op</span><span class=p>)</span> <span class=p>{</span>
+<span class=n>std</span><span class=o>::</span><span class=n>pair</span><span class=o>&lt;</span><span class=n>Value</span><span class=p>,</span> <span class=n>Value</span><span class=o>&gt;</span> <span class=n>zip</span><span class=p>(</span><span class=n>BinaryOpTy</span> <span class=o>&amp;&amp;</span><span class=n>op</span><span class=p>)</span> <span class=p>{</span>
   <span class=k>return</span> <span class=n>std</span><span class=o>::</span><span class=n>make_pair</span><span class=p>(</span><span class=n>op</span><span class=p>.</span><span class=n>lhs</span><span class=p>(),</span> <span class=n>op</span><span class=p>.</span><span class=n>rhs</span><span class=p>());;</span>
 <span class=p>}</span>
 
-<span class=kt>void</span> <span class=nf>process</span><span class=p>(</span><span class=n>AddOp</span> <span class=n>op</span><span class=p>,</span> <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>ValuePtr</span><span class=o>&gt;</span> <span class=n>newOperands</span><span class=p>)</span> <span class=p>{</span>
+<span class=kt>void</span> <span class=nf>process</span><span class=p>(</span><span class=n>AddOp</span> <span class=n>op</span><span class=p>,</span> <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Value</span><span class=o>&gt;</span> <span class=n>newOperands</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>zip</span><span class=p>(</span><span class=n>op</span><span class=p>);</span>
   <span class=n>zip</span><span class=p>(</span><span class=n>OperandAdaptor</span><span class=o>&lt;</span><span class=n>AddOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>newOperands</span><span class=p>));</span>
   <span class=cm>/*...*/</span>

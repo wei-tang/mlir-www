@@ -231,31 +231,44 @@ pipeline description. The syntax for this specification is as follows:</p><div c
 </span><span class=ni>options           ::= &#39;{&#39; (key (&#39;=&#39; value)?</span><span class=p>)</span><span class=err>+</span> <span class=s1>&#39;}&#39;</span></code></pre></div><ul><li><code>op-name</code><ul><li>This corresponds to the mnemonic name of an operation to run passes on,
 e.g. <code>func</code> or <code>module</code>.</li></ul></li><li><code>pass-name</code> | <code>pass-pipeline-name</code><ul><li>This corresponds to the command-line argument of a registered pass or
 pass pipeline, e.g. <code>cse</code> or <code>canonicalize</code>.</li></ul></li><li><code>options</code><ul><li>Options are pass specific key value pairs that are handled as described
-in the instance specific pass options section.</li></ul></li></ul><p>For example, the following pipeline:</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ mlir-opt foo.mlir -cse -canonicalize -convert-std-to-llvm</code></pre></div><p>Can also be specified as (via the <code>-pass-pipeline</code> flag):</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ mlir-opt foo.mlir -pass-pipeline<span class=o>=</span><span class=s1>&#39;func(cse, canonicalize), convert-std-to-llvm&#39;</span></code></pre></div><p>In order to support round-tripping your pass to the textual representation using
+in the <a href=#instance-specific-pass-options>instance specific pass options</a>
+section.</li></ul></li></ul><p>For example, the following pipeline:</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ mlir-opt foo.mlir -cse -canonicalize -convert-std-to-llvm</code></pre></div><p>Can also be specified as (via the <code>-pass-pipeline</code> flag):</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ mlir-opt foo.mlir -pass-pipeline<span class=o>=</span><span class=s1>&#39;func(cse, canonicalize), convert-std-to-llvm&#39;</span></code></pre></div><p>In order to support round-tripping your pass to the textual representation using
 <code>OpPassManager::printAsTextualPipeline(raw_ostream&amp;)</code>, override
 <code>Pass::printAsTextualPipeline(raw_ostream&amp;)</code> to format your pass-name and
 options in the format described above.</p><h3 id=instance-specific-pass-options>Instance Specific Pass Options</h3><p>Options may be specified for a parametric pass. Individual options are defined
-using <code>llvm::cl::opt</code> flag definition rules. These options will then be parsed
-at pass construction time independently for each instance of the pass. The
-<code>PassRegistration</code> and <code>PassPipelineRegistration</code> templates take an additional
-optional template parameter that is the Option struct definition to be used for
-that pass. To use pass specific options, create a class that inherits from
-<code>mlir::PassOptions</code> and then add a new constructor that takes <code>const
-MyPassOptions&amp;</code> and constructs the pass. When using <code>PassPipelineRegistration</code>,
-the constructor now takes a function with the signature <code>void (OpPassManager
-&amp;pm, const MyPassOptions&amp;)</code> which should construct the passes from the options
-and pass them to the pm. The user code will look like the following:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>MyPass</span> <span class=p>...</span> <span class=p>{</span>
-<span class=k>public</span><span class=o>:</span>
-  <span class=n>MyPass</span><span class=p>(</span><span class=k>const</span> <span class=n>MyPassOptions</span><span class=o>&amp;</span> <span class=n>options</span><span class=p>)</span> <span class=p>...</span>
-<span class=p>};</span>
+using the <a href=https://llvm.org/docs/CommandLine.html>LLVM command line</a> flag
+definition rules. These options will then be parsed at pass construction time
+independently for each instance of the pass. To provide options for passes, the
+<code>Option&lt;&gt;</code> and <code>OptionList&lt;&gt;</code> classes may be used:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>MyPass</span> <span class=p>...</span> <span class=p>{</span>
+  <span class=c1>/// Make sure that we have a valid default constructor and copy constructor to
+</span><span class=c1></span>  <span class=c1>/// make sure that the options are initialized properly.
+</span><span class=c1></span>  <span class=n>MyPass</span><span class=p>()</span> <span class=o>=</span> <span class=k>default</span><span class=p>;</span>
+  <span class=n>MyPass</span><span class=p>(</span><span class=k>const</span> <span class=n>MyPass</span><span class=o>&amp;</span> <span class=n>pass</span><span class=p>)</span> <span class=p>{}</span>
 
-<span class=k>struct</span> <span class=nc>MyPassOptions</span> <span class=o>:</span> <span class=k>public</span> <span class=n>PassOptions</span><span class=o>&lt;</span><span class=n>MyPassOptions</span><span class=o>&gt;</span> <span class=p>{</span>
   <span class=c1>// These just forward onto llvm::cl::list and llvm::cl::opt respectively.
 </span><span class=c1></span>  <span class=n>Option</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>exampleOption</span><span class=p>{</span><span class=o>*</span><span class=k>this</span><span class=p>,</span> <span class=s>&#34;flag-name&#34;</span><span class=p>,</span> <span class=n>llvm</span><span class=o>::</span><span class=n>cl</span><span class=o>::</span><span class=n>desc</span><span class=p>(</span><span class=s>&#34;...&#34;</span><span class=p>)};</span>
-  <span class=n>List</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>exampleListOption</span><span class=p>{</span><span class=o>*</span><span class=k>this</span><span class=p>,</span> <span class=s>&#34;list-flag-name&#34;</span><span class=p>,</span> <span class=n>llvm</span><span class=o>::</span><span class=n>cl</span><span class=o>::</span><span class=n>desc</span><span class=p>(</span><span class=s>&#34;...&#34;</span><span class=p>)};</span>
+  <span class=n>ListOption</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>exampleListOption</span><span class=p>{</span><span class=o>*</span><span class=k>this</span><span class=p>,</span> <span class=s>&#34;list-flag-name&#34;</span><span class=p>,</span>
+                                    <span class=n>llvm</span><span class=o>::</span><span class=n>cl</span><span class=o>::</span><span class=n>desc</span><span class=p>(</span><span class=s>&#34;...&#34;</span><span class=p>)};</span>
+<span class=p>};</span>
+</code></pre></div><p>For pass pipelines, the <code>PassPipelineRegistration</code> templates take an additional
+optional template parameter that is the Option struct definition to be used for
+that pipeline. To use pipeline specific options, create a class that inherits
+from <code>mlir::PassPipelineOptions</code> that contains the desired options. When using
+<code>PassPipelineRegistration</code>, the constructor now takes a function with the
+signature <code>void (OpPassManager &amp;pm, const MyPipelineOptions&amp;)</code> which should
+construct the passes from the options and pass them to the pm:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>MyPipelineOptions</span> <span class=o>:</span> <span class=k>public</span> <span class=n>PassPipelineOptions</span> <span class=p>{</span>
+  <span class=c1>// These just forward onto llvm::cl::list and llvm::cl::opt respectively.
+</span><span class=c1></span>  <span class=n>Option</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>exampleOption</span><span class=p>{</span><span class=o>*</span><span class=k>this</span><span class=p>,</span> <span class=s>&#34;flag-name&#34;</span><span class=p>,</span> <span class=n>llvm</span><span class=o>::</span><span class=n>cl</span><span class=o>::</span><span class=n>desc</span><span class=p>(</span><span class=s>&#34;...&#34;</span><span class=p>)};</span>
+  <span class=n>ListOption</span><span class=o>&lt;</span><span class=kt>int</span><span class=o>&gt;</span> <span class=n>exampleListOption</span><span class=p>{</span><span class=o>*</span><span class=k>this</span><span class=p>,</span> <span class=s>&#34;list-flag-name&#34;</span><span class=p>,</span>
+                                    <span class=n>llvm</span><span class=o>::</span><span class=n>cl</span><span class=o>::</span><span class=n>desc</span><span class=p>(</span><span class=s>&#34;...&#34;</span><span class=p>)};</span>
 <span class=p>};</span>
 
-<span class=k>static</span> <span class=n>PassRegistration</span><span class=o>&lt;</span><span class=n>MyPass</span><span class=p>,</span> <span class=n>MyPassOptions</span><span class=o>&gt;</span> <span class=n>pass</span><span class=p>(</span><span class=s>&#34;my-pass&#34;</span><span class=p>,</span> <span class=s>&#34;description&#34;</span><span class=p>);</span>
+
+<span class=k>static</span> <span class=n>mlir</span><span class=o>::</span><span class=n>PassPipelineRegistration</span><span class=o>&lt;</span><span class=n>MyPipelineOptions</span><span class=o>&gt;</span> <span class=n>pipeline</span><span class=p>(</span>
+    <span class=s>&#34;example-pipeline&#34;</span><span class=p>,</span> <span class=s>&#34;Run an example pipeline.&#34;</span><span class=p>,</span>
+    <span class=p>[](</span><span class=n>OpPassManager</span> <span class=o>&amp;</span><span class=n>pm</span><span class=p>,</span> <span class=k>const</span> <span class=n>MyPipelineOptions</span> <span class=o>&amp;</span><span class=n>pipelineOptions</span><span class=p>)</span> <span class=p>{</span>
+      <span class=c1>// Initialize the pass manager.
+</span><span class=c1></span>    <span class=p>});</span>
 </code></pre></div><h2 id=pass-statistics>Pass Statistics</h2><p>Statistics are a way to keep track of what the compiler is doing and how
 effective various transformations are. It is often useful to see what effect
 specific transformations have on a particular program, and how often they

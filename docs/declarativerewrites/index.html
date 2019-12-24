@@ -112,7 +112,7 @@ generating the <code>COp</code> by passing them in as arguments to <code>COp</co
 method.</p><p>We can also reference symbols bound to matched op&rsquo;s results:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pat&lt;(AOp (BOp:$b_result) $attr), (COp $b_result $attr)&gt;;</code></pre></div><p>In the above, we are using <code>BOp</code>&rsquo;s result for building <code>COp</code>.</p><h4 id=building-operations>Building operations</h4><p>Given that <code>COp</code> was specified with table-driven op definition, there will be
 several <code>build()</code> methods generated for it. One of them has aggregated
 parameters for result types, operands, and attributes in the signature: <code>void
-COp::build(..., ArrayRef&lt;Type&gt; resultTypes, Array&lt;ValuePtr&gt; operands,
+COp::build(..., ArrayRef&lt;Type&gt; resultTypes, Array&lt;Value&gt; operands,
 ArrayRef&lt;NamedAttribute&gt; attr)</code>. The pattern in the above calls this <code>build()</code>
 method for constructing the <code>COp</code>.</p><p>In general, arguments in the result pattern will be passed directly to the
 <code>build()</code> method to leverage the auto-generated <code>build()</code> method, list them in
@@ -131,7 +131,7 @@ result type for it. A custom builder for <code>AOp</code> should be defined and 
 deduce the result type by itself. The builder should have the separate parameter
 for each operand and attribute and deduce the result type internally by itself.
 For example, for the above <code>AOp</code>, a possible builder is:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=n>AOp</span><span class=o>::</span><span class=n>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>state</span><span class=p>,</span>
-                <span class=n>ValuePtr</span> <span class=n>input</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>)</span> <span class=p>{</span>
+                <span class=n>Value</span> <span class=n>input</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>state</span><span class=p>.</span><span class=n>addOperands</span><span class=p>({</span><span class=n>input</span><span class=p>});</span>
   <span class=n>state</span><span class=p>.</span><span class=n>addAttribute</span><span class=p>(</span><span class=s>&#34;a_attr&#34;</span><span class=p>,</span> <span class=n>attr</span><span class=p>);</span>
   <span class=n>Type</span> <span class=n>type</span> <span class=o>=</span> <span class=p>...;</span> <span class=c1>// Deduce result type here
@@ -207,7 +207,7 @@ is <code>OnAttrOp</code>&rsquo;s array attribute.</p><p>Positional placeholders 
 the <code>NativeCodeCall</code> use site. For example, if we define <code>SomeCall :
 NativeCodeCall&lt;&quot;someFn($1, $2, $0)&quot;&gt;</code> and use it like <code>(SomeCall $in0, $in1,
 $in2)</code>, then this will be translated into C++ call <code>someFn($in1, $in2, $in0)</code>.</p><h5 id=customizing-entire-op-building>Customizing entire op building</h5><p><code>NativeCodeCall</code> is not only limited to transforming arguments for building an
-op; it can be also used to specify how to build an op entirely. An example:</p><p>If we have a C++ function for building an op:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>Operation</span> <span class=o>*</span><span class=nf>createMyOp</span><span class=p>(</span><span class=n>OpBuilder</span> <span class=n>builder</span><span class=p>,</span> <span class=n>ValuePtr</span> <span class=n>input</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>);</span>
+op; it can be also used to specify how to build an op entirely. An example:</p><p>If we have a C++ function for building an op:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>Operation</span> <span class=o>*</span><span class=nf>createMyOp</span><span class=p>(</span><span class=n>OpBuilder</span> <span class=n>builder</span><span class=p>,</span> <span class=n>Value</span> <span class=n>input</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>);</span>
 </code></pre></div><p>We can wrap it up and invoke it like:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def createMyOp : NativeCodeCall&lt;&#34;createMyOp($_builder, $0, $1)&#34;&gt;;
 
 def : Pat&lt;(... $input, $attr), (createMyOp $input, $attr)&gt;;</code></pre></div><h3 id=supporting-auxiliary-ops>Supporting auxiliary ops</h3><p>A declarative rewrite rule supports multiple result patterns. One of the

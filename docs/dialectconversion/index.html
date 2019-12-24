@@ -128,7 +128,7 @@ convert types. Several of these hooks are detailed below:</p><div class=highligh
 </span><span class=c1></span>  <span class=c1>/// the conversion has finished.
 </span><span class=c1></span>  <span class=k>virtual</span> <span class=n>Operation</span> <span class=o>*</span><span class=nf>materializeConversion</span><span class=p>(</span><span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>,</span>
                                            <span class=n>Type</span> <span class=n>resultType</span><span class=p>,</span>
-                                           <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>ValuePtr</span><span class=o>&gt;</span> <span class=n>inputs</span><span class=p>,</span>
+                                           <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Value</span><span class=o>&gt;</span> <span class=n>inputs</span><span class=p>,</span>
                                            <span class=n>Location</span> <span class=n>loc</span><span class=p>);</span>
 <span class=p>};</span>
 </code></pre></div><h3 id=conversion-patterns>Conversion Patterns</h3><p>When type conversion comes into play, the general Rewrite Patterns can no longer
@@ -144,7 +144,7 @@ hooks for use with the conversion infrastructure.</p><div class=highlight><pre c
 </span><span class=c1></span>  <span class=c1>/// `operands` parameter, containing the remapped operands of the original
 </span><span class=c1></span>  <span class=c1>/// operation.
 </span><span class=c1></span>  <span class=k>virtual</span> <span class=n>PatternMatchResult</span>
-  <span class=nf>matchAndRewrite</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span> <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>ValuePtr</span><span class=o>&gt;</span> <span class=n>operands</span><span class=p>,</span>
+  <span class=nf>matchAndRewrite</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span> <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Value</span><span class=o>&gt;</span> <span class=n>operands</span><span class=p>,</span>
                   <span class=n>ConversionPatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span><span class=p>;</span>
 <span class=p>};</span>
 </code></pre></div><p>These patterns have the same <a href=#restrictions>restrictions</a> as the basic rewrite
@@ -172,7 +172,7 @@ programmatically:</p><div class=highlight><pre class=chroma><code class=language
 
     <span class=c1>/// Remap an input of the original signature to another `replacement`
 </span><span class=c1></span>    <span class=c1>/// value. This drops the original argument.
-</span><span class=c1></span>    <span class=kt>void</span> <span class=nf>remapInput</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>origInputNo</span><span class=p>,</span> <span class=n>ValuePtr</span> <span class=n>replacement</span><span class=p>);</span>
+</span><span class=c1></span>    <span class=kt>void</span> <span class=nf>remapInput</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>origInputNo</span><span class=p>,</span> <span class=n>Value</span> <span class=n>replacement</span><span class=p>);</span>
 <span class=p>};</span>
 </code></pre></div><p>The <code>TypeConverter</code> provides several default utilities for signature conversion:
 <code>convertSignatureArg</code>/<code>convertBlockSignature</code>.</p><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/content/docs/DialectConversion.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/tutorials/toy/ch-7/ title="Chapter 7: Adding a Composite Type to Toy"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Chapter 7: Adding a Composite Type to Toy</a>

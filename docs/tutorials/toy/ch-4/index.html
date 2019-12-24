@@ -55,7 +55,7 @@ specialization. In this case, the interface is <code>DialectInlinerInterface</co
 </span><span class=c1></span>  <span class=c1>/// previously returned by the call operation with the operands of the
 </span><span class=c1></span>  <span class=c1>/// return.
 </span><span class=c1></span>  <span class=kt>void</span> <span class=nf>handleTerminator</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span>
-                        <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>ValuePtr</span><span class=o>&gt;</span> <span class=n>valuesToRepl</span><span class=p>)</span> <span class=k>const</span> <span class=k>final</span> <span class=p>{</span>
+                        <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Value</span><span class=o>&gt;</span> <span class=n>valuesToRepl</span><span class=p>)</span> <span class=k>const</span> <span class=k>final</span> <span class=p>{</span>
     <span class=c1>// Only &#34;toy.return&#34; needs to be handled here.
 </span><span class=c1></span>    <span class=k>auto</span> <span class=n>returnOp</span> <span class=o>=</span> <span class=n>cast</span><span class=o>&lt;</span><span class=n>ReturnOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>op</span><span class=p>);</span>
 
@@ -141,7 +141,7 @@ this for us when necessary:</p><div class=highlight><pre class=chroma><code clas
 </span><span class=c1></span>  <span class=c1>/// operation that takes &#39;input&#39; as the only operand, and produces a single
 </span><span class=c1></span>  <span class=c1>/// result of &#39;resultType&#39;. If a conversion can not be generated, nullptr
 </span><span class=c1></span>  <span class=c1>/// should be returned.
-</span><span class=c1></span>  <span class=n>Operation</span> <span class=o>*</span><span class=n>materializeCallConversion</span><span class=p>(</span><span class=n>OpBuilder</span> <span class=o>&amp;</span><span class=n>builder</span><span class=p>,</span> <span class=n>ValuePtr</span> <span class=n>input</span><span class=p>,</span>
+</span><span class=c1></span>  <span class=n>Operation</span> <span class=o>*</span><span class=n>materializeCallConversion</span><span class=p>(</span><span class=n>OpBuilder</span> <span class=o>&amp;</span><span class=n>builder</span><span class=p>,</span> <span class=n>Value</span> <span class=n>input</span><span class=p>,</span>
                                        <span class=n>Type</span> <span class=n>resultType</span><span class=p>,</span>
                                        <span class=n>Location</span> <span class=n>conversionLoc</span><span class=p>)</span> <span class=k>const</span> <span class=k>final</span> <span class=p>{</span>
     <span class=k>return</span> <span class=n>builder</span><span class=p>.</span><span class=n>create</span><span class=o>&lt;</span><span class=n>CastOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>conversionLoc</span><span class=p>,</span> <span class=n>resultType</span><span class=p>,</span> <span class=n>input</span><span class=p>);</span>

@@ -5,8 +5,8 @@ frequently walk this graph (e.g. traversing from defs to users). The early
 design of MLIR adopted the <code>const</code> model of LLVM, which is familiar and well
 understood (even though the LLVM implementation is flawed in many ways).</p><p>The design team since decided to change to a different module, which eschews
 <code>const</code> entirely for the core IR types: you should never see a <code>const</code> method on
-<code>Operation</code>, should never see the type <code>const ValuePtr</code>, and you shouldn&rsquo;t feel
-bad about this. That said, you <em>should</em> use <code>const</code> for non-IR types, like
+<code>Operation</code>, should never see the type <code>const Value</code>, and you shouldn&rsquo;t feel bad
+about this. That said, you <em>should</em> use <code>const</code> for non-IR types, like
 <code>SmallVector</code>&rsquo;s and many other things.</p><p>The document below explains this design point from the viewpoint of &ldquo;why make a
 change&rdquo;, to explain the rationale and the tradeoffs involved that led us to this
 potentially controversial design point.</p><p>Bjarke Roune summarized the situation like this:</p><blockquote><p>In my opinion <code>const</code> correctness is highly valuable, catching many bugs and
@@ -77,7 +77,7 @@ things like this, which is twice as much API surface area just to try to satisfy
 const.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>operand_iterator</span> <span class=nf>operand_begin</span><span class=p>();</span>
   <span class=n>operand_iterator</span> <span class=nf>operand_end</span><span class=p>();</span>
 
-  <span class=c1>/// Returns an iterator on the underlying Value&#39;s (ValuePtr ).
+  <span class=c1>/// Returns an iterator on the underlying Value&#39;s (Value ).
 </span><span class=c1></span>  <span class=n>operand_range</span> <span class=nf>getOperands</span><span class=p>();</span>
 
   <span class=c1>// Support const operand iteration.
@@ -88,7 +88,7 @@ const.</p><div class=highlight><pre class=chroma><code class=language-c++ data-l
   <span class=n>const_operand_iterator</span> <span class=nf>operand_begin</span><span class=p>()</span> <span class=k>const</span><span class=p>;</span>
   <span class=n>const_operand_iterator</span> <span class=nf>operand_end</span><span class=p>()</span> <span class=k>const</span><span class=p>;</span>
 
-  <span class=c1>/// Returns a const iterator on the underlying Value&#39;s (ValuePtr ).
+  <span class=c1>/// Returns a const iterator on the underlying Value&#39;s (Value ).
 </span><span class=c1></span>  <span class=n>llvm</span><span class=o>::</span><span class=n>iterator_range</span><span class=o>&lt;</span><span class=n>const_operand_iterator</span><span class=o>&gt;</span> <span class=n>getOperands</span><span class=p>()</span> <span class=k>const</span><span class=p>;</span>
 
   <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>OpOperand</span><span class=o>&gt;</span> <span class=n>getOpOperands</span><span class=p>()</span> <span class=k>const</span> <span class=p>{</span>
