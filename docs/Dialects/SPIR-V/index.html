@@ -186,7 +186,7 @@ modeled to enable isolated functions. Isolated functions are more friendly to
 compiler analyses and transformations. This also enables the SPIR-V dialect to
 better utilize core infrastructure: many functionalities in the core
 infrastructure requires ops to be isolated, e.g., the
-<a href=https://github.com/tensorflow/mlir/blob/master/lib/Transforms/Utils/GreedyPatternRewriteDriver.cpp>greedy pattern rewriter</a> can only act on ops isolated
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/lib/Transforms/Utils/GreedyPatternRewriteDriver.cpp>greedy pattern rewriter</a> can only act on ops isolated
 from above.</p><p>(TODO: create a dedicated <code>spv.fn</code> op for SPIR-V functions.)</p><h2 id=operations>Operations</h2><p>In SPIR-V, instruction is a generalized concept; a SPIR-V module is just a
 sequence of instructions. Declaring types, expressing computations, annotating
 result ids, expressing control flows and others are all in the form of
@@ -204,8 +204,8 @@ cases, we can model them with MLIR attributes.</p><p>For example,</p><div class=
 %4 = OpIAdd %i32 %c42 %c42</code></pre></div><p>can be represented in the dialect as</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>%0 = &#34;spv.constant&#34;() { value = 42 : i32 } : () -&gt; i32
 %1 = &#34;spv.Variable&#34;(%0) { storage_class = &#34;Function&#34; } : (i32) -&gt; !spv.ptr&lt;i32, Function&gt;
 %2 = &#34;spv.IAdd&#34;(%0, %0) : (i32, i32) -&gt; i32</code></pre></div><p>Operation documentation is written in each op&rsquo;s Op Definition Spec using
-TableGen. A markdown version of the doc can be generated using <code>mlir-tblgen
--gen-doc</code>.</p><h3 id=ops-from-extended-instruction-sets>Ops from extended instruction sets</h3><p>Analogically extended instruction set is a mechanism to import SPIR-V
+TableGen. A markdown version of the doc can be found at
+<a href=https://mlir.llvm.org/docs/Dialects/SPIRVOps/>mlir.llvm.org</a> or generated using <code>mlir-tblgen -gen-doc</code>.</p><h3 id=ops-from-extended-instruction-sets>Ops from extended instruction sets</h3><p>Analogically extended instruction set is a mechanism to import SPIR-V
 instructions within another namespace. <a href=https://www.khronos.org/registry/spir-v/specs/1.0/GLSL.std.450.html><code>GLSL.std.450</code></a> is an
 extended instruction set that provides common mathematical routines that should
 be supported. Instead of modeling <code>OpExtInstImport</code> as a separate op and use a
@@ -351,7 +351,7 @@ an OpLoopMerge instruction’s Continue Target.&rdquo;</p><p>For example, for th
   return
 }</code></pre></div><h3 id=block-argument-for-phi>Block argument for Phi</h3><p>There are no direct Phi operations in the SPIR-V dialect; SPIR-V <code>OpPhi</code>
 instructions are modelled as block arguments in the SPIR-V dialect. (See the
-<a href=https://github.com/tensorflow/mlir/blob/master/g3doc/Rationale.md#block-arguments-vs-phi-nodes>Rationale</a> doc for &ldquo;Block Arguments vs Phi nodes&rdquo;.) Each block
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/docs/Rationale.md#block-arguments-vs-phi-nodes>Rationale</a> doc for &ldquo;Block Arguments vs Phi nodes&rdquo;.) Each block
 argument corresponds to one <code>OpPhi</code> instruction in the SPIR-V binary format. For
 example, for the following SPIR-V function <code>foo</code>:</p><div class=highlight><pre class=chroma><code class=language-spirv data-lang=spirv>  %foo = OpFunction %void None ...
 %entry = OpLabel
@@ -416,13 +416,13 @@ have parameters that require matching between the two worlds.</p><p>The interfac
 path in MLIR. Besides, each Vulkan application may want to handle resources
 differently. To avoid duplication and to share common utilities, a SPIR-V shader
 interface specification needs to be defined to provide the external requirements
-to and guide the SPIR-V compilation path.</p><h3 id=shader-interface-attributes>Shader interface attributes</h3><p>The SPIR-V dialect defines <a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/SPIRVLowering.td>a few attributes</a> for specifying these
+to and guide the SPIR-V compilation path.</p><h3 id=shader-interface-attributes>Shader interface attributes</h3><p>The SPIR-V dialect defines <a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVLowering.td>a few attributes</a> for specifying these
 interfaces:</p><ul><li><code>spv.entry_point_abi</code> is a struct attribute that should be attached to the
 entry function. It contains:<ul><li><code>local_size</code> for specifying the local work group size for the dispatch.</li></ul></li><li><code>spv.interface_var_abi</code> is a struct attribute that should be attached to
 each operand and result of the entry function. It contains:<ul><li><code>descriptor_set</code> for specifying the descriptor set number for the
 corresponding resource variable.</li><li><code>binding</code> for specifying the binding number for the corresponding
 resource variable.</li><li><code>storage_class</code> for specifying the storage class for the corresponding
-resource variable.</li></ul></li></ul><p>The SPIR-V dialect provides a <a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/Passes.h><code>LowerABIAttributesPass</code></a> for
+resource variable.</li></ul></li></ul><p>The SPIR-V dialect provides a <a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/Passes.h><code>LowerABIAttributesPass</code></a> for
 consuming these attributes and create SPIR-V module complying with the
 interface.</p><h2 id=serialization-and-deserialization>Serialization and deserialization</h2><p>Although the main objective of the SPIR-V dialect is to act as a proper IR for
 compiler transformations, being able to serialize to and deserialize from the
@@ -456,9 +456,9 @@ in module-level; otherwise they will be converted into <code>spv.Variable</code>
 <code>spv.specConstant</code> into an SSA value.</li><li><code>OpPhi</code> instructions are converted to block arguments.</li><li>Structured control flow are placed inside <code>spv.selection</code> and <code>spv.loop</code>.</li></ul><h2 id=conversions>Conversions</h2><p>(TODO: expand this section)</p><h2 id=code-organization>Code organization</h2><p>We aim to provide multiple libraries with clear dependencies for SPIR-V related
 functionalities in MLIR so developers can just choose the needed components
 without pulling in the whole world.</p><h3 id=the-dialect>The dialect</h3><p>The code for the SPIR-V dialect resides in a few places:</p><ul><li>Public headers are placed in <a href=https://github.com/tensorflow/mlir/tree/master/include/mlir/Dialect/SPIRV>include/mlir/Dialect/SPIRV</a>.</li><li>Libraries are placed in <a href=https://github.com/tensorflow/mlir/tree/master/lib/Dialect/SPIRV>lib/Dialect/SPIRV</a>.</li><li>IR tests are placed in <a href=https://github.com/tensorflow/mlir/tree/master/test/Dialect/SPIRV>test/Dialect/SPIRV</a>.</li><li>Unit tests are placed in <a href=https://github.com/tensorflow/mlir/tree/master/unittests/Dialect/SPIRV>unittests/Dialect/SPIRV</a>.</li></ul><p>The whole SPIR-V dialect is exposed via multiple headers for better
-organization:</p><ul><li><a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/SPIRVDialect.h>SPIRVDialect.h</a> defines the SPIR-V dialect.</li><li><a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/SPIRVTypes.h>SPIRVTypes.h</a> defines all SPIR-V specific types.</li><li><a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/SPIRVOps.h>SPIRVOps.h</a> defines all SPIR-V operations.</li><li><a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/Serialization.h>Serialization.h</a> defines the entry points for
+organization:</p><ul><li><a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVDialect.h>SPIRVDialect.h</a> defines the SPIR-V dialect.</li><li><a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVTypes.h>SPIRVTypes.h</a> defines all SPIR-V specific types.</li><li><a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVOps.h>SPIRVOps.h</a> defines all SPIR-V operations.</li><li><a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/Serialization.h>Serialization.h</a> defines the entry points for
 serialization and deserialization.</li></ul><p>The dialect itself, including all types and ops, is in the <code>MLIRSPIRV</code> library.
-Serialization functionalities are in the <code>MLIRSPIRVSerialization</code> library.</p><h3 id=op-definitions>Op definitions</h3><p>We use <a href=https://github.com/tensorflow/mlir/blob/master/g3doc/OpDefinitions.md>Op Definition Spec</a> to define all SPIR-V ops. They are written in
+Serialization functionalities are in the <code>MLIRSPIRVSerialization</code> library.</p><h3 id=op-definitions>Op definitions</h3><p>We use <a href=https://github.com/llvm/llvm-project/blob/master/mlir/docs/OpDefinitions.md>Op Definition Spec</a> to define all SPIR-V ops. They are written in
 TableGen syntax and placed in various <code>*Ops.td</code> files in the header directory.
 Those <code>*Ops.td</code> files are organized according to the instruction categories used
 in the SPIR-V specification, for example, an op belonging to the &ldquo;Atomics
@@ -477,8 +477,8 @@ in a few places:</p><ul><li>From GPU dialect: headers are at
 at <a href=https://github.com/tensorflow/mlir/tree/master/lib/Conversion/GPUToSPIRV>lib/Conversion/GPUToSPIRV</a>.</li><li>From standard dialect: headers are at
 <a href=https://github.com/tensorflow/mlir/tree/master/include/mlir/Conversion/StandardToSPIRV>include/mlir/Conversion/StandardTOSPIRV</a>; libraries
 are at <a href=https://github.com/tensorflow/mlir/tree/master/lib/Conversion/StandardToSPIRV>lib/Conversion/StandardToSPIRV</a>.</li></ul><p>These dialect to dialect conversions have their dedicated libraries,
-<code>MLIRGPUToSPIRVTransforms</code> and <code>MLIRStandardToSPIRVTransforms</code>, respectively.</p><p>There are also common utilities when targeting SPIR-V from any dialect:</p><ul><li><a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/Passes.h>include/mlir/Dialect/SPIRV/Passes.h</a> contains SPIR-V
-specific analyses and transformations.</li><li><a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/SPIRV/SPIRVLowering.h>include/mlir/Dialect/SPIRV/SPIRVLowering.h</a> contains
+<code>MLIRGPUToSPIRVTransforms</code> and <code>MLIRStandardToSPIRVTransforms</code>, respectively.</p><p>There are also common utilities when targeting SPIR-V from any dialect:</p><ul><li><a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/Passes.h>include/mlir/Dialect/SPIRV/Passes.h</a> contains SPIR-V
+specific analyses and transformations.</li><li><a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVLowering.h>include/mlir/Dialect/SPIRV/SPIRVLowering.h</a> contains
 type converters and other utility functions.</li></ul><p>These common utilities are implemented in the <code>MLIRSPIRVTransforms</code> library.</p><h2 id=contribution>Contribution</h2><p>All kinds of contributions are highly appreciated! :) We have GitHub issues for
 tracking the <a href=https://github.com/tensorflow/mlir/issues/302>dialect</a> and
 <a href=https://github.com/tensorflow/mlir/issues/303>lowering</a> development. You can find todo tasks there.
@@ -489,7 +489,7 @@ concrete steps on how to contribute.</p><h3 id=automated-development-flow>Automa
 <a href=https://raw.githubusercontent.com/KhronosGroup/SPIRV-Headers/master/include/spirv/unified1/spirv.core.grammar.json>machine-readable grammar</a> to auto-generate as much contents as
 possible. Specifically, the following tasks can be automated (partially or
 fully):</p><ul><li>Adding support for a new operation.</li><li>Adding support for a new SPIR-V enum.</li><li>Serialization and deserialization of a new operation.</li></ul><p>We achieve this using the Python script
-<a href=https://github.com/tensorflow/mlir/blob/master/utils/spirv/gen_spirv_dialect.py><code>gen_spirv_dialect.py</code></a>. It fetches the human-readable
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/utils/spirv/gen_spirv_dialect.py><code>gen_spirv_dialect.py</code></a>. It fetches the human-readable
 specification and machine-readable grammar directly from the Internet and
 updates various SPIR-V <code>*.td</code> files in place. The script gives us an automated
 flow for adding support for new ops or enums.</p><p>Afterwards, we have SPIR-V specific <code>mlir-tblgen</code> backends for reading the Op
