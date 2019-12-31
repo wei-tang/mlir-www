@@ -1,16 +1,16 @@
 <!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Table-driven Declarative Rewrite Rule (DRR) - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/DeclarativeRewrites/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Table-driven Declarative Rewrite Rule (DRR)</h1><p>In addition to subclassing the <code>mlir::RewritePattern</code> C++ class, MLIR also
 supports defining rewrite rules in a declarative manner. Similar to
-<a href=OpDefinitions.md>Op Definition Specification</a> (ODS), this is achieved via
+<a href=/docs/OpDefinitions/>Op Definition Specification</a> (ODS), this is achieved via
 <a href=https://llvm.org/docs/TableGen/index.html>TableGen</a>, which is a language to maintain records of domain-specific
 information. The rewrite rules are specified concisely in a TableGen record,
 which will be expanded into an equivalent <code>mlir::RewritePattern</code> subclass at
 compiler build time.</p><p>This manual explains in detail all of the available mechanisms for defining
 rewrite rules in such a declarative manner. It aims to be a specification
 instead of a tutorial. Please refer to
-<a href=QuickstartRewrites.md>Quickstart tutorial to adding MLIR graph rewrite</a> for
+<a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a> for
 the latter.</p><p>Given that declarative rewrite rules depend on op definition specification, this
-manual assumes knowledge of the <a href=OpDefinitions.md>ODS</a> doc.</p><h2 id=benefits>Benefits</h2><p>Compared to the hand-written C++ classes, this declarative approach has several
+manual assumes knowledge of the <a href=/docs/OpDefinitions/>ODS</a> doc.</p><h2 id=benefits>Benefits</h2><p>Compared to the hand-written C++ classes, this declarative approach has several
 benefits, including but not limited to:</p><ul><li><strong>Being declarative</strong>: The pattern creator just needs to state the rewrite
 pattern declaratively, without worrying about the concrete C++ methods to
 call.</li><li><strong>Removing boilerplate and showing the very essence of the rewrite</strong>:
@@ -28,7 +28,7 @@ expressing op to op conversions, but not that well suited for, say, converting
 an op into a loop nest.</p><p>Per the current implementation, DRR does not have good support for the following
 features:</p><ul><li>Matching and generating ops with regions.</li><li>Matching and generating ops with block arguments.</li><li>Matching multi-result ops in nested patterns.</li><li>Matching and generating variadic operand/result ops in nested patterns.</li><li>Packing and unpacking variadic operands/results during generation.</li><li><a href=#native-code-call-transforming-the-generated-op><code>NativeCodeCall</code></a>
 returning more than one results.</li></ul><h2 id=rule-definition>Rule Definition</h2><p>The core construct for defining a rewrite rule is defined in
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a> as</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>class Pattern&lt;
+<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a> as</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>class Pattern&lt;
     dag sourcePattern, list&lt;dag&gt; resultPatterns,
     list&lt;dag&gt; additionalConstraints = [],
     dag benefitsAdded = (addBenefit 0)&gt;;</code></pre></div><p>A declarative rewrite rule contains two main components:</p><ul><li>A <em>source pattern</em>, which is used for matching a DAG of operations.</li><li>One or more <em>result patterns</em>, which are used for generating DAGs of
@@ -36,7 +36,7 @@ operations to replace the matched DAG of operations.</li></ul><p>We allow multip
 <a href=#supporting-multi-result-ops>multi-result ops</a> and
 <a href=#supporting-auxiliary-ops>auxiliary ops</a>, but frequently we just want to
 convert one DAG of operations to another DAG of operations. There is a handy
-wrapper of <code>Pattern</code>, <code>Pat</code>, which takes a single result pattern:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>class Pat&lt;
+wrapper of <code>Pattern</code>, <code>Pat</code>, which takes a single result pattern:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>class Pat&lt;
     dag sourcePattern, dag resultPattern,
     list&lt;dag&gt; additionalConstraints = [],
     dag benefitsAdded = (addBenefit 0)&gt; :
@@ -53,7 +53,7 @@ object are intended to <strong>capture</strong> the op arguments. They can also 
 <strong>further limit</strong> the match criteria. The capturing is done by specifying a
 symbol starting with the <code>$</code> sign, while further constraints are introduced by
 specifying a <code>TypeConstraint</code> (for an operand) or a <code>AttrConstraint</code> (for an
-attribute).</p><h4 id=binding-op-arguments-and-limiting-the-match>Binding op arguments and limiting the match</h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def AOp : Op&lt;&#34;a_op&#34;&gt; {
+attribute).</p><h4 id=binding-op-arguments-and-limiting-the-match>Binding op arguments and limiting the match</h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def AOp : Op&lt;&#34;a_op&#34;&gt; {
     let arguments = (ins
       AnyType:$a_input,
       AnyAttr:$a_attr
@@ -79,7 +79,7 @@ are acceptable, then we can leave the constraint unspecified.</p><p><code>$_</co
 will be referenced later in result patterns. It&rsquo;s still possible to place
 additional constraints even if the symbol is not to be captured; for such case,
 you can simply use just the <code>TypeConstraint</code> or <code>AttributeConstraint</code> without a
-bound symbol, for example, <code>def : Pat&lt;(AOp $a, F32Attr), ...&gt;</code>.</p><h4 id=matching-dag-of-operations>Matching DAG of operations</h4><p>To match an DAG of ops, use nested <code>dag</code> objects:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def BOp : Op&lt;&#34;b_op&#34;&gt; {
+bound symbol, for example, <code>def : Pat&lt;(AOp $a, F32Attr), ...&gt;</code>.</p><h4 id=matching-dag-of-operations>Matching DAG of operations</h4><p>To match an DAG of ops, use nested <code>dag</code> objects:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def BOp : Op&lt;&#34;b_op&#34;&gt; {
     let arguments = (ins);
 
     let results = (outs
@@ -91,11 +91,11 @@ bound symbol, for example, <code>def : Pat&lt;(AOp $a, F32Attr), ...&gt;</code>.
 def : Pat&lt;(AOp (BOp), $attr), ...&gt;;</code></pre></div><p>The above pattern matches an <code>AOp</code> whose only operand is generated by a <code>BOp</code>,
 that is, the following MLIR code:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>%0 = &#34;b_op&#34;() : () -&gt; (...)
 %1 = &#34;a_op&#34;(%0) {attr: ...} : () -&gt; (...)</code></pre></div><h4 id=binding-op-results>Binding op results</h4><p>To bind a symbol to the results of a matched op for later reference, attach the
-symbol to the op itself:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pat&lt;(AOp (BOp:$b_result), $attr), ...&gt;;</code></pre></div><p>The above will bind <code>$b_result</code> to the matched <code>BOp</code>&rsquo;s result. (There are more
+symbol to the op itself:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def : Pat&lt;(AOp (BOp:$b_result), $attr), ...&gt;;</code></pre></div><p>The above will bind <code>$b_result</code> to the matched <code>BOp</code>&rsquo;s result. (There are more
 details regarding multi-result ops, which is covered
 <a href=#supporting-multi-result-ops>later</a>.)</p><h3 id=result-pattern>Result pattern</h3><p>The result pattern is for generating a DAG of operations. Arguments in the <code>dag</code>
 object are intended to <strong>reference</strong> values captured in the source pattern and
-potentially <strong>apply transformations</strong>.</p><h4 id=referencing-bound-symbols>Referencing bound symbols</h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def COp : Op&lt;&#34;c_op&#34;&gt; {
+potentially <strong>apply transformations</strong>.</p><h4 id=referencing-bound-symbols>Referencing bound symbols</h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def COp : Op&lt;&#34;c_op&#34;&gt; {
     let arguments = (ins
       AnyType:$c_input,
       AnyAttr:$c_attr
@@ -109,7 +109,7 @@ potentially <strong>apply transformations</strong>.</p><h4 id=referencing-bound-
 def : Pat&lt;(AOp $input, $attr), (COp $input, $attr)&gt;;</code></pre></div><p>In the above, <code>AOp</code>&rsquo;s only operand and attribute are bound to <code>$input</code> and
 <code>$attr</code>, respectively. We then reference them in the result pattern for
 generating the <code>COp</code> by passing them in as arguments to <code>COp</code>&rsquo;s <code>build()</code>
-method.</p><p>We can also reference symbols bound to matched op&rsquo;s results:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pat&lt;(AOp (BOp:$b_result) $attr), (COp $b_result $attr)&gt;;</code></pre></div><p>In the above, we are using <code>BOp</code>&rsquo;s result for building <code>COp</code>.</p><h4 id=building-operations>Building operations</h4><p>Given that <code>COp</code> was specified with table-driven op definition, there will be
+method.</p><p>We can also reference symbols bound to matched op&rsquo;s results:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def : Pat&lt;(AOp (BOp:$b_result) $attr), (COp $b_result $attr)&gt;;</code></pre></div><p>In the above, we are using <code>BOp</code>&rsquo;s result for building <code>COp</code>.</p><h4 id=building-operations>Building operations</h4><p>Given that <code>COp</code> was specified with table-driven op definition, there will be
 several <code>build()</code> methods generated for it. One of them has aggregated
 parameters for result types, operands, and attributes in the signature: <code>void
 COp::build(..., ArrayRef&lt;Type&gt; resultTypes, Array&lt;Value&gt; operands,
@@ -126,7 +126,7 @@ Otherwise (e.g., generating an <a href=#supporting-auxiliary-ops>auxiliary op</a
 generating an op with a nested result pattern), DRR will not be able to deduce
 the result type(s). The pattern author will need to define a custom builder
 that has result type deduction ability via <code>OpBuilder</code> in ODS. For example,
-in the following pattern</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pat&lt;(AOp $input, $attr), (COp (AOp $input, $attr) $attr)&gt;;</code></pre></div><p><code>AOp</code> is generated via a nested result pattern; DRR won&rsquo;t be able to deduce the
+in the following pattern</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def : Pat&lt;(AOp $input, $attr), (COp (AOp $input, $attr) $attr)&gt;;</code></pre></div><p><code>AOp</code> is generated via a nested result pattern; DRR won&rsquo;t be able to deduce the
 result type for it. A custom builder for <code>AOp</code> should be defined and it should
 deduce the result type by itself. The builder should have the separate parameter
 for each operand and attribute and deduce the result type internally by itself.
@@ -139,11 +139,11 @@ For example, for the above <code>AOp</code>, a possible builder is:</p><div clas
 <span class=p>}</span>
 </code></pre></div><p>Failing to define such a builder will result in an error at C++ compilation time
 saying the call to <code>AOp::build()</code> cannot be resolved because of the number of
-parameters mismatch.</p><h4 id=generating-dag-of-operations>Generating DAG of operations</h4><p><code>dag</code> objects can be nested to generate a DAG of operations:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pat&lt;(AOp $input, $attr), (COp (BOp), $attr)&gt;;</code></pre></div><p>In the above, we generate a <code>BOp</code>, and then use its result to generate the <code>COp</code>
+parameters mismatch.</p><h4 id=generating-dag-of-operations>Generating DAG of operations</h4><p><code>dag</code> objects can be nested to generate a DAG of operations:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def : Pat&lt;(AOp $input, $attr), (COp (BOp), $attr)&gt;;</code></pre></div><p>In the above, we generate a <code>BOp</code>, and then use its result to generate the <code>COp</code>
 to replace the matched <code>AOp</code>.</p><h4 id=binding-op-results-1>Binding op results</h4><p>In the result pattern, we can bind to the result(s) of a newly built op by
 attaching symbols to the op. (But we <strong>cannot</strong> bind to op arguments given that
 they are referencing previously bound symbols.) This is useful for reusing
-newly created results where suitable. For example,</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def DOp : Op&lt;&#34;d_op&#34;&gt; {
+newly created results where suitable. For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def DOp : Op&lt;&#34;d_op&#34;&gt; {
     let arguments = (ins
       AnyType:$d_input1,
       AnyType:$d_input2,
@@ -161,7 +161,7 @@ the result of the <code>BOp</code> to a name and reuse it for the second operand
 directly fed in as arguments to build the new op. For such cases, we can apply
 transformations on the arguments by calling into C++ helper functions. This is
 achieved by <code>NativeCodeCall</code>.</p><p>For example, if we want to capture some op&rsquo;s attributes and group them as an
-array attribute to construct a new op:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def TwoAttrOp : Op&lt;&#34;two_attr_op&#34;&gt; {
+array attribute to construct a new op:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def TwoAttrOp : Op&lt;&#34;two_attr_op&#34;&gt; {
     let arguments = (ins
       AnyAttr:$op_attr1,
       AnyAttr:$op_attr2
@@ -183,7 +183,7 @@ def OneAttrOp : Op&lt;&#34;one_attr_op&#34;&gt; {
 }</code></pre></div><p>We can write a C++ helper function:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>Attribute</span> <span class=nf>createArrayAttr</span><span class=p>(</span><span class=n>Builder</span> <span class=o>&amp;</span><span class=n>builder</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>a</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>b</span><span class=p>)</span> <span class=p>{</span>
   <span class=k>return</span> <span class=n>builder</span><span class=p>.</span><span class=n>getArrayAttr</span><span class=p>({</span><span class=n>a</span><span class=p>,</span> <span class=n>b</span><span class=p>});</span>
 <span class=p>}</span>
-</code></pre></div><p>And then write the pattern as:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def createArrayAttr : NativeCodeCall&lt;&#34;createArrayAttr($_builder, $0, $1)&#34;&gt;;
+</code></pre></div><p>And then write the pattern as:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def createArrayAttr : NativeCodeCall&lt;&#34;createArrayAttr($_builder, $0, $1)&#34;&gt;;
 
 def : Pat&lt;(TwoAttrOp $attr1, $attr2),
           (OneAttrOp (createArrayAttr $attr1, $attr2))&gt;;</code></pre></div><p>And make sure the generated C++ code from the above pattern has access to the
@@ -199,7 +199,7 @@ and <code>$_self</code>:</p><ul><li><code>$_builder</code> will be replaced by t
 which is a subclass of <code>mlir::Builder</code>) to the C++ helper function to use the
 handy methods on <code>mlir::Builder</code>.</p><p><code>$_self</code> is useful when we want to write something in the form of
 <code>NativeCodeCall&lt;&quot;...&quot;&gt;:$symbol</code>. For example, if we want to reverse the previous
-example and decompose the array attribute into two attributes:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>class getNthAttr&lt;int n&gt; : NativeCodeCall&lt;&#34;$_self.getValue()[&#34; # n # &#34;]&#34;&gt;;
+example and decompose the array attribute into two attributes:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>class getNthAttr&lt;int n&gt; : NativeCodeCall&lt;&#34;$_self.getValue()[&#34; # n # &#34;]&#34;&gt;;
 
 def : Pat&lt;(OneAttrOp $attr),
           (TwoAttrOp (getNthAttr&lt;0&gt;:$attr), (getNthAttr&lt;1&gt;:$attr)&gt;;</code></pre></div><p>In the above, <code>$_self</code> is substituted by the attribute bound by <code>$attr</code>, which
@@ -208,7 +208,7 @@ the <code>NativeCodeCall</code> use site. For example, if we define <code>SomeCa
 NativeCodeCall&lt;&quot;someFn($1, $2, $0)&quot;&gt;</code> and use it like <code>(SomeCall $in0, $in1,
 $in2)</code>, then this will be translated into C++ call <code>someFn($in1, $in2, $in0)</code>.</p><h5 id=customizing-entire-op-building>Customizing entire op building</h5><p><code>NativeCodeCall</code> is not only limited to transforming arguments for building an
 op; it can be also used to specify how to build an op entirely. An example:</p><p>If we have a C++ function for building an op:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>Operation</span> <span class=o>*</span><span class=nf>createMyOp</span><span class=p>(</span><span class=n>OpBuilder</span> <span class=n>builder</span><span class=p>,</span> <span class=n>Value</span> <span class=n>input</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>);</span>
-</code></pre></div><p>We can wrap it up and invoke it like:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def createMyOp : NativeCodeCall&lt;&#34;createMyOp($_builder, $0, $1)&#34;&gt;;
+</code></pre></div><p>We can wrap it up and invoke it like:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def createMyOp : NativeCodeCall&lt;&#34;createMyOp($_builder, $0, $1)&#34;&gt;;
 
 def : Pat&lt;(... $input, $attr), (createMyOp $input, $attr)&gt;;</code></pre></div><h3 id=supporting-auxiliary-ops>Supporting auxiliary ops</h3><p>A declarative rewrite rule supports multiple result patterns. One of the
 purposes is to allow generating <em>auxiliary ops</em>. Auxiliary ops are operations
@@ -224,7 +224,7 @@ want to allocate memory and store some computation (in pseudocode):</p><div clas
 %sum = addi %lhs, %rhs
 store %mem, %sum
 %dst = load %mem</code></pre></div><p>We cannot fit in with just one result pattern given <code>store</code> does not return a
-value. Instead we can use multiple result patterns:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pattern&lt;(AddIOp $lhs, $rhs),
+value. Instead we can use multiple result patterns:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def : Pattern&lt;(AddIOp $lhs, $rhs),
               [(StoreOp (AllocOp:$mem (ShapeOp %lhs)), (AddIOp $lhs, $rhs)),
                (LoadOp $mem)];</code></pre></div><p>In the above we use the first result pattern to generate the first four ops, and
 use the last pattern to generate the last op, which is used to replace the
@@ -234,7 +234,7 @@ indicate that an op generates multiple results. The approach adopted is based
 on <strong>naming convention</strong>: a <code>__N</code> suffix is added to a symbol to indicate the
 <code>N</code>-th result.</p><h4 id=n-suffix><code>__N</code> suffix</h4><p>The <code>__N</code> suffix is specifying the <code>N</code>-th result as a whole (which can be
 <a href=#supporting-variadic-ops>variadic</a>). For example, we can bind a symbol to some
-multi-result op and reference a specific result later:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def ThreeResultOp : Op&lt;&#34;three_result_op&#34;&gt; {
+multi-result op and reference a specific result later:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def ThreeResultOp : Op&lt;&#34;three_result_op&#34;&gt; {
     let arguments = (ins ...);
 
     let results = (outs
@@ -248,7 +248,7 @@ def : Pattern&lt;(ThreeResultOp:$results ...),
               [(... $results__0), ..., (... $results__2), ...]&gt;;</code></pre></div><p>In the above pattern we bind <code>$results</code> to all the results generated by
 <code>ThreeResultOp</code> and references its <code>$input1</code> and <code>$input3</code> later in the result
 patterns.</p><p>We can also bind a symbol and reference one of its specific result at the same
-time, which is typically useful when generating multi-result ops:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>// TwoResultOp has similar definition as ThreeResultOp, but only has two
+time, which is typically useful when generating multi-result ops:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>// TwoResultOp has similar definition as ThreeResultOp, but only has two
 // results.
 
 def : Pattern&lt;(TwoResultOp ...),
@@ -262,7 +262,7 @@ last <code>N</code> declared values will be used to replace the matched op. Note
 because of the existence of multi-result op, one result pattern <strong>may</strong> generate
 multiple declared values. So it means we do not necessarily need <code>N</code> result
 patterns to replace an <code>N</code>-result op. For example, to replace an op with three
-results, you can have</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>// ThreeResultOp/TwoResultOp/OneResultOp generates three/two/one result(s),
+results, you can have</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>// ThreeResultOp/TwoResultOp/OneResultOp generates three/two/one result(s),
 // respectively.
 
 // Replace each result with a result generated from an individual op.
@@ -280,12 +280,12 @@ def : Pattern&lt;(ThreeResultOp ...),
               [(AuxiliaryOp ...), (ThreeResultOp ...)]&gt;;</code></pre></div><p>But using a single op to serve as both auxiliary op and replacement op is
 forbidden, i.e., the following is not allowed because that the first
 <code>TwoResultOp</code> generates two results but only the second result is used for
-replacing the matched op&rsquo;s result:</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def : Pattern&lt;(ThreeResultOp ...),
+replacing the matched op&rsquo;s result:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def : Pattern&lt;(ThreeResultOp ...),
               [(TwoResultOp ...), (TwoResultOp ...)]&gt;;</code></pre></div><h3 id=supporting-variadic-ops>Supporting variadic ops</h3><h4 id=declared-vs-actual-value>Declared vs. actual value</h4><p>Before going into details on variadic op support, we need to define a few terms
 regarding an op&rsquo;s values.</p><ul><li><em>Value</em>: either an operand or a result</li><li><em>Declared operand/result/value</em>: an operand/result/value statically declared
 in ODS of the op</li><li><em>Actual operand/result/value</em>: an operand/result/value of an op instance at
 runtime</li></ul><p>The above terms are needed because ops can have multiple results, and some of the
-results can also be variadic. For example,</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def MultiVariadicOp : Op&lt;&#34;multi_variadic_op&#34;&gt; {
+results can also be variadic. For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def MultiVariadicOp : Op&lt;&#34;multi_variadic_op&#34;&gt; {
     let arguments = (ins
       AnyTensor:$input1,
       Variadic&lt;AnyTensor&gt;:$input2,
@@ -304,7 +304,7 @@ results. A variadic operand/result is a considered as a declared value that can
 correspond to multiple actual values.</p><p>[TODO]</p><h3 id=supplying-additional-constraints>Supplying additional constraints</h3><p>Constraints can be placed on op arguments when matching. But sometimes we need
 to also place constraints on the matched op&rsquo;s results or sometimes need to limit
 the matching with some constraints that cover both the arguments and the
-results. The third parameter to <code>Pattern</code> (and <code>Pat</code>) is for this purpose.</p><p>For example, we can write</p><div class=highlight><pre class=chroma><code class=language-tblgen data-lang=tblgen>def HasNoUseOf: Constraint&lt;
+results. The third parameter to <code>Pattern</code> (and <code>Pat</code>) is for this purpose.</p><p>For example, we can write</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def HasNoUseOf: Constraint&lt;
     CPred&lt;&#34;$_self-&gt;use_begin() == $_self-&gt;use_end()&#34;&gt;, &#34;has no use&#34;&gt;;
 
 def HasSameElementType : Constraint&lt;
@@ -331,4 +331,4 @@ can be found via <code>mlir-tblgen --help</code>.</p><p>To see the generated cod
 providing include paths via <code>-I</code>. For example,</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh>mlir-tblgen --gen-rewriters -I /path/to/mlir/include /path/to/input/td/file</code></pre></div><h3 id=compilation-error-no-matching-member-function-for-call-to-build>Compilation error: no matching member function for call to &lsquo;build&rsquo;</h3><p>This is because DRR is failing to call a <code>build()</code> method with result type
 deduction ability. See <a href=#building-operations>building operations</a> for more
 details.</p><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/website/content/docs/DeclarativeRewrites.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/Tutorials/Toy/Ch-7/ title="Chapter 7: Adding a Composite Type to Toy"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Chapter 7: Adding a Composite Type to Toy</a>
-<a class="nav nav-next" href=/docs/Dialects/ title=Dialects>Next - Dialects <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a &lt;em&gt;simplified&lt;/em&gt; polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li class=active><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
+<a class="nav nav-next" href=/docs/Dialects/ title=Dialects>Next - Dialects <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li class=active><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

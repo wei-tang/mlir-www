@@ -11,16 +11,16 @@ and rewrite. Finally, languages with construction at a higher-level than C/C++
 may require non-trivial lowering from their AST to generate LLVM IR.</p><p>As a consequence, multiple frontends end up reimplementing significant pieces of
 infrastructure to support the need for these analyses and transformation. MLIR
 addresses this issue by being designed for extensibility. As such, there are few
-pre-defined instructions (<em>operations</em> in MLIR terminology) or types.</p><h2 id=interfacing-with-mlir>Interfacing with MLIR</h2><p><a href=../../LangRef.md>Language reference</a></p><p>MLIR is designed to be a completely extensible infrastructure; there is no
+pre-defined instructions (<em>operations</em> in MLIR terminology) or types.</p><h2 id=interfacing-with-mlir>Interfacing with MLIR</h2><p><a href=/docs/LangRef/>Language reference</a></p><p>MLIR is designed to be a completely extensible infrastructure; there is no
 closed set of attributes (think: constant metadata), operations, or types. MLIR
 supports this extensibility with the concept of
-<a href=../../LangRef.md#dialects>Dialects</a>. Dialects provide a grouping mechanism for
-abstraction under a unique <code>namespace</code>.</p><p>In MLIR, <a href=../../LangRef.md#operations><code>Operations</code></a> are the core unit of
+<a href=/docs/LangRef/#dialects>Dialects</a>. Dialects provide a grouping mechanism for
+abstraction under a unique <code>namespace</code>.</p><p>In MLIR, <a href=/docs/LangRef/#operations><code>Operations</code></a> are the core unit of
 abstraction and computation, similar in many ways to LLVM instructions.
 Operations can have application-specific semantics and can be used to represent
 all of the core IR structures in LLVM: instructions, globals (like functions),
 modules, etc.</p><p>Here is the MLIR assembly for the Toy <code>transpose</code> operations:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>%t_tensor = &#34;toy.transpose&#34;(%tensor) {inplace = true} : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt; loc(&#34;example/file/path&#34;:12:1)</code></pre></div><p>Let&rsquo;s break down the anatomy of this MLIR operation:</p><ul><li><p><code>%t_tensor</code></p><ul><li>The name given to the result defined by this operation (which includes
-<a href=../../LangRef.md#identifiers-and-keywords>a prefixed sigil to avoid collisions</a>).
+<a href=/docs/LangRef/#identifiers-and-keywords>a prefixed sigil to avoid collisions</a>).
 An operation may define zero or more results (in the context of Toy, we
 will limit ourselves to single-result operations), which are SSA values.
 The name is used during parsing but is not persistent (e.g., it is not
@@ -35,9 +35,9 @@ values afterward.</li></ul></li><li><p><code>loc(&quot;example/file/path&quot;:1
 originated.</li></ul></li></ul><p>Shown here is the general form of an operation. As described above, the set of
 operations in MLIR is extensible. This means that the infrastructure must be
 able to opaquely reason about the structure of an operation. This is done by
-boiling down the composition of an operation into discrete pieces:</p><ul><li>A name for the operation.</li><li>A list of SSA operand values.</li><li>A list of <a href=../../LangRef.md#attributes>attributes</a>.</li><li>A list of <a href=../../LangRef.md#type-system>types</a> for result values.</li><li>A <a href=../../Diagnostics.md#source-locations>source location</a> for debugging
-purposes.</li><li>A list of successors <a href=../../LangRef.md#blocks>blocks</a> (for branches,
-mostly).</li><li>A list of <a href=../../LangRef.md#regions>regions</a> (for structural operations
+boiling down the composition of an operation into discrete pieces:</p><ul><li>A name for the operation.</li><li>A list of SSA operand values.</li><li>A list of <a href=/docs/LangRef/#attributes>attributes</a>.</li><li>A list of <a href=/docs/LangRef/#type-system>types</a> for result values.</li><li>A <a href=/docs/Diagnostics/#source-locations>source location</a> for debugging
+purposes.</li><li>A list of successors <a href=/docs/LangRef/#blocks>blocks</a> (for branches,
+mostly).</li><li>A list of <a href=/docs/LangRef/#regions>regions</a> (for structural operations
 like functions).</li></ul><p>In MLIR, every operation has a mandatory source location associated with it.
 Contrary to LLVM, where debug info locations are metadata and can be dropped, in
 MLIR, the location is a core requirement, and APIs depend on and manipulate it.
@@ -49,7 +49,7 @@ compiler passes - does not include locations in the output by default. The
 --help</code> for more options.)</p><h3 id=opaque-api>Opaque API</h3><p>MLIR is designed to be a completely extensible system, and as such, the
 infrastructure has the capability to opaquely represent all of its core
 components: attributes, operations, types, etc. This allows MLIR to parse,
-represent, and <a href=../../Glossary.md#round-trip>round-trip</a> any valid IR. For
+represent, and <a href=/getting_started/Glossary/#round-trip>round-trip</a> any valid IR. For
 example, we could place our Toy operation from above into an <code>.mlir</code> file and
 round-trip through <em>mlir-opt</em> without registering anything:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>func @toy_func(%tensor: tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt; {
   %t_tensor = &#34;toy.transpose&#34;(%tensor) { inplace = true } : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
@@ -86,11 +86,11 @@ provide an easy avenue for high-level analysis and transformation.</p><div class
 dialect and invoke specific hooks for things like parsing attributes and types.</p><h2 id=defining-toy-operations>Defining Toy Operations</h2><p>Now that we have a <code>Toy</code> dialect, we can start registering operations. This will
 allow for providing semantic information that the rest of the system can hook
 into. Let&rsquo;s walk through the creation of the <code>toy.constant</code> operation:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir> %4 = &#34;toy.constant&#34;() {value = dense&lt;1.0&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;</code></pre></div><p>This operation takes zero operands, a
-<a href=../../LangRef.md#dense-elements-attribute>dense elements</a> attribute named
+<a href=/docs/LangRef/#dense-elements-attribute>dense elements</a> attribute named
 <code>value</code>, and returns a single result of
-<a href=../../LangRef.md#tensor-type>TensorType</a>. An operation inherits from the
+<a href=/docs/LangRef/#tensor-type>TensorType</a>. An operation inherits from the
 <a href=https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern>CRTP</a>
-<code>mlir::Op</code> class which also takes some optional <a href=../../Traits.md><em>traits</em></a> to
+<code>mlir::Op</code> class which also takes some optional <a href=/docs/Traits/><em>traits</em></a> to
 customize its behavior. These traits may provide additional accessors,
 verification, etc.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>ConstantOp</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>::</span><span class=n>Op</span><span class=o>&lt;</span><span class=n>ConstantOp</span><span class=p>,</span>
                      <span class=c1>/// The ConstantOp takes zero inputs.
@@ -162,7 +162,7 @@ casting infrastructure:</p><div class=highlight><pre class=chroma><code class=la
 <span class=p>}</span>
 </code></pre></div><h3 id=using-the-operation-definition-specification-ods-framework>Using the Operation Definition Specification (ODS) Framework</h3><p>In addition to specializing the <code>mlir::Op</code> C++ template, MLIR also supports
 defining operations in a declarative manner. This is achieved via the
-<a href=../../OpDefinitions.md>Operation Definition Specification</a> framework. Facts
+<a href=/docs/OpDefinitions/>Operation Definition Specification</a> framework. Facts
 regarding an operation are specified concisely into a TableGen record, which
 will be expanded into an equivalent <code>mlir::Op</code> C++ template specialization at
 compile time. Using the ODS framework is the desired way for defining operations
@@ -190,7 +190,7 @@ class Toy_Op&lt;string mnemonic, list&lt;OpTrait&gt; traits = []&gt; :
     Op&lt;Toy_Dialect, mnemonic, traits&gt;;</code></pre></div><p>With all of the preliminary pieces defined, we can begin to define the constant
 operation.</p><p>We define a toy operation by inheriting from our base &lsquo;Toy_Op&rsquo; class above. Here
 we provide the mnemonic and a list of traits for the operation. The
-<a href=../../OpDefinitions.md#operation-name>mnemonic</a> here matches the one given in
+<a href=/docs/OpDefinitions/#operation-name>mnemonic</a> here matches the one given in
 <code>ConstantOp::getOperationName</code> without the dialect prefix; <code>toy.</code>. The constant
 operation here is also marked as &lsquo;NoSideEffect&rsquo;. This is an ODS trait, and
 matches one-to-one with the trait we providing when defining <code>ConstantOp</code>:
@@ -199,12 +199,11 @@ matches one-to-one with the trait we providing when defining <code>ConstantOp</c
 based upon the <code>arguments</code> and <code>results</code> fields we define later.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&#34;constant&#34;, [NoSideEffect]&gt; {
 }</code></pre></div><p>At this point you probably might want to know what the C++ code generated by
 TableGen looks like. Simply run the <code>mlir-tblgen</code> command with the
-<code>gen-op-decls</code> or the <code>gen-op-defs</code> action like so:</p><pre><code>${build_root}/bin/mlir-tblgen -gen-op-defs ${mlir_src_root}/examples/toy/Ch2/include/toy/Ops.td -I ${mlir_src_root}/include/
-</code></pre><p>Depending on the selected action, this will print either the <code>ConstantOp</code> class
+<code>gen-op-decls</code> or the <code>gen-op-defs</code> action like so:</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell><span class=si>${</span><span class=nv>build_root</span><span class=si>}</span>/bin/mlir-tblgen -gen-op-defs <span class=si>${</span><span class=nv>mlir_src_root</span><span class=si>}</span>/examples/toy/Ch2/include/toy/Ops.td -I <span class=si>${</span><span class=nv>mlir_src_root</span><span class=si>}</span>/include/</code></pre></div><p>Depending on the selected action, this will print either the <code>ConstantOp</code> class
 declaration or its implementation. Comparing this output to the hand-crafted
 implementation is incredibly useful when getting started with TableGen.</p><h4 id=defining-arguments-and-results>Defining Arguments and Results</h4><p>With the shell of the operation defined, we can now provide the
-<a href=../../OpDefinitions.md#operation-arguments>inputs</a> and
-<a href=../../OpDefinitions.md#operation-results>outputs</a> to our operation. The
+<a href=/docs/OpDefinitions/#operation-arguments>inputs</a> and
+<a href=/docs/OpDefinitions/#operation-results>outputs</a> to our operation. The
 inputs, or arguments, to an operation may be attributes or types for SSA operand
 values. The results correspond to a set of types for the values produced by the
 operation:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&#34;constant&#34;, [NoSideEffect]&gt; {
@@ -219,7 +218,7 @@ operation:</p><div class=highlight><pre class=chroma><code class=language-tableg
 automatically generate a matching accessor: <code>DenseElementsAttr
 ConstantOp::value()</code>.</p><h4 id=adding-documentation>Adding Documentation</h4><p>The next step after defining the operation is to document it. Operations may
 provide
-<a href=../../OpDefinitions.md#operation-documentation><code>summary</code> and <code>description</code></a>
+<a href=/docs/OpDefinitions/#operation-documentation><code>summary</code> and <code>description</code></a>
 fields to describe the semantics of the operation. This information is useful
 for users of the dialect and can even be used to auto-generate Markdown
 documents.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&#34;constant&#34;, [NoSideEffect]&gt; {
@@ -249,7 +248,7 @@ necessary verification logic based upon the constraints we have given. This
 means that we don&rsquo;t need to verify the structure of the return type, or even the
 input attribute <code>value</code>. In many cases, additional verification is not even
 necessary for ODS operations. To add additional verification logic, an operation
-can override the <a href=../../OpDefinitions.md#custom-verifier-code><code>verifier</code></a>
+can override the <a href=/docs/OpDefinitions/#custom-verifier-code><code>verifier</code></a>
 field. The <code>verifier</code> field allows for defining a C++ code blob that will be run
 as part of <code>ConstantOp::verify</code>. This blob can assume that all of the other
 invariants of the operation have already been verified:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&#34;constant&#34;, [NoSideEffect]&gt; {
@@ -281,7 +280,7 @@ invariants of the operation have already been verified:</p><div class=highlight>
 }</code></pre></div><h4 id=attaching-build-methods>Attaching <code>build</code> Methods</h4><p>The final missing component here from our original C++ example are the <code>build</code>
 methods. ODS can generate some simple build methods automatically, and in this
 case it will generate our first build method for us. For the rest, we define the
-<a href=../../OpDefinitions.md#custom-builder-methods><code>builders</code></a> field. This field
+<a href=/docs/OpDefinitions/#custom-builder-methods><code>builders</code></a> field. This field
 takes a list of <code>OpBuilder</code> objects that take a string corresponding to a list
 of C++ parameters, as well as an optional code block that can be used to specify
 the implementation inline.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&#34;constant&#34;, [NoSideEffect]&gt; {
@@ -329,8 +328,8 @@ the implementation inline.</p><div class=highlight><pre class=chroma><code class
 }</code></pre></div><p>Above we introduce several of the concepts for defining operations in the ODS
 framework, but there are many more that we haven&rsquo;t had a chance to: regions,
 variadic operands, etc. Check out the
-<a href=../../OpDefinitions.md>full specification</a> for more details.</p><h2 id=complete-toy-example>Complete Toy Example</h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
-example:</p><div class=highlight><pre class=chroma><code class=language-.toy data-lang=.toy>def multiply_transpose(a, b) {
+<a href=/docs/OpDefinitions/>full specification</a> for more details.</p><h2 id=complete-toy-example>Complete Toy Example</h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
+example:</p><div class=highlight><pre class=chroma><code class=language-toy data-lang=toy>def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);
 }
 
@@ -363,6 +362,6 @@ check our RoundTrip: <code>toyc-ch2 test/Examples/Toy/Ch2/codegen.toy -emit=mlir
 -mlir-print-debuginfo 2&gt; codegen.mlir</code> followed by <code>toyc-ch2 codegen.mlir
 -emit=mlir</code>. You should also use <code>mlir-tblgen</code> on the final definition file and
 study the generated C++ code.</p><p>At this point, MLIR knows about our Toy dialect and operations. In the
-<a href=Ch-3.md>next chapter</a>, we will leverage our new dialect to implement some
+<a href=/docs/Tutorials/Toy/Ch-3/>next chapter</a>, we will leverage our new dialect to implement some
 high-level language-specific analyses and transformations for the Toy language.</p><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/website/content/docs/Tutorials/Toy/Ch-2.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/Tutorials/Toy/Ch-1/ title="Chapter 1: Toy Tutorial Introduction"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Chapter 1: Toy Tutorial Introduction</a>
-<a class="nav nav-next" href=/docs/Tutorials/Toy/Ch-3/ title="Chapter 3: High-level Language-Specific Analysis and Transformation">Next - Chapter 3: High-level Language-Specific Analysis and Transformation <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/Tutorials/Toy/>Toy<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li class=active><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a &lt;em&gt;simplified&lt;/em&gt; polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
+<a class="nav nav-next" href=/docs/Tutorials/Toy/Ch-3/ title="Chapter 3: High-level Language-Specific Analysis and Transformation">Next - Chapter 3: High-level Language-Specific Analysis and Transformation <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/Tutorials/Toy/>Toy<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li class=active><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

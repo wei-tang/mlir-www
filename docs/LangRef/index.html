@@ -9,8 +9,8 @@ dataflow graphs as well as target-specific code generated for high performance
 data parallel systems. Beyond its representational capabilities, its single
 continuous design provides a framework to lower from dataflow graphs to
 high-performance target-specific code.</p><p>This document defines and describes the key concepts in MLIR, and is intended to
-be a dry reference document - the <a href=Rationale.md>rationale documentation</a>,
-<a href=Glossary.md>glossary</a>, and other content are hosted elsewhere.</p><p>MLIR is designed to be used in three different forms: a human-readable textual
+be a dry reference document - the <a href=/docs/Rationale/>rationale documentation</a>,
+<a href=/getting_started/Glossary/>glossary</a>, and other content are hosted elsewhere.</p><p>MLIR is designed to be used in three different forms: a human-readable textual
 form suitable for debugging, an in-memory form suitable for programmatic
 transformations and analysis, and a compact serialized form suitable for storage
 and transport. The different forms all describe the same semantic content. This
@@ -135,11 +135,11 @@ identifiers and mapping identifiers are visible across the entire module.</p><h2
 ecosystem. They allow for defining new <a href=#operations>operations</a>, as well as
 <a href=#attributes>attributes</a> and <a href=#type-system>types</a>. Each dialect is given a
 unique <code>namespace</code> that is prefixed to each defined attribute/operation/type.
-For example, the <a href=Dialects/Affine.md>Affine dialect</a> defines the namespace:
+For example, the <a href=/docs/Dialects/Affine/>Affine dialect</a> defines the namespace:
 <code>affine</code>.</p><p>MLIR allows for multiple dialects, even those outside of the main tree, to
 co-exist together within one module. Dialects are produced and consumed by
-certain passes. MLIR provides a <a href=DialectConversion.md>framework</a> to convert
-between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=Dialects/Affine.md>Affine dialect</a></li><li><a href=Dialects/GPU.md>GPU dialect</a></li><li><a href=Dialects/LLVM.md>LLVM dialect</a></li><li><a href=Dialects/SPIR-V.md>SPIR-V dialect</a></li><li><a href=Dialects/Standard.md>Standard dialect</a></li><li><a href=Dialects/Vector.md>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations</h3><p>Dialects provide a modular way in which targets can expose target-specific
+certain passes. MLIR provides a <a href=/docs/DialectConversion/>framework</a> to convert
+between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=/docs/Dialects/Affine/>Affine dialect</a></li><li><a href=/docs/Dialects/GPU/>GPU dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations</h3><p>Dialects provide a modular way in which targets can expose target-specific
 operations directly through to MLIR. As an example, some targets go through
 LLVM. LLVM has a rich set of intrinsics for certain target-independent
 operations (e.g. addition with overflow check) as well as providing access to
@@ -162,8 +162,8 @@ trailing-location ::= (`loc` `(` location `)`)?
 different levels of abstractions and computations. Operations in MLIR are fully
 extensible (there is no fixed list of operations) and have application-specific
 semantics. For example, MLIR supports
-<a href=Dialects/Standard.md#memory-operations>target-independent operations</a>,
-<a href=Dialects/Affine.md>affine operations</a>, and
+<a href=/docs/Dialects/Standard/#memory-operations>target-independent operations</a>,
+<a href=/docs/Dialects/Affine/>affine operations</a>, and
 <a href=#target-specific-operations>target-specific machine operations</a>.</p><p>The internal representation of an operation is simple: an operation is
 identified by a unique string (e.g. <code>dim</code>, <code>tf.Conv2d</code>, <code>x86.repmovsb</code>,
 <code>ppc.eieio</code>, etc), can return zero or more results, take zero or more SSA
@@ -182,7 +182,7 @@ types of the results and operands.</p><p>Example:</p><div class=highlight><pre c
 %2 = &#34;tf.scramble&#34;(%result#0, %bar) {fruit: &#34;banana&#34;} : (f32, i32) -&gt; f32</code></pre></div><p>In addition to the basic syntax above, dialects may register known operations.
 This allows those dialects to support <em>custom assembly form</em> for parsing and
 printing operations. In the operation sets listed below, we show both forms.</p><h3 id=terminator-operations>Terminator Operations</h3><p>These are a special category of operations that <em>must</em> terminate a block, e.g.
-<a href=Dialects/Standard.md#terminator-operations>branches</a>. These operations may
+<a href=/docs/Dialects/Standard/#terminator-operations>branches</a>. These operations may
 also have a list of successors (<a href=#blocks>blocks</a> and their arguments).</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Branch to ^bb1 or ^bb2 depending on the condition %cond.
 // Pass value %v to ^bb2, but not to ^bb1.
 &#34;cond_br&#34;(%cond)[^bb1, ^bb2(%v : index)] : (i1) -&gt; ()</code></pre></div><h3 id=module>Module</h3><pre><code>module ::= `module` symbol-ref-id? (`attributes` attribute-dict)? region
@@ -274,7 +274,7 @@ cases from the IR compared to traditional &ldquo;PHI nodes are operations&rdquo;
 <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.524.5461&amp;rep=rep1&amp;type=pdf">parallel copy semantics</a>
 of SSA is immediately apparent, and function arguments are no longer a special
 case: they become arguments to the entry block
-[<a href=Rationale.md#block-arguments-vs-phi-nodes>more rationale</a>].</p><h2 id=regions>Regions</h2><h3 id=definition>Definition</h3><p>A region is a CFG of MLIR <a href=#blocks>Blocks</a>. Regions serve to group semantically
+[<a href=/docs/Rationale/#block-arguments-vs-phi-nodes>more rationale</a>].</p><h2 id=regions>Regions</h2><h3 id=definition>Definition</h3><p>A region is a CFG of MLIR <a href=#blocks>Blocks</a>. Regions serve to group semantically
 connected blocks, where the semantics is not imposed by the IR. Instead, the
 containing operation defines the semantics of the regions it contains. Regions
 do not have a name or an address, only the blocks contained in a region do.
@@ -399,7 +399,7 @@ lighter weight syntax that is equivalent to the above forms:</p><div class=highl
 generality. For example, the more complex type shown above wouldn&rsquo;t be valid in
 the lighter syntax: <code>!foo.something&lt;a%%123^^^&gt;&gt;&gt;</code> because it contains characters
 that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;&gt;</code>
-characters.</p><p>See <a href=DefiningAttributesAndTypes.md>here</a> to learn how to define dialect types.</p><h3 id=standard-types>Standard Types</h3><p>Standard types are a core set of <a href=#dialect-types>dialect types</a> that are
+characters.</p><p>See <a href=/docs/DefiningAttributesAndTypes/>here</a> to learn how to define dialect types.</p><h3 id=standard-types>Standard Types</h3><p>Standard types are a core set of <a href=#dialect-types>dialect types</a> that are
 defined in a builtin dialect and thus available to all users of MLIR.</p><pre><code>standard-type ::=     complex-type
                     | float-type
                     | function-type
@@ -423,18 +423,18 @@ function-result-type ::= type-list-parens
 
 function-type ::= type-list-parens `-&gt;` function-result-type
 </code></pre><p>MLIR supports first-class functions: for example, the
-<a href=Dialects/Standard.md#constant-operation><code>constant</code> operation</a> produces the
+<a href=/docs/Dialects/Standard/#constant-operation><code>constant</code> operation</a> produces the
 address of a function as an SSA value. This SSA value may be passed to and
 returned from functions, merged across control flow boundaries with
 <a href=#blocks>block arguments</a>, and called with the
-<a href=Dialects/Standard.md#call-indirect-operation><code>call_indirect</code> operation</a>.</p><p>Function types are also used to indicate the arguments and results of
+<a href=/docs/Dialects/Standard/#call-indirect-operation><code>call_indirect</code> operation</a>.</p><p>Function types are also used to indicate the arguments and results of
 <a href=#operations>operations</a>.</p><h4 id=index-type>Index Type</h4><p>Syntax:</p><pre><code>// Target word-sized integer.
 index-type ::= `index`
 </code></pre><p>The <code>index</code> type is a signless integer whose size is equal to the natural
-machine word of the target (<a href=Rationale.md#signless-types>rationale</a>) and is
+machine word of the target (<a href=/docs/Rationale/#signless-types>rationale</a>) and is
 used by the affine constructs in MLIR. Unlike fixed-size integers, it cannot be
 used as an element of vector, tensor or memref type
-(<a href=Rationale.md#index-type-disallowed-in-vectortensormemref-types>rationale</a>).</p><p><strong>Rationale:</strong> integers of platform-specific bit widths are practical to express
+(<a href=/docs/Rationale/#index-type-disallowed-in-vectortensormemref-types>rationale</a>).</p><p><strong>Rationale:</strong> integers of platform-specific bit widths are practical to express
 sizes, dimensionalities and subscripts.</p><h4 id=integer-type>Integer Type</h4><p>Syntax:</p><pre><code>// Sized integers like i1, i4, i8, i16, i32.
 integer-type ::= `i` [1-9][0-9]*
 </code></pre><p>MLIR supports arbitrary precision integer types. Integer types are signless, but
@@ -442,7 +442,7 @@ have a designated width.</p><p><strong>Rationale:</strong> low precision integer
 low-precision inference chips, and arbitrary precision integers are useful for
 hardware synthesis (where a 13 bit multiplier is a lot cheaper/smaller than a 16
 bit one).</p><p>TODO: Need to decide on a representation for quantized integers
-(<a href=Rationale.md#quantized-integer-operations>initial thoughts</a>).</p><h4 id=memref-type>Memref Type</h4><p>Syntax:</p><pre><code>memref-type ::= ranked-memref-type | unranked-memref-type
+(<a href=/docs/Rationale/#quantized-integer-operations>initial thoughts</a>).</p><h4 id=memref-type>Memref Type</h4><p>Syntax:</p><pre><code>memref-type ::= ranked-memref-type | unranked-memref-type
 
 ranked-memref-type ::= `memref` `&lt;` dimension-list-ranked tensor-memref-element-type
                       (`,` layout-specification)? |
@@ -494,7 +494,7 @@ memref&lt;16x32x64xf32&gt; call @helper_2D(%A) : (memref&lt;16x32xf32&gt;)-&gt;(
 // call same function with dynamic ranks
 call @helper(%A_u) : (memref&lt;*xf32&gt;)-&gt;()
 call @helper(%B_u) : (memref&lt;*xf32&gt;)-&gt;()</code></pre></div><p>The core syntax and representation of a layout specification is a
-<a href=Dialects/Affine.md#semi-affine-maps>semi-affine map</a>. Additionally, syntactic
+<a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a>. Additionally, syntactic
 sugar is supported to make certain layout specifications more intuitive to read.
 For the moment, a <code>memref</code> supports parsing a strided form which is converted to
 a semi-affine map automatically.</p><p>The memory space of a memref is specified by a target-specific integer index. If
@@ -564,7 +564,7 @@ multidimensional index space defined by the memref&rsquo;s dimension list.</p><p
 
 // Loads data from memref &#39;%A&#39; using a 2D index: (%i, %j)
 %v = load %A[%i, %j] : memref&lt;16x32xf32, #imapA, memspace0&gt;</code></pre></div><h5 id=index-map>Index Map</h5><p>An index map is a one-to-one
-<a href=Dialects/Affine.md#semi-affine-maps>semi-affine map</a> that transforms a
+<a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a> that transforms a
 multidimensional index from one index space to another. For example, the
 following figure shows an index map which maps a 2-dimensional index from a 2x2
 index space to a 3x3 index space, using symbols <code>S0</code> and <code>S1</code> as offsets.</p><p><img src=includes/img/index-map.svg alt="Index Map Example"></p><p>The number of domain dimensions and range dimensions of an index map can be
@@ -572,7 +572,7 @@ different, but must match the number of dimensions of the input and output index
 spaces on which the map operates. The index space is always non-negative and
 integral. In addition, an index map must specify the size of each of its range
 dimensions onto which it maps. Index map symbols must be listed in order with
-symbols for dynamic dimension sizes first, followed by other required symbols.</p><h5 id=layout-map>Layout Map</h5><p>A layout map is a <a href=Dialects/Affine.md#semi-affine-maps>semi-affine map</a> which
+symbols for dynamic dimension sizes first, followed by other required symbols.</p><h5 id=layout-map>Layout Map</h5><p>A layout map is a <a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a> which
 encodes logical to physical index space mapping, by mapping input dimensions to
 their ordering from most-major (slowest varying) to most-minor (fastest
 varying). Therefore, an identity layout map corresponds to a row-major layout.
@@ -593,7 +593,7 @@ conformant: the number of dimensions of the range of one map, must match the
 number of dimensions of the domain of the next map in the composition.</p><p>The semi-affine map composition specified in the memref type, maps from accesses
 used to index the memref in load/store operations to other index spaces (i.e.
 logical to physical index mapping). Each of the
-<a href=Dialects/Affine.md>semi-affine maps</a> and thus its composition is required to
+<a href=/docs/Dialects/Affine/>semi-affine maps</a> and thus its composition is required to
 be one-to-one.</p><p>The semi-affine map composition can be used in dependence analysis, memory
 access pattern analysis, and for performance optimizations like vectorization,
 copy elision and in-place updates. If an affine map composition is not specified
@@ -631,7 +631,7 @@ you cannot control layout or get a pointer to the data. For low level buffer
 access, MLIR has a <a href=#memref-type><code>memref</code> type</a>. This abstracted runtime
 representation holds both the tensor data values as well as information about
 the (potentially dynamic) shape of the tensor. The
-<a href=Dialects/Standard.md#dim-operation><code>dim</code> operation</a> returns the size of a
+<a href=/docs/Dialects/Standard/#dim-operation><code>dim</code> operation</a> returns the size of a
 dimension from a value of tensor type.</p><p>Note: hexadecimal integer literals are not allowed in tensor type declarations
 to avoid confusion between <code>0xf32</code> and <code>0 x f32</code>. Zero sizes are allowed in
 tensors and treated as other sizes, e.g., <code>tensor&lt;0 x 1 x i32&gt;</code> and <code>tensor&lt;1 x
@@ -659,7 +659,7 @@ tensor&lt;0xf32&gt;</code></pre></div><h4 id=tuple-type>Tuple Type</h4><p>Syntax
 </code></pre><p>The value of <code>tuple</code> type represents a fixed-size collection of elements, where
 each element may be of a different type.</p><p><strong>Rationale:</strong> Though this type is first class in the type system, MLIR provides
 no standard operations for operating on <code>tuple</code> types
-(<a href=Rationale.md#tuple-types>rationale</a>).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Empty tuple.
+(<a href=/docs/Rationale/#tuple-types>rationale</a>).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>// Empty tuple.
 tuple&lt;&gt;
 
 // Single element
@@ -683,7 +683,7 @@ dependent-attribute-entry ::= dependent-attribute-name `=` attribute-value
 dependent-attribute-name ::= (letter|[_]) (letter|digit|[_$])*
 </code></pre><p>Attributes are the mechanism for specifying constant data on operations in
 places where a variable is never allowed - e.g. the index of a
-<a href=Dialects/Standard.md#dim-operation><code>dim</code> operation</a>, or the stride of a
+<a href=/docs/Dialects/Standard/#dim-operation><code>dim</code> operation</a>, or the stride of a
 convolution. They consist of a name and a concrete attribute value. The set of
 expected attributes, their structure, and their interpretation are all
 contextually dependent on what they are attached to.</p><p>There are two main classes of attributes: dependent and dialect. Dependent
@@ -721,7 +721,7 @@ lighter weight syntax that is equivalent to the above forms:</p><div class=highl
 generality. For example, the more complex type shown above wouldn&rsquo;t be valid in
 the lighter syntax: <code>#foo.something&lt;a%%123^^^&gt;&gt;&gt;</code> because it contains characters
 that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;&gt;</code>
-characters.</p><p>See <a href=DefiningAttributesAndTypes.md>here</a> to learn how to define dialect
+characters.</p><p>See <a href=/docs/DefiningAttributesAndTypes/>here</a> to learn how to define dialect
 attribute values.</p><h3 id=standard-attribute-values>Standard Attribute Values</h3><p>Standard attributes are a core set of
 <a href=#dialect-attribute-values>dialect attributes</a> that are defined in a builtin
 dialect and thus available to all users of MLIR.</p><pre><code>standard-attribute ::=   affine-map-attribute
@@ -818,4 +818,4 @@ func @verbose_form(i1) attributes {dialectName.unitAttr = unit}
 
 // A unit attribute can also be defined without the value specifier.
 func @simple_form(i1) attributes {dialectName.unitAttr}</code></pre></div><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/website/content/docs/LangRef.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/Tutorials/Toy/Ch-7/ title="Chapter 7: Adding a Composite Type to Toy"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Chapter 7: Adding a Composite Type to Toy</a>
-<a class="nav nav-next" href=/docs/Dialects/ title=Dialects>Next - Dialects <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li class=active><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a &lt;em&gt;simplified&lt;/em&gt; polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
+<a class="nav nav-next" href=/docs/Dialects/ title=Dialects>Next - Dialects <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li class=active><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
