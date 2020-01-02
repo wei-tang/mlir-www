@@ -91,7 +91,7 @@ note will inherit the location of the parent diagnostic.</p><div class=highlight
 <span class=c1>// Emit a note that inherits the parent location.
 </span><span class=c1></span><span class=n>op</span><span class=o>-&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=s>&#34;...&#34;</span><span class=p>).</span><span class=n>attachNote</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=s>&#34;...&#34;</span><span class=p>;</span>
 </code></pre></div><h2 id=inflight-diagnostic>InFlight Diagnostic</h2><p>Now that <a href=#diagnostic>Diagnostics</a> have been explained, we introduce the
-<code>InFlightDiagnostic</code>. is an RAII wrapper around a diagnostic that is set to be
+<code>InFlightDiagnostic</code>, an RAII wrapper around a diagnostic that is set to be
 reported. This allows for modifying a diagnostic while it is still in flight. If
 it is not reported directly by the user it will automatically report when
 destroyed.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=p>{</span>
