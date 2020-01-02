@@ -1,11 +1,11 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect &#39;linalg&#39; definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/LinalgDoc/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
-MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Dialect &#39;linalg&#39; definition</h1><p>The <code>linalg</code> dialect groups together a set of types, operations and
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect 'linalg' definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/LinalgDoc/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Dialect 'linalg' definition</h1><p>The <code>linalg</code> dialect groups together a set of types, operations and
 transformations that are useful to implement a structured abstraction on
 buffers and tensors. These abstractions are useful for transformations and
 can lower to scalar load/store and other operations or to more general
 library calls.</p><p>The <code>linalg</code> dialect manipulates the following types and operations:</p><h3 id=core-data-types-and-special-ops>Core data types and special ops.</h3><p>The following abstractions are used by the <code>linalg</code> dialect:</p><h4 id=views>Views</h4><p>The current implementation uses the strided memref abstraction. In the
-future other abstractions than strided memref will be used.</p><h4 id=linalg-range><code>!linalg.range</code></h4><p>This data type is currently just a triple (<code>min</code>,<code>max</code>, <code>step</code>) that does
-not pass function boundaries.</p><h4 id=linalg-yield><code>linalg.yield</code></h4><p>This op is used as a terminator within the appropriate <code>linalg</code> regions.</p><p>In the future, richer <code>view</code> and <code>range</code> representations are expected, in
+future other abstractions than strided memref will be used.</p><h4 id=linalgrange><code>!linalg.range</code></h4><p>This data type is currently just a triple (<code>min</code>,<code>max</code>, <code>step</code>) that does
+not pass function boundaries.</p><h4 id=linalgyield><code>linalg.yield</code></h4><p>This op is used as a terminator within the appropriate <code>linalg</code> regions.</p><p>In the future, richer <code>view</code> and <code>range</code> representations are expected, in
 particular to represent sparse traversals.</p><h3 id=metadata-ops>Metadata Ops</h3><p>A set of ops that manipulate metadata but do not move memory. These ops take
 <code>view</code> operands + extra attributes and return new <code>view</code>s. The returned
 <code>view</code>s generally alias the operand <code>view</code>. At the moment the existing ops
@@ -19,7 +19,8 @@ are:</p><pre><code>* `std.view`,
 * `linalg.intersection`,
 * `linalg.convex_union`,
 * `linalg.difference` (would need to work on a list of views).
-</code></pre><h3 id=payload-ops>Payload Ops</h3><p>A set of payload carrying operations that implement the <a href="https://docs.google.com/presentation/d/1P-j1GrH6Q5gLBjao0afQ-GfvcAeF-QU4GXXeSy0eJ9I/edit#slide=id.p">structured ops</a>
+</code></pre><h3 id=payload-ops>Payload Ops</h3><p>A set of payload carrying operations that implement the
+<a href="https://docs.google.com/presentation/d/1P-j1GrH6Q5gLBjao0afQ-GfvcAeF-QU4GXXeSy0eJ9I/edit#slide=id.p">structured ops</a>
 abstraction on tensors and buffers. <code>linalg</code> has <code>2</code> generic operations
 <code>linalg.generic</code> and <code>linalg.indexed_generic</code> for expressing custom
 operations.
@@ -40,7 +41,9 @@ is also found in libraries such as <code>MKL</code>, <code>OpenBLAS</code>, <cod
 boundaries (e.g. C++ / Python).</p><p>Generally, <code>linalg</code> passes non-owning pointers to strided memref data
 structures to precompiled library calls linked externally. The name <code>view</code>
 is used interchangeably in <code>linalg</code> to signify strided memref discussed at
-length in the <a href=https://groups.google.com/a/tensorflow.org/g/mlir/c/MaL8m2nXuio/m/a_v07o9yBwAJ>strided memref RFC</a>.</p><p>[TOC]</p><h2 id=operation-definition>Operation definition</h2><h3 id=linalg-conv-linalg-convop>linalg.conv (linalg::ConvOp)</h3><h4 id=description>Description:</h4><p>Generic n-D convolution as described in the TF documentation:
+length in the
+<a href=https://groups.google.com/a/tensorflow.org/g/mlir/c/MaL8m2nXuio/m/a_v07o9yBwAJ>strided memref RFC</a>
+.</p><p>[TOC]</p><h2 id=operation-definition>Operation definition</h2><h3 id=linalgconv-linalgconvop>linalg.conv (linalg::ConvOp)</h3><h4 id=description>Description:</h4><p>Generic n-D convolution as described in the TF documentation:
 <a href=https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/nn/convolution>https://www.tensorflow.org/versions/r2.0/api_docs/python/tf/nn/convolution</a></p><pre><code>  output[b, x[0], ..., x[N-1], k] =
   sum_{z[0], ..., z[N-1], q}
       filter[z[0], ..., z[N-1], q, k] *
@@ -49,75 +52,76 @@ length in the <a href=https://groups.google.com/a/tensorflow.org/g/mlir/c/MaL8m2
                    ...,
                    x[N-1] * strides[N-1] + dilation_rate[N-1] * z[N-1],
                    q]
-</code></pre><h4 id=operands>Operands:</h4><ol><li><code>filter</code>: strided memref of any type values</li><li><code>input</code>: strided memref of any type values</li><li><code>output</code>: strided memref of any type values</li></ol><h4 id=attributes>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>strides</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr><tr><td align=center><code>dilations</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results>Results:</h4><h3 id=linalg-copy-linalg-copyop>linalg.copy (linalg::CopyOp)</h3><h4 id=description-1>Description:</h4><p>Copies the data in the input view into the output view.</p><p>Usage:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  linalg.copy(%arg0, %arg1) : memref&lt;?xf32, stride_specification&gt;,
-                              memref&lt;?xf32, stride_specification&gt;</code></pre></div><p>One possible lowering to loop form is:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  %0 = linalg.dim %arg0, 0 : index
-  loop.for %i0 = %c0 to %0 step %c1 {
-    %1 = linalg.load %arg0[%i0] : memref&lt;?xf32, stride_specification&gt;
-    linalg.store %1, %arg1[%i0] : memref&lt;?xf32, stride_specification&gt;
-  }</code></pre></div><p>Optionally, can take <code>input_permutation</code> and <code>output_permutation</code> attributes
-to reorder the dimensions of the input and output views.</p><p>Usage:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  linalg.copy(%arg0, %arg1) {inputPermutation : (i, j, k) -&gt; (i, k, j),
-                             outputPermutation : (i, j, k) -&gt; (k, j, i)} :
-    memref&lt;?x?x?xf32, stride_specification&gt;,
-    memref&lt;?x?x?xf32, stride_specification&gt;</code></pre></div><p>One possible lowering to loop form is:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  %0 = linalg.dim %arg0, 0
-  %1 = linalg.dim %arg0, 1
-  %2 = linalg.dim %arg0, 2
-  loop.for %i0 = %c0 to %{{.*}} step %c1 {
-    loop.for %i1 = %c0 to %{{.*}} step %c1 {
-      loop.for %i2 = %c0 to %{{.*}} step %c1 {
-        %3 = linalg.load %arg0[%i0, %i2, %i1] :
-                memref&lt;?x?x?xf32, stride_specification&gt;
-        linalg.store %3, %arg1[%i2, %i1, %i0] :
-                memref&lt;?x?x?xf32, stride_specification&gt;</code></pre></div><p>The views are expected to be compatible for correctness but this is not
-enforced at the moment.</p><h4 id=operands-1>Operands:</h4><ol><li><code>input</code>: strided memref of any type values</li><li><code>output</code>: strided memref of any type values</li></ol><h4 id=attributes-1>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>inputPermutation</code></td><td align=center><code>AffineMapAttr</code></td><td>AffineMap attribute attribute</td></tr><tr><td align=center><code>outputPermutation</code></td><td align=center><code>AffineMapAttr</code></td><td>AffineMap attribute attribute</td></tr></tbody></table><h4 id=results-1>Results:</h4><h3 id=linalg-dot-linalg-dotop>linalg.dot (linalg::DotOp)</h3><h4 id=description-2>Description:</h4><h4 id=operands-2>Operands:</h4><ol><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 1</li><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 1</li><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 0</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><h3 id=linalg-fill-linalg-fillop>linalg.fill (linalg::FillOp)</h3><h4 id=description-3>Description:</h4><h4 id=operands-3>Operands:</h4><ol><li><code>input</code>: strided memref of any type values</li><li><code>value</code>: floating-point or integer or vector of any type values</li></ol><h4 id=attributes-3>Attributes:</h4><h4 id=results-3>Results:</h4><h3 id=linalg-generic-linalg-genericop>linalg.generic (linalg::GenericOp)</h3><h4 id=description-4>Description:</h4><p>Generic Linalg op form where the key properties of the computation are
-specified as attributes. In pretty form, a linalg.generic op is written as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    linalg.generic #trait_attribute %A, %B, %C {other-attributes} :
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;</code></pre></div><p>Where #trait_attributes is an alias of a dictionary attribute containing:
-- args_in: an I64Attr representing the number of input (readonly) views
-- args_out: an I64Attr representing the number of output (readwrite) views
-- doc [optional]: a documentation string
-- fun: a FlatSymbolRefAttr that must resolve to an existing function
+</code></pre><h4 id=operands>Operands:</h4><ol><li><code>filter</code>: strided memref of any type values</li><li><code>input</code>: strided memref of any type values</li><li><code>output</code>: strided memref of any type values</li></ol><h4 id=attributes>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>strides</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr><tr><td align=center><code>dilations</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results>Results:</h4><h3 id=linalgcopy-linalgcopyop>linalg.copy (linalg::CopyOp)</h3><h4 id=description-1>Description:</h4><p>Copies the data in the input view into the output view.</p><p>Usage:</p><pre><code class=language-mlir data-lang=mlir>linalg.copy(%arg0, %arg1) : memref&lt;?xf32, stride_specification&gt;,
+                            memref&lt;?xf32, stride_specification&gt;
+</code></pre><p>One possible lowering to loop form is:</p><pre><code class=language-mlir data-lang=mlir>%0 = linalg.dim %arg0, 0 : index
+loop.for %i0 = %c0 to %0 step %c1 {
+  %1 = linalg.load %arg0[%i0] : memref&lt;?xf32, stride_specification&gt;
+  linalg.store %1, %arg1[%i0] : memref&lt;?xf32, stride_specification&gt;
+}
+</code></pre><p>Optionally, can take <code>input_permutation</code> and <code>output_permutation</code> attributes
+to reorder the dimensions of the input and output views.</p><p>Usage:</p><pre><code class=language-mlir data-lang=mlir>linalg.copy(%arg0, %arg1) {inputPermutation : (i, j, k) -&gt; (i, k, j),
+                           outputPermutation : (i, j, k) -&gt; (k, j, i)} :
+  memref&lt;?x?x?xf32, stride_specification&gt;,
+  memref&lt;?x?x?xf32, stride_specification&gt;
+</code></pre><p>One possible lowering to loop form is:</p><pre><code class=language-mlir data-lang=mlir>%0 = linalg.dim %arg0, 0
+%1 = linalg.dim %arg0, 1
+%2 = linalg.dim %arg0, 2
+loop.for %i0 = %c0 to %{{.*}} step %c1 {
+  loop.for %i1 = %c0 to %{{.*}} step %c1 {
+    loop.for %i2 = %c0 to %{{.*}} step %c1 {
+      %3 = linalg.load %arg0[%i0, %i2, %i1] :
+              memref&lt;?x?x?xf32, stride_specification&gt;
+      linalg.store %3, %arg1[%i2, %i1, %i0] :
+              memref&lt;?x?x?xf32, stride_specification&gt;
+</code></pre><p>The views are expected to be compatible for correctness but this is not
+enforced at the moment.</p><h4 id=operands-1>Operands:</h4><ol><li><code>input</code>: strided memref of any type values</li><li><code>output</code>: strided memref of any type values</li></ol><h4 id=attributes-1>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>inputPermutation</code></td><td align=center><code>AffineMapAttr</code></td><td>AffineMap attribute attribute</td></tr><tr><td align=center><code>outputPermutation</code></td><td align=center><code>AffineMapAttr</code></td><td>AffineMap attribute attribute</td></tr></tbody></table><h4 id=results-1>Results:</h4><h3 id=linalgdot-linalgdotop>linalg.dot (linalg::DotOp)</h3><h4 id=description-2>Description:</h4><h4 id=operands-2>Operands:</h4><ol><li>«unnamed»: strided memref of any type values of rank 1</li><li>«unnamed»: strided memref of any type values of rank 1</li><li>«unnamed»: strided memref of any type values of rank 0</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><h3 id=linalgfill-linalgfillop>linalg.fill (linalg::FillOp)</h3><h4 id=description-3>Description:</h4><h4 id=operands-3>Operands:</h4><ol><li><code>input</code>: strided memref of any type values</li><li><code>value</code>: floating-point or integer or vector of any type values</li></ol><h4 id=attributes-3>Attributes:</h4><h4 id=results-3>Results:</h4><h3 id=linalggeneric-linalggenericop>linalg.generic (linalg::GenericOp)</h3><h4 id=description-4>Description:</h4><p>Generic Linalg op form where the key properties of the computation are
+specified as attributes. In pretty form, a linalg.generic op is written as:</p><pre><code class=language-mlir data-lang=mlir>  linalg.generic #trait_attribute %A, %B, %C {other-attributes} :
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;
+</code></pre><p>Where #trait_attributes is an alias of a dictionary attribute containing:</p><ul><li>args_in: an I64Attr representing the number of input (readonly) views</li><li>args_out: an I64Attr representing the number of output (readwrite) views</li><li>doc [optional]: a documentation string</li><li>fun: a FlatSymbolRefAttr that must resolve to an existing function
 symbol. To support inplace updates in a generic fashion, the signature
-of the function must be:
-<code>fun([input views element types], [output views element types])
--&gt; ([output views element types])</code>
-- indexing_maps: a list of AffineMapAttr, one AffineMapAttr per each input
+of the function must be:<pre><code>  fun([input views element types], [output views element types])
+    -&gt; ([output views element types])
+</code></pre></li><li>indexing_maps: a list of AffineMapAttr, one AffineMapAttr per each input
 and output view. Such AffineMapAttr specifies the mapping between the
-loops and the indexing within each view.
-- library_call [optional]: a StringAttr containing the name of an
+loops and the indexing within each view.</li><li>library_call [optional]: a StringAttr containing the name of an
 external library function that the linalg.generic operation maps to.
 The external library is assumed to be dynamically linked and no strong
 compile-time guarantees are provided. In the absence of such a library
-call, linalg.generic will always lower to loops.
-- iterator_types: an ArrayAttr specifying the type of the enclosing loops.
+call, linalg.generic will always lower to loops.</li><li>iterator_types: an ArrayAttr specifying the type of the enclosing loops.
 Each element of the list represents and iterator of one of the following
 types:
-parallel, reduction, window</p><p>Example:
-Defining a #matmul_trait attribute in MLIR can be done as follows:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    func @fma(%a: f32, %b: f32, %c: f32) -&gt; f32 {
-      %d = mulf %a, %b: f32
-      %e = addf %c, %d: f32
-      return %e: f32
-    }
-    #matmul_accesses = [
-      (m, n, k) -&gt; (m, k),
-      (m, n, k) -&gt; (k, n),
-      (m, n, k) -&gt; (m, n)
-    ]
-    #matmul_trait = {
-      doc = &#34;C(m, n) += A(m, k) * B(k, n)&#34;,
-      fun = @fma,
-      indexing_maps = #matmul_accesses,
-      library_call = &#34;linalg_matmul&#34;,
-      n_views = [2, 1],
-      iterator_types = [&#34;parallel&#34;, &#34;parallel&#34;, &#34;reduction&#34;]
-    }</code></pre></div><p>And can be reused in multiple places as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    linalg.generic #matmul_trait %A, %B, %C [other-attributes] :
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;</code></pre></div><p>This may lower to either:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    call @linalg_matmul(%A, %B, %C) :
-      (memref&lt;?x?xf32, stride_specification&gt;,
-       memref&lt;?x?xf32, stride_specification&gt;,
-       memref&lt;?x?xf32, stride_specification&gt;)
-      -&gt; ()</code></pre></div><p>or IR resembling:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>loop.for %m = %c0 to %M step %c1 {
+parallel, reduction, window</li></ul><p>Example:
+Defining a #matmul_trait attribute in MLIR can be done as follows:</p><pre><code class=language-mlir data-lang=mlir>  func @fma(%a: f32, %b: f32, %c: f32) -&gt; f32 {
+    %d = mulf %a, %b: f32
+    %e = addf %c, %d: f32
+    return %e: f32
+  }
+  #matmul_accesses = [
+    (m, n, k) -&gt; (m, k),
+    (m, n, k) -&gt; (k, n),
+    (m, n, k) -&gt; (m, n)
+  ]
+  #matmul_trait = {
+    doc = &quot;C(m, n) += A(m, k) * B(k, n)&quot;,
+    fun = @fma,
+    indexing_maps = #matmul_accesses,
+    library_call = &quot;linalg_matmul&quot;,
+    n_views = [2, 1],
+    iterator_types = [&quot;parallel&quot;, &quot;parallel&quot;, &quot;reduction&quot;]
+  }
+</code></pre><p>And can be reused in multiple places as:</p><pre><code class=language-mlir data-lang=mlir>  linalg.generic #matmul_trait %A, %B, %C [other-attributes] :
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;
+</code></pre><p>This may lower to either:</p><pre><code class=language-mlir data-lang=mlir>  call @linalg_matmul(%A, %B, %C) :
+    (memref&lt;?x?xf32, stride_specification&gt;,
+     memref&lt;?x?xf32, stride_specification&gt;,
+     memref&lt;?x?xf32, stride_specification&gt;)
+    -&gt; ()
+</code></pre><p>or IR resembling:</p><pre><code class=language-mlir data-lang=mlir>loop.for %m = %c0 to %M step %c1 {
   loop.for %n = %c0 to %N step %c1 {
     loop.for %k = %c0 to %K step %c1 {
       %a = linalg.load %A[%m, %k] : memref&lt;?x?xf32, stride_specification&gt;
@@ -128,13 +132,15 @@ Defining a #matmul_trait attribute in MLIR can be done as follows:</p><div class
       linalg.store %d, %C[%m, %n] : memref&lt;?x?x?xf32, stride_specification&gt;
     }
   }
-}</code></pre></div><p>To allow progressive lowering from the value world (a.k.a tensor values) to
+}
+</code></pre><p>To allow progressive lowering from the value world (a.k.a tensor values) to
 the buffer world (a.k.a memref values), a <code>linalg.generic</code> op accepts
-mixing input and output ranked tensor values with input and output memrefs.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  %1 = linalg.generic #trait_attribute %A, %B, %C {other-attributes} :
+mixing input and output ranked tensor values with input and output memrefs.</p><pre><code class=language-mlir data-lang=mlir>  %1 = linalg.generic #trait_attribute %A, %B, %C {other-attributes} :
     tensor&lt;?x?xf32&gt;,
     memref&lt;?x?xf32, stride_specification&gt;,
     tensor&lt;?x?xf32&gt;
-    -&gt; (tensor&lt;?x?xf32&gt;)</code></pre></div><p>In this case, the number of return values must match the number of output
+    -&gt; (tensor&lt;?x?xf32&gt;)
+</code></pre><p>In this case, the number of return values must match the number of output
 tensor arguments. The semantics is that the <code>linalg.generic</code> op
 produces (i.e. allocates and fills) its return values.
 Tensor values must be legalized by a buffer allocation pass before most
@@ -142,61 +148,58 @@ transformations can be applied. In particular, transformations that create
 control flow around linalg.generic operations are not expected to mix with
 tensors because SSA values do not escape naturally. Still, transformations
 and rewrites that take advantage of tensor SSA values are expected to be
-useful and will be added in the near future.</p><h4 id=operands-4>Operands:</h4><ol><li><code>views</code>: anonymous_256</li></ol><h4 id=attributes-4>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>args_in</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>args_out</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>indexing_maps</code></td><td align=center><code>ArrayAttr</code></td><td>AffineMap array attribute attribute</td></tr><tr><td align=center><code>iterator_types</code></td><td align=center><code>ArrayAttr</code></td><td>array attribute attribute</td></tr><tr><td align=center><code>doc</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr><tr><td align=center><code>fun</code></td><td align=center><code>FlatSymbolRefAttr</code></td><td>flat symbol reference attribute attribute</td></tr><tr><td align=center><code>library_call</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr></tbody></table><h4 id=results-4>Results:</h4><ol><li><code>output_tensors</code>: ranked tensor of any type values</li></ol><h3 id=linalg-indexed-generic-linalg-indexedgenericop>linalg.indexed_generic (linalg::IndexedGenericOp)</h3><h4 id=description-5>Description:</h4><p>Indexed Generic Linalg op form where the key properties of the computation
+useful and will be added in the near future.</p><h4 id=operands-4>Operands:</h4><ol><li><code>views</code>: anonymous_256</li></ol><h4 id=attributes-4>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>args_in</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>args_out</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>indexing_maps</code></td><td align=center><code>ArrayAttr</code></td><td>AffineMap array attribute attribute</td></tr><tr><td align=center><code>iterator_types</code></td><td align=center><code>ArrayAttr</code></td><td>array attribute attribute</td></tr><tr><td align=center><code>doc</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr><tr><td align=center><code>fun</code></td><td align=center><code>FlatSymbolRefAttr</code></td><td>flat symbol reference attribute attribute</td></tr><tr><td align=center><code>library_call</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr></tbody></table><h4 id=results-4>Results:</h4><ol><li><code>output_tensors</code>: ranked tensor of any type values</li></ol><h3 id=linalgindexed-generic-linalgindexedgenericop>linalg.indexed_generic (linalg::IndexedGenericOp)</h3><h4 id=description-5>Description:</h4><p>Indexed Generic Linalg op form where the key properties of the computation
 are specified as attributes. In pretty form, a linalg.indexed_generic op is
-written as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    linalg.indexed_generic #trait_attribute %A, %B, %C {other-attributes} :
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;</code></pre></div><p>Where #trait_attributes is an alias of a dictionary attribute containing:
-- args_in: an I64Attr representing the number of input (readonly) views
-- args_out: an I64Attr representing the number of output (readwrite) views
-- doc [optional]: a documentation string
-- fun: a FlatSymbolRefAttr that must resolve to an existing function
+written as:</p><pre><code class=language-mlir data-lang=mlir>  linalg.indexed_generic #trait_attribute %A, %B, %C {other-attributes} :
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;
+</code></pre><p>Where #trait_attributes is an alias of a dictionary attribute containing:</p><ul><li>args_in: an I64Attr representing the number of input (readonly) views</li><li>args_out: an I64Attr representing the number of output (readwrite) views</li><li>doc [optional]: a documentation string</li><li>fun: a FlatSymbolRefAttr that must resolve to an existing function
 symbol. To support inplace updates in a generic fashion, the signature
-of the function must be:
-<code>fun([index types of induction variables], [input views element types],
-[output views element types]) -&gt; ([output views element types])</code>
-- indexing_maps: a list of AffineMapAttr, one AffineMapAttr per each input
+of the function must be:<pre><code>  fun([index types of induction variables], [input views element types],
+      [output views element types]) -&gt; ([output views element types])
+</code></pre></li><li>indexing_maps: a list of AffineMapAttr, one AffineMapAttr per each input
 and output view. Such AffineMapAttr specifies the mapping between the
-loops and the indexing within each view.
-- library_call [optional]: a StringAttr containing the name of an
+loops and the indexing within each view.</li><li>library_call [optional]: a StringAttr containing the name of an
 external library function that the linalg.indexed_generic operation
 maps to. The external library is assumed to be dynamically linked and
 no strong compile-time guarantees are provided. In the absence of such
-a library call, linalg.indexed_generic will always lower to loops.
-- iterator_types: an ArrayAttr they type of the enclosing loops; Each
+a library call, linalg.indexed_generic will always lower to loops.</li><li>iterator_types: an ArrayAttr they type of the enclosing loops; Each
 element of the list represents and iterator of one of the following
 types:
-parallel, reduction, window</p><p>Example:
-Defining a #matmul_trait attribute in MLIR can be done as follows:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    func @fma(%offset_m: index, %offset_n: index, %offset_k: index,
-              %a: f32, %b: f32, %c: f32)
-      -&gt; f32
-    {
-      &#34;some_optional_condition&#34;(%offset_m, %offset_n, %offset_k)
-      %d = mulf %a, %b: f32
-      %e = addf %c, %d: f32
-      return %e: f32
-    }
-    #matmul_accesses = [
-      (m, n, k) -&gt; (m, k),
-      (m, n, k) -&gt; (k, n),
-      (m, n, k) -&gt; (m, n)
-    ]
-    #matmul_trait = {
-      doc = &#34;C(m, n) += A(m, k) * B(k, n)&#34;,
-      fun = @fma,
-      indexing_maps = #matmul_accesses,
-      library_call = &#34;linalg_matmul&#34;,
-      n_views = [2, 1],
-      iterator_types = [&#34;parallel&#34;, &#34;parallel&#34;, &#34;reduction&#34;]
-    }</code></pre></div><p>And can be reused in multiple places as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    linalg.indexed_generic #matmul_trait %A, %B, %C [other-attributes] :
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;,
-      memref&lt;?x?xf32, stride_specification&gt;</code></pre></div><p>This may lower to either:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>    call @linalg_matmul(%offset_m, %offset_n, %offset_k, %A, %B, %C) :
-      (memref&lt;?x?xf32, stride_specification&gt;,
-       memref&lt;?x?xf32, stride_specification&gt;,
-       memref&lt;?x?xf32, stride_specification&gt;)
-      -&gt; ()</code></pre></div><p>or IR resembling:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>loop.for %m = %c0 to %M step %c1 {
+parallel, reduction, window</li></ul><p>Example:
+Defining a #matmul_trait attribute in MLIR can be done as follows:</p><pre><code class=language-mlir data-lang=mlir>  func @fma(%offset_m: index, %offset_n: index, %offset_k: index,
+            %a: f32, %b: f32, %c: f32)
+    -&gt; f32
+  {
+    &quot;some_optional_condition&quot;(%offset_m, %offset_n, %offset_k)
+    %d = mulf %a, %b: f32
+    %e = addf %c, %d: f32
+    return %e: f32
+  }
+  #matmul_accesses = [
+    (m, n, k) -&gt; (m, k),
+    (m, n, k) -&gt; (k, n),
+    (m, n, k) -&gt; (m, n)
+  ]
+  #matmul_trait = {
+    doc = &quot;C(m, n) += A(m, k) * B(k, n)&quot;,
+    fun = @fma,
+    indexing_maps = #matmul_accesses,
+    library_call = &quot;linalg_matmul&quot;,
+    n_views = [2, 1],
+    iterator_types = [&quot;parallel&quot;, &quot;parallel&quot;, &quot;reduction&quot;]
+  }
+</code></pre><p>And can be reused in multiple places as:</p><pre><code class=language-mlir data-lang=mlir>  linalg.indexed_generic #matmul_trait %A, %B, %C [other-attributes] :
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;,
+    memref&lt;?x?xf32, stride_specification&gt;
+</code></pre><p>This may lower to either:</p><pre><code class=language-mlir data-lang=mlir>  call @linalg_matmul(%offset_m, %offset_n, %offset_k, %A, %B, %C) :
+    (memref&lt;?x?xf32, stride_specification&gt;,
+     memref&lt;?x?xf32, stride_specification&gt;,
+     memref&lt;?x?xf32, stride_specification&gt;)
+    -&gt; ()
+</code></pre><p>or IR resembling:</p><pre><code class=language-mlir data-lang=mlir>loop.for %m = %c0 to %M step %c1 {
   loop.for %n = %c0 to %N step %c1 {
     loop.for %k = %c0 to %K step %c1 {
       %a = linalg.load %A[%m, %k] : memref&lt;?x?xf32, stride_specification&gt;
@@ -207,14 +210,16 @@ Defining a #matmul_trait attribute in MLIR can be done as follows:</p><div class
       linalg.store %d, %C[%m, %n] : memref&lt;?x?x?xf32, stride_specification&gt;
     }
   }
-}</code></pre></div><p>To allow progressive lowering from the value world (a.k.a tensor values) to
+}
+</code></pre><p>To allow progressive lowering from the value world (a.k.a tensor values) to
 the buffer world (a.k.a memref values), a <code>linalg.indexed_generic</code> op
 accepts mixing input and output ranked tensor values with input and output
-memrefs.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  %1 = linalg.indexed_generic #trait_attribute %A, %B, %C {other-attributes}
+memrefs.</p><pre><code class=language-mlir data-lang=mlir>  %1 = linalg.indexed_generic #trait_attribute %A, %B, %C {other-attributes}
   : tensor&lt;?x?xf32&gt;,
     memref&lt;?x?xf32, stride_specification&gt;,
     tensor&lt;?x?xf32&gt;
-    -&gt; (tensor&lt;?x?xf32&gt;)</code></pre></div><p>In this case, the number of return values must match the number of output
+    -&gt; (tensor&lt;?x?xf32&gt;)
+</code></pre><p>In this case, the number of return values must match the number of output
 tensor arguments. The semantics is that the <code>linalg.indexed_generic</code> op
 produces (i.e. allocates and fills) its return values.
 Tensor values must be legalized by a buffer allocation pass before most
@@ -222,113 +227,27 @@ transformations can be applied. In particular, transformations that create
 control flow around linalg.generic operations are not expected to mix with
 tensors because SSA values do not escape naturally. Still, transformations
 and rewrites that take advantage of tensor SSA values are expected to be
-useful and will be added in the near future.</p><h4 id=operands-5>Operands:</h4><ol><li><code>views</code>: anonymous_256</li></ol><h4 id=attributes-5>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>args_in</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>args_out</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>indexing_maps</code></td><td align=center><code>ArrayAttr</code></td><td>AffineMap array attribute attribute</td></tr><tr><td align=center><code>iterator_types</code></td><td align=center><code>ArrayAttr</code></td><td>array attribute attribute</td></tr><tr><td align=center><code>doc</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr><tr><td align=center><code>fun</code></td><td align=center><code>FlatSymbolRefAttr</code></td><td>flat symbol reference attribute attribute</td></tr><tr><td align=center><code>library_call</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr></tbody></table><h4 id=results-5>Results:</h4><ol><li><code>output_tensors</code>: ranked tensor of any type values</li></ol><h3 id=linalg-range-linalg-rangeop>linalg.range (linalg::RangeOp)</h3><p>Create a <code>range</code> type value, used to create <code>view</code>s</p><h4 id=description-6>Description:</h4><p>The <code>linalg.range</code> op creates a <code>!linalg.range</code> from 3 values of type
+useful and will be added in the near future.</p><h4 id=operands-5>Operands:</h4><ol><li><code>views</code>: anonymous_256</li></ol><h4 id=attributes-5>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>args_in</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>args_out</code></td><td align=center><code>IntegerAttr</code></td><td>64-bit integer attribute attribute</td></tr><tr><td align=center><code>indexing_maps</code></td><td align=center><code>ArrayAttr</code></td><td>AffineMap array attribute attribute</td></tr><tr><td align=center><code>iterator_types</code></td><td align=center><code>ArrayAttr</code></td><td>array attribute attribute</td></tr><tr><td align=center><code>doc</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr><tr><td align=center><code>fun</code></td><td align=center><code>FlatSymbolRefAttr</code></td><td>flat symbol reference attribute attribute</td></tr><tr><td align=center><code>library_call</code></td><td align=center><code>StringAttr</code></td><td>string attribute attribute</td></tr></tbody></table><h4 id=results-5>Results:</h4><ol><li><code>output_tensors</code>: ranked tensor of any type values</li></ol><h3 id=linalgrange-linalgrangeop>linalg.range (linalg::RangeOp)</h3><p>Create a <code>range</code> type value, used to create <code>view</code>s</p><h4 id=description-6>Description:</h4><p>The <code>linalg.range</code> op creates a <code>!linalg.range</code> from 3 values of type
 <code>index</code> that represent the min, max and step values of the <code>range</code>. This
-type does not pass function boundaries at the moment.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  %3 = linalg.range %0:%1:%2 : !linalg.range
-````
-
-#### Operands:
-
-1. `min`: index
-1. `max`: index
-1. `step`: index
-
-#### Attributes:
-
-
-#### Results:
-
-1. &amp;laquo;unnamed&amp;raquo;: range
-
-### linalg.slice (linalg::SliceOp)
-Produce a rank-reduced `subview` of a base `view`.
-
-#### Description:
-
-
-The `linalg.slice` op allows defining a subregion of a smaller rank than the
-operand `view` within the underlying buffer.
-
-A `linalg.slice` op takes a view and a variadic number of indexings and
-produces a `view` of the same elemental type. An indexing is either:
-  1. a `linalg.range`, in which case it does not reduce the rank of the
-     parent `view` along the corresponding dimension.
-  2. an `index`, in which case it reduces the rank of the parent view by
-     one.
-
-If an indexing extends past the size of the `view`, this is undefined
-behavior. Ideally the `linalg.slice` operation would automatically truncate
-it to be within bounds but there are tradeoffs involved now that `std.view`
-is a standard op.
-
-Examples:
-
-  1. rank-preserving `slice`:</code></pre></div><p>mlir
-%4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
-!linalg.range, !linalg.range, memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
-  2. rank-reducing `slice` (from 2-D to 1-D):
-
-</code></pre><p>mlir
-%4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
-index, !linalg.range, memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
-  3. rank-reducing `slice` (from 2-D to 0-D):
-
-</code></pre><p>mlir
-%4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
-index, index, memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
-#### Operands:
-
-1. `view`: strided memref of any type values
-1. `indexings`: range or index
-
-#### Attributes:
-
-
-#### Results:
-
-1. &amp;laquo;unnamed&amp;raquo;: strided memref of any type values
-
-### linalg.transpose (linalg::TransposeOp)
-`transpose` produces a new strided memref (metadata-only)
-
-#### Description:
-
-
-The `linalg.transpose` op produces a strided memref whose sizes and strides
-are a permutation of the original `view`. This is a pure metadata
-transformation.
-
-Example:
-
-</code></pre><p>mlir
-%1 = linalg.transpose %0 (i, j) -&gt; (j, i) : memref&lt;?x?xf32, stride_spec&gt;</p><pre><code>
-#### Operands:
-
-1. `view`: strided memref of any type values
-
-#### Attributes:
-
-| Attribute | MLIR Type | Description |
-| :-------: | :-------: | ----------- |
-| `permutation` | `AffineMapAttr` | AffineMap attribute attribute |
-
-#### Results:
-
-1. &amp;laquo;unnamed&amp;raquo;: strided memref of any type values
-
-### linalg.yield (linalg::YieldOp)
-Linalg yield operation
-
-#### Description:
-
-
-`linalg.yield` is a special terminator operation for blocks inside regions
-in `linalg` generic ops. It returns values to the immediately enclosing
-`linalg` generic op.
-
-Example:
-
-</code></pre><p>mlir
-linalg.yield %f0, %f1 : f32, f32
-```</p><h4 id=operands-6>Operands:</h4><ol><li><code>values</code>: any type</li></ol><h4 id=attributes-6>Attributes:</h4><h4 id=results-6>Results:</h4><h3 id=linalg-matmul-linalg-matmulop>linalg.matmul (linalg::MatmulOp)</h3><h4 id=description-7>Description:</h4><h4 id=operands-7>Operands:</h4><ol><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 2</li><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 2</li><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 2</li></ol><h4 id=attributes-7>Attributes:</h4><h4 id=results-7>Results:</h4><h3 id=linalg-matvec-linalg-matvecop>linalg.matvec (linalg::MatvecOp)</h3><h4 id=description-8>Description:</h4><h4 id=operands-8>Operands:</h4><ol><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 2</li><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 1</li><li>&laquo;unnamed&raquo;: strided memref of any type values of rank 1</li></ol><h4 id=attributes-8>Attributes:</h4><h4 id=results-8>Results:</h4><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/website/content/docs/Dialects/LinalgDoc.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/GPUOps/ title="Dialect 'gpu' definition"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Dialect &#39;gpu&#39; definition</a>
-<a class="nav nav-next" href=/docs/Dialects/LoopOps/ title="Dialect 'loop' definition">Next - Dialect &#39;loop&#39; definition <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class="parent has-sub-menu"><a href=/docs/Dialects/>Dialects<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect &#39;affine&#39; definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect &#39;fxpmath&#39; definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect &#39;gpu&#39; definition</a></li><li class=active><a href=/docs/Dialects/LinalgDoc/>Dialect &#39;linalg&#39; definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect &#39;loop&#39; definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect &#39;nvvm&#39; definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect &#39;quant&#39; definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect &#39;rocdl&#39; definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect &#39;spv&#39; definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect &#39;vector&#39; definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR&#39;s Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of &#39;Const&#39; in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
+type does not pass function boundaries at the moment.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>  %3 = linalg.range %0:%1:%2 : !linalg.range
+</code></pre><h4 id=operands-6>Operands:</h4><ol><li><code>min</code>: index</li><li><code>max</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes-6>Attributes:</h4><h4 id=results-6>Results:</h4><ol><li>«unnamed»: range</li></ol><h3 id=linalgslice-linalgsliceop>linalg.slice (linalg::SliceOp)</h3><p>Produce a rank-reduced <code>subview</code> of a base <code>view</code>.</p><h4 id=description-7>Description:</h4><p>The <code>linalg.slice</code> op allows defining a subregion of a smaller rank than the
+operand <code>view</code> within the underlying buffer.</p><p>A <code>linalg.slice</code> op takes a view and a variadic number of indexings and
+produces a <code>view</code> of the same elemental type. An indexing is either:</p><ol><li>a <code>linalg.range</code>, in which case it does not reduce the rank of the
+parent <code>view</code> along the corresponding dimension.</li><li>an <code>index</code>, in which case it reduces the rank of the parent view by
+one.</li></ol><p>If an indexing extends past the size of the <code>view</code>, this is undefined
+behavior. Ideally the <code>linalg.slice</code> operation would automatically truncate
+it to be within bounds but there are tradeoffs involved now that <code>std.view</code>
+is a standard op.</p><p>Examples:</p><ol><li>rank-preserving <code>slice</code>:</li></ol><pre><code class=language-mlir data-lang=mlir>  %4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
+    !linalg.range, !linalg.range, memref&lt;?x?xf32, stride_spec&gt;
+</code></pre><ol start=2><li>rank-reducing <code>slice</code> (from 2-D to 1-D):</li></ol><pre><code class=language-mlir data-lang=mlir>  %4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
+    index, !linalg.range, memref&lt;?x?xf32, stride_spec&gt;
+</code></pre><ol start=3><li>rank-reducing <code>slice</code> (from 2-D to 0-D):</li></ol><pre><code class=language-mlir data-lang=mlir>  %4 = linalg.slice %0[%1, %2] : memref&lt;?x?xf32, stride_spec&gt;,
+    index, index, memref&lt;?x?xf32, stride_spec&gt;
+</code></pre><h4 id=operands-7>Operands:</h4><ol><li><code>view</code>: strided memref of any type values</li><li><code>indexings</code>: range or index</li></ol><h4 id=attributes-7>Attributes:</h4><h4 id=results-7>Results:</h4><ol><li>«unnamed»: strided memref of any type values</li></ol><h3 id=linalgtranspose-linalgtransposeop>linalg.transpose (linalg::TransposeOp)</h3><p><code>transpose</code> produces a new strided memref (metadata-only)</p><h4 id=description-8>Description:</h4><p>The <code>linalg.transpose</code> op produces a strided memref whose sizes and strides
+are a permutation of the original <code>view</code>. This is a pure metadata
+transformation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>   %1 = linalg.transpose %0 (i, j) -&gt; (j, i) : memref&lt;?x?xf32, stride_spec&gt;
+</code></pre><h4 id=operands-8>Operands:</h4><ol><li><code>view</code>: strided memref of any type values</li></ol><h4 id=attributes-8>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>permutation</code></td><td align=center><code>AffineMapAttr</code></td><td>AffineMap attribute attribute</td></tr></tbody></table><h4 id=results-8>Results:</h4><ol><li>«unnamed»: strided memref of any type values</li></ol><h3 id=linalgyield-linalgyieldop>linalg.yield (linalg::YieldOp)</h3><p>Linalg yield operation</p><h4 id=description-9>Description:</h4><p><code>linalg.yield</code> is a special terminator operation for blocks inside regions
+in <code>linalg</code> generic ops. It returns values to the immediately enclosing
+<code>linalg</code> generic op.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>   linalg.yield %f0, %f1 : f32, f32
+</code></pre><h4 id=operands-9>Operands:</h4><ol><li><code>values</code>: any type</li></ol><h4 id=attributes-9>Attributes:</h4><h4 id=results-9>Results:</h4><h3 id=linalgmatmul-linalgmatmulop>linalg.matmul (linalg::MatmulOp)</h3><h4 id=description-10>Description:</h4><h4 id=operands-10>Operands:</h4><ol><li>«unnamed»: strided memref of any type values of rank 2</li><li>«unnamed»: strided memref of any type values of rank 2</li><li>«unnamed»: strided memref of any type values of rank 2</li></ol><h4 id=attributes-10>Attributes:</h4><h4 id=results-10>Results:</h4><h3 id=linalgmatvec-linalgmatvecop>linalg.matvec (linalg::MatvecOp)</h3><h4 id=description-11>Description:</h4><h4 id=operands-11>Operands:</h4><ol><li>«unnamed»: strided memref of any type values of rank 2</li><li>«unnamed»: strided memref of any type values of rank 1</li><li>«unnamed»: strided memref of any type values of rank 1</li></ol><h4 id=attributes-11>Attributes:</h4><h4 id=results-11>Results:</h4><div class=edit-meta>Last updated on 1 Jan 1970<br>Published on 1 Jan 1970<br><a href=https://github.com/llvm/mlir-www//edit/master/website/content/docs/Dialects/LinalgDoc.md class=edit-page><i class="fas fa-pen-square"></i>Edit on GitHub</a></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/GPUOps/ title="Dialect 'gpu' definition"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Dialect 'gpu' definition</a>
+<a class="nav nav-next" href=/docs/Dialects/LoopOps/ title="Dialect 'loop' definition">Next - Dialect 'loop' definition <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class="parent has-sub-menu"><a href=/docs/Dialects/>Dialects<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect 'affine' definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect 'fxpmath' definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect 'gpu' definition</a></li><li class=active><a href=/docs/Dialects/LinalgDoc/>Dialect 'linalg' definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect 'loop' definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect 'nvvm' definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect 'quant' definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect 'rocdl' definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect 'spv' definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect 'vector' definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of 'Const' in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
