@@ -1,15 +1,17 @@
 <!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect &#39;spv&#39; definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.59.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/SPIRVOps/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
-MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Dialect &#39;spv&#39; definition</h1><p>The SPIR-V dialect in MLIR.</p><p>SPIR-V is the Khronos Group&rsquo;s binary intermediate language for representing
-graphical-shader stages and compute kernels for multiple Khronos APIs,
-including OpenCL, OpenGL, and Vulkan.
-See <a href=https://www.khronos.org/registry/spir-v>https://www.khronos.org/registry/spir-v</a> for more details.</p><p>This dialect aims to be a simple proxy for the SPIR-V binary format to
-enable straightforward and lightweight conversion from/to the binary
-format. Ops in this dialect should stay at the same semantic level and
-try to be a mechanical mapping to the corresponding SPIR-V instructions;
-but they may deviate representationally to allow using MLIR mechanisms.
-As a convention, if such deviation happens, the op name follows &ldquo;snake_case&rdquo;
-style; otherwise, the op name just follows the SPIR-V mnemonic (by removing
-the leading <code>Op</code> prefix) to use &ldquo;CamelCase&rdquo; style.</p><p>[TOC]</p><h2 id=operation-definition>Operation definition</h2><h3 id=spv-accesschain-spirv-accesschainop>spv.AccessChain (spirv::AccessChainOp)</h3><pre><code>Create a pointer into a composite object that can be used with OpLoad
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Dialect &#39;spv&#39; definition</h1><p>The SPIR-V dialect in MLIR.</p><p>SPIR-V is a binary intermediate language for representing graphical-shader
+stages and compute kernels for multiple Khronos APIs, including OpenCL,
+OpenGL, and Vulkan.
+See <a href=https://www.khronos.org/registry/spir-v>https://www.khronos.org/registry/spir-v</a> for more details regarding
+SPIR-V itself.</p><p>The SPIR-V dialect aims to be a proper compiler intermediate representation
+to faciliate transformations. Ops in this dialect stay at the same semantic
+level as the SPIR-V specification and try to have one-to-one mapping to the
+corresponding SPIR-V instructions; but they may deviate representationally
+to utilize MLIR mechanisms if it results in better representation and thus
+benefits transformations. The dialect also aims to maintain straightforward
+serialization into and deserialization from the SPIR-V binary format.
+See <a href=https://mlir.llvm.org/docs/Dialects/SPIR-V/>https://mlir.llvm.org/docs/Dialects/SPIR-V/</a> for more details regarding
+high-level designs and implementation structures of the SPIR-V dialect.</p><p>[TOC]</p><h2 id=operation-definition>Operation definition</h2><h3 id=spv-accesschain-spirv-accesschainop>spv.AccessChain (spirv::AccessChainOp)</h3><pre><code>Create a pointer into a composite object that can be used with OpLoad
 and OpStore.
 </code></pre><h4 id=description>Description:</h4><p>Result Type must be an OpTypePointer. Its Type operand must be the type
 reached by walking the Base’s type hierarchy down to the last provided
