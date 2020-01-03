@@ -30,7 +30,7 @@ rewrite patterns to perform
 <a href=../../Glossary.md#legalization>legalization</a>
 .</li></ul></li><li><p>A set of
 <a href=/docs/DialectConversion/#rewrite-pattern-specification>Rewrite Patterns</a></p><ul><li>These are the set of
-<a href=../../QuickstartRewrites.md>patterns</a>
+<a href=/docs/QuickstartRewrites/>patterns</a>
 used to
 convert <code>illegal</code> operations into a set of zero or more <code>legal</code> ones.</li></ul></li><li><p>Optionally, a
 <a href=/docs/DialectConversion/#type-conversion>Type Converter</a>
@@ -60,9 +60,9 @@ optimization. To start off the lowering, we first define our conversion target:<
 framework introduced in
 <a href=/docs/Tutorials/Toy/Ch-3/>chapter 3</a>
 , the
-<a href=../../DialectConversion.md><code>DialectConversion</code> framework</a>
+<a href=/docs/DialectConversion/><code>DialectConversion</code> framework</a>
 also uses
-<a href=../../QuickstartRewrites.md>RewritePatterns</a>
+<a href=/docs/QuickstartRewrites/>RewritePatterns</a>
 to perform the conversion logic.
 These patterns may be the <code>RewritePatterns</code> seen before or a new type of pattern
 specific to the conversion framework <code>ConversionPattern</code>. <code>ConversionPatterns</code>
@@ -167,7 +167,7 @@ operates on the lowered type. The benefit of this option is that there is no
 hidden, unnecessary copy to the optimizer. The downside is that another
 operation definition is needed that may duplicate many aspects of the first.
 Defining a base class in
-<a href=../../OpDefinitions.md>ODS</a>
+<a href=/docs/OpDefinitions/>ODS</a>
 may simplify this, but
 you still need to treat these operations separately.</p><ul><li>Update <code>toy.print</code> to allow for operating on the lowered type</li></ul><p>A third option is to update the current definition of <code>toy.print</code> to allow for
 operating the on the lowered type. The benefit of this approach is that it is

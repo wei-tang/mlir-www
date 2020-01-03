@@ -14,7 +14,7 @@ as seen in the
 canonicalizations via a hook on our operations (<code>getCanonicalizationPatterns</code>).
 However, these types of hooks don't really scale well. Therefore, a more generic
 solution was designed, in the form of
-<a href=../../Interfaces.md>interfaces</a>
+<a href=/docs/Interfaces/>interfaces</a>
 , to make
 the MLIR infrastructure as extensible as the representation. Interfaces provide
 a generic mechanism for dialects and operations to provide information to a
@@ -35,7 +35,7 @@ complexity that we want. Disregarding cost modeling, the pure structural
 transformation is already complex to implement from scratch. Thankfully, MLIR
 provides a generic inliner algorithm that dialects can plug into. All we need to
 do in Toy is to provide the
-<a href=../../Interfaces.md>interfaces</a>
+<a href=/docs/Interfaces/>interfaces</a>
 for the inliner to
 hook into.</p><p>The first thing we need to do is to define the constraints on inlining
 operations in the Toy dialect. This information is provided through a

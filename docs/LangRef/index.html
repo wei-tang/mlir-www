@@ -161,14 +161,14 @@ and
 . Each dialect is given a
 unique <code>namespace</code> that is prefixed to each defined attribute/operation/type.
 For example, the
-<a href=Dialects/Affine.md>Affine dialect</a>
+<a href=/docs/Dialects/Affine/>Affine dialect</a>
 defines the namespace:
 <code>affine</code>.</p><p>MLIR allows for multiple dialects, even those outside of the main tree, to
 co-exist together within one module. Dialects are produced and consumed by
 certain passes. MLIR provides a
 <a href=/docs/DialectConversion/>framework</a>
 to convert
-between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=Dialects/Affine.md>Affine dialect</a></li><li><a href=Dialects/GPU.md>GPU dialect</a></li><li><a href=Dialects/LLVM.md>LLVM dialect</a></li><li><a href=Dialects/SPIR-V.md>SPIR-V dialect</a></li><li><a href=Dialects/Standard.md>Standard dialect</a></li><li><a href=Dialects/Vector.md>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations</h3><p>Dialects provide a modular way in which targets can expose target-specific
+between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=/docs/Dialects/Affine/>Affine dialect</a></li><li><a href=/docs/Dialects/GPU/>GPU dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations</h3><p>Dialects provide a modular way in which targets can expose target-specific
 operations directly through to MLIR. As an example, some targets go through
 LLVM. LLVM has a rich set of intrinsics for certain target-independent
 operations (e.g. addition with overflow check) as well as providing access to
@@ -194,7 +194,7 @@ extensible (there is no fixed list of operations) and have application-specific
 semantics. For example, MLIR supports
 <a href=/docs/Dialects/Standard/#memory-operations>target-independent operations</a>
 ,
-<a href=Dialects/Affine.md>affine operations</a>
+<a href=/docs/Dialects/Affine/>affine operations</a>
 , and
 <a href=#target-specific-operations>target-specific machine operations</a>
 .</p><p>The internal representation of an operation is simple: an operation is
@@ -679,7 +679,7 @@ conformant: the number of dimensions of the range of one map, must match the
 number of dimensions of the domain of the next map in the composition.</p><p>The semi-affine map composition specified in the memref type, maps from accesses
 used to index the memref in load/store operations to other index spaces (i.e.
 logical to physical index mapping). Each of the
-<a href=Dialects/Affine.md>semi-affine maps</a>
+<a href=/docs/Dialects/Affine/>semi-affine maps</a>
 and thus its composition is required to
 be one-to-one.</p><p>The semi-affine map composition can be used in dependence analysis, memory
 access pattern analysis, and for performance optimizations like vectorization,

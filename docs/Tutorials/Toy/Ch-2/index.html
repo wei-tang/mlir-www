@@ -12,7 +12,7 @@ and rewrite. Finally, languages with construction at a higher-level than C/C++
 may require non-trivial lowering from their AST to generate LLVM IR.</p><p>As a consequence, multiple frontends end up reimplementing significant pieces of
 infrastructure to support the need for these analyses and transformation. MLIR
 addresses this issue by being designed for extensibility. As such, there are few
-pre-defined instructions (<em>operations</em> in MLIR terminology) or types.</p><h2 id=interfacing-with-mlir>Interfacing with MLIR</h2><p><a href=../../LangRef.md>Language reference</a></p><p>MLIR is designed to be a completely extensible infrastructure; there is no
+pre-defined instructions (<em>operations</em> in MLIR terminology) or types.</p><h2 id=interfacing-with-mlir>Interfacing with MLIR</h2><p><a href=/docs/LangRef/>Language reference</a></p><p>MLIR is designed to be a completely extensible infrastructure; there is no
 closed set of attributes (think: constant metadata), operations, or types. MLIR
 supports this extensibility with the concept of
 <a href=/docs/LangRef/#dialects>Dialects</a>
@@ -113,7 +113,7 @@ attribute named
 . An operation inherits from the
 <a href=https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern>CRTP</a>
 <code>mlir::Op</code> class which also takes some optional
-<a href=../../Traits.md><em>traits</em></a>
+<a href=/docs/Traits/><em>traits</em></a>
 to
 customize its behavior. These traits may provide additional accessors,
 verification, etc.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>ConstantOp</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Op</span><span class=o>&lt;</span><span class=n>ConstantOp</span><span class=p>,</span>
@@ -186,7 +186,7 @@ casting infrastructure:</p><div class=highlight><pre class=chroma><code class=la
 <span class=p>}</span>
 </code></pre></div><h3 id=using-the-operation-definition-specification-ods-framework>Using the Operation Definition Specification (ODS) Framework</h3><p>In addition to specializing the <code>mlir::Op</code> C++ template, MLIR also supports
 defining operations in a declarative manner. This is achieved via the
-<a href=../../OpDefinitions.md>Operation Definition Specification</a>
+<a href=/docs/OpDefinitions/>Operation Definition Specification</a>
 framework. Facts
 regarding an operation are specified concisely into a TableGen record, which
 will be expanded into an equivalent <code>mlir::Op</code> C++ template specialization at
@@ -365,7 +365,7 @@ the implementation inline.</p><pre><code class=language-tablegen data-lang=table
 </code></pre><p>Above we introduce several of the concepts for defining operations in the ODS
 framework, but there are many more that we haven't had a chance to: regions,
 variadic operands, etc. Check out the
-<a href=../../OpDefinitions.md>full specification</a>
+<a href=/docs/OpDefinitions/>full specification</a>
 for more details.</p><h2 id=complete-toy-example>Complete Toy Example</h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
 example:</p><pre><code class=language-toy data-lang=toy>def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);

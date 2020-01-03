@@ -8,11 +8,11 @@ for performing template instantiation in C++.</p><p>We divide compiler transform
 this chapter, we focus on how to leverage the Toy Dialect and its high-level
 semantics to perform local pattern-match transformations that would be difficult
 in LLVM. For this, we use MLIR's
-<a href=../../GenericDAGRewriter.md>Generic DAG Rewriter</a>
+<a href=/docs/GenericDAGRewriter/>Generic DAG Rewriter</a>
 .</p><p>There are two methods that can be used to implement pattern-match
 transformations: 1. Imperative, C++ pattern-match and rewrite 2. Declarative,
 rule-based pattern-match and rewrite using table-driven
-<a href=../../DeclarativeRewrites.md>Declarative Rewrite Rules</a>
+<a href=/docs/DeclarativeRewrites/>Declarative Rewrite Rules</a>
 (DRR). Note that the
 use of DRR requires that the operations be defined using ODS, as described in
 <a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2</a>
@@ -77,7 +77,7 @@ MLIR <code>Canonicalizer</code> pass by implementing a <code>RewritePattern</cod
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
 </code></pre></div><p>The implementation of this rewriter is in <code>ToyCombine.cpp</code>. The
-<a href=../../Canonicalization.md>canonicalization pass</a>
+<a href=/docs/Canonicalization/>canonicalization pass</a>
 applies transformations
 defined by operations in a greedy, iterative manner. To ensure that the
 canonicalization pass applies our new transform, we set
@@ -163,7 +163,7 @@ our pattern in action:</p><pre><code class=language-mlir data-lang=mlir>module {
   }
 }
 </code></pre><p>As expected, no reshape operations remain after canonicalization.</p><p>Further details on the declarative rewrite method can be found at
-<a href=../../DeclarativeRewrites.md>Table-driven Declarative Rewrite Rule (DRR)</a>
+<a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a>
 .</p><p>In this chapter, we saw how to use certain core transformations through always
 available hooks. In the
 <a href=/docs/Tutorials/Toy/Ch-4/>next chapter</a>

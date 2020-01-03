@@ -2,13 +2,13 @@
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 6: Lowering to LLVM and CodeGeneration</h1><p>[TOC]</p><p>In the
 <a href=/docs/Tutorials/Toy/Ch-5/>previous chapter</a>
 , we introduced the
-<a href=../../DialectConversion.md>dialect conversion</a>
+<a href=/docs/DialectConversion/>dialect conversion</a>
 framework and partially lowered
 many of the <code>Toy</code> operations to affine loop nests for optimization. In this
 chapter, we will finally lower to LLVM for code generation.</p><p>For this lowering, we will again use the dialect conversion framework to perform
 the heavy lifting. However, this time, we will be performing a full conversion
 to the
-<a href=../../Dialects/LLVM.md>LLVM dialect</a>
+<a href=/docs/Dialects/LLVM/>LLVM dialect</a>
 . Thankfully, we have already
 lowered all but one of the <code>toy</code> operations, with the last being <code>toy.print</code>.
 Before going over the conversion to LLVM, let's lower the <code>toy.print</code> operation.
@@ -123,7 +123,7 @@ llvm.func @main() {
   llvm.return
 }
 </code></pre><p>See
-<a href=../../ConversionToLLVMDialect.md>Conversion to the LLVM IR Dialect</a>
+<a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM IR Dialect</a>
 for
 more in-depth details on lowering to the LLVM dialect.</p><p>At this point we are right at the cusp of code generation. We can generate code
 in the LLVM dialect, so now we just need to export to LLVM IR and setup a JIT to
