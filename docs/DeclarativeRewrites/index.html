@@ -33,7 +33,7 @@ expressing op to op conversions, but not that well suited for, say, converting
 an op into a loop nest.</p><p>Per the current implementation, DRR does not have good support for the following
 features:</p><ul><li>Matching and generating ops with regions.</li><li>Matching and generating ops with block arguments.</li><li>Matching multi-result ops in nested patterns.</li><li>Matching and generating variadic operand/result ops in nested patterns.</li><li>Packing and unpacking variadic operands/results during generation.</li><li><a href=#native-code-call-transforming-the-generated-op><code>NativeCodeCall</code></a>
 returning more than one results.</li></ul><h2 id=rule-definition>Rule Definition</h2><p>The core construct for defining a rewrite rule is defined in
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 as</p><pre><code class=language-tablegen data-lang=tablegen>class Pattern&lt;
     dag sourcePattern, list&lt;dag&gt; resultPatterns,
     list&lt;dag&gt; additionalConstraints = [],

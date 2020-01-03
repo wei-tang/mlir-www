@@ -14,7 +14,7 @@ high-performance target-specific code.</p><p>This document defines and describes
 be a dry reference document - the
 <a href=/docs/Rationale/>rationale documentation</a>
 ,
-<a href=/getting_started/Glossary/>glossary</a>
+<a href=https://mlir.llvm.org/getting_started/Glossary/>glossary</a>
 , and other content are hosted elsewhere.</p><p>MLIR is designed to be used in three different forms: a human-readable textual
 form suitable for debugging, an in-memory form suitable for programmatic
 transformations and analysis, and a compact serialized form suitable for storage
@@ -909,7 +909,7 @@ and
 attribute dictionary), i.e. no other attribute kinds such as Locations or
 extended attribute kinds. If a reference to a symbol is necessary from outside
 of the symbol table that the symbol is defined in, a
-<a href=string-attribute>string attribute</a>
+<a href=#string-attribute>string attribute</a>
 can be used to refer to the symbol name.</p><p><strong>Rationale:</strong> Given that MLIR models global accesses with symbol references, to
 enable efficient multi-threading, it becomes difficult to effectively reason
 about their uses. By restricting the places that can legally hold a symbol

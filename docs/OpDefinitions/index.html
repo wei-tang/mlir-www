@@ -50,9 +50,9 @@ types and expressions supported by TableGen.</p><h2 id=operation-definition>Oper
 their semantics via a special
 <a href=https://llvm.org/docs/TableGen/BackEnds.html#introduction>TableGen backend</a>
 :
-<a href=https://github.com/tensorflow/mlir/blob/master/tools/mlir-tblgen/OpDefinitionsGen.cpp><code>OpDefinitionsGen</code></a>
+<a href=../tools/mlir-tblgen/OpDefinitionsGen.cpp><code>OpDefinitionsGen</code></a>
 . These constructs are defined in
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 . The main ones are</p><ul><li>The <code>Op</code> class: It is the main construct for defining operations. All facts
 regarding the operation are specified when specializing this class, with the
 help of the following constructs.</li><li>The <code>Dialect</code> class: Operations belonging to one logical group are placed in
@@ -354,7 +354,7 @@ long-tail cases that won't be covered. For such cases, you can use
 <code>extraClassDeclaration</code>. Code in <code>extraClassDeclaration</code> will be copied
 literally to the generated C++ op class.</p><p>Note that <code>extraClassDeclaration</code> is a mechanism intended for long-tail cases
 by power users; for not-yet-implemented widely-applicable cases, improving the
-infrastructure is preferable.</p><h3 id=generated-c-code>Generated C++ code</h3><p><a href=https://github.com/tensorflow/mlir/blob/master/tools/mlir-tblgen/OpDefinitionsGen.cpp>OpDefinitionsGen</a>
+infrastructure is preferable.</p><h3 id=generated-c-code>Generated C++ code</h3><p><a href=../tools/mlir-tblgen/OpDefinitionsGen.cpp>OpDefinitionsGen</a>
 processes the op definition spec file and
 generates two files containing the corresponding C++ code: one for declarations,
 the other for definitions. The former is generated via the <code>-gen-op-decls</code>
@@ -398,7 +398,7 @@ the given operation.</p><p>Operand adaptors can be used in function templates th
 verification and graph operation matching are all based on satisfying
 constraints. So both the operation definition and rewrite rules specification
 significantly involve writing constraints. We have the <code>Constraint</code> class in
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 has the common base class for all constraints.</p><p>An operation's constraint can cover different range; it may</p><ul><li>Only concern a single attribute (e.g. being an 32-bit integer greater than 5),</li><li>Multiple operands and results (e.g., the 1st result's shape must be the same
 as the 1st operand), or</li><li>Intrinsic to the operation itself (e.g., having no side effect).</li></ul><p>We call them as single-entity constraint, multi-entity constraint, and traits,
 respectively.</p><h3 id=single-entity-constraint>Single-entity constraint</h3><p>Constraints scoped to a single operand, attribute, or result are specified at
@@ -419,16 +419,16 @@ parameter as described in
 <a href=#operation-traits-and-constraints>Operation traits and constraints</a>
 .</p><p>Multi-entity constraints are modeled as <code>PredOpTrait</code> (a subclass of <code>OpTrait</code>)
 in
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 .A bunch of constraint primitives are provided to help
 specification. See
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 for the complete list.</p><h3 id=trait>Trait</h3><p>Traits are intrinsic properties of the operation like having side effect or not,
 commutative or not, whether is a terminator, etc. These constraints should be
 specified as the <code>Op</code> class template parameter as described in
 <a href=#operation-traits-and-constraints>Operation traits and constraints</a>
 .</p><p>Traits are modeled as <code>NativeOpTrait</code> (a subclass of <code>OpTrait</code>) in
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 . They are backed and will be translated into the
 corresponding C++ <code>mlir::OpTrait</code> classes.</p><h3 id=how-to-specify-new-constraint>How to specify new constraint</h3><p>To write a constraint, you need to provide its predicates and give it a
 descriptive name. Predicates, modeled with the <code>Pred</code> class, are the workhorse
@@ -470,7 +470,7 @@ write it as</p><pre><code class=language-tablegen data-lang=tablegen>And&lt;[
 </code></pre><p>(Note that the above is just to show with a familiar example how you can use
 <code>CPred</code> and predicate combiners to write complicated predicates. For integer
 attributes specifically,
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
+<a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 already defines <code>I32Attr</code> and
 <code>I64Attr</code>. So you can actually reuse them to write it as <code>Or&lt;[I32Attr.predicate, I64Attr.predicate]></code>.)</p><p>TODO: Build up a library of reusable primitive constraints</p><p>If the predicate is very complex to write with <code>CPred</code> together with predicate
 combiners, you can also write it as a normal C++ function and use the <code>CPred</code>
@@ -495,16 +495,16 @@ require a nice library of common predicates as the building blocks to avoid the
 duplication, which is being worked on right now.</p><h2 id=attribute-definition>Attribute Definition</h2><h3 id=enum-attributes>Enum attributes</h3><p>Some attributes can only take values from an predefined enum, e.g., the
 comparison kind of a comparison op. To define such attributes, ODS provides
 several mechanisms: <code>StrEnumAttr</code>, <code>IntEnumAttr</code>, and <code>BitEnumAttr</code>.</p><ul><li><code>StrEnumAttr</code>: each enum case is a string, the attribute is stored as a
-<a href=https://github.com/tensorflow/mlir/blob/master/g3doc/LangRef.md#string-attribute><code>StringAttr</code></a>
+<a href=/docs/LangRef/#string-attribute><code>StringAttr</code></a>
 in the op.</li><li><code>IntEnumAttr</code>: each enum case is an integer, the attribute is stored as a
-<a href=https://github.com/tensorflow/mlir/blob/master/g3doc/LangRef.md#integer-attribute><code>IntegerAttr</code></a>
+<a href=/docs/LangRef/#integer-attribute><code>IntegerAttr</code></a>
 in the op.</li><li><code>BitEnumAttr</code>: each enum case is a bit, the attribute is stored as a
-<a href=https://github.com/tensorflow/mlir/blob/master/g3doc/LangRef.md#integer-attribute><code>IntegerAttr</code></a>
+<a href=/docs/LangRef/#integer-attribute><code>IntegerAttr</code></a>
 in the op.</li></ul><p>All these <code>*EnumAttr</code> attributes require fully specifying all of the allowed
 cases via their corresponding <code>*EnumAttrCase</code>. With this, ODS is able to
 generate additional verification to only accept allowed cases. To facilitate the
 interaction between <code>*EnumAttr</code>s and their C++ consumers, the
-<a href=https://github.com/tensorflow/mlir/blob/master/tools/mlir-tblgen/EnumsGen.cpp><code>EnumsGen</code></a>
+<a href=../tools/mlir-tblgen/EnumsGen.cpp><code>EnumsGen</code></a>
 TableGen backend can generate a few common utilities: a
 C++ enum class, <code>llvm::DenseMapInfo</code> for the enum class, conversion functions
 from/to strings. This is controlled via the <code>-gen-enum-decls</code> and
