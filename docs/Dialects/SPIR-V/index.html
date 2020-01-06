@@ -242,7 +242,7 @@ cases, we can model them with MLIR attributes.</p><p>For example,</p><pre><code 
 %2 = &quot;spv.IAdd&quot;(%0, %0) : (i32, i32) -&gt; i32
 </code></pre><p>Operation documentation is written in each op's Op Definition Spec using
 TableGen. A markdown version of the doc can be found at
-<a href=https://mlir.llvm.org/docs/Dialects/SPIRVOps/>mlir.llvm.org</a>
+<a href=/docs/Dialects/SPIRVOps/>mlir.llvm.org</a>
 or generated using <code>mlir-tblgen -gen-doc</code>.</p><h3 id=ops-from-extended-instruction-sets>Ops from extended instruction sets</h3><p>Analogically extended instruction set is a mechanism to import SPIR-V
 instructions within another namespace.
 <a href=https://www.khronos.org/registry/spir-v/specs/1.0/GLSL.std.450.html><code>GLSL.std.450</code></a>
@@ -396,7 +396,7 @@ an OpLoopMerge instruction’s Continue Target.&rdquo;</p><p>For example, for th
 }
 </code></pre><h3 id=block-argument-for-phi>Block argument for Phi</h3><p>There are no direct Phi operations in the SPIR-V dialect; SPIR-V <code>OpPhi</code>
 instructions are modelled as block arguments in the SPIR-V dialect. (See the
-<a href=https://mlir.llvm.org/docs/Rationale/#block-arguments-vs-phi-nodes>Rationale</a>
+<a href=/docs/Rationale/#block-arguments-vs-phi-nodes>Rationale</a>
 doc for &ldquo;Block Arguments vs Phi nodes&rdquo;.) Each block
 argument corresponds to one <code>OpPhi</code> instruction in the SPIR-V binary format. For
 example, for the following SPIR-V function <code>foo</code>:</p><pre><code class=language-spirv data-lang=spirv>  %foo = OpFunction %void None ...
@@ -509,7 +509,57 @@ in module-level; otherwise they will be converted into <code>spv.Variable</code>
 <code>spv._address_of</code> op to turn the symbol of the corresponding
 <code>spv.globalVariable</code> into an SSA value.</li><li>Every use of a <code>OpSpecConstant</code> instruction will materialize a
 <code>spv._reference_of</code> op to turn the symbol of the corresponding
-<code>spv.specConstant</code> into an SSA value.</li><li><code>OpPhi</code> instructions are converted to block arguments.</li><li>Structured control flow are placed inside <code>spv.selection</code> and <code>spv.loop</code>.</li></ul><h2 id=conversions>Conversions</h2><p>(TODO: expand this section)</p><h2 id=code-organization>Code organization</h2><p>We aim to provide multiple libraries with clear dependencies for SPIR-V related
+<code>spv.specConstant</code> into an SSA value.</li><li><code>OpPhi</code> instructions are converted to block arguments.</li><li>Structured control flow are placed inside <code>spv.selection</code> and <code>spv.loop</code>.</li></ul><h2 id=conversions>Conversions</h2><p>One of the main features of MLIR is the ability to progressively lower from
+dialects that capture programmer abstraction into dialects that are closer to a
+machine representation, like SPIR-V dialect. This progressive lowering through
+multiple dialects is enabled through the use of the
+<a href=/docs/DialectConversion/>DialectConversion</a>
+framework in MLIR. To simplify
+targeting SPIR-V dialect using the Dialect Conversion framework, two utility
+classes are provided.</p><p>(<strong>Note</strong> : While SPIR-V has some
+<a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#_a_id_shadervalidation_a_validation_rules_for_shader_a_href_capability_capabilities_a>validation rules</a>
+,
+additional rules are imposed by
+<a href=https://renderdoc.org/vkspec_chunked/chap40.html#spirvenv>Vulkan execution environment</a>
+. The
+lowering described below implements both these requirements.)</p><h3 id=spirvtypeconverter>SPIRVTypeConverter</h3><p>The <code>mlir::spirv::SPIRVTypeConverter</code> derives from
+<code>mlir::TypeConverter</code> and provides type conversion for standard
+types to SPIR-V types:</p><ul><li><a href=/docs/LangRef/#integer-type>Standard Integer</a>
+-> Standard Integer</li><li><a href=/docs/LangRef/#floating-point-types>Standard Float</a>
+-> Standard Float</li><li><a href=/docs/LangRef/#vector-type>Vector Type</a>
+-> Vector Type</li><li><a href=/docs/LangRef/#memref-type>Memref Type</a>
+with static shape and stride -> <code>spv.array</code>
+with number of elements obtained from the layout specification of the
+<code>memref</code>, and same element type.</li></ul><p>(TODO: Generate the conversion matrix from comments automatically)</p><p><a href=/docs/LangRef/#index-type>Index Type</a>
+need special handling since they are not directly
+supported in SPIR-V. Currently the <code>index</code> type is converted to <code>i32</code>.</p><p>(TODO: Allow for configuring the integer width to use for <code>index</code> types in the
+SPIR-V dialect)</p><h3 id=spirvoplowering>SPIRVOpLowering</h3><p><code>mlir::spirv::SPIRVOpLowering</code> is a base class that can be used to define the
+patterns used for implementing the lowering. For now this only provides derived
+classes access to an instance of <code>mlir::spirv::SPIRVTypeLowering</code> class.</p><h3 id=utility-functions-for-lowering>Utility functions for lowering</h3><h4 id=setting-shader-interface>Setting shader interface</h4><p>The method <code>mlir::spirv::setABIAttrs</code> allows setting the
+<a href=#shader-interface-abi>shader interface
+attributes</a>
+for a function that is to be an entry
+point function within the <code>spv.module</code> on lowering. A later pass
+<code>mlir::spirv::LowerABIAttributesPass</code> uses this information to lower the entry
+point function and its ABI consistent with the Vulkan validation
+rules. Specifically,</p><ul><li>Creates <code>spv.globalVariable</code>s for the arguments, and replaces all uses of
+the argument with this variable. The SSA value used for replacement is
+obtained using the <code>spv._address_of</code> operation.</li><li>Adds the <code>spv.EntryPoint</code> and <code>spv.ExecutionMode</code> operations into the
+<code>spv.module</code> for the entry function.</li></ul><h4 id=setting-layout-for-shader-interface-variables>Setting layout for shader interface variables</h4><p>SPIR-V validation rules for shaders require composite objects to be explicitly
+laid out. If a <code>spv.globalVariable</code> is not explicitly laid out, the utility
+method <code>mlir::spirv::decorateType</code> implements a layout consistent with
+the
+<a href=https://renderdoc.org/vkspec_chunked/chap14.html#interfaces-resources>Vulkan shader requirements</a>
+.</p><h4 id=creating-builtin-variables>Creating builtin variables</h4><p>In SPIR-V dialect, builtins are represented using <code>spv.globalVariable</code>s, with
+<code>spv._address_of</code> used to get a handle to the builtin as an SSA value. The
+method <code>mlir::spirv::getBuiltinVariableValue</code> creates a <code>spv.globalVariable</code> for
+the builtin in the current <code>spv.module</code> if it does not exist already, and
+returns an SSA value generated from an <code>spv._address_of</code> operation.</p><h3 id=current-conversions-to-spir-v>Current conversions to SPIR-V</h3><p>Using the above infrastructure, conversion are implemented from</p><ul><li><a href=/docs/Dialects/Standard/>Standard Dialect</a>
+: Only arithmetic and logical
+operations conversions are implemented.</li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a>
+: A module with the attribute
+<code>gpu.kernel_module</code> is converted to a <code>spv.module</code>. A function within this
+module with the attribute <code>gpu.kernel</code> is lowered as an entry function.</li></ul><h2 id=code-organization>Code organization</h2><p>We aim to provide multiple libraries with clear dependencies for SPIR-V related
 functionalities in MLIR so developers can just choose the needed components
 without pulling in the whole world.</p><h3 id=the-dialect>The dialect</h3><p>The code for the SPIR-V dialect resides in a few places:</p><ul><li>Public headers are placed in
 <a href=https://github.com/llvm/llvm-project/tree/master/mlir/include/mlir/Dialect/SPIRV>include/mlir/Dialect/SPIRV</a>
@@ -527,7 +577,7 @@ defines all SPIR-V operations.</li><li><a href=https://github.com/llvm/llvm-proj
 defines the entry points for
 serialization and deserialization.</li></ul><p>The dialect itself, including all types and ops, is in the <code>MLIRSPIRV</code> library.
 Serialization functionalities are in the <code>MLIRSPIRVSerialization</code> library.</p><h3 id=op-definitions>Op definitions</h3><p>We use
-<a href=https://mlir.llvm.org/docs/OpDefinitions/>Op Definition Spec</a>
+<a href=/docs/OpDefinitions/>Op Definition Spec</a>
 to define all SPIR-V ops. They are written in
 TableGen syntax and placed in various <code>*Ops.td</code> files in the header directory.
 Those <code>*Ops.td</code> files are organized according to the instruction categories used
@@ -623,7 +673,22 @@ surprises. Serialization tests live in test/Dialect/SPIRV/Serialization.</p><h3 
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVTypes.h><code>SPIRVTypes.h</code></a>
 . See
 examples there and the
-<a href=https://mlir.llvm.org/docs/DefiningAttributesAndTypes/>tutorial</a>
+<a href=/docs/DefiningAttributesAndTypes/>tutorial</a>
 for defining new
-custom types.</p><h3 id=add-a-new-conversion>Add a new conversion</h3><p>(TODO: add details for this section)</p><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/LLVM/ title="LLVM IR Dialect"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - LLVM IR Dialect</a>
+custom types.</p><h3 id=add-a-new-conversion>Add a new conversion</h3><p>To add conversion for a type update the <code>mlir::spirv::SPIRVTypeConverter</code> to
+return the converted type (must be a valid SPIR-V type). See
+<a href=/docs/DialectConversion/#type-converter>Type
+Conversion</a>
+for more details.</p><p>To lower an operation into SPIR-V dialect, implement a
+<a href=/docs/DialectConversion/#conversion-patterns>conversion
+pattern</a>
+. If the conversion requires type
+conversion as well, the pattern must inherit from the
+<code>mlir::spirv::SPIRVOpLowering</code> class to get access to
+<code>mlir::spirv::SPIRVTypeConverter</code>. If the operation has a region,
+<a href=/docs/DialectConversion/#region-signature-conversion>signature
+conversion</a>
+might be needed as well.</p><p><strong>Note</strong>: The current validation rules of <code>spv.module</code> require that all
+operations contained within its region are valid operations in the SPIR-V
+dialect.</p><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/LLVM/ title="LLVM IR Dialect"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - LLVM IR Dialect</a>
 <a class="nav nav-next" href=/docs/Dialects/Standard/ title="Standard Dialect">Next - Standard Dialect <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class="parent has-sub-menu"><a href=/docs/Dialects/>Dialects<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect 'affine' definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect 'fxpmath' definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect 'gpu' definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect 'linalg' definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect 'loop' definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect 'nvvm' definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect 'quant' definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect 'rocdl' definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect 'spv' definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect 'vector' definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li class=active><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of 'Const' in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
