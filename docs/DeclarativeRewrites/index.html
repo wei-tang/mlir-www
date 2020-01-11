@@ -341,8 +341,7 @@ results. A variadic operand/result is a considered as a declared value that can
 correspond to multiple actual values.</p><p>[TODO]</p><h3 id=supplying-additional-constraints>Supplying additional constraints</h3><p>Constraints can be placed on op arguments when matching. But sometimes we need
 to also place constraints on the matched op's results or sometimes need to limit
 the matching with some constraints that cover both the arguments and the
-results. The third parameter to <code>Pattern</code> (and <code>Pat</code>) is for this purpose.</p><p>For example, we can write</p><pre><code class=language-tablegen data-lang=tablegen>def HasNoUseOf: Constraint&lt;
-    CPred&lt;&quot;$_self-&gt;use_begin() == $_self-&gt;use_end()&quot;&gt;, &quot;has no use&quot;&gt;;
+results. The third parameter to <code>Pattern</code> (and <code>Pat</code>) is for this purpose.</p><p>For example, we can write</p><pre><code class=language-tablegen data-lang=tablegen>def HasNoUseOf: Constraint&lt;CPred&lt;&quot;$_self.use_empty()&quot;&gt;, &quot;has no use&quot;&gt;;
 
 def HasSameElementType : Constraint&lt;
     CPred&lt;&quot;$0.cast&lt;ShapedType&gt;().getElementType() == &quot;

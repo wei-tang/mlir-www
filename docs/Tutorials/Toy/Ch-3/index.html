@@ -66,7 +66,7 @@ MLIR <code>Canonicalizer</code> pass by implementing a <code>RewritePattern</cod
     <span class=c1>// Look through the input of the current transpose.
 </span><span class=c1></span>    <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Value</span> <span class=n>transposeInput</span> <span class=o>=</span> <span class=n>op</span><span class=p>.</span><span class=n>getOperand</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
     <span class=n>TransposeOp</span> <span class=n>transposeInputOp</span> <span class=o>=</span>
-        <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>dyn_cast_or_null</span><span class=o>&lt;</span><span class=n>TransposeOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>transposeInput</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getDefiningOp</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
+        <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>dyn_cast_or_null</span><span class=o>&lt;</span><span class=n>TransposeOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>transposeInput</span><span class=p>.</span><span class=n>getDefiningOp</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
     <span class=c1>// If the input is defined by another Transpose, bingo!
 </span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>transposeInputOp</span><span class=p>)</span>
       <span class=k>return</span> <span class=n>matchFailure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
@@ -122,7 +122,7 @@ def ReshapeReshapeOptPattern : Pat&lt;(ReshapeOp(ReshapeOp $arg)),
 can be found under path/to/BUILD/projects/mlir/examples/toy/Ch3/ToyCombine.inc.</p><p>DRR also provides a method for adding argument constraints when the
 transformation is conditional on some properties of the arguments and results.
 An example is a transformation that eliminates reshapes when they are redundant,
-i.e. when the input and output shapes are identical.</p><pre><code class=language-tablegen data-lang=tablegen>def TypesAreIdentical : Constraint&lt;CPred&lt;&quot;$0-&gt;getType() == $1-&gt;getType()&quot;&gt;&gt;;
+i.e. when the input and output shapes are identical.</p><pre><code class=language-tablegen data-lang=tablegen>def TypesAreIdentical : Constraint&lt;CPred&lt;&quot;$0.getType() == $1.getType()&quot;&gt;&gt;;
 def RedundantReshapeOptPattern : Pat&lt;
   (ReshapeOp:$res $arg), (replaceWithValue $arg),
   [(TypesAreIdentical $res, $arg)]&gt;;
@@ -131,7 +131,7 @@ arguments. This is achieved using NativeCodeCall, which allows for more complex
 transformations either by calling into a C++ helper function or by using inline
 C++. An example of such an optimization is FoldConstantReshape, where we
 optimize Reshape of a constant value by reshaping the constant in place and
-eliminating the reshape operation.</p><pre><code class=language-tablegen data-lang=tablegen>def ReshapeConstant : NativeCodeCall&lt;&quot;$0.reshape(($1-&gt;getType()).cast&lt;ShapedType&gt;())&quot;&gt;;
+eliminating the reshape operation.</p><pre><code class=language-tablegen data-lang=tablegen>def ReshapeConstant : NativeCodeCall&lt;&quot;$0.reshape(($1.getType()).cast&lt;ShapedType&gt;())&quot;&gt;;
 def FoldConstantReshapeOptPattern : Pat&lt;
   (ReshapeOp:$res (ConstantOp $arg)),
   (ConstantOp (ReshapeConstant $arg, $res))&gt;;
