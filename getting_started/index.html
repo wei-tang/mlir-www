@@ -25,7 +25,7 @@ cmake invocation above.</p><p>To compile and test on Windows using Visual Studio
 git clone https://github.com/llvm/llvm-project.git
 <span class=k>mkdir</span> llvm-project\build
 <span class=k>cd</span> llvm-project\build
-cmake ..\llvm -G <span class=s2>&#34;</span><span class=s2>Visual Studio 15 2017 Win64</span><span class=s2>&#34;</span> -DLLVM_ENABLE_PROJECT=mlir -DLLVM_BUILD_EXAMPLES=ON -DLLVM_TARGETS_TO_BUILD=<span class=s2>&#34;</span><span class=s2>host</span><span class=s2>&#34;</span> -DCMAKE_BUILD_TYPE=Release -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON
+cmake ..\llvm -G <span class=s2>&#34;</span><span class=s2>Visual Studio 15 2017 Win64</span><span class=s2>&#34;</span> -DLLVM_ENABLE_PROJECTS=mlir -DLLVM_BUILD_EXAMPLES=ON -DLLVM_TARGETS_TO_BUILD=<span class=s2>&#34;</span><span class=s2>host</span><span class=s2>&#34;</span> -DCMAKE_BUILD_TYPE=Release -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON
 cmake --build . --target check-mlir
 </code></pre></div><p>As a starter, you may try
 <a href=/docs/Tutorials/Toy/Ch-1/>the tutorial</a>
