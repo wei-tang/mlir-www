@@ -105,18 +105,18 @@ destination memref need not be of the same dimensionality, but need to have the
 same elemental type.</p><p>For example, a <code>dma_start</code> operation that transfers 32 vector elements from a
 memref <code>%src</code> at location <code>[%i, %j]</code> to memref <code>%dst</code> at <code>[%k, %l]</code> would be
 specified as shown below.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>%size = constant 32 : index
-%tag = alloc() : memref&lt;1 x i32, (d0) -&gt; (d0), 4&gt;
+%tag = alloc() : memref&lt;1 x i32, affine_map&lt;(d0) -&gt; (d0)&gt;, 4&gt;
 %idx = constant 0 : index
 dma_start %src[%i, %j], %dst[%k, %l], %size, %tag[%idx] :
-     memref&lt;40 x 8 x vector&lt;16xf32&gt;, (d0, d1) -&gt; (d0, d1), 0&gt;,
-     memref&lt;2 x 4 x vector&lt;16xf32&gt;, (d0, d1) -&gt; (d0, d1), 2&gt;,
-     memref&lt;1 x i32&gt;, (d0) -&gt; (d0), 4&gt;
+     memref&lt;40 x 8 x vector&lt;16xf32&gt;, affine_map&lt;(d0, d1) -&gt; (d0, d1)&gt;, 0&gt;,
+     memref&lt;2 x 4 x vector&lt;16xf32&gt;, affine_map&lt;(d0, d1) -&gt; (d0, d1)&gt;, 2&gt;,
+     memref&lt;1 x i32&gt;, affine_map&lt;(d0) -&gt; (d0)&gt;, 4&gt;
 </code></pre><h3 id=dma-wait-operation>&lsquo;dma_wait&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `dma_wait` ssa-use`[`ssa-use-list`]` `,` ssa-use `:` memref-type
 </code></pre><p>Blocks until the completion of a DMA operation associated with the tag element
 specified with a tag memref and its indices. The operands include the tag memref
 followed by its indices and the number of elements associated with the DMA being
 waited on. The indices of the tag memref have the same restrictions as
-load/store indices.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>dma_wait %tag[%idx], %size : memref&lt;1 x i32, (d0) -&gt; (d0), 4&gt;
+load/store indices.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>dma_wait %tag[%idx], %size : memref&lt;1 x i32, affine_map&lt;(d0) -&gt; (d0)&gt;, 4&gt;
 </code></pre><h3 id=extract-element-operation>&lsquo;extract_element&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `extract_element` ssa-use `[` ssa-use-list `]` `:` type
 </code></pre><p>The <code>extract_element</code> op reads a tensor or vector and returns one element from
 it specified by an index list. The output of the &lsquo;extract_element&rsquo; is a new
@@ -138,12 +138,12 @@ SSA values bound to surrounding loop induction variables,
 <a href=#constant-operation><code>constant</code> operation</a>
 , or the result of an <code>affine.apply</code>
 operation that can in turn take as arguments all of the aforementioned SSA
-values or the recursively result of such an <code>affine.apply</code> operation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>%1 = affine.apply (d0, d1) -&gt; (3*d0) (%i, %j)
-%2 = affine.apply (d0, d1) -&gt; (d1+1) (%i, %j)
+values or the recursively result of such an <code>affine.apply</code> operation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>%1 = affine.apply affine_map&lt;(d0, d1) -&gt; (3*d0)&gt; (%i, %j)
+%2 = affine.apply affine_map&lt;(d0, d1) -&gt; (d1+1)&gt; (%i, %j)
 %12 = load %A[%1, %2] : memref&lt;8x?xi32, #layout, memspace0&gt;
 
 // Example of an indirect load (treated as non-affine)
-%3 = affine.apply (d0) -&gt; (2*d0 + 1)(%12)
+%3 = affine.apply affine_map&lt;(d0) -&gt; (2*d0 + 1)&gt;(%12)
 %13 = load %A[%3, %2] : memref&lt;4x?xi32, #layout, memspace0&gt;
 </code></pre><p><strong>Context:</strong> The <code>load</code> and <code>store</code> operations are specifically crafted to fully
 resolve a reference to an element of a memref, and (in affine <code>affine.if</code> and

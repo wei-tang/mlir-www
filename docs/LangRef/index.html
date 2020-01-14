@@ -585,20 +585,20 @@ of that mechanism yet. Until then, this document pretends that it is valid to
 refer to these memories by <code>bare-id</code>.</p><p>The notionally dynamic value of a memref value includes the address of the
 buffer allocated, as well as the symbols referred to by the shape, layout map,
 and index maps.</p><p>Examples of memref static type</p><pre><code class=language-mlir data-lang=mlir>// Identity index/layout map
-#identity = (d0, d1) -&gt; (d0, d1)
+#identity = affine_map&lt;(d0, d1) -&gt; (d0, d1)&gt;
 
 // Column major layout.
-#col_major = (d0, d1, d2) -&gt; (d2, d1, d0)
+#col_major = affine_map&lt;(d0, d1, d2) -&gt; (d2, d1, d0)&gt;
 
 // A 2-d tiled layout with tiles of size 128 x 256.
-#tiled_2d_128x256 = (d0, d1) -&gt; (d0 div 128, d1 div 256, d0 mod 128, d1 mod 256)
+#tiled_2d_128x256 = affine_map&lt;(d0, d1) -&gt; (d0 div 128, d1 div 256, d0 mod 128, d1 mod 256)&gt;
 
 // A tiled data layout with non-constant tile sizes.
-#tiled_dynamic = (d0, d1)[s0, s1] -&gt; (d0 floordiv s0, d1 floordiv s1,
-                              d0 mod s0, d1 mod s1)
+#tiled_dynamic = affine_map&lt;(d0, d1)[s0, s1] -&gt; (d0 floordiv s0, d1 floordiv s1,
+                             d0 mod s0, d1 mod s1)&gt;
 
 // A layout that yields a padding on two at either end of the minor dimension.
-#padded = (d0, d1) -&gt; (d0, (d1 + 2) floordiv 2, (d1 + 2) mod 2)
+#padded = affine_map&lt;(d0, d1) -&gt; (d0, (d1 + 2) floordiv 2, (d1 + 2) mod 2)&gt;
 
 
 // The dimension list &quot;16x32&quot; defines the following 2D index space:
@@ -630,7 +630,7 @@ memref&lt;16x32xf32, #identity, memspace0&gt;
 %P = alloc() : memref&lt;16x64xf32, #padded&gt;
 
 // Affine map with symbol 's0' used as offset for the first dimension.
-#imapS = (d0, d1) [s0] -&gt; (d0 + s0, d1)
+#imapS = affine_map&lt;(d0, d1) [s0] -&gt; (d0 + s0, d1)&gt;
 // Allocate memref and bind the following symbols:
 // '%n' is bound to the dynamic second dimension of the memref type.
 // '%o' is bound to the symbol 's0' in the affine map of the memref type.
@@ -793,10 +793,10 @@ an identifier that can be used in the place of the attribute that it defines.
 These aliases <em>must</em> be defined before their uses. Alias names may not contain a
 &lsquo;.', since those names are reserved for
 <a href=#dialect-attribute-values>dialect attributes</a>
-.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>#map = (d0) -&gt; (d0 + 10)
+.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>#map = affine_map&lt;(d0) -&gt; (d0 + 10)&gt;
 
 // Using the original attribute.
-%b = affine.apply (d0) -&gt; (d0 + 10) (%a)
+%b = affine.apply affine_map&lt;(d0) -&gt; (d0 + 10)&gt; (%a)
 
 // Using the attribute alias.
 %b = affine.apply #map(%a)
@@ -835,7 +835,7 @@ dialect and thus available to all users of MLIR.</p><pre><code>standard-attribut
                        | symbol-ref-attribute
                        | type-attribute
                        | unit-attribute
-</code></pre><h4 id=affinemap-attribute>AffineMap Attribute</h4><p>Syntax:</p><pre><code>affine-map-attribute ::= affine-map
+</code></pre><h4 id=affinemap-attribute>AffineMap Attribute</h4><p>Syntax:</p><pre><code>affine-map-attribute ::= `affine_map` `&lt;` affine-map `&gt;`
 </code></pre><p>An affine-map attribute is an attribute that represents a affine-map object.</p><h4 id=array-attribute>Array Attribute</h4><p>Syntax:</p><pre><code>array-attribute ::= `[` (attribute-value (`,` attribute-value)*)? `]`
 </code></pre><p>An array attribute is an attribute that represents a collection of attribute
 values.</p><h4 id=boolean-attribute>Boolean Attribute</h4><p>Syntax:</p><pre><code>bool-attribute ::= bool-literal
@@ -893,7 +893,7 @@ attribute.</p><p>Examples:</p><pre><code>42.0         // float attribute default
 </code></pre><h4 id=integer-attribute>Integer Attribute</h4><p>Syntax:</p><pre><code>integer-attribute ::= integer-literal ( `:` (index-type | integer-type) )?
 </code></pre><p>An integer attribute is a literal attribute that represents an integral value of
 the specified integer or index type. The default type for this attribute, if one
-is not specified, is a 64-bit integer.</p><h5 id=integer-set-attribute>Integer Set Attribute</h5><p>Syntax:</p><pre><code>integer-set-attribute ::= affine-map
+is not specified, is a 64-bit integer.</p><h5 id=integer-set-attribute>Integer Set Attribute</h5><p>Syntax:</p><pre><code>integer-set-attribute ::= `affine_set` `&lt;` integer-set `&gt;`
 </code></pre><p>An integer-set attribute is an attribute that represents an integer-set object.</p><h4 id=string-attribute>String Attribute</h4><p>Syntax:</p><pre><code>string-attribute ::= string-literal (`:` type)?
 </code></pre><p>A string attribute is an attribute that represents a string literal value.</p><h4 id=symbol-reference-attribute>Symbol Reference Attribute</h4><p>Syntax:</p><pre><code>symbol-ref-attribute ::= symbol-ref-id (`::` symbol-ref-id)*
 </code></pre><p>A symbol reference attribute is a literal attribute that represents a named
