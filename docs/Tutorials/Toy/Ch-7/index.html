@@ -44,7 +44,7 @@ remain extremely efficient
 ). For <code>toy</code>, this
 means we need to explicitly reserve a static range of type <code>kind</code> values in the
 symbol registry file
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/IR/DialectSymbolRegistry.def>DialectSymbolRegistry</a>
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/IR/DialectSymbolRegistry.def>DialectSymbolRegistry</a>
 .</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>LINALG</span><span class=p>)</span> <span class=c1>// Linear Algebra Dialect
 </span><span class=c1></span><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>TOY</span><span class=p>)</span>    <span class=c1>// Toy language (tutorial) Dialect
 </span><span class=c1></span>

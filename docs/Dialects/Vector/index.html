@@ -77,10 +77,10 @@ vector.transfer_write %f1, %A[%i0, %i1, %i2, %i3]
     vector&lt;5x4x3xf32&gt;, memref&lt;?x?x?x?xf32&gt;
 </code></pre><p>The list of VectorOps is currently undergoing evolutions and is best kept
 track of by following the evolution of the
-<a href=https://github.com/tensorflow/mlir/blob/master/include/mlir/Dialect/VectorOps/VectorOps.td>VectorOps.td</a>
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/VectorOps/VectorOps.td>VectorOps.td</a>
 ODS file (markdown documentation is automatically generated locally when
 building and populates the
-<a href=https://github.com/tensorflow/mlir/blob/master/g3doc/Dialects/Vector.md>Vector
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/docs/Dialects/Vector.md>Vector
 doc</a>
 ). Recent
 extensions are driven by concrete use cases of interest. A notable such use
@@ -100,7 +100,7 @@ or the
 <a href=https://github.com/tensorflow/mlir/commit/957b1ca9680b4aacabb3a480fbc4ebd2506334b8>VectorOuterProductOp
 lowering</a>
 ).</p><p>Simple
-<a href=https://github.com/tensorflow/mlir/blob/master/test/Conversion/VectorToLLVM/vector-to-llvm.mlir>conversion
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/test/Conversion/VectorToLLVM/vector-to-llvm.mlir>conversion
 tests</a>
 are available for the <code>LLVM</code> target starting from the Virtual Vector Level.</p><h2 id=hardware-as-vector-machines-of-minimum-granularity>Hardware as <code>vector</code> Machines of Minimum Granularity</h2><p>Higher-dimensional <code>vector</code>s are ubiquitous in modern HPC hardware. One way to
 think about Generic Retargetable <code>vector</code>-Level Dialect is that it operates on
@@ -146,7 +146,7 @@ granularity.</p><p>Irrespective of the existence of an auto-vectorizer, one can 
 vector language based on the VectorOps dialect and build end-to-end models
 with expressing <code>vector</code>s in the IR directly and simple
 pattern-rewrites.
-<a href=https://github.com/tensorflow/mlir/blob/master/g3doc/EDSC.md>EDSC</a>
+<a href=https://github.com/llvm/llvm-project/blob/master/mlir/docs/EDSC.md>EDSC</a>
 s
 provide a simple way of driving such a notional language directly in C++.</p><p>There are arguments against naming an n-D level of abstraction <code>vector</code>
 because most people associate it with 1-D <code>vector</code>s. On the other hand,
