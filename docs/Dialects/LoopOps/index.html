@@ -10,19 +10,72 @@ The lower and upper bounds specify a half-open range: the range includes the
 lower bound but does not include the upper bound.</p><p>The body region must contain exactly one block that terminates with
 &ldquo;loop.terminator&rdquo;. Calling ForOp::build will create such region and insert
 the terminator, so will the parsing even in cases when it is absent from the
-custom format. For example:</p><p>loop.for %iv = %lb to %ub step %step {
-&mldr; // body
-}</p><h4 id=operands>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes>Attributes:</h4><h4 id=results>Results:</h4><h3 id=loopif-ifop>loop.if (IfOp)</h3><p>if-then-else operation</p><h4 id=description-1>Description:</h4><p>The &ldquo;loop.if&rdquo; operation represents an if-then-else construct for
+custom format. For example:</p><pre><code class=language-mlir data-lang=mlir>   loop.for %iv = %lb to %ub step %step {
+     ... // body
+   }
+</code></pre><h4 id=operands>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes>Attributes:</h4><h4 id=results>Results:</h4><h3 id=loopif-ifop>loop.if (IfOp)</h3><p>if-then-else operation</p><h4 id=description-1>Description:</h4><p>The &ldquo;loop.if&rdquo; operation represents an if-then-else construct for
 conditionally executing two regions of code. The operand to an if operation
-is a boolean value. The operation produces no results. For example:</p><p>loop.if %b {
-&mldr;
-} else {
-&mldr;
-}</p><p>The &lsquo;else&rsquo; block is optional, and may be omitted. For
-example:</p><p>loop.if %b {
-&mldr;
-}</p><h4 id=operands-1>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li></ol><h4 id=attributes-1>Attributes:</h4><h4 id=results-1>Results:</h4><h3 id=loopterminator-terminatorop>loop.terminator (TerminatorOp)</h3><p>cf terminator operation</p><h4 id=description-2>Description:</h4><p>&ldquo;loop.terminator&rdquo; is a special terminator operation for blocks inside
+is a boolean value. The operation produces no results. For example:</p><pre><code class=language-mlir data-lang=mlir>   loop.if %b  {
+     ...
+   } else {
+     ...
+   }
+</code></pre><p>The &lsquo;else&rsquo; block is optional, and may be omitted. For
+example:</p><pre><code class=language-mlir data-lang=mlir>   loop.if %b  {
+     ...
+   }
+</code></pre><h4 id=operands-1>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li></ol><h4 id=attributes-1>Attributes:</h4><h4 id=results-1>Results:</h4><h3 id=loopparallel-parallelop>loop.parallel (ParallelOp)</h3><p>parallel for operation</p><h4 id=description-2>Description:</h4><p>The &ldquo;loop.parallel&rdquo; operation represents a loop nest taking 3 groups of SSA
+values as operands that represent the lower bounds, upper bounds and steps,
+respectively. The operation defines a variadic number of SSA values for its
+induction variables. It has one region capturing the loop body. The
+induction variables are represented as an argument of this region. These SSA
+values always have type index, which is the size of the machine word. The
+steps are values of type index, required to be positive.
+The lower and upper bounds specify a half-open range: the range includes the
+lower bound but does not include the upper bound.</p><p>Semantically we require that the iteration space can be iterated in any
+order, and the loop body can be executed in parallel. If there are data
+races, the behavior is undefined.</p><p>The parallel loop operation supports reduction of values produced by
+individual iterations into a single result. This is modeled using the
+loop.reduce operation (see loop.reduce for details). Each result of a
+loop.parallel operation is associated with a reduce operation that is an
+immediate child. Reduces are matched to result values in order of their
+appearance in the body. Consequently, we require that the body region has
+the same number of results as it has reduce operations.</p><p>The body region must contain exactly one block that terminates with
+&ldquo;loop.terminator&rdquo;. Parsing ParallelOp will create such region and insert the
+terminator when it is absent from the custom format. For example:</p><pre><code class=language-mlir data-lang=mlir>   loop.parallel (%iv) = (%lb) to (%ub) step (%step) {
+     %zero = constant 0.0 : f32
+     loop.reduce(%zero) {
+       ^bb0(%lhs : f32, %rhs: f32):
+         %res = addf %lhs, %rhs : f32
+         loop.reduce.return %res : f32
+     } : f32
+   }
+</code></pre><h4 id=operands-2>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopreduce-reduceop>loop.reduce (ReduceOp)</h3><p>reduce operation for parallel for</p><h4 id=description-3>Description:</h4><p>&ldquo;loop.reduce&rdquo; is an operation occuring inside &ldquo;loop.parallel&rdquo; operations. It
+consists of one block with two arguments which have the same type as the
+operand of &ldquo;loop.reduce&rdquo;.</p><p>&ldquo;loop.reduce&rdquo; is used to model the value for reduction computations of a
+&ldquo;loop.parallel&rdquo; operation. It has to appear as an immediate child of a
+&ldquo;loop.parallel&rdquo; and is associated with a result value of its parent
+operation.</p><p>Association is in the order of appearance in the body where the first result
+of a parallel loop operation corresponds to the first &ldquo;loop.reduce&rdquo; in the
+operation's body region. The reduce operation takes a single operand, which
+is the value to be used in the reduction.</p><p>The reduce operation contains a region whose entry block expects two
+arguments of the same type as the operand. As the iteration order of the
+parallel loop and hence reduction order is unspecified, the result of
+reduction may be non-deterministic unless the operation is associative and
+commutative.</p><p>The result of the reduce operation's body must have the same type as the
+operands and associated result value of the parallel loop operation.
+Example:</p><pre><code class=language-mlir data-lang=mlir>  %zero = constant 0.0 : f32
+  loop.reduce(%zero) {
+    ^bb0(%lhs : f32, %rhs: f32):
+      %res = addf %lhs, %rhs : f32
+      loop.reduce.return %res : f32
+  } : f32
+</code></pre><h4 id=operands-3>Operands:</h4><ol><li><code>operand</code>: any type</li></ol><h4 id=attributes-3>Attributes:</h4><h4 id=results-3>Results:</h4><h3 id=loopreducereturn-reducereturnop>loop.reduce.return (ReduceReturnOp)</h3><p>terminator for reduce operation</p><h4 id=description-4>Description:</h4><p>&ldquo;loop.reduce.return&rdquo; is a special terminator operation for the block inside
+&ldquo;loop.reduce&rdquo;. It terminates the region. It should have the same type as the
+operand of &ldquo;loop.reduce&rdquo;. Example for the custom format:</p><pre><code class=language-mlir data-lang=mlir>  loop.reduce.return %res : f32
+</code></pre><h4 id=operands-4>Operands:</h4><ol><li><code>result</code>: any type</li></ol><h4 id=attributes-4>Attributes:</h4><h4 id=results-4>Results:</h4><h3 id=loopterminator-terminatorop>loop.terminator (TerminatorOp)</h3><p>cf terminator operation</p><h4 id=description-5>Description:</h4><p>&ldquo;loop.terminator&rdquo; is a special terminator operation for blocks inside
 loops. It terminates the region. This operation does <em>not</em> have a custom
 syntax. However, <code>std</code> control operations omit the terminator in their
-custom syntax for brevity.</p><p>loop.terminator</p><h4 id=operands-2>Operands:</h4><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/LinalgDoc/ title="Dialect 'linalg' definition"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Dialect 'linalg' definition</a>
+custom syntax for brevity.</p><pre><code class=language-mlir data-lang=mlir>   loop.terminator
+</code></pre><h4 id=operands-5>Operands:</h4><h4 id=attributes-5>Attributes:</h4><h4 id=results-5>Results:</h4><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/LinalgDoc/ title="Dialect 'linalg' definition"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Dialect 'linalg' definition</a>
 <a class="nav nav-next" href=/docs/Dialects/NVVMOps/ title="Dialect 'nvvm' definition">Next - Dialect 'nvvm' definition <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class="parent has-sub-menu"><a href=/docs/Dialects/>Dialects<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect 'affine' definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect 'fxpmath' definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect 'gpu' definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect 'linalg' definition</a></li><li class=active><a href=/docs/Dialects/LoopOps/>Dialect 'loop' definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect 'nvvm' definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect 'quant' definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect 'rocdl' definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect 'spv' definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect 'vector' definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of 'Const' in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>
