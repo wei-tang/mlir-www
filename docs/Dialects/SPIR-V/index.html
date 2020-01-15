@@ -439,7 +439,19 @@ example, for the following SPIR-V function <code>foo</code>:</p><pre><code class
   }
   spv.Return
 }
-</code></pre><h2 id=shader-interface-abi>Shader interface (ABI)</h2><p>SPIR-V itself is just expressing computation happening on GPU device. SPIR-V
+</code></pre><h2 id=target-environment>Target environment</h2><p>SPIR-V aims to support multiple execution environments as specified by client
+APIs. These execution environments affect the availability of certain SPIR-V
+features. For example, a
+<a href=https://renderdoc.org/vkspec_chunked/chap40.html#spirvenv>Vulkan 1.1</a>
+implementation must support
+the 1.0, 1.1, 1.2, and 1.3 versions of SPIR-V and the 1.0 version of the SPIR-V
+extended instructions for GLSL. Further Vulkan extensions may enable more SPIR-V
+instructions.</p><p>SPIR-V compilation should also take into consideration of the execution
+environment, so we generate SPIR-V modules valid for the target environment.
+This is conveyed by the <code>spv.target_env</code> attribute. It is a triple of</p><ul><li><code>version</code>: a 32-bit integer indicating the target SPIR-V version.</li><li><code>extensions</code>: a string array attribute containing allowed extensions.</li><li><code>capabilities</code>: a 32-bit integer array attribute containing allowed
+capabilities.</li></ul><p>Dialect conversion framework will utilize the information in <code>spv.target_env</code>
+to properly filter out patterns and ops not available in the target execution
+environment.</p><h2 id=shader-interface-abi>Shader interface (ABI)</h2><p>SPIR-V itself is just expressing computation happening on GPU device. SPIR-V
 programs themselves are not enough for running workloads on GPU; a companion
 host application is needed to manage the resources referenced by SPIR-V programs
 and dispatch the workload. For the Vulkan execution environment, the host
@@ -522,9 +534,14 @@ classes are provided.</p><p>(<strong>Note</strong> : While SPIR-V has some
 additional rules are imposed by
 <a href=https://renderdoc.org/vkspec_chunked/chap40.html#spirvenv>Vulkan execution environment</a>
 . The
-lowering described below implements both these requirements.)</p><h3 id=spirvtypeconverter>SPIRVTypeConverter</h3><p>The <code>mlir::spirv::SPIRVTypeConverter</code> derives from
-<code>mlir::TypeConverter</code> and provides type conversion for standard
-types to SPIR-V types:</p><ul><li><a href=/docs/LangRef/#integer-type>Standard Integer</a>
+lowering described below implements both these requirements.)</p><h3 id=spirvconversiontarget><code>SPIRVConversionTarget</code></h3><p>The <code>mlir::spirv::SPIRVConversionTarget</code> class derives from the
+<code>mlir::ConversionTarget</code> class and serves as a utility to define a conversion
+target satisfying a given
+<a href=#target-environment><code>spv.target_env</code></a>
+. It registers
+proper hooks to check the dynamic legality of SPIR-V ops. Users can further
+register other legality constraints into the returned <code>SPIRVConversionTarget</code>.</p><h3 id=spirvtypeconverter><code>SPIRVTypeConverter</code></h3><p>The <code>mlir::SPIRVTypeConverter</code> derives from <code>mlir::TypeConverter</code> and provides
+type conversion for standard types to SPIR-V types:</p><ul><li><a href=/docs/LangRef/#integer-type>Standard Integer</a>
 -> Standard Integer</li><li><a href=/docs/LangRef/#floating-point-types>Standard Float</a>
 -> Standard Float</li><li><a href=/docs/LangRef/#vector-type>Vector Type</a>
 -> Vector Type</li><li><a href=/docs/LangRef/#memref-type>Memref Type</a>
@@ -533,9 +550,9 @@ with number of elements obtained from the layout specification of the
 <code>memref</code>, and same element type.</li></ul><p>(TODO: Generate the conversion matrix from comments automatically)</p><p><a href=/docs/LangRef/#index-type>Index Type</a>
 need special handling since they are not directly
 supported in SPIR-V. Currently the <code>index</code> type is converted to <code>i32</code>.</p><p>(TODO: Allow for configuring the integer width to use for <code>index</code> types in the
-SPIR-V dialect)</p><h3 id=spirvoplowering>SPIRVOpLowering</h3><p><code>mlir::spirv::SPIRVOpLowering</code> is a base class that can be used to define the
-patterns used for implementing the lowering. For now this only provides derived
-classes access to an instance of <code>mlir::spirv::SPIRVTypeLowering</code> class.</p><h3 id=utility-functions-for-lowering>Utility functions for lowering</h3><h4 id=setting-shader-interface>Setting shader interface</h4><p>The method <code>mlir::spirv::setABIAttrs</code> allows setting the
+SPIR-V dialect)</p><h3 id=spirvoplowering><code>SPIRVOpLowering</code></h3><p><code>mlir::SPIRVOpLowering</code> is a base class that can be used to define the patterns
+used for implementing the lowering. For now this only provides derived classes
+access to an instance of <code>mlir::SPIRVTypeLowering</code> class.</p><h3 id=utility-functions-for-lowering>Utility functions for lowering</h3><h4 id=setting-shader-interface>Setting shader interface</h4><p>The method <code>mlir::spirv::setABIAttrs</code> allows setting the
 <a href=#shader-interface-abi>shader interface
 attributes</a>
 for a function that is to be an entry
