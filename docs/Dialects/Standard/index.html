@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Standard Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/Standard/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Standard Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/Standard/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li></ul></nav></div><div class=content-container><main><h1>Standard Dialect</h1><p>This dialect provides documentation for operations within the Standard dialect.</p><p>Note: This dialect is a collection of operations for several different concepts,
 and should be split into multiple more-focused dialects accordingly.</p><p>[TOC]</p><p>TODO: shape, which returns a 1D tensor, and can take an unknown rank tensor as
 input.</p><p>TODO: rank, which returns an index.</p><h2 id=terminator-operations>Terminator operations</h2><p>Terminator operations are required at the end of each block. They may contain a
@@ -7,7 +7,7 @@ successor ::= bb-id branch-use-list?
 branch-use-list ::= `(` ssa-use-list `:` type-list-no-parens `)`
 </code></pre><p>The <code>br</code> terminator operation represents an unconditional jump to a target
 block. The count and types of operands to the branch must align with the
-arguments in the target block.</p><p>The MLIR branch operation is not allowed to target the entry block for a region.</p><h3 id=cond-br-terminator-operation>&lsquo;cond_br&rsquo; terminator operation</h3><p>Syntax:</p><pre><code>operation ::= `cond_br` ssa-use `,` successor `,` successor
+arguments in the target block.</p><p>The MLIR branch operation is not allowed to target the entry block for a region.</p><h3 id=cond_br-terminator-operation>&lsquo;cond_br&rsquo; terminator operation</h3><p>Syntax:</p><pre><code>operation ::= `cond_br` ssa-use `,` successor `,` successor
 </code></pre><p>The <code>cond_br</code> terminator operation represents a conditional branch on a boolean
 (1-bit integer) value. If the bit is set, then the first destination is jumped
 to; if it is false, the second destination is chosen. The count and types of
@@ -32,7 +32,7 @@ single function to return.</p><h2 id=core-operations>Core Operations</h2><h3 id=
 result types of the call must match the specified function type. The callee is
 encoded as a function attribute named &ldquo;callee&rdquo;.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// Calling the function my_add.
 %31 = call @my_add(%0, %1) : (tensor&lt;16xf32&gt;, tensor&lt;16xf32&gt;) -&gt; tensor&lt;16xf32&gt;
-</code></pre><h3 id=call-indirect-operation>&lsquo;call_indirect&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `call_indirect` ssa-use `(` ssa-use-list? `)` `:` function-type
+</code></pre><h3 id=call_indirect-operation>&lsquo;call_indirect&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `call_indirect` ssa-use `(` ssa-use-list? `)` `:` function-type
 </code></pre><p>The <code>call_indirect</code> operation represents an indirect call to a value of function
 type. Functions are first class types in MLIR, and may be passed as arguments
 and merged together with block arguments. The operands and result types of the
@@ -68,7 +68,7 @@ destroyed by the <code>dealloc</code> operation.</p><p>Example:</p><pre><code cl
 // two unknown dimensions of the type and x/y are bound to symbols in
 // #layout_map1.
 %B = alloc(%M, %N)[%x, %y] : memref&lt;?x?xf32, #layout_map1, memspace1&gt;
-</code></pre><h3 id=alloc-static-operation>&lsquo;alloc_static&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::=
+</code></pre><h3 id=alloc_static-operation>&lsquo;alloc_static&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::=
     ssa-id `=` `alloc_static` `(` integer-literal `)` :  memref-type
 </code></pre><p>Allocates a new memref of specified type with a fixed base pointer location in
 memory. &lsquo;alloc_static&rsquo; does not support types that have dynamic shapes or that
@@ -83,7 +83,7 @@ allocation. It is paired with an
 or
 <a href=#alloc-static-operation><code>alloc_static</code></a>
 operation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>dealloc %A : memref&lt;128 x f32, #layout, memspace0&gt;
-</code></pre><h3 id=dma-start-operation>&lsquo;dma_start&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `dma_start` ssa-use`[`ssa-use-list`]` `,`
+</code></pre><h3 id=dma_start-operation>&lsquo;dma_start&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `dma_start` ssa-use`[`ssa-use-list`]` `,`
                ssa-use`[`ssa-use-list`]` `,` ssa-use `,`
                ssa-use`[`ssa-use-list`]` (`,` ssa-use `,` ssa-use)?
               `:` memref-type `,` memref-type `,` memref-type
@@ -111,13 +111,13 @@ dma_start %src[%i, %j], %dst[%k, %l], %size, %tag[%idx] :
      memref&lt;40 x 8 x vector&lt;16xf32&gt;, affine_map&lt;(d0, d1) -&gt; (d0, d1)&gt;, 0&gt;,
      memref&lt;2 x 4 x vector&lt;16xf32&gt;, affine_map&lt;(d0, d1) -&gt; (d0, d1)&gt;, 2&gt;,
      memref&lt;1 x i32&gt;, affine_map&lt;(d0) -&gt; (d0)&gt;, 4&gt;
-</code></pre><h3 id=dma-wait-operation>&lsquo;dma_wait&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `dma_wait` ssa-use`[`ssa-use-list`]` `,` ssa-use `:` memref-type
+</code></pre><h3 id=dma_wait-operation>&lsquo;dma_wait&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `dma_wait` ssa-use`[`ssa-use-list`]` `,` ssa-use `:` memref-type
 </code></pre><p>Blocks until the completion of a DMA operation associated with the tag element
 specified with a tag memref and its indices. The operands include the tag memref
 followed by its indices and the number of elements associated with the DMA being
 waited on. The indices of the tag memref have the same restrictions as
 load/store indices.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>dma_wait %tag[%idx], %size : memref&lt;1 x i32, affine_map&lt;(d0) -&gt; (d0)&gt;, 4&gt;
-</code></pre><h3 id=extract-element-operation>&lsquo;extract_element&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `extract_element` ssa-use `[` ssa-use-list `]` `:` type
+</code></pre><h3 id=extract_element-operation>&lsquo;extract_element&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `extract_element` ssa-use `[` ssa-use-list `]` `:` type
 </code></pre><p>The <code>extract_element</code> op reads a tensor or vector and returns one element from
 it specified by an index list. The output of the &lsquo;extract_element&rsquo; is a new
 value with the same type as the elements of the tensor or vector. The arity of
@@ -187,12 +187,12 @@ operations) to
 precisely analyze references at compile-time using polyhedral techniques. This
 is possible because of the
 <a href=/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols>restrictions on dimensions and symbols</a>
-in these contexts.</p><h3 id=tensor-load-operation>&lsquo;tensor_load&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `tensor_load` ssa-use-and-type
+in these contexts.</p><h3 id=tensor_load-operation>&lsquo;tensor_load&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `tensor_load` ssa-use-and-type
 </code></pre><p>Create a tensor from a memref, making an independent copy of the element data.
 The result value is a tensor whose shape and element type match the memref
 operand.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// Produces a value of tensor&lt;4x?xf32&gt; type.
 %12 = tensor_load %10 : memref&lt;4x?xf32, #layout, memspace0&gt;
-</code></pre><h3 id=tensor-store-operation>&lsquo;tensor_store&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `tensor_store` ssa-use `,` ssa-use `:` memref-type
+</code></pre><h3 id=tensor_store-operation>&lsquo;tensor_store&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= `tensor_store` ssa-use `,` ssa-use `:` memref-type
 </code></pre><p>Stores the contents of a tensor into a memref. The first operand is a value of
 tensor type, the second operand is a value of memref type. The shapes and
 element types of these must match, and are specified by the memref type.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>%9 = dim %8, 1 : tensor&lt;4x?xf32&gt;
@@ -410,7 +410,7 @@ behavior.</p><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `diviu` ssa-use `
 </code></pre><p>The <code>diviu</code> operation takes two operands and returns one result, each of these
 is required to be the same type. This type may be an integer scalar type, a
 vector whose element type is integer, or a tensor of integers. It has no
-standard attributes.</p><h3 id=memref-cast-operation>&lsquo;memref_cast&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `memref_cast` ssa-use `:` type `to` type
+standard attributes.</p><h3 id=memref_cast-operation>&lsquo;memref_cast&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `memref_cast` ssa-use `:` type `to` type
 </code></pre><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// Discard static dimension information.
 %3 = memref_cast %2 : memref&lt;4x?xf32&gt; to memref&lt;?x?xf32&gt;
 
@@ -497,7 +497,7 @@ all operands is identical. The choice is made for each element individually
 based on the value at the same position as the element in the condition operand.</p><p>The <code>select</code> operation combined with
 <a href=#cmpi-operation><code>cmpi</code></a>
 can be used to
-implement <code>min</code> and <code>max</code> with signed or unsigned comparison semantics.</p><h3 id=tensor-cast-operation>&lsquo;tensor_cast&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `tensor_cast` ssa-use `:` type `to` type
+implement <code>min</code> and <code>max</code> with signed or unsigned comparison semantics.</p><h3 id=tensor_cast-operation>&lsquo;tensor_cast&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `tensor_cast` ssa-use `:` type `to` type
 </code></pre><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// Convert from unknown rank to rank 2 with unknown dimension sizes.
 %2 = &quot;std.tensor_cast&quot;(%1) : (tensor&lt;*xf32&gt;) -&gt; tensor&lt;?x?xf32&gt;
 %2 = tensor_cast %1 : tensor&lt;*xf32&gt; to tensor&lt;?x?xf32&gt;
