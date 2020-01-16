@@ -19,7 +19,7 @@ loop-nest. Tensors represent an abstract value-typed sequence of data, meaning
 that they don't live in any memory. MemRefs, on the other hand, represent lower
 level buffer access, as they are concrete references to a region of memory.</p><p>MLIR has many different dialects, so it is important to have a unified framework
 for
-<a href=../../Glossary.md#conversion>converting</a>
+<a href=/getting_started/Glossary/#conversion>converting</a>
 between them. This is where the
 <code>DialectConversion</code> framework comes into play. This framework allows for
 transforming a set of <code>illegal</code> operations to a set of <code>legal</code> ones. To use this
@@ -27,7 +27,7 @@ framework, we need to provide two things (and an optional third):</p><ul><li><p>
 <a href=/docs/DialectConversion/#conversion-target>Conversion Target</a></p><ul><li>This is the formal specification of what operations or dialects are
 legal for the conversion. Operations that aren't legal will require
 rewrite patterns to perform
-<a href=../../Glossary.md#legalization>legalization</a>
+<a href=/getting_started/Glossary/#legalization>legalization</a>
 .</li></ul></li><li><p>A set of
 <a href=/docs/DialectConversion/#rewrite-pattern-specification>Rewrite Patterns</a></p><ul><li>These are the set of
 <a href=/docs/QuickstartRewrites/>patterns</a>
