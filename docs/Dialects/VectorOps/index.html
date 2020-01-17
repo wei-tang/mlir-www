@@ -262,9 +262,9 @@ a
 supplied as its first operand
 into a
 <a href=/docs/LangRef/#vector-type>vector</a>
-of the same base elemental type.</p><p>A vector memref operand must have its vector element type match a suffix
-(shape and element type) of the vector (e.g. memref&lt;3x2x6x4x3xf32>,
-vector&lt;1x1x4x3xf32>).</p><p>The slice is further defined by a full-rank index within the MemRef,
+of the same base elemental type.</p><p>A memref operand with vector element type, must have its vector element
+type match a suffix (shape and element type) of the vector (e.g.
+memref&lt;3x2x6x4x3xf32>, vector&lt;1x1x4x3xf32>).</p><p>The slice is further defined by a full-rank index within the MemRef,
 supplied as the operands <code>2 .. 1 + rank(memref)</code>. The permutation_map
 <a href=/docs/LangRef/#attributes>attribute</a>
 is an
