@@ -259,7 +259,7 @@ future such costs will be learned.</p><h3 id=implication-on-lowering-to-accelera
 can start from either <code>1-D</code> or <code>n-D</code> vectors in MLIR and use <code>vector.cast</code> to
 flatten the most minor dimensions to <code>1-D</code> <code>vector&lt;Kxf32></code> where <code>K</code> is an
 appropriate constant. Then, the existing lowering to LLVM-IR immediately
-applies, with extensions for accelerator-specific intrinsics.</p><p>It is the role of an Accelerator-specfic vector dialect (see codegen flow in
+applies, with extensions for accelerator-specific intrinsics.</p><p>It is the role of an Accelerator-specific vector dialect (see codegen flow in
 the figure above) to lower the <code>vector.cast</code>. Accelerator -> LLVM lowering
 would then consist of a bunch of <code>Accelerator -> Accelerator</code> rewrites to
 perform the casts composed with <code>Accelerator -> LLVM</code> conversions + intrinsics

@@ -233,9 +233,10 @@ type does not pass function boundaries at the moment.</p><p>Example:</p><pre><co
 </code></pre><h4 id=operands-6>Operands:</h4><ol><li><code>min</code>: index</li><li><code>max</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes-6>Attributes:</h4><h4 id=results-6>Results:</h4><ol><li>«unnamed»: range</li></ol><h3 id=linalgreshape-linalgreshapeop>linalg.reshape (linalg::ReshapeOp)</h3><p>linalg.reshape produces a new view into the operand view</p><h4 id=description-7>Description:</h4><p>The <code>linalg.reshape</code> op produces a new view whose sizes are a reassociation
 of the original <code>view</code>. Depending on whether or not the reassociated
 MemRefType is contiguous, the resulting memref may require explicit alloc
-and copies.</p><p>A reassociation is defined as a continous grouping of dimensions and is
-represented with an affine map array attribute. In the future, non-continous
-groupings may be allowed (i.e. permutations, reindexings etc).</p><p>For now, it is assumed that either:</p><ol><li>a reassociation produces and consumes contiguous MemRefType or,</li><li>the reshape op will be folded into its consumers (by changing the shape
+and copies.</p><p>A reassociation is defined as a continuous grouping of dimensions and is
+represented with an affine map array attribute. In the future,
+non-continuous groupings may be allowed (i.e. permutations, reindexings
+etc).</p><p>For now, it is assumed that either:</p><ol><li>a reassociation produces and consumes contiguous MemRefType or,</li><li>the reshape op will be folded into its consumers (by changing the shape
 of the computations).
 All other cases are undefined behavior and a reshape op may not lower to
 LLVM if it cannot be proven statically that it does not require alloc+copy.</li></ol><p>A reshape may either collapse or expand dimensions, depending on the

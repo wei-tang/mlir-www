@@ -50,8 +50,8 @@ terminator when it is absent from the custom format. For example:</p><pre><code 
          loop.reduce.return %res : f32
      } : f32
    }
-</code></pre><h4 id=operands-2>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopreduce-reduceop>loop.reduce (ReduceOp)</h3><p>reduce operation for parallel for</p><h4 id=description-3>Description:</h4><p>&ldquo;loop.reduce&rdquo; is an operation occuring inside &ldquo;loop.parallel&rdquo; operations. It
-consists of one block with two arguments which have the same type as the
+</code></pre><h4 id=operands-2>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopreduce-reduceop>loop.reduce (ReduceOp)</h3><p>reduce operation for parallel for</p><h4 id=description-3>Description:</h4><p>&ldquo;loop.reduce&rdquo; is an operation occurring inside &ldquo;loop.parallel&rdquo; operations.
+It consists of one block with two arguments which have the same type as the
 operand of &ldquo;loop.reduce&rdquo;.</p><p>&ldquo;loop.reduce&rdquo; is used to model the value for reduction computations of a
 &ldquo;loop.parallel&rdquo; operation. It has to appear as an immediate child of a
 &ldquo;loop.parallel&rdquo; and is associated with a result value of its parent

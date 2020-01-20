@@ -25,7 +25,7 @@ output type of an add is the same as those of the input operands).</li></ul></li
 is more full-fledged, at which point the C++ functions should become the
 exceptional case.</p><h2 id=testing>Testing</h2><p>Shape inference is currently tested alongside type inference by
 <code>TestReturnTypeDriver</code> in the test dialect. The driver performs two checks:</p><ol><li>Verification that the return types specified matches the infered types. This
-explicit check will be removed and made part of Op verificaton instead.</li><li>Test the creation of Ops without specifying the return type explicitly in
+explicit check will be removed and made part of Op verification instead.</li><li>Test the creation of Ops without specifying the return type explicitly in
 function <code>testCreateFunctions</code> by creating new binary Ops (Op classes
 specified in <code>TestReturnTypeDriver</code>) using 1) all operands to
 <code>testCreateFunctions</code> as both operands, and 2) using combinations of input

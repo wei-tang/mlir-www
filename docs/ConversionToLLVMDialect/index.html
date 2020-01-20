@@ -243,7 +243,7 @@ any pointer manipulations.</p><p>Examples:</p><p>An access to a zero-dimensional
 %0 = llvm.load %m : !llvm&lt;&quot;float*&quot;&gt;
 </code></pre><p>An access to a memref with indices:</p><pre><code class=language-mlir data-lang=mlir>%0 = load %m[1,2,3,4] : memref&lt;10x?x13x?xf32&gt;
 </code></pre><p>is transformed into the equivalent of the following code:</p><pre><code class=language-mlir data-lang=mlir>// Compute the linearized index from strides. Each block below extracts one
-// stride from the descriptor, multipllies it with the index and accumulates
+// stride from the descriptor, multiplies it with the index and accumulates
 // the total offset.
 %stride1 = llvm.extractvalue[4, 0] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
 %idx1 = llvm.mlir.constant(1 : index) !llvm.i64
