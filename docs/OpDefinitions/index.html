@@ -244,7 +244,9 @@ below).</p><p>Examples:</p><pre><code class=language-tablegen data-lang=tablegen
 // declaration but instead handled by the op interface trait directly.
 def OpWithInferTypeInterfaceOp : Op&lt;...
     [DeclareOpInterfaceMethods&lt;MyInterface&gt;]&gt; { ... }
-</code></pre><h3 id=builder-methods>Builder methods</h3><p>For each operation, there are a few builders automatically generated based on
+</code></pre><p>A verification method can also be specified on the <code>OpInterface</code> by setting
+<code>verify</code>. Setting <code>verify</code> results in the generated trait having a <code>verifyTrait</code>
+method that is applied to all operations implementing the trait.</p><h3 id=builder-methods>Builder methods</h3><p>For each operation, there are a few builders automatically generated based on
 the arguments and returns types. For example, given the following op definition:</p><pre><code class=language-tablegen data-lang=tablegen>def MyOp : ... {
   let arguments = (ins
     I32:$i32_operand,
