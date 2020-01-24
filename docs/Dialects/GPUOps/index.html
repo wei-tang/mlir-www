@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect 'gpu' definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/GPUOps/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect 'gpu' definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/GPUOps/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Dialect 'gpu' definition</h1><p>[TOC]</p><h2 id=operation-definition>Operation definition</h2><h3 id=gpuall_reduce-gpuallreduceop>gpu.all_reduce (gpu::AllReduceOp)</h3><p>Reduce values among workgroup.</p><h4 id=description>Description:</h4><p>The &ldquo;all_reduce&rdquo; op reduces the value of every work item across a local
 workgroup. The result is equal for all work items of a workgroup.</p><p>For example, both</p><pre><code>  %1 = &quot;gpu.all_reduce&quot;(%0) ({}) { op = &quot;add&quot; } : (f32) -&gt; (f32)
   %2 = &quot;gpu.all_reduce&quot;(%0) ({
@@ -6,7 +6,7 @@ workgroup. The result is equal for all work items of a workgroup.</p><p>For exam
     %sum = addf %lhs, %rhs : f32
     &quot;gpu.yield&quot;(%sum) : (f32) -&gt; ()
   }) : (f32) -&gt; (f32)
-</code></pre><p>compute the sum of each work item's %0 value. The first version specifies
+</code></pre><p>compute the sum of each work item&rsquo;s %0 value. The first version specifies
 the accumulation as operation, whereas the second version specifies the
 accumulation as code region. The accumulation operation must either be
 <code>add</code> or <code>mul</code>.</p><p>Either none or all work items of a workgroup need to execute this op
@@ -35,23 +35,23 @@ function-result-list)?
 
 memory-attribution ::= (`workgroup` `(` ssa-id-and-type-list `)`)?
                        (`private` `(` ssa-id-and-type-list `)`)?
-</code></pre><p>Example:</p><pre><code class=language-mlir data-lang=mlir>gpu.func @foo(%arg0: index)
-    workgroup(%workgroup: memref&lt;32xf32, 3&gt;)
-    private(%private: memref&lt;1xf32, 5&gt;)
+</code></pre><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>gpu<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span>
+    workgroup<span class=p>(</span><span class=nv>%workgroup</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>32x</span><span class=k>f32</span><span class=p>,</span> <span class=m>3</span><span class=p>&gt;</span><span class=p>)</span>
+    private<span class=p>(</span><span class=nv>%private</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>,</span> <span class=m>5</span><span class=p>&gt;</span><span class=p>)</span>
     kernel
-    attributes {qux: &quot;quux&quot;} {
-  gpu.return
-}
-</code></pre><p>The generic form illustrates the concept</p><pre><code class=language-mlir data-lang=mlir>&quot;gpu.func&quot;(%arg: index) {sym_name: &quot;foo&quot;, kernel, qux: &quot;quux&quot;} ({
-^bb0(%arg0: index, %workgroup: memref&lt;32xf32, 3&gt;,
-     %private: memref&lt;1xf32, 5&gt;):
-  &quot;gpu.return&quot;() : () -&gt; ()
-}) : (index) -&gt; ()
-</code></pre><p>Note the non-default memory spaces used in memref types in memory
+    attributes <span class=p>{</span>qux<span class=p>:</span> <span class=s>&#34;quux&#34;</span><span class=p>}</span> <span class=p>{</span>
+  gpu<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>The generic form illustrates the concept</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=s>&#34;gpu.func&#34;</span><span class=p>(</span><span class=nv>%arg</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>{</span>sym_name<span class=p>:</span> <span class=s>&#34;foo&#34;</span><span class=p>,</span> kernel<span class=p>,</span> qux<span class=p>:</span> <span class=s>&#34;quux&#34;</span><span class=p>}</span> <span class=p>(</span><span class=p>{</span>
+<span class=nl>^bb0</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%workgroup</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>32x</span><span class=k>f32</span><span class=p>,</span> <span class=m>3</span><span class=p>&gt;</span><span class=p>,</span>
+     <span class=nv>%private</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>,</span> <span class=m>5</span><span class=p>&gt;</span><span class=p>)</span><span class=p>:</span>
+  <span class=s>&#34;gpu.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+</code></pre></div><p>Note the non-default memory spaces used in memref types in memory
 attribution.</p><h4 id=operands-4>Operands:</h4><h4 id=attributes-4>Attributes:</h4><h4 id=results-4>Results:</h4><h3 id=gpumodule-gpugpumoduleop>gpu.module (gpu::GPUModuleOp)</h3><p>A top level compilation unit containing code to be run on a GPU.</p><h4 id=description-5>Description:</h4><p>GPU module contains code that is intended to be run on a GPU. A host device
 can launch this code through a gpu.launc_func that creates a fully
-qualified symbol through the gpu.module's symbol and a gpu.func symbol
-contained in the gpu.module.</p><p>The module's top-level scope is modeled by a single region with a single
+qualified symbol through the gpu.module&rsquo;s symbol and a gpu.func symbol
+contained in the gpu.module.</p><p>The module&rsquo;s top-level scope is modeled by a single region with a single
 block. GPU modules are required to have a name that is used for symbol
 resolution by the gpu.launch_func operation.</p><p>Using an op with a region to define a GPU module enables &ldquo;embedding&rdquo; GPU
 modules with SIMT execution models in other dialects in a clean manner and
@@ -77,46 +77,46 @@ module containing that kernel function.</p><p>The operation takes at least six o
 being grid sizes along x,y,z dimensions and the following three being block
 sizes along x,y,z dimensions. When a lower-dimensional kernel is required,
 unused sizes must be explicitly set to <code>1</code>. The remaining operands are
-passed as arguments to the kernel function.</p><p>A custom syntax for this operation is currently not available.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>module attributes {gpu.container_module} {
+passed as arguments to the kernel function.</p><p>A custom syntax for this operation is currently not available.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>module attributes <span class=p>{</span>gpu<span class=p>.</span>container_module<span class=p>}</span> <span class=p>{</span>
 
-  // This module creates a separate compilation unit for the GPU compiler.
-  module @kernels attributes {gpu.kernel_module} {
-    func @kernel_1(%arg0 : f32, %arg1 : !llvm&lt;&quot;float*&quot;&gt;)
-        attributes { nvvm.kernel = true } {
+  <span class=c>// This module creates a separate compilation unit for the GPU compiler.
+</span><span class=c></span>  module <span class=nf>@kernels</span> attributes <span class=p>{</span>gpu<span class=p>.</span>kernel_module<span class=p>}</span> <span class=p>{</span>
+    <span class=kt>func</span> <span class=nf>@kernel_1</span><span class=p>(</span><span class=nv>%arg0</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>%arg1</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>)</span>
+        attributes <span class=p>{</span> <span class=nl>nvvm.kernel =</span> true <span class=p>}</span> <span class=p>{</span>
 
-      // Operations that produce block/thread IDs and dimensions are
-      // injected when outlining the `gpu.launch` body to a function called
-      // by `gpu.launch_func`.
-      %tIdX = &quot;gpu.thread_id&quot;() {dimension = &quot;x&quot;} : () -&gt; (index)
-      %tIdY = &quot;gpu.thread_id&quot;() {dimension = &quot;y&quot;} : () -&gt; (index)
-      %tIdZ = &quot;gpu.thread_id&quot;() {dimension = &quot;z&quot;} : () -&gt; (index)
+      <span class=c>// Operations that produce block/thread IDs and dimensions are
+</span><span class=c></span>      <span class=c>// injected when outlining the `gpu.launch` body to a function called
+</span><span class=c></span>      <span class=c>// by `gpu.launch_func`.
+</span><span class=c></span>      <span class=nv>%tIdX</span> <span class=p>=</span> <span class=s>&#34;gpu.thread_id&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;x&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%tIdY</span> <span class=p>=</span> <span class=s>&#34;gpu.thread_id&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;y&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%tIdZ</span> <span class=p>=</span> <span class=s>&#34;gpu.thread_id&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;z&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
 
-      %bDimX = &quot;gpu.block_dim&quot;() {dimension = &quot;x&quot;} : () -&gt; (index)
-      %bDimY = &quot;gpu.block_dim&quot;() {dimension = &quot;y&quot;} : () -&gt; (index)
-      %bDimZ = &quot;gpu.block_dim&quot;() {dimension = &quot;z&quot;} : () -&gt; (index)
+      <span class=nv>%bDimX</span> <span class=p>=</span> <span class=s>&#34;gpu.block_dim&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;x&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%bDimY</span> <span class=p>=</span> <span class=s>&#34;gpu.block_dim&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;y&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%bDimZ</span> <span class=p>=</span> <span class=s>&#34;gpu.block_dim&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;z&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
 
-      %bIdX = &quot;gpu.block_id&quot;() {dimension = &quot;x&quot;} : () -&gt; (index)
-      %bIdY = &quot;gpu.block_id&quot;() {dimension = &quot;y&quot;} : () -&gt; (index)
-      %bIdZ = &quot;gpu.block_id&quot;() {dimension = &quot;z&quot;} : () -&gt; (index)
+      <span class=nv>%bIdX</span> <span class=p>=</span> <span class=s>&#34;gpu.block_id&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;x&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%bIdY</span> <span class=p>=</span> <span class=s>&#34;gpu.block_id&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;y&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%bIdZ</span> <span class=p>=</span> <span class=s>&#34;gpu.block_id&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;z&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
 
-      %gDimX = &quot;gpu.grid_dim&quot;() {dimension = &quot;x&quot;} : () -&gt; (index)
-      %gDimY = &quot;gpu.grid_dim&quot;() {dimension = &quot;y&quot;} : () -&gt; (index)
-      %gDimZ = &quot;gpu.grid_dim&quot;() {dimension = &quot;z&quot;} : () -&gt; (index)
+      <span class=nv>%gDimX</span> <span class=p>=</span> <span class=s>&#34;gpu.grid_dim&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;x&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%gDimY</span> <span class=p>=</span> <span class=s>&#34;gpu.grid_dim&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;y&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
+      <span class=nv>%gDimZ</span> <span class=p>=</span> <span class=s>&#34;gpu.grid_dim&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>dimension =</span> <span class=s>&#34;z&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>index</span><span class=p>)</span>
 
-      &quot;some_op&quot;(%bx, %tx) : (index, index) -&gt; ()
-      %42 = load %arg1[%bx] : memref&lt;?xf32, 1&gt;
-    }
-  }
+      <span class=s>&#34;some_op&#34;</span><span class=p>(</span><span class=nv>%bx</span><span class=p>,</span> <span class=nv>%tx</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+      <span class=nv>%42</span> <span class=p>=</span> load <span class=nv>%arg1</span><span class=p>[</span><span class=nv>%bx</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
 
-  &quot;gpu.launch_func&quot;(%cst, %cst, %cst,  // Grid sizes.
-                    %cst, %cst, %cst,  // Block sizes.
-                    %arg0, %arg1)      // Arguments passed to the kernel.
-        { kernel_module = @kernels,    // Module containing the kernel.
-          kernel = &quot;kernel_1&quot; }        // Kernel function.
-        : (index, index, index, index, index, index, f32, !llvm&lt;&quot;float*&quot;&gt;)
-          -&gt; ()
-}
-</code></pre><h4 id=operands-7>Operands:</h4><ol><li><code>gridSizeX</code>: integer, index or LLVM dialect equivalent</li><li><code>gridSizeY</code>: integer, index or LLVM dialect equivalent</li><li><code>gridSizeZ</code>: integer, index or LLVM dialect equivalent</li><li><code>blockSizeX</code>: integer, index or LLVM dialect equivalent</li><li><code>blockSizeY</code>: integer, index or LLVM dialect equivalent</li><li><code>blockSizeZ</code>: integer, index or LLVM dialect equivalent</li><li><code>operands</code>: any type</li></ol><h4 id=attributes-7>Attributes:</h4><h4 id=results-7>Results:</h4><h3 id=gpulaunch-gpulaunchop>gpu.launch (gpu::LaunchOp)</h3><p>GPU kernel launch operation</p><h4 id=description-8>Description:</h4><p>Launch a kernel on the specified grid of thread blocks. The body of the
+  <span class=s>&#34;gpu.launch_func&#34;</span><span class=p>(</span><span class=nv>%cst</span><span class=p>,</span> <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%cst</span><span class=p>,</span>  <span class=c>// Grid sizes.
+</span><span class=c></span>                    <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%cst</span><span class=p>,</span>  <span class=c>// Block sizes.
+</span><span class=c></span>                    <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>)</span>      <span class=c>// Arguments passed to the kernel.
+</span><span class=c></span>        <span class=p>{</span> <span class=nl>kernel_module =</span> <span class=nf>@kernels</span><span class=p>,</span>    <span class=c>// Module containing the kernel.
+</span><span class=c></span>          <span class=nl>kernel =</span> <span class=s>&#34;kernel_1&#34;</span> <span class=p>}</span>        <span class=c>// Kernel function.
+</span><span class=c></span>        <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>f32</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>)</span>
+          <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><h4 id=operands-7>Operands:</h4><ol><li><code>gridSizeX</code>: integer, index or LLVM dialect equivalent</li><li><code>gridSizeY</code>: integer, index or LLVM dialect equivalent</li><li><code>gridSizeZ</code>: integer, index or LLVM dialect equivalent</li><li><code>blockSizeX</code>: integer, index or LLVM dialect equivalent</li><li><code>blockSizeY</code>: integer, index or LLVM dialect equivalent</li><li><code>blockSizeZ</code>: integer, index or LLVM dialect equivalent</li><li><code>operands</code>: any type</li></ol><h4 id=attributes-7>Attributes:</h4><h4 id=results-7>Results:</h4><h3 id=gpulaunch-gpulaunchop>gpu.launch (gpu::LaunchOp)</h3><p>GPU kernel launch operation</p><h4 id=description-8>Description:</h4><p>Launch a kernel on the specified grid of thread blocks. The body of the
 kernel is defined by the single region that this operation contains. The
 operation takes at least six operands, with first three operands being grid
 sizes along x,y,z dimensions, the following three arguments being block
@@ -128,40 +128,40 @@ are <em>not</em> allowed to use values defined outside the <em>body</em> region,
 this region was a function. If necessary, values must be passed as kernel
 arguments into the body region. Nested regions inside the kernel body are
 allowed to use values defined in their ancestor regions as long as they
-don't cross the kernel body region boundary.</p><p>Syntax:</p><pre><code>operation ::= `gpu.launch` `block` `(` ssa-id-list `)` `in` ssa-reassignment
+don&rsquo;t cross the kernel body region boundary.</p><p>Syntax:</p><pre><code>operation ::= `gpu.launch` `block` `(` ssa-id-list `)` `in` ssa-reassignment
                          `threads` `(` ssa-id-list `)` `in` ssa-reassignment
                            (`args` ssa-reassignment `:` type-list)?
                            region attr-dict?
 ssa-reassignment ::= `(` ssa-id `=` ssa-use (`,` ssa-id `=` ssa-use)* `)`
-</code></pre><p>Example:</p><pre><code class=language-mlir data-lang=mlir>gpu.launch blocks(%bx, %by, %bz) in (%sz_bx = %0, %sz_by = %1, %sz_bz = %2)
-           threads(%tx, %ty, %tz) in (%sz_tx = %3, %sz_ty = %4, %sz_tz = %5)
-           args(%arg0 = %6, %arg1 = 7) : f32, memref&lt;?xf32, 1&gt; {
-  // Block and thread identifiers, as well as block/grid sizes are
-  // immediately usable inside body region.
-  &quot;some_op&quot;(%bx, %tx) : (index, index) -&gt; ()
-  %42 = load %arg1[%bx] : memref&lt;?xf32, 1&gt;
-}
+</code></pre><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>gpu<span class=p>.</span>launch blocks<span class=p>(</span><span class=nv>%bx</span><span class=p>,</span> <span class=nv>%by</span><span class=p>,</span> <span class=nv>%bz</span><span class=p>)</span> in <span class=p>(</span><span class=nv>%sz_bx</span> <span class=p>=</span> <span class=nv>%0</span><span class=p>,</span> <span class=nv>%sz_by</span> <span class=p>=</span> <span class=nv>%1</span><span class=p>,</span> <span class=nv>%sz_bz</span> <span class=p>=</span> <span class=nv>%2</span><span class=p>)</span>
+           threads<span class=p>(</span><span class=nv>%tx</span><span class=p>,</span> <span class=nv>%ty</span><span class=p>,</span> <span class=nv>%tz</span><span class=p>)</span> in <span class=p>(</span><span class=nv>%sz_tx</span> <span class=p>=</span> <span class=nv>%3</span><span class=p>,</span> <span class=nv>%sz_ty</span> <span class=p>=</span> <span class=nv>%4</span><span class=p>,</span> <span class=nv>%sz_tz</span> <span class=p>=</span> <span class=nv>%5</span><span class=p>)</span>
+           args<span class=p>(</span><span class=nv>%arg0</span> <span class=p>=</span> <span class=nv>%6</span><span class=p>,</span> <span class=nv>%arg1</span> <span class=p>=</span> <span class=m>7</span><span class=p>)</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=c>// Block and thread identifiers, as well as block/grid sizes are
+</span><span class=c></span>  <span class=c>// immediately usable inside body region.
+</span><span class=c></span>  <span class=s>&#34;some_op&#34;</span><span class=p>(</span><span class=nv>%bx</span><span class=p>,</span> <span class=nv>%tx</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=nv>%42</span> <span class=p>=</span> load <span class=nv>%arg1</span><span class=p>[</span><span class=nv>%bx</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span>
+<span class=p>}</span>
 
-// Generic syntax explains how the pretty syntax maps to the IR structure.
-&quot;gpu.launch&quot;(%cst, %cst, %c1,  // Grid sizes.
-                    %cst, %c1, %c1,   // Block sizes.
-                    %arg0, %arg1)     // Actual arguments.
-    {/*attributes*/}
-    // All sizes and identifiers have &quot;index&quot; size.
-    : (index, index, index, index, index, index, f32, memref&lt;?xf32, 1&gt;)
-        -&gt; () {
-// The operation passes block and thread identifiers, followed by grid and
-// block sizes, followed by actual arguments to the entry block of the
-// region.
-^bb0(%bx : index, %by : index, %bz : index,
-     %tx : index, %ty : index, %tz : index,
-     %num_bx : index, %num_by : index, %num_bz : index,
-     %num_tx : index, %num_ty : index, %num_tz : index,
-     %arg0 : f32, %arg1 : memref&lt;?xf32, 1&gt;):
-  &quot;some_op&quot;(%bx, %tx) : (index, index) -&gt; ()
-  %3 = &quot;std.load&quot;(%arg1, %bx) : (memref&lt;?xf32, 1&gt;, index) -&gt; f32
-}
-</code></pre><p>Rationale: using operation/block arguments gives analyses a clear way of
+<span class=c>// Generic syntax explains how the pretty syntax maps to the IR structure.
+</span><span class=c></span><span class=s>&#34;gpu.launch&#34;</span><span class=p>(</span><span class=nv>%cst</span><span class=p>,</span> <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%c1</span><span class=p>,</span>  <span class=c>// Grid sizes.
+</span><span class=c></span>                    <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%c1</span><span class=p>,</span> <span class=nv>%c1</span><span class=p>,</span>   <span class=c>// Block sizes.
+</span><span class=c></span>                    <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>)</span>     <span class=c>// Actual arguments.
+</span><span class=c></span>    <span class=p>{</span><span class=err>/</span><span class=p>*</span>attributes<span class=p>*</span><span class=err>/</span><span class=p>}</span>
+    <span class=c>// All sizes and identifiers have &#34;index&#34; size.
+</span><span class=c></span>    <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>f32</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span><span class=p>)</span>
+        <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+<span class=c>// The operation passes block and thread identifiers, followed by grid and
+</span><span class=c></span><span class=c>// block sizes, followed by actual arguments to the entry block of the
+</span><span class=c></span><span class=c>// region.
+</span><span class=c></span><span class=nl>^bb0</span><span class=p>(</span><span class=nv>%bx</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%by</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%bz</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+     <span class=nv>%tx</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%ty</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%tz</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+     <span class=nv>%num_bx</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%num_by</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%num_bz</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+     <span class=nv>%num_tx</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%num_ty</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%num_tz</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+     <span class=nv>%arg0</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>%arg1</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span><span class=p>)</span><span class=p>:</span>
+  <span class=s>&#34;some_op&#34;</span><span class=p>(</span><span class=nv>%bx</span><span class=p>,</span> <span class=nv>%tx</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=nv>%3</span> <span class=p>=</span> <span class=s>&#34;std.load&#34;</span><span class=p>(</span><span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%bx</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>f32</span>
+<span class=p>}</span>
+</code></pre></div><p>Rationale: using operation/block arguments gives analyses a clear way of
 understanding that a value has additional semantics (e.g., we will need to
 know what value corresponds to threadIdx.x for coalescing). We can recover
 these properties by analyzing the operations producing values, but it is

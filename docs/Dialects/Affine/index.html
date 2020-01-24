@@ -1,14 +1,14 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Affine Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/Affine/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Affine Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/Affine/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Affine Dialect</h1><p>This dialect provides a powerful abstraction for affine operations and analyses.</p><p>[TOC]</p><h2 id=polyhedral-structures>Polyhedral Structures</h2><p>MLIR uses techniques from polyhedral compilation to make dependence analysis and
 loop transformations efficient and reliable. This section introduces some of the
 core concepts that are used throughout the document.</p><h3 id=dimensions-and-symbols>Dimensions and Symbols</h3><p>Dimensions and symbols are the two kinds of identifiers that can appear in the
 polyhedral structures, and are always of
 <a href=/docs/LangRef/#index-type><code>index</code></a>
 type. Dimensions are declared in parentheses and symbols are declared in square
-brackets.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// A 2d to 3d affine mapping.
-// d0/d1 are dimensions, s0 is a symbol
-#affine_map2to3 = affine_map&lt;(d0, d1)[s0] -&gt; (d0, d1 + s0, d1 - s0)&gt;
-</code></pre><p>Dimensional identifiers correspond to the dimensions of the underlying structure
+brackets.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A 2d to 3d affine mapping.
+</span><span class=c></span><span class=c>// d0/d1 are dimensions, s0 is a symbol
+</span><span class=c></span><span class=nv>#affine_map2to3</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> d1 <span class=err>+</span> s0<span class=p>,</span> d1 <span class=err>-</span> s0<span class=p>)</span><span class=p>&gt;</span>
+</code></pre></div><p>Dimensional identifiers correspond to the dimensions of the underlying structure
 being represented (a map, set, or more concretely a loop nest or a tensor); for
 example, a three-dimensional loop nest has three dimensional identifiers. Symbol
 identifiers represent an unknown quantity that can be treated as constant for a
@@ -21,10 +21,10 @@ symbol-use-list ::= `[` ssa-use-list? `]`
 
 // Most things that bind SSA values bind dimensions and symbols.
 dim-and-symbol-use-list ::= dim-use-list symbol-use-list?
-</code></pre><p>SSA values bound to dimensions and symbols must always have &lsquo;index&rsquo; type.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>#affine_map2to3 = affine_map&lt;(d0, d1)[s0] -&gt; (d0, d1 + s0, d1 - s0)&gt;
-// Binds %N to the s0 symbol in affine_map2to3.
-%x = alloc()[%N] : memref&lt;40x50xf32, #affine_map2to3&gt;
-</code></pre><h3 id=restrictions-on-dimensions-and-symbols>Restrictions on Dimensions and Symbols</h3><p>The affine dialect imposes certain restrictions on dimension and symbolic
+</code></pre><p>SSA values bound to dimensions and symbols must always have &lsquo;index&rsquo; type.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>#affine_map2to3</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> d1 <span class=err>+</span> s0<span class=p>,</span> d1 <span class=err>-</span> s0<span class=p>)</span><span class=p>&gt;</span>
+<span class=c>// Binds %N to the s0 symbol in affine_map2to3.
+</span><span class=c></span><span class=nv>%x</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span><span class=p>[</span><span class=nv>%N</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>40x50x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#affine_map2to3</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=restrictions-on-dimensions-and-symbols>Restrictions on Dimensions and Symbols</h3><p>The affine dialect imposes certain restrictions on dimension and symbolic
 identifiers to enable powerful analysis and transformation. A symbolic
 identifier can be bound to an SSA value that is either an argument to the
 function, a value defined at the top level of that function (outside of all
@@ -113,16 +113,16 @@ module-header-def ::= affine-map-def
 affine-map ::= affine-map-id | affine-map-inline
 </code></pre><p>Affine mappings may be defined inline at the point of use, or may be hoisted to
 the top of the file and given a name with an affine map definition, and used by
-name.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// Affine map out-of-line definition and usage example.
-#affine_map42 = affine_map&lt;(d0, d1)[s0] -&gt; (d0, d0 + d1 + s0 floordiv 2)&gt;
+name.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Affine map out-of-line definition and usage example.
+</span><span class=c></span><span class=nv>#affine_map42</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> d0 <span class=err>+</span> d1 <span class=err>+</span> s0 floordiv <span class=m>2</span><span class=p>)</span><span class=p>&gt;</span>
 
-// Use an affine mapping definition in an alloc operation, binding the
-// SSA value %N to the symbol s0.
-%a = alloc()[%N] : memref&lt;4x4xf32, #affine_map42&gt;
+<span class=c>// Use an affine mapping definition in an alloc operation, binding the
+</span><span class=c></span><span class=c>// SSA value %N to the symbol s0.
+</span><span class=c></span><span class=nv>%a</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span><span class=p>[</span><span class=nv>%N</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>4x4x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#affine_map42</span><span class=p>&gt;</span>
 
-// Same thing with an inline affine mapping definition.
-%b = alloc()[%N] : memref&lt;4x4xf32, affine_map&lt;(d0, d1)[s0] -&gt; (d0, d0 + d1 + s0 floordiv 2)&gt;&gt;
-</code></pre><h3 id=semi-affine-maps>Semi-affine maps</h3><p>Semi-affine maps are extensions of affine maps to allow multiplication,
+<span class=c>// Same thing with an inline affine mapping definition.
+</span><span class=c></span><span class=nv>%b</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span><span class=p>[</span><span class=nv>%N</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>4x4x</span><span class=k>f32</span><span class=p>,</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> d0 <span class=err>+</span> d1 <span class=err>+</span> s0 floordiv <span class=m>2</span><span class=p>)</span><span class=p>&gt;</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=semi-affine-maps>Semi-affine maps</h3><p>Semi-affine maps are extensions of affine maps to allow multiplication,
 <code>floordiv</code>, <code>ceildiv</code>, and <code>mod</code> with respect to symbolic identifiers.
 Semi-affine maps are thus a strict superset of affine maps.</p><p>Syntax of semi-affine expressions:</p><pre><code>semi-affine-expr ::= `(` semi-affine-expr `)`
                    | semi-affine-expr `+` semi-affine-expr
@@ -154,9 +154,9 @@ module-header-def ::= semi-affine-map-def
 semi-affine-map ::= semi-affine-map-id | semi-affine-map-inline
 </code></pre><h3 id=integer-sets>Integer Sets</h3><p>An integer set is a conjunction of affine constraints on a list of identifiers.
 The identifiers associated with the integer set are separated out into two
-classes: the set's dimension identifiers, and the set's symbolic identifiers.
+classes: the set&rsquo;s dimension identifiers, and the set&rsquo;s symbolic identifiers.
 The set is viewed as being parametric on its symbolic identifiers. In the
-syntax, the list of set's dimension identifiers are enclosed in parentheses
+syntax, the list of set&rsquo;s dimension identifiers are enclosed in parentheses
 while its symbols are enclosed in square brackets.</p><p>Syntax of affine constraints:</p><pre><code>affine-constraint ::= affine-expr `&gt;=` `0`
                     | affine-expr `==` `0`
 affine-constraint-conjunction ::= affine-constraint (`,` affine-constraint)*
@@ -175,16 +175,16 @@ integer-set ::= integer-set-id | integer-set-inline
 </code></pre><p>The dimensionality of an integer set is the number of identifiers appearing in
 dimension list of the set. The affine-constraint non-terminals appearing in the
 syntax above are only allowed to contain identifiers from dims and symbols. A
-set with no constraints is a set that is unbounded along all of the set's
-dimensions.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// A example two-dimensional integer set with two symbols.
-#set42 = affine_set&lt;(d0, d1)[s0, s1]
-   : (d0 &gt;= 0, -d0 + s0 - 1 &gt;= 0, d1 &gt;= 0, -d1 + s1 - 1 &gt;= 0)&gt;
+set with no constraints is a set that is unbounded along all of the set&rsquo;s
+dimensions.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A example two-dimensional integer set with two symbols.
+</span><span class=c></span><span class=nv>#set42</span> <span class=p>=</span> affine_set<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>,</span> s1<span class=p>]</span>
+   <span class=p>:</span> <span class=p>(</span>d0 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=err>-</span>d0 <span class=err>+</span> s0 <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d1 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=err>-</span>d1 <span class=err>+</span> s1 <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>)</span><span class=p>&gt;</span>
 
-// Inside a Region
-affine.if #set42(%i, %j)[%M, %N] {
-  ...
-}
-</code></pre><p><code>d0</code> and <code>d1</code> correspond to dimensional identifiers of the set, while <code>s0</code> and
+<span class=c>// Inside a Region
+</span><span class=c></span>affine<span class=p>.</span>if <span class=nv>#set42</span><span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>)</span><span class=p>[</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>]</span> <span class=p>{</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>}</span>
+</code></pre></div><p><code>d0</code> and <code>d1</code> correspond to dimensional identifiers of the set, while <code>s0</code> and
 <code>s1</code> are symbol identifiers.</p><h2 id=operations>Operations</h2><h4 id=affineapply-operation>&lsquo;affine.apply&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.apply` affine-map-attribute dim-and-symbol-use-list
 </code></pre><p>The <code>affine.apply</code> operation applies an
 <a href=#affine-expressions>affine mapping</a>
@@ -192,13 +192,13 @@ to a list of SSA values,
 yielding a single SSA value. The number of dimension and symbol arguments to
 affine.apply must be equal to the respective number of dimensional and symbolic
 inputs to the affine mapping; the <code>affine.apply</code> operation always returns one
-value. The input operands and result must all have &lsquo;index&rsquo; type.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>#map10 = affine_map&lt;(d0, d1) -&gt; (d0 floordiv 8 + d1 floordiv 128)&gt;
-...
-%1 = affine.apply #map10 (%s, %t)
+value. The input operands and result must all have &lsquo;index&rsquo; type.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>#map10</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 floordiv <span class=m>8</span> <span class=err>+</span> d1 floordiv <span class=m>128</span><span class=p>)</span><span class=p>&gt;</span>
+<span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=nv>%1</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map10</span> <span class=p>(</span><span class=nv>%s</span><span class=p>,</span> <span class=nv>%t</span><span class=p>)</span>
 
-// Inline example.
-%2 = affine.apply affine_map&lt;(i)[s0] -&gt; (i+s0)&gt; (%42)[%n]
-</code></pre><h4 id=affinefor-operation>&lsquo;affine.for&rsquo; operation</h4><p>Syntax:</p><pre><code>operation   ::= `affine.for` ssa-id `=` lower-bound `to` upper-bound
+<span class=c>// Inline example.
+</span><span class=c></span><span class=nv>%2</span> <span class=p>=</span> affine<span class=p>.</span>apply affine_map<span class=p>&lt;</span><span class=p>(</span>i<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>i<span class=err>+</span>s0<span class=p>)</span><span class=p>&gt;</span> <span class=p>(</span><span class=nv>%42</span><span class=p>)</span><span class=p>[</span><span class=nv>%n</span><span class=p>]</span>
+</code></pre></div><h4 id=affinefor-operation>&lsquo;affine.for&rsquo; operation</h4><p>Syntax:</p><pre><code>operation   ::= `affine.for` ssa-id `=` lower-bound `to` upper-bound
                       (`step` integer-literal)? `{` op* `}`
 
 lower-bound ::= `max`? affine-map-attribute dim-and-symbol-use-list | shorthand-bound
@@ -228,20 +228,20 @@ things more obvious to human readers.</p><p>Many upper and lower bounds are simp
 syntaxes: the form that accepts a single &lsquo;ssa-id&rsquo; (e.g. <code>%N</code>) is shorthand for
 applying that SSA value to a function that maps a single symbol to itself, e.g.,
 <code>()[s]->(s)()[%N]</code>. The integer literal form (e.g. <code>-42</code>) is shorthand for a
-nullary mapping function that returns the constant value (e.g. <code>()->(-42)()</code>).</p><p>Example showing reverse iteration of the inner loop:</p><pre><code class=language-mlir data-lang=mlir>#map57 = affine_map&lt;(d0)[s0] -&gt; (s0 - d0 - 1)&gt;
+nullary mapping function that returns the constant value (e.g. <code>()->(-42)()</code>).</p><p>Example showing reverse iteration of the inner loop:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>#map57</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>s0 <span class=err>-</span> d0 <span class=err>-</span> <span class=m>1</span><span class=p>)</span><span class=p>&gt;</span>
 
-func @simple_example(%A: memref&lt;?x?xf32&gt;, %B: memref&lt;?x?xf32&gt;) {
-  %N = dim %A, 0 : memref&lt;?x?xf32&gt;
-  affine.for %i = 0 to %N step 1 {
-    affine.for %j = 0 to %N {   // implicitly steps by 1
-      %0 = affine.apply #map57(%j)[%N]
-      %tmp = call @F1(%A, %i, %0) : (memref&lt;?x?xf32&gt;, index, index)-&gt;(f32)
-      call @F2(%tmp, %B, %i, %0) : (f32, memref&lt;?x?xf32&gt;, index, index)-&gt;()
-    }
-  }
-  return
-}
-</code></pre><h4 id=affineif-operation>&lsquo;affine.if&rsquo; operation</h4><p>Syntax:</p><pre><code>operation    ::= `affine.if` if-op-cond `{` op* `}` (`else` `{` op* `}`)?
+<span class=kt>func</span> <span class=nf>@simple_example</span><span class=p>(</span><span class=nv>%A</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%B</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%N</span> <span class=p>=</span> dim <span class=nv>%A</span><span class=p>,</span> <span class=m>0</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%N</span> step <span class=m>1</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%j</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%N</span> <span class=p>{</span>   <span class=c>// implicitly steps by 1
+</span><span class=c></span>      <span class=nv>%0</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map57</span><span class=p>(</span><span class=nv>%j</span><span class=p>)</span><span class=p>[</span><span class=nv>%N</span><span class=p>]</span>
+      <span class=nv>%tmp</span> <span class=p>=</span> call <span class=nf>@F1</span><span class=p>(</span><span class=nv>%A</span><span class=p>,</span> <span class=nv>%i</span><span class=p>,</span> <span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span><span class=p>-&gt;</span><span class=p>(</span><span class=k>f32</span><span class=p>)</span>
+      call <span class=nf>@F2</span><span class=p>(</span><span class=nv>%tmp</span><span class=p>,</span> <span class=nv>%B</span><span class=p>,</span> <span class=nv>%i</span><span class=p>,</span> <span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span><span class=p>-&gt;</span><span class=p>(</span><span class=p>)</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><h4 id=affineif-operation>&lsquo;affine.if&rsquo; operation</h4><p>Syntax:</p><pre><code>operation    ::= `affine.if` if-op-cond `{` op* `}` (`else` `{` op* `}`)?
 if-op-cond ::= integer-set-attr dim-and-symbol-use-list
 </code></pre><p>The <code>affine.if</code> operation restricts execution to a subset of the loop iteration
 space defined by an integer set (a conjunction of affine constraints). A single
@@ -258,58 +258,58 @@ terminating with
 <a href=#affineterminator-operation><code>affine.terminator</code></a>
 . <em>Note:</em>
 when <code>affine.if</code> is printed in custom format, the terminator is omitted. These
-blocks must not have any arguments.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>#set = affine_set&lt;(d0, d1)[s0]: (d0 - 10 &gt;= 0, s0 - d0 - 9 &gt;= 0,
-                                 d1 - 10 &gt;= 0, s0 - d1 - 9 &gt;= 0)&gt;
-func @reduced_domain_example(%A, %X, %N) : (memref&lt;10xi32&gt;, i32, i32) {
-  affine.for %i = 0 to %N {
-     affine.for %j = 0 to %N {
-       %0 = affine.apply #map42(%j)
-       %tmp = call @S1(%X, %i, %0)
-       affine.if #set(%i, %j)[%N] {
-          %1 = affine.apply #map43(%i, %j)
-          call @S2(%tmp, %A, %i, %1)
-       }
-    }
-  }
-  return
-}
-</code></pre><h4 id=affineload-operation>&lsquo;affine.load&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.load` ssa-use `[` multi-dim-affine-map-of-ssa-ids `]` `:` memref-type
+blocks must not have any arguments.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>#set</span> <span class=p>=</span> affine_set<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span><span class=p>:</span> <span class=p>(</span>d0 <span class=err>-</span> <span class=m>10</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> s0 <span class=err>-</span> d0 <span class=err>-</span> <span class=m>9</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span>
+                                 d1 <span class=err>-</span> <span class=m>10</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> s0 <span class=err>-</span> d1 <span class=err>-</span> <span class=m>9</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>)</span><span class=p>&gt;</span>
+<span class=kt>func</span> <span class=nf>@reduced_domain_example</span><span class=p>(</span><span class=nv>%A</span><span class=p>,</span> <span class=nv>%X</span><span class=p>,</span> <span class=nv>%N</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>10x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>i32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span> <span class=p>{</span>
+  affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%N</span> <span class=p>{</span>
+     affine<span class=p>.</span>for <span class=nv>%j</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%N</span> <span class=p>{</span>
+       <span class=nv>%0</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map42</span><span class=p>(</span><span class=nv>%j</span><span class=p>)</span>
+       <span class=nv>%tmp</span> <span class=p>=</span> call <span class=nf>@S1</span><span class=p>(</span><span class=nv>%X</span><span class=p>,</span> <span class=nv>%i</span><span class=p>,</span> <span class=nv>%0</span><span class=p>)</span>
+       affine<span class=p>.</span>if <span class=nv>#set</span><span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>)</span><span class=p>[</span><span class=nv>%N</span><span class=p>]</span> <span class=p>{</span>
+          <span class=nv>%1</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map43</span><span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>)</span>
+          call <span class=nf>@S2</span><span class=p>(</span><span class=nv>%tmp</span><span class=p>,</span> <span class=nv>%A</span><span class=p>,</span> <span class=nv>%i</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span>
+       <span class=p>}</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><h4 id=affineload-operation>&lsquo;affine.load&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.load` ssa-use `[` multi-dim-affine-map-of-ssa-ids `]` `:` memref-type
 </code></pre><p>The <code>affine.load</code> op reads an element from a memref, where the index for each
 memref dimension is an affine expression of loop induction variables and
 symbols. The output of &lsquo;affine.load&rsquo; is a new value with the same type as the
 elements of the memref. An affine expression of loop IVs and symbols must be
 specified for each dimension of the memref. The keyword &lsquo;symbol&rsquo; can be used to
-indicate SSA identifiers which are symbolic.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>
-  Example 1:
+indicate SSA identifiers which are symbolic.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+  Example <span class=m>1</span><span class=p>:</span>
 
-    %1 = affine.load %0[%i0 + 3, %i1 + 7] : memref&lt;100x100xf32&gt;
+    <span class=nv>%1</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%0</span><span class=p>[</span><span class=nv>%i0</span> <span class=err>+</span> <span class=m>3</span><span class=p>,</span> <span class=nv>%i1</span> <span class=err>+</span> <span class=m>7</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x100x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  Example 2: Uses 'symbol' keyword for symbols '%n' and '%m'.
+  Example <span class=m>2</span><span class=p>:</span> Uses <span class=err>&#39;</span>symbol<span class=err>&#39;</span> keyword for symbols <span class=err>&#39;</span><span class=nv>%n</span><span class=err>&#39;</span> and <span class=err>&#39;</span><span class=nv>%m</span><span class=err>&#39;</span><span class=p>.</span>
 
-    %1 = affine.load %0[%i0 + symbol(%n), %i1 + symbol(%m)]
-      : memref&lt;100x100xf32&gt;
+    <span class=nv>%1</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%0</span><span class=p>[</span><span class=nv>%i0</span> <span class=err>+</span> symbol<span class=p>(</span><span class=nv>%n</span><span class=p>)</span><span class=p>,</span> <span class=nv>%i1</span> <span class=err>+</span> symbol<span class=p>(</span><span class=nv>%m</span><span class=p>)</span><span class=p>]</span>
+      <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x100x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-</code></pre><h4 id=affinestore-operation>&lsquo;affine.store&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.store` ssa-use, ssa-use `[` multi-dim-affine-map-of-ssa-ids `]` `:` memref-type
+</code></pre></div><h4 id=affinestore-operation>&lsquo;affine.store&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.store` ssa-use, ssa-use `[` multi-dim-affine-map-of-ssa-ids `]` `:` memref-type
 </code></pre><p>The <code>affine.store</code> op writes an element to a memref, where the index for each
 memref dimension is an affine expression of loop induction variables and
 symbols. The &lsquo;affine.store&rsquo; op stores a new value which is the same type as the
 elements of the memref. An affine expression of loop IVs and symbols must be
 specified for each dimension of the memref. The keyword &lsquo;symbol&rsquo; can be used to
-indicate SSA identifiers which are symbolic.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>
-    Example 1:
+indicate SSA identifiers which are symbolic.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+    Example <span class=m>1</span><span class=p>:</span>
 
-      affine.store %v0, %0[%i0 + 3, %i1 + 7] : memref&lt;100x100xf32&gt;
+      affine<span class=p>.</span>store <span class=nv>%v0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=nv>%i0</span> <span class=err>+</span> <span class=m>3</span><span class=p>,</span> <span class=nv>%i1</span> <span class=err>+</span> <span class=m>7</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x100x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-    Example 2: Uses 'symbol' keyword for symbols '%n' and '%m'.
+    Example <span class=m>2</span><span class=p>:</span> Uses <span class=err>&#39;</span>symbol<span class=err>&#39;</span> keyword for symbols <span class=err>&#39;</span><span class=nv>%n</span><span class=err>&#39;</span> and <span class=err>&#39;</span><span class=nv>%m</span><span class=err>&#39;</span><span class=p>.</span>
 
-      affine.store %v0, %0[%i0 + symbol(%n), %i1 + symbol(%m)]
-        : memref&lt;100x100xf32&gt;
+      affine<span class=p>.</span>store <span class=nv>%v0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=nv>%i0</span> <span class=err>+</span> symbol<span class=p>(</span><span class=nv>%n</span><span class=p>)</span><span class=p>,</span> <span class=nv>%i1</span> <span class=err>+</span> symbol<span class=p>(</span><span class=nv>%m</span><span class=p>)</span><span class=p>]</span>
+        <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x100x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-</code></pre><h4 id=affinedma_start-operation>&lsquo;affine.dma_start&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= `affine.dma_Start` ssa-use `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, ssa-use `:` memref-type
+</code></pre></div><h4 id=affinedma_start-operation>&lsquo;affine.dma_start&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= `affine.dma_Start` ssa-use `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, ssa-use `:` memref-type
 </code></pre><p>The <code>affine.dma_start</code> op starts a non-blocking DMA operation that transfers
 data from a source memref to a destination memref. The source and destination
 memref need not be of the same dimensionality, but need to have the same
-elemental type. The operands include the source and destination memref's
+elemental type. The operands include the source and destination memref&rsquo;s
 each followed by its indices, size of the data transfer in terms of the
 number of elements (of the elemental type of the memref), a tag memref with
 its indices, and optionally at the end, a stride and a
@@ -323,49 +323,49 @@ stride for the slower memory space (memory space with a lower memory space
 id), transferring chunks of number_of_elements_per_stride every stride until
 %num_elements are transferred. Either both or no stride arguments should be
 specified. The value of &lsquo;num_elements&rsquo; must be a multiple of
-&lsquo;number_of_elements_per_stride&rsquo;.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>
-For example, a DmaStartOp operation that transfers 256 elements of a memref
-'%src' in memory space 0 at indices [%i + 3, %j] to memref '%dst' in memory
-space 1 at indices [%k + 7, %l], would be specified as follows:
+&lsquo;number_of_elements_per_stride&rsquo;.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+For example<span class=p>,</span> a DmaStartOp operation that transfers <span class=m>256</span> elements of a <span class=kt>memref</span>
+<span class=err>&#39;</span><span class=nv>%src</span><span class=err>&#39;</span> in memory space <span class=m>0</span> at indices <span class=p>[</span><span class=nv>%i</span> <span class=err>+</span> <span class=m>3</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> to <span class=kt>memref</span> <span class=err>&#39;</span><span class=nv>%dst</span><span class=err>&#39;</span> in memory
+space <span class=m>1</span> at indices <span class=p>[</span><span class=nv>%k</span> <span class=err>+</span> <span class=m>7</span><span class=p>,</span> <span class=nv>%l</span><span class=p>]</span><span class=p>,</span> would be specified as follows<span class=p>:</span>
 
-  %num_elements = constant 256
-  %idx = constant 0 : index
-  %tag = alloc() : memref&lt;1xi32, 4&gt;
-  affine.dma_start %src[%i + 3, %j], %dst[%k + 7, %l], %tag[%idx],
-    %num_elements :
-      memref&lt;40x128xf32, 0&gt;, memref&lt;2x1024xf32, 1&gt;, memref&lt;1xi32, 2&gt;
+  <span class=nv>%num_elements</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>256</span>
+  <span class=nv>%idx</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0</span> <span class=p>:</span> <span class=k>index</span>
+  <span class=nv>%tag</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>i32</span><span class=p>,</span> <span class=m>4</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>dma_start <span class=nv>%src</span><span class=p>[</span><span class=nv>%i</span> <span class=err>+</span> <span class=m>3</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span><span class=p>,</span> <span class=nv>%dst</span><span class=p>[</span><span class=nv>%k</span> <span class=err>+</span> <span class=m>7</span><span class=p>,</span> <span class=nv>%l</span><span class=p>]</span><span class=p>,</span> <span class=nv>%tag</span><span class=p>[</span><span class=nv>%idx</span><span class=p>]</span><span class=p>,</span>
+    <span class=nv>%num_elements</span> <span class=p>:</span>
+      <span class=kt>memref</span><span class=p>&lt;</span><span class=m>40x128x</span><span class=k>f32</span><span class=p>,</span> <span class=m>0</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x1024x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>i32</span><span class=p>,</span> <span class=m>2</span><span class=p>&gt;</span>
 
-  If %stride and %num_elt_per_stride are specified, the DMA is expected to
-  transfer %num_elt_per_stride elements every %stride elements apart from
-  memory space 0 until %num_elements are transferred.
+  If <span class=nv>%stride</span> and <span class=nv>%num_elt_per_stride</span> are specified<span class=p>,</span> the DMA is expected to
+  transfer <span class=nv>%num_elt_per_stride</span> elements every <span class=nv>%stride</span> elements apart from
+  memory space <span class=m>0</span> until <span class=nv>%num_elements</span> are transferred<span class=p>.</span>
 
-  affine.dma_start %src[%i, %j], %dst[%k, %l], %tag[%idx], %num_elements,
-    %stride, %num_elt_per_stride : ...
+  affine<span class=p>.</span>dma_start <span class=nv>%src</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span><span class=p>,</span> <span class=nv>%dst</span><span class=p>[</span><span class=nv>%k</span><span class=p>,</span> <span class=nv>%l</span><span class=p>]</span><span class=p>,</span> <span class=nv>%tag</span><span class=p>[</span><span class=nv>%idx</span><span class=p>]</span><span class=p>,</span> <span class=nv>%num_elements</span><span class=p>,</span>
+    <span class=nv>%stride</span><span class=p>,</span> <span class=nv>%num_elt_per_stride</span> <span class=p>:</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
-</code></pre><h4 id=affinedma_wait-operation>&lsquo;affine.dma_wait&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= `affine.dma_Start` ssa-use `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, ssa-use `:` memref-type
+</code></pre></div><h4 id=affinedma_wait-operation>&lsquo;affine.dma_wait&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= `affine.dma_Start` ssa-use `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, `[` multi-dim-affine-map-of-ssa-ids `]`, ssa-use `:` memref-type
 </code></pre><p>The <code>affine.dma_start</code> op blocks until the completion of a DMA operation
 associated with the tag element &lsquo;%tag[%index]'. %tag is a memref, and %index
 has to be an index with the same restrictions as any load/store index.
 In particular, index for each memref dimension must be an affine expression of
 loop induction variables and symbols. %num_elements is the number of elements
-associated with the DMA operation. For example:</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>
-  affine.dma_start %src[%i, %j], %dst[%k, %l], %tag[%index], %num_elements :
-    memref&lt;2048xf32, 0&gt;, memref&lt;256xf32, 1&gt;, memref&lt;1xi32, 2&gt;
-  ...
-  ...
-  affine.dma_wait %tag[%index], %num_elements : memref&lt;1xi32, 2&gt;
+associated with the DMA operation. For example:</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+  affine<span class=p>.</span>dma_start <span class=nv>%src</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span><span class=p>,</span> <span class=nv>%dst</span><span class=p>[</span><span class=nv>%k</span><span class=p>,</span> <span class=nv>%l</span><span class=p>]</span><span class=p>,</span> <span class=nv>%tag</span><span class=p>[</span><span class=nv>%index</span><span class=p>]</span><span class=p>,</span> <span class=nv>%num_elements</span> <span class=p>:</span>
+    <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2048x</span><span class=k>f32</span><span class=p>,</span> <span class=m>0</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>256x</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>i32</span><span class=p>,</span> <span class=m>2</span><span class=p>&gt;</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+  affine<span class=p>.</span>dma_wait <span class=nv>%tag</span><span class=p>[</span><span class=nv>%index</span><span class=p>]</span><span class=p>,</span> <span class=nv>%num_elements</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>i32</span><span class=p>,</span> <span class=m>2</span><span class=p>&gt;</span>
 
-</code></pre><h4 id=affinemin-operation>&lsquo;affine.min&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.min` affine-map-attribute dim-and-symbol-use-list
+</code></pre></div><h4 id=affinemin-operation>&lsquo;affine.min&rsquo; operation</h4><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `affine.min` affine-map-attribute dim-and-symbol-use-list
 </code></pre><p>The <code>affine.min</code> operation applies an
 <a href=#affine-expressions>affine mapping</a>
 to a list of SSA values, and returns the
 minimum value of all result expressions. The number of dimension and symbol
 arguments to affine.min must be equal to the respective number of dimensional
 and symbolic inputs to the affine mapping; the <code>affine.min</code> operation always
-returns one value. The input operands and result must all have &lsquo;index&rsquo; type.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>
-%0 = affine.min affine_map&lt;(d0)[s0] -&gt; (1000, d0 + 512, s0)&gt; (%arg0)[%arg1]
+returns one value. The input operands and result must all have &lsquo;index&rsquo; type.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+<span class=nv>%0</span> <span class=p>=</span> affine<span class=p>.</span>min affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>)</span><span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=m>1000</span><span class=p>,</span> d0 <span class=err>+</span> <span class=m>512</span><span class=p>,</span> s0<span class=p>)</span><span class=p>&gt;</span> <span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span><span class=p>[</span><span class=nv>%arg1</span><span class=p>]</span>
 
-</code></pre><h4 id=affineterminator-operation><code>affine.terminator</code> operation</h4><p>Syntax:</p><pre><code>operation ::= `&quot;affine.terminator&quot;() : () -&gt; ()`
+</code></pre></div><h4 id=affineterminator-operation><code>affine.terminator</code> operation</h4><p>Syntax:</p><pre><code>operation ::= `&quot;affine.terminator&quot;() : () -&gt; ()`
 </code></pre><p>Affine terminator is a special terminator operation for blocks inside affine
 loops (
 <a href=#affinefor-operation><code>affine.for</code></a>

@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Specification - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/LangRef/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Specification - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/LangRef/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>MLIR Specification</h1><p>MLIR (Multi-Level IR) is a compiler intermediate representation with
 similarities to traditional three-address SSA representations (like
 <a href=http://llvm.org/docs/LangRef.html>LLVM IR</a>
@@ -41,65 +41,65 @@ that represent a Control Flow Graph (CFG) of
 <a href=#blocks>Blocks</a>
 , that contain operations and end with a
 <a href=#terminator-operations>terminator operation</a>
-(like branches).</p><p>Here's an example of an MLIR module:</p><pre><code class=language-mlir data-lang=mlir>// Compute A*B using an implementation of multiply kernel and print the
-// result using a TensorFlow op. The dimensions of A and B are partially
-// known. The shapes are assumed to match.
-func @mul(%A: tensor&lt;100x?xf32&gt;, %B: tensor&lt;?x50xf32&gt;) -&gt; (tensor&lt;100x50xf32&gt;) {
-  // Compute the inner dimension of %A using the dim operation.
-  %n = dim %A, 1 : tensor&lt;100x?xf32&gt;
+(like branches).</p><p>Here&rsquo;s an example of an MLIR module:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Compute A*B using an implementation of multiply kernel and print the
+</span><span class=c></span><span class=c>// result using a TensorFlow op. The dimensions of A and B are partially
+</span><span class=c></span><span class=c>// known. The shapes are assumed to match.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@mul</span><span class=p>(</span><span class=nv>%A</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%B</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// Compute the inner dimension of %A using the dim operation.
+</span><span class=c></span>  <span class=nv>%n</span> <span class=p>=</span> dim <span class=nv>%A</span><span class=p>,</span> <span class=m>1</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  // Allocate addressable &quot;buffers&quot; and copy tensors %A and %B into them.
-  %A_m = alloc(%n) : memref&lt;100x?xf32&gt;
-  tensor_store %A to %A_m : memref&lt;100x?xf32&gt;
+  <span class=c>// Allocate addressable &#34;buffers&#34; and copy tensors %A and %B into them.
+</span><span class=c></span>  <span class=nv>%A_m</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%n</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span>
+  <span class=kt>tensor</span>_store <span class=nv>%A</span> to <span class=nv>%A_m</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  %B_m = alloc(%n) : memref&lt;?x50xf32&gt;
-  tensor_store %B to %B_m : memref&lt;?x50xf32&gt;
+  <span class=nv>%B_m</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%n</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+  <span class=kt>tensor</span>_store <span class=nv>%B</span> to <span class=nv>%B_m</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  // Call function @multiply passing memrefs as arguments,
-  // and getting returned the result of the multiplication.
-  %C_m = call @multiply(%A_m, %B_m)
-          : (memref&lt;100x?xf32&gt;, memref&lt;?x50xf32&gt;) -&gt; (memref&lt;100x50xf32&gt;)
+  <span class=c>// Call function @multiply passing memrefs as arguments,
+</span><span class=c></span>  <span class=c>// and getting returned the result of the multiplication.
+</span><span class=c></span>  <span class=nv>%C_m</span> <span class=p>=</span> call <span class=nf>@multiply</span><span class=p>(</span><span class=nv>%A_m</span><span class=p>,</span> <span class=nv>%B_m</span><span class=p>)</span>
+          <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span>
 
-  dealloc %A_m : memref&lt;100x?xf32&gt;
-  dealloc %B_m : memref&lt;?x50xf32&gt;
+  dealloc <span class=nv>%A_m</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span>
+  dealloc <span class=nv>%B_m</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  // Load the buffer data into a higher level &quot;tensor&quot; value.
-  %C = tensor_load %C_m : memref&lt;100x50xf32&gt;
-  dealloc %C_m : memref&lt;100x50xf32&gt;
+  <span class=c>// Load the buffer data into a higher level &#34;tensor&#34; value.
+</span><span class=c></span>  <span class=nv>%C</span> <span class=p>=</span> <span class=kt>tensor</span>_load <span class=nv>%C_m</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+  dealloc <span class=nv>%C_m</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  // Call TensorFlow built-in function to print the result tensor.
-  &quot;tf.Print&quot;(%C){message: &quot;mul result&quot;}
-                  : (tensor&lt;100x50xf32) -&gt; (tensor&lt;100x50xf32&gt;)
+  <span class=c>// Call TensorFlow built-in function to print the result tensor.
+</span><span class=c></span>  <span class=s>&#34;tf.Print&#34;</span><span class=p>(</span><span class=nv>%C</span><span class=p>)</span><span class=p>{</span>message<span class=p>:</span> <span class=s>&#34;mul result&#34;</span><span class=p>}</span>
+                  <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span>
 
-  return %C : tensor&lt;100x50xf32&gt;
-}
+  <span class=kt>return</span> <span class=nv>%C</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+<span class=p>}</span>
 
-// A function that multiplies two memrefs and returns the result.
-func @multiply(%A: memref&lt;100x?xf32&gt;, %B: memref&lt;?x50xf32&gt;)
-          -&gt; (memref&lt;100x50xf32&gt;)  {
-  // Compute the inner dimension of %A.
-  %n = dim %A, 1 : memref&lt;100x?xf32&gt;
+<span class=c>// A function that multiplies two memrefs and returns the result.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@multiply</span><span class=p>(</span><span class=nv>%A</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%B</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span>
+          <span class=p>-&gt;</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span>  <span class=p>{</span>
+  <span class=c>// Compute the inner dimension of %A.
+</span><span class=c></span>  <span class=nv>%n</span> <span class=p>=</span> dim <span class=nv>%A</span><span class=p>,</span> <span class=m>1</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  // Allocate memory for the multiplication result.
-  %C = alloc() : memref&lt;100x50xf32&gt;
+  <span class=c>// Allocate memory for the multiplication result.
+</span><span class=c></span>  <span class=nv>%C</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-  // Multiplication loop nest.
-  affine.for %i = 0 to 100 {
-     affine.for %j = 0 to 50 {
-        store 0 to %C[%i, %j] : memref&lt;100x50xf32&gt;
-        affine.for %k = 0 to %n {
-           %a_v  = load %A[%i, %k] : memref&lt;100x?xf32&gt;
-           %b_v  = load %B[%k, %j] : memref&lt;?x50xf32&gt;
-           %prod = mulf %a_v, %b_v : f32
-           %c_v  = load %C[%i, %j] : memref&lt;100x50xf32&gt;
-           %sum  = addf %c_v, %prod : f32
-           store %sum, %C[%i, %j] : memref&lt;100x50xf32&gt;
-        }
-     }
-  }
-  return %C : memref&lt;100x50xf32&gt;
-}
-</code></pre><h2 id=notation>Notation</h2><p>MLIR has a simple and unambiguous grammar, allowing it to reliably round-trip
+  <span class=c>// Multiplication loop nest.
+</span><span class=c></span>  affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>100</span> <span class=p>{</span>
+     affine<span class=p>.</span>for <span class=nv>%j</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>50</span> <span class=p>{</span>
+        store <span class=m>0</span> to <span class=nv>%C</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+        affine<span class=p>.</span>for <span class=nv>%k</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%n</span> <span class=p>{</span>
+           <span class=nv>%a_v</span>  <span class=p>=</span> load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%k</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x?x</span><span class=k>f32</span><span class=p>&gt;</span>
+           <span class=nv>%b_v</span>  <span class=p>=</span> load <span class=nv>%B</span><span class=p>[</span><span class=nv>%k</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+           <span class=nv>%prod</span> <span class=p>=</span> mulf <span class=nv>%a_v</span><span class=p>,</span> <span class=nv>%b_v</span> <span class=p>:</span> <span class=k>f32</span>
+           <span class=nv>%c_v</span>  <span class=p>=</span> load <span class=nv>%C</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+           <span class=nv>%sum</span>  <span class=p>=</span> addf <span class=nv>%c_v</span><span class=p>,</span> <span class=nv>%prod</span> <span class=p>:</span> <span class=k>f32</span>
+           store <span class=nv>%sum</span><span class=p>,</span> <span class=nv>%C</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+        <span class=p>}</span>
+     <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span> <span class=nv>%C</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=notation>Notation</h2><p>MLIR has a simple and unambiguous grammar, allowing it to reliably round-trip
 through a textual form. This is important for development of the compiler - e.g.
 for understanding the state of code as it is being transformed and writing test
 cases.</p><p>This document describes the grammar using
@@ -111,10 +111,10 @@ repetition1 ::= expr+  // 1 or more occurrences.
 optionality ::= expr?  // 0 or 1 occurrence.
 grouping    ::= (expr) // Everything inside parens is grouped together.
 literal     ::= `abcd` // Matches the literal `abcd`.
-</code></pre><p>Code examples are presented in blue boxes.</p><pre><code class=language-mlir data-lang=mlir>// This is an example use of the grammar above:
-// This matches things like: ba, bana, boma, banana, banoma, bomana...
-example ::= `b` (`an` | `om`)* `a`
-</code></pre><h3 id=common-syntax>Common syntax</h3><p>The following core grammar productions are used in this document:</p><pre><code>// TODO: Clarify the split between lexing (tokens) and parsing (grammar).
+</code></pre><p>Code examples are presented in blue boxes.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// This is an example use of the grammar above:
+</span><span class=c></span><span class=c>// This matches things like: ba, bana, boma, banana, banoma, bomana...
+</span><span class=c></span>example <span class=p>:</span><span class=p>:</span><span class=p>=</span> <span class=err>`</span>b<span class=err>`</span> <span class=p>(</span><span class=err>`</span>an<span class=err>`</span> <span class=err>|</span> <span class=err>`</span>om<span class=err>`</span><span class=p>)</span><span class=p>*</span> <span class=err>`</span>a<span class=err>`</span>
+</code></pre></div><h3 id=common-syntax>Common syntax</h3><p>The following core grammar productions are used in this document:</p><pre><code>// TODO: Clarify the split between lexing (tokens) and parsing (grammar).
 digit     ::= [0-9]
 hex_digit ::= [0-9a-fA-F]
 letter    ::= [a-zA-Z]
@@ -174,9 +174,9 @@ LLVM. LLVM has a rich set of intrinsics for certain target-independent
 operations (e.g. addition with overflow check) as well as providing access to
 target-specific operations for the targets it supports (e.g. vector permutation
 operations). LLVM intrinsics in MLIR are represented via operations that start
-with an &ldquo;llvm.&rdquo; name.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// LLVM: %x = call {i16, i1} @llvm.sadd.with.overflow.i16(i16 %a, i16 %b)
-%x:2 = &quot;llvm.sadd.with.overflow.i16&quot;(%a, %b) : (i16, i16) -&gt; (i16, i1)
-</code></pre><p>These operations only work when targeting LLVM as a backend (e.g. for CPUs and
+with an &ldquo;llvm.&rdquo; name.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// LLVM: %x = call {i16, i1} @llvm.sadd.with.overflow.i16(i16 %a, i16 %b)
+</span><span class=c></span><span class=nv>%x</span><span class=p>:</span><span class=nl>2 =</span> <span class=s>&#34;llvm.sadd.with.overflow.i16&#34;</span><span class=p>(</span><span class=nv>%a</span><span class=p>,</span> <span class=nv>%b</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i16</span><span class=p>,</span> <span class=k>i16</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i16</span><span class=p>,</span> <span class=k>i1</span><span class=p>)</span>
+</code></pre></div><p>These operations only work when targeting LLVM as a backend (e.g. for CPUs and
 GPUs), and are required to align with the LLVM definition of these intrinsics.</p><h2 id=operations>Operations</h2><p>Syntax:</p><pre><code>operation         ::= op-result-list? (generic-operation | custom-operation)
                       trailing-location?
 generic-operation ::= string-literal '(' ssa-use-list? ')' attribute-dict?
@@ -205,27 +205,27 @@ and zero or more enclosed
 <a href=#regions>regions</a>
 . The generic printing form
 includes all these elements literally, with a function type to indicate the
-types of the results and operands.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// An operation that produces two results.
-// The results of %result can be accessed via the &lt;name&gt; `#` &lt;opNo&gt; syntax.
-%result:2 = &quot;foo_div&quot;() : () -&gt; (f32, i32)
+types of the results and operands.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// An operation that produces two results.
+</span><span class=c></span><span class=c>// The results of %result can be accessed via the &lt;name&gt; `#` &lt;opNo&gt; syntax.
+</span><span class=c></span><span class=nv>%result</span><span class=p>:</span><span class=nl>2 =</span> <span class=s>&#34;foo_div&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span>
 
-// Pretty form that defines a unique name for each result.
-%foo, %bar = &quot;foo_div&quot;() : () -&gt; (f32, i32)
+<span class=c>// Pretty form that defines a unique name for each result.
+</span><span class=c></span><span class=nv>%foo</span><span class=p>,</span> <span class=nv>%bar</span> <span class=p>=</span> <span class=s>&#34;foo_div&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span>
 
-// Invoke a TensorFlow function called tf.scramble with two inputs
-// and an attribute &quot;fruit&quot;.
-%2 = &quot;tf.scramble&quot;(%result#0, %bar) {fruit: &quot;banana&quot;} : (f32, i32) -&gt; f32
-</code></pre><p>In addition to the basic syntax above, dialects may register known operations.
+<span class=c>// Invoke a TensorFlow function called tf.scramble with two inputs
+</span><span class=c></span><span class=c>// and an attribute &#34;fruit&#34;.
+</span><span class=c></span><span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;tf.scramble&#34;</span><span class=p>(</span><span class=nv>%result</span><span class=nv>#0</span><span class=p>,</span> <span class=nv>%bar</span><span class=p>)</span> <span class=p>{</span>fruit<span class=p>:</span> <span class=s>&#34;banana&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>f32</span>
+</code></pre></div><p>In addition to the basic syntax above, dialects may register known operations.
 This allows those dialects to support <em>custom assembly form</em> for parsing and
 printing operations. In the operation sets listed below, we show both forms.</p><h3 id=terminator-operations>Terminator Operations</h3><p>These are a special category of operations that <em>must</em> terminate a block, e.g.
 <a href=/docs/Dialects/Standard/#terminator-operations>branches</a>
 . These operations may
 also have a list of successors (
 <a href=#blocks>blocks</a>
-and their arguments).</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// Branch to ^bb1 or ^bb2 depending on the condition %cond.
-// Pass value %v to ^bb2, but not to ^bb1.
-&quot;cond_br&quot;(%cond)[^bb1, ^bb2(%v : index)] : (i1) -&gt; ()
-</code></pre><h3 id=module>Module</h3><pre><code>module ::= `module` symbol-ref-id? (`attributes` attribute-dict)? region
+and their arguments).</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Branch to ^bb1 or ^bb2 depending on the condition %cond.
+</span><span class=c></span><span class=c>// Pass value %v to ^bb2, but not to ^bb1.
+</span><span class=c></span><span class=s>&#34;cond_br&#34;</span><span class=p>(</span><span class=nv>%cond</span><span class=p>)</span><span class=p>[</span><span class=nl>^bb1</span><span class=p>,</span> <span class=nl>^bb2</span><span class=p>(</span><span class=nv>%v</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span><span class=p>]</span> <span class=p>:</span> <span class=p>(</span><span class=k>i1</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+</code></pre></div><h3 id=module>Module</h3><pre><code>module ::= `module` symbol-ref-id? (`attributes` attribute-dict)? region
 </code></pre><p>An MLIR module represents an opaque top-level container operation. It contains a
 single region containing a single block that is comprised of any operations.
 Operations within this region must not implicitly capture values defined above
@@ -260,25 +260,25 @@ function-body ::= region
 some other module) has no body. While the MLIR textual form provides a nice
 inline syntax for function arguments, they are internally represented as &ldquo;block
 arguments&rdquo; to the first block in the region.</p><p>Only dialect attribute names may be specified in the attribute dictionaries for
-function arguments, results, or the function itself.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// External function definitions.
-func @abort()
-func @scribble(i32, i64, memref&lt;? x 128 x f32, #layout_map0&gt;) -&gt; f64
+function arguments, results, or the function itself.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// External function definitions.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@abort</span><span class=p>(</span><span class=p>)</span>
+<span class=kt>func</span> <span class=nf>@scribble</span><span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>i64</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>? x</span> <span class=m>128 x</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>#layout_map0</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>f64</span>
 
-// A function that returns its argument twice:
-func @count(%x: i64) -&gt; (i64, i64)
-  attributes {fruit: &quot;banana&quot;} {
-  return %x, %x: i64, i64
-}
+<span class=c>// A function that returns its argument twice:
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@count</span><span class=p>(</span><span class=nv>%x</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i64</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span>
+  attributes <span class=p>{</span>fruit<span class=p>:</span> <span class=s>&#34;banana&#34;</span><span class=p>}</span> <span class=p>{</span>
+  <span class=kt>return</span> <span class=nv>%x</span><span class=p>,</span> <span class=nv>%x</span><span class=p>:</span> <span class=k>i64</span><span class=p>,</span> <span class=k>i64</span>
+<span class=p>}</span>
 
-// A function with an argument attribute
-func @example_fn_arg(%x: i32 {swift.self = unit})
+<span class=c>// A function with an argument attribute
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@example_fn_arg</span><span class=p>(</span><span class=nv>%x</span><span class=p>:</span> <span class=k>i32</span> <span class=p>{</span><span class=nl>swift.self =</span> unit<span class=p>}</span><span class=p>)</span>
 
-// A function with a result attribute
-func @example_fn_result() -&gt; (f64 {dialectName.attrName = 0 : i64})
+<span class=c>// A function with a result attribute
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@example_fn_result</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f64</span> <span class=p>{</span><span class=nl>dialectName.attrName =</span> <span class=m>0</span> <span class=p>:</span> <span class=k>i64</span><span class=p>}</span><span class=p>)</span>
 
-// A function with an attribute
-func @example_fn_attr() attributes {dialectName.attrName = false}
-</code></pre><h2 id=blocks>Blocks</h2><p>Syntax:</p><pre><code>block           ::= block-label operation+
+<span class=c>// A function with an attribute
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@example_fn_attr</span><span class=p>(</span><span class=p>)</span> attributes <span class=p>{</span><span class=nl>dialectName.attrName =</span> false<span class=p>}</span>
+</code></pre></div><h2 id=blocks>Blocks</h2><p>Syntax:</p><pre><code>block           ::= block-label operation+
 block-label     ::= block-id block-arg-list? `:`
 block-id        ::= caret-id
 caret-id        ::= `^` suffix-id
@@ -291,34 +291,34 @@ block-arg-list ::= `(` ssa-id-and-type-list? `)`
 </code></pre><p>A
 <a href=https://en.wikipedia.org/wiki/Basic_block>block</a>
 is a sequential list of
-operations without control flow (a call or entering an op's region is not
+operations without control flow (a call or entering an op&rsquo;s region is not
 considered control flow for this purpose) that are executed from top to bottom.
 The last operation in a block is a
 <a href=#terminator-operations>terminator operation</a>
 , which ends the block.</p><p>Blocks in MLIR take a list of block arguments, which represent SSA PHI nodes in
 a functional notation. The arguments are defined by the block, and values are
 provided for these block arguments by branches that go to the block.</p><p>Here is a simple example function showing branches, returns, and block
-arguments:</p><pre><code class=language-mlir data-lang=mlir>func @simple(i64, i1) -&gt; i64 {
-^bb0(%a: i64, %cond: i1): // Code dominated by ^bb0 may refer to %a
-  cond_br %cond, ^bb1, ^bb2
+arguments:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@simple</span><span class=p>(</span><span class=k>i64</span><span class=p>,</span> <span class=k>i1</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>i64</span> <span class=p>{</span>
+<span class=nl>^bb0</span><span class=p>(</span><span class=nv>%a</span><span class=p>:</span> <span class=k>i64</span><span class=p>,</span> <span class=nv>%cond</span><span class=p>:</span> <span class=k>i1</span><span class=p>)</span><span class=p>:</span> <span class=c>// Code dominated by ^bb0 may refer to %a
+</span><span class=c></span>  cond_br <span class=nv>%cond</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>,</span> <span class=nl>^bb2
+</span><span class=nl>
+</span><span class=nl></span><span class=nl>^bb1</span><span class=p>:</span>
+  br <span class=nl>^bb3</span><span class=p>(</span><span class=nv>%a</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span>    <span class=c>// Branch passes %a as the argument
+</span><span class=c></span>
+<span class=nl>^bb2</span><span class=p>:</span>
+  <span class=nv>%b</span> <span class=p>=</span> addi <span class=nv>%a</span><span class=p>,</span> <span class=nv>%a</span> <span class=p>:</span> <span class=k>i64</span>
+  br <span class=nl>^bb3</span><span class=p>(</span><span class=nv>%b</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span>    <span class=c>// Branch passes %b as the argument
+</span><span class=c></span>
+<span class=c>// ^bb3 receives an argument, named %c, from predecessors
+</span><span class=c></span><span class=c>// and passes it on to bb4 twice.
+</span><span class=c></span><span class=nl>^bb3</span><span class=p>(</span><span class=nv>%c</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span><span class=p>:</span>
+  br <span class=nl>^bb4</span><span class=p>(</span><span class=nv>%c</span><span class=p>,</span> <span class=nv>%c</span> <span class=p>:</span> <span class=k>i64</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span>
 
-^bb1:
-  br ^bb3(%a: i64)    // Branch passes %a as the argument
-
-^bb2:
-  %b = addi %a, %a : i64
-  br ^bb3(%b: i64)    // Branch passes %b as the argument
-
-// ^bb3 receives an argument, named %c, from predecessors
-// and passes it on to bb4 twice.
-^bb3(%c: i64):
-  br ^bb4(%c, %c : i64, i64)
-
-^bb4(%d : i64, %e : i64):
-  %0 = addi %d, %e : i64
-  return %0 : i64
-}
-</code></pre><p><strong>Context:</strong> The &ldquo;block argument&rdquo; representation eliminates a number of special
+<span class=nl>^bb4</span><span class=p>(</span><span class=nv>%d</span> <span class=p>:</span> <span class=k>i64</span><span class=p>,</span> <span class=nv>%e</span> <span class=p>:</span> <span class=k>i64</span><span class=p>)</span><span class=p>:</span>
+  <span class=nv>%0</span> <span class=p>=</span> addi <span class=nv>%d</span><span class=p>,</span> <span class=nv>%e</span> <span class=p>:</span> <span class=k>i64</span>
+  <span class=kt>return</span> <span class=nv>%0</span> <span class=p>:</span> <span class=k>i64</span>
+<span class=p>}</span>
+</code></pre></div><p><strong>Context:</strong> The &ldquo;block argument&rdquo; representation eliminates a number of special
 cases from the IR compared to traditional &ldquo;PHI nodes are operations&rdquo; SSA IRs
 (like LLVM). For example, the
 <a href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.524.5461&rep=rep1&type=pdf">parallel copy semantics</a>
@@ -342,30 +342,30 @@ function where the types of the <code>return</code> arguments must match the res
 of the function signature).</p><h3 id=control-and-value-scoping>Control and Value Scoping</h3><p>Regions provide nested control isolation: it is impossible to branch to a block
 within a region from outside it or to branch from within a region to a block
 outside it. Similarly, it provides a natural scoping for value visibility: SSA
-values defined in a region don't escape to the enclosing region, if any. By
+values defined in a region don&rsquo;t escape to the enclosing region, if any. By
 default, a region can reference values defined outside of the region whenever it
-would have been legal to use them as operands to the enclosing operation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>func @accelerator_compute(i64, i1) -&gt; i64 {
-^bb0(%a: i64, %cond: i1): // Code dominated by ^bb0 may refer to %a
-  cond_br %cond, ^bb1, ^bb2
-
-^bb1:
-  // This def for %value does not dominate ^bb2
-  %value = &quot;op.convert&quot;(%a) : (i64) -&gt; i64
-  br ^bb3(%a: i64)    // Branch passes %a as the argument
-
-^bb2:
-  &quot;accelerator.launch&quot;() {
-    ^bb0:
-      // Region of code nested under &quot;accelerator.launch&quot;, it can reference %a but
-      // not %value.
-      %new_value = &quot;accelerator.do_something&quot;(%a) : (i64) -&gt; ()
-  }
-  // %new_value cannot be referenced outside of the region
-
-^bb3:
-  ...
-}
-</code></pre><p>This can be further restricted using the custom verifier associated with the
+would have been legal to use them as operands to the enclosing operation.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@accelerator_compute</span><span class=p>(</span><span class=k>i64</span><span class=p>,</span> <span class=k>i1</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>i64</span> <span class=p>{</span>
+<span class=nl>^bb0</span><span class=p>(</span><span class=nv>%a</span><span class=p>:</span> <span class=k>i64</span><span class=p>,</span> <span class=nv>%cond</span><span class=p>:</span> <span class=k>i1</span><span class=p>)</span><span class=p>:</span> <span class=c>// Code dominated by ^bb0 may refer to %a
+</span><span class=c></span>  cond_br <span class=nv>%cond</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>,</span> <span class=nl>^bb2
+</span><span class=nl>
+</span><span class=nl></span><span class=nl>^bb1</span><span class=p>:</span>
+  <span class=c>// This def for %value does not dominate ^bb2
+</span><span class=c></span>  <span class=nv>%value</span> <span class=p>=</span> <span class=s>&#34;op.convert&#34;</span><span class=p>(</span><span class=nv>%a</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>i64</span>
+  br <span class=nl>^bb3</span><span class=p>(</span><span class=nv>%a</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span>    <span class=c>// Branch passes %a as the argument
+</span><span class=c></span>
+<span class=nl>^bb2</span><span class=p>:</span>
+  <span class=s>&#34;accelerator.launch&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+    <span class=nl>^bb0</span><span class=p>:</span>
+      <span class=c>// Region of code nested under &#34;accelerator.launch&#34;, it can reference %a but
+</span><span class=c></span>      <span class=c>// not %value.
+</span><span class=c></span>      <span class=nv>%new_value</span> <span class=p>=</span> <span class=s>&#34;accelerator.do_something&#34;</span><span class=p>(</span><span class=nv>%a</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=p>}</span>
+  <span class=c>// %new_value cannot be referenced outside of the region
+</span><span class=c></span>
+<span class=nl>^bb3</span><span class=p>:</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>}</span>
+</code></pre></div><p>This can be further restricted using the custom verifier associated with the
 enclosing operation, for example, disallowing references to values defined
 outside the region completely.</p><h3 id=control-flow>Control Flow</h3><p>Regions are Single-Entry-Multiple-Exit (SEME). This means that control can only
 flow into the first block of the region, but can flow out of the region at the
@@ -419,14 +419,14 @@ that can be used in the place of the type that it defines. These aliases <em>mus
 be defined before their uses. Alias names may not contain a &lsquo;.', since those
 names are reserved for
 <a href=#dialect-types>dialect types</a>
-.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>!avx_m128 = type vector&lt;4 x f32&gt;
+.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span><span class=nl>avx_m128 =</span> type <span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span>
 
-// Using the original type.
-&quot;foo&quot;(%x) : vector&lt;4 x f32&gt; -&gt; ()
+<span class=c>// Using the original type.
+</span><span class=c></span><span class=s>&#34;foo&#34;</span><span class=p>(</span><span class=nv>%x</span><span class=p>)</span> <span class=p>:</span> <span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
 
-// Using the type alias.
-&quot;foo&quot;(%x) : !avx_m128 -&gt; ()
-</code></pre><h3 id=dialect-types>Dialect Types</h3><p>Similarly to operations, dialects may define custom extensions to the type
+<span class=c>// Using the type alias.
+</span><span class=c></span><span class=s>&#34;foo&#34;</span><span class=p>(</span><span class=nv>%x</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>avx_m128 <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+</code></pre></div><h3 id=dialect-types>Dialect Types</h3><p>Similarly to operations, dialects may define custom extensions to the type
 system.</p><pre><code>dialect-namespace ::= bare-id
 
 opaque-dialect-item ::= dialect-namespace '&lt;' string-literal '&gt;'
@@ -444,25 +444,25 @@ pretty-dialect-item-contents ::= pretty-dialect-item-body
 
 dialect-type ::= '!' opaque-dialect-item
 dialect-type ::= '!' pretty-dialect-item
-</code></pre><p>Dialect types can be specified in a verbose form, e.g. like this:</p><pre><code class=language-mlir data-lang=mlir>// LLVM type that wraps around llvm IR types.
-!llvm&lt;&quot;i32*&quot;&gt;
+</code></pre><p>Dialect types can be specified in a verbose form, e.g. like this:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// LLVM type that wraps around llvm IR types.
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32*&#34;</span><span class=p>&gt;</span>
 
-// Tensor flow string type.
-!tf.string
+<span class=c>// Tensor flow string type.
+</span><span class=c></span><span class=p>!</span>tf<span class=p>.</span>string
 
-// Complex type
-!foo&lt;&quot;something&lt;abcd&gt;&quot;&gt;
+<span class=c>// Complex type
+</span><span class=c></span><span class=p>!</span>foo<span class=p>&lt;</span><span class=s>&#34;something&lt;abcd&gt;&#34;</span><span class=p>&gt;</span>
 
-// Even more complex type
-!foo&lt;&quot;something&lt;a%%123^^^&gt;&gt;&gt;&quot;&gt;
-</code></pre><p>Dialect types that are simple enough can use the pretty format, which is a
-lighter weight syntax that is equivalent to the above forms:</p><pre><code class=language-mlir data-lang=mlir>// Tensor flow string type.
-!tf.string
+<span class=c>// Even more complex type
+</span><span class=c></span><span class=p>!</span>foo<span class=p>&lt;</span><span class=s>&#34;something&lt;a%%123^^^&gt;&gt;&gt;&#34;</span><span class=p>&gt;</span>
+</code></pre></div><p>Dialect types that are simple enough can use the pretty format, which is a
+lighter weight syntax that is equivalent to the above forms:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Tensor flow string type.
+</span><span class=c></span><span class=p>!</span>tf<span class=p>.</span>string
 
-// Complex type
-!foo.something&lt;abcd&gt;
-</code></pre><p>Sufficiently complex dialect types are required to use the verbose form for
-generality. For example, the more complex type shown above wouldn't be valid in
+<span class=c>// Complex type
+</span><span class=c></span><span class=p>!</span>foo<span class=p>.</span>something<span class=p>&lt;</span>abcd<span class=p>&gt;</span>
+</code></pre></div><p>Sufficiently complex dialect types are required to use the verbose form for
+generality. For example, the more complex type shown above wouldn&rsquo;t be valid in
 the lighter syntax: <code>!foo.something&lt;a%%123^^^>>></code> because it contains characters
 that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;></code>
 characters.</p><p>See
@@ -483,9 +483,9 @@ defined in a builtin dialect and thus available to all users of MLIR.</p><pre><c
 </code></pre><h4 id=complex-type>Complex Type</h4><p>Syntax:</p><pre><code>complex-type ::= `complex` `&lt;` type `&gt;`
 </code></pre><p>The value of <code>complex</code> type represents a complex number with a parameterized
 element type, which is composed of a real and imaginary value of that element
-type. The element must be a floating point or integer scalar type.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>complex&lt;f32&gt;
-complex&lt;i32&gt;
-</code></pre><h4 id=floating-point-types>Floating Point Types</h4><p>Syntax:</p><pre><code>// Floating point.
+type. The element must be a floating point or integer scalar type.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>complex<span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span>
+complex<span class=p>&lt;</span><span class=k>i32</span><span class=p>&gt;</span>
+</code></pre></div><h4 id=floating-point-types>Floating Point Types</h4><p>Syntax:</p><pre><code>// Floating point.
 float-type ::= `f16` | `bf16` | `f32` | `f64`
 </code></pre><p>MLIR supports float types of certain widths that are widely used as indicated
 above.</p><h4 id=function-type>Function Type</h4><p>Syntax:</p><pre><code>// MLIR functions can return multiple values.
@@ -561,21 +561,21 @@ there is expected to be significantly simpler.</p><p>Unranked memrefs may provid
 the gap with unranked tensors. Unranked memrefs will not be expected to be
 exposed to codegen but one may query the rank of an unranked memref (a special
 op will be needed for this purpose) and perform a switch and cast to a ranked
-memref as a prerequisite to codegen.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// With static ranks, we need a function for each possible argument type
-%A = alloc() : memref&lt;16x32xf32&gt; %B = alloc() :
-memref&lt;16x32x64xf32&gt; call @helper_2D(%A) : (memref&lt;16x32xf32&gt;)-&gt;() call
-@helper_3D(%B) : (memref&lt;16x32x64xf32&gt;)-&gt;()
+memref as a prerequisite to codegen.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// With static ranks, we need a function for each possible argument type
+</span><span class=c></span><span class=nv>%A</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>&gt;</span> <span class=nv>%B</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span>
+<span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x64x</span><span class=k>f32</span><span class=p>&gt;</span> call <span class=nf>@helper_2D</span><span class=p>(</span><span class=nv>%A</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span><span class=p>-&gt;</span><span class=p>(</span><span class=p>)</span> call
+<span class=nf>@helper_3D</span><span class=p>(</span><span class=nv>%B</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x64x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span><span class=p>-&gt;</span><span class=p>(</span><span class=p>)</span>
 
-// With unknown rank, the functions can be unified under one unranked type
-%A = alloc() : memref&lt;16x32xf32&gt;
-%B = alloc() : memref&lt;16x32x64xf32&gt;
-// Remove rank info
-%A_u = memref_cast %A : memref&lt;16x32xf32&gt; -&gt; memref&lt;*xf32&gt;
-%B_u = memref_cast %B : memref&lt;16x32x64xf32&gt; -&gt; memref&lt;*xf32&gt;
-// call same function with dynamic ranks
-call @helper(%A_u) : (memref&lt;*xf32&gt;)-&gt;()
-call @helper(%B_u) : (memref&lt;*xf32&gt;)-&gt;()
-</code></pre><p>The core syntax and representation of a layout specification is a
+<span class=c>// With unknown rank, the functions can be unified under one unranked type
+</span><span class=c></span><span class=nv>%A</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>&gt;</span>
+<span class=nv>%B</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x64x</span><span class=k>f32</span><span class=p>&gt;</span>
+<span class=c>// Remove rank info
+</span><span class=c></span><span class=nv>%A_u</span> <span class=p>=</span> <span class=kt>memref</span>_cast <span class=nv>%A</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span>
+<span class=nv>%B_u</span> <span class=p>=</span> <span class=kt>memref</span>_cast <span class=nv>%B</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x64x</span><span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span>
+<span class=c>// call same function with dynamic ranks
+</span><span class=c></span>call <span class=nf>@helper</span><span class=p>(</span><span class=nv>%A_u</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span><span class=p>)</span><span class=p>-&gt;</span><span class=p>(</span><span class=p>)</span>
+call <span class=nf>@helper</span><span class=p>(</span><span class=nv>%B_u</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span><span class=p>)</span><span class=p>-&gt;</span><span class=p>(</span><span class=p>)</span>
+</code></pre></div><p>The core syntax and representation of a layout specification is a
 <a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a>
 . Additionally, syntactic
 sugar is supported to make certain layout specifications more intuitive to read.
@@ -583,72 +583,72 @@ For the moment, a <code>memref</code> supports parsing a strided form which is c
 a semi-affine map automatically.</p><p>The memory space of a memref is specified by a target-specific integer index. If
 no memory space is specified, then the default memory space (0) is used. The
 default space is target specific but always at index 0.</p><p>TODO: MLIR will eventually have target-dialects which allow symbolic use of
-memory hierarchy names (e.g. L3, L2, L1, &mldr;) but we have not spec'd the details
+memory hierarchy names (e.g. L3, L2, L1, &mldr;) but we have not spec&rsquo;d the details
 of that mechanism yet. Until then, this document pretends that it is valid to
 refer to these memories by <code>bare-id</code>.</p><p>The notionally dynamic value of a memref value includes the address of the
 buffer allocated, as well as the symbols referred to by the shape, layout map,
-and index maps.</p><p>Examples of memref static type</p><pre><code class=language-mlir data-lang=mlir>// Identity index/layout map
-#identity = affine_map&lt;(d0, d1) -&gt; (d0, d1)&gt;
+and index maps.</p><p>Examples of memref static type</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Identity index/layout map
+</span><span class=c></span><span class=nv>#identity</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>&gt;</span>
 
-// Column major layout.
-#col_major = affine_map&lt;(d0, d1, d2) -&gt; (d2, d1, d0)&gt;
+<span class=c>// Column major layout.
+</span><span class=c></span><span class=nv>#col_major</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>,</span> d2<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d2<span class=p>,</span> d1<span class=p>,</span> d0<span class=p>)</span><span class=p>&gt;</span>
 
-// A 2-d tiled layout with tiles of size 128 x 256.
-#tiled_2d_128x256 = affine_map&lt;(d0, d1) -&gt; (d0 div 128, d1 div 256, d0 mod 128, d1 mod 256)&gt;
+<span class=c>// A 2-d tiled layout with tiles of size 128 x 256.
+</span><span class=c></span><span class=nv>#tiled_2d_128x256</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 div <span class=m>128</span><span class=p>,</span> d1 div <span class=m>256</span><span class=p>,</span> d0 mod <span class=m>128</span><span class=p>,</span> d1 mod <span class=m>256</span><span class=p>)</span><span class=p>&gt;</span>
 
-// A tiled data layout with non-constant tile sizes.
-#tiled_dynamic = affine_map&lt;(d0, d1)[s0, s1] -&gt; (d0 floordiv s0, d1 floordiv s1,
-                             d0 mod s0, d1 mod s1)&gt;
+<span class=c>// A tiled data layout with non-constant tile sizes.
+</span><span class=c></span><span class=nv>#tiled_dynamic</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>s0<span class=p>,</span> s1<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 floordiv s0<span class=p>,</span> d1 floordiv s1<span class=p>,</span>
+                             d0 mod s0<span class=p>,</span> d1 mod s1<span class=p>)</span><span class=p>&gt;</span>
 
-// A layout that yields a padding on two at either end of the minor dimension.
-#padded = affine_map&lt;(d0, d1) -&gt; (d0, (d1 + 2) floordiv 2, (d1 + 2) mod 2)&gt;
+<span class=c>// A layout that yields a padding on two at either end of the minor dimension.
+</span><span class=c></span><span class=nv>#padded</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> <span class=p>(</span>d1 <span class=err>+</span> <span class=m>2</span><span class=p>)</span> floordiv <span class=m>2</span><span class=p>,</span> <span class=p>(</span>d1 <span class=err>+</span> <span class=m>2</span><span class=p>)</span> mod <span class=m>2</span><span class=p>)</span><span class=p>&gt;</span>
 
 
-// The dimension list &quot;16x32&quot; defines the following 2D index space:
-//
-//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
-//
-memref&lt;16x32xf32, #identity, memspace0&gt;
+<span class=c>// The dimension list &#34;16x32&#34; defines the following 2D index space:
+</span><span class=c></span><span class=c>//
+</span><span class=c></span><span class=c>//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
+</span><span class=c></span><span class=c>//
+</span><span class=c></span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#identity</span><span class=p>,</span> memspace0<span class=p>&gt;</span>
 
-// The dimension list &quot;16x4x?&quot; defines the following 3D index space:
-//
-//   { (i, j, k) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 4, 0 &lt;= k &lt; N }
-//
-// where N is a symbol which represents the runtime value of the size of
-// the third dimension.
-//
-// %N here binds to the size of the third dimension.
-%A = alloc(%N) : memref&lt;16x4x?xf32, #col_major, memspace0&gt;
+<span class=c>// The dimension list &#34;16x4x?&#34; defines the following 3D index space:
+</span><span class=c></span><span class=c>//
+</span><span class=c></span><span class=c>//   { (i, j, k) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 4, 0 &lt;= k &lt; N }
+</span><span class=c></span><span class=c>//
+</span><span class=c></span><span class=c>// where N is a symbol which represents the runtime value of the size of
+</span><span class=c></span><span class=c>// the third dimension.
+</span><span class=c></span><span class=c>//
+</span><span class=c></span><span class=c>// %N here binds to the size of the third dimension.
+</span><span class=c></span><span class=nv>%A</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%N</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x4x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#col_major</span><span class=p>,</span> memspace0<span class=p>&gt;</span>
 
-// A 2-d dynamic shaped memref that also has a dynamically sized tiled layout.
-// The memref index space is of size %M x %N, while %B1 and %B2 bind to the
-// symbols s0, s1 respectively of the layout map #tiled_dynamic. Data tiles of
-// size %B1 x %B2 in the logical space will be stored contiguously in memory.
-// The allocation size will be (%M ceildiv %B1) * %B1 * (%N ceildiv %B2) * %B2
-// f32 elements.
-%T = alloc(%M, %N) [%B1, %B2] : memref&lt;?x?xf32, #tiled_dynamic&gt;
+<span class=c>// A 2-d dynamic shaped memref that also has a dynamically sized tiled layout.
+</span><span class=c></span><span class=c>// The memref index space is of size %M x %N, while %B1 and %B2 bind to the
+</span><span class=c></span><span class=c>// symbols s0, s1 respectively of the layout map #tiled_dynamic. Data tiles of
+</span><span class=c></span><span class=c>// size %B1 x %B2 in the logical space will be stored contiguously in memory.
+</span><span class=c></span><span class=c>// The allocation size will be (%M ceildiv %B1) * %B1 * (%N ceildiv %B2) * %B2
+</span><span class=c></span><span class=c>// f32 elements.
+</span><span class=c></span><span class=nv>%T</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>)</span> <span class=p>[</span><span class=nv>%B1</span><span class=p>,</span> <span class=nv>%B2</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#tiled_dynamic</span><span class=p>&gt;</span>
 
-// A memref that has a two-element padding at either end. The allocation size
-// will fit 16 * 68 float elements of data.
-%P = alloc() : memref&lt;16x64xf32, #padded&gt;
+<span class=c>// A memref that has a two-element padding at either end. The allocation size
+</span><span class=c></span><span class=c>// will fit 16 * 68 float elements of data.
+</span><span class=c></span><span class=nv>%P</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x64x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#padded</span><span class=p>&gt;</span>
 
-// Affine map with symbol 's0' used as offset for the first dimension.
-#imapS = affine_map&lt;(d0, d1) [s0] -&gt; (d0 + s0, d1)&gt;
-// Allocate memref and bind the following symbols:
-// '%n' is bound to the dynamic second dimension of the memref type.
-// '%o' is bound to the symbol 's0' in the affine map of the memref type.
-%n = ...
-%o = ...
-%A = alloc (%n)[%o] : &lt;16x?xf32, #imapS&gt;
-</code></pre><h5 id=index-space>Index Space</h5><p>A memref dimension list defines an index space within which the memref can be
+<span class=c>// Affine map with symbol &#39;s0&#39; used as offset for the first dimension.
+</span><span class=c></span><span class=nv>#imapS</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 <span class=err>+</span> s0<span class=p>,</span> d1<span class=p>)</span><span class=p>&gt;</span>
+<span class=c>// Allocate memref and bind the following symbols:
+</span><span class=c></span><span class=c>// &#39;%n&#39; is bound to the dynamic second dimension of the memref type.
+</span><span class=c></span><span class=c>// &#39;%o&#39; is bound to the symbol &#39;s0&#39; in the affine map of the memref type.
+</span><span class=c></span><span class=nv>%n</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=nv>%o</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=nv>%A</span> <span class=p>=</span> alloc <span class=p>(</span><span class=nv>%n</span><span class=p>)</span><span class=p>[</span><span class=nv>%o</span><span class=p>]</span> <span class=p>:</span> <span class=p>&lt;</span><span class=m>16x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#imapS</span><span class=p>&gt;</span>
+</code></pre></div><h5 id=index-space>Index Space</h5><p>A memref dimension list defines an index space within which the memref can be
 indexed to access data.</p><h5 id=index>Index</h5><p>Data is accessed through a memref type using a multidimensional index into the
-multidimensional index space defined by the memref's dimension list.</p><p>Examples</p><pre><code class=language-mlir data-lang=mlir>// Allocates a memref with 2D index space:
-//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
-%A = alloc() : memref&lt;16x32xf32, #imapA, memspace0&gt;
+multidimensional index space defined by the memref&rsquo;s dimension list.</p><p>Examples</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Allocates a memref with 2D index space:
+</span><span class=c></span><span class=c>//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
+</span><span class=c></span><span class=nv>%A</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#imapA</span><span class=p>,</span> memspace0<span class=p>&gt;</span>
 
-// Loads data from memref '%A' using a 2D index: (%i, %j)
-%v = load %A[%i, %j] : memref&lt;16x32xf32, #imapA, memspace0&gt;
-</code></pre><h5 id=index-map>Index Map</h5><p>An index map is a one-to-one
+<span class=c>// Loads data from memref &#39;%A&#39; using a 2D index: (%i, %j)
+</span><span class=c></span><span class=nv>%v</span> <span class=p>=</span> load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#imapA</span><span class=p>,</span> memspace0<span class=p>&gt;</span>
+</code></pre></div><h5 id=index-map>Index Map</h5><p>An index map is a one-to-one
 <a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a>
 that transforms a
 multidimensional index from one index space to another. For example, the
@@ -667,15 +667,15 @@ varying). Therefore, an identity layout map corresponds to a row-major layout.
 Identity layout maps do not contribute to the MemRef type identification and are
 discarded on construction. That is, a type with an explicit identity map is
 <code>memref&lt;?x?xf32, (i,j)->(i,j)></code> is strictly the same as the one without layout
-maps, <code>memref&lt;?x?xf32></code>.</p><p>Layout map examples:</p><pre><code class=language-mlir data-lang=mlir>// MxN matrix stored in row major layout in memory:
-#layout_map_row_major = (i, j) -&gt; (i, j)
+maps, <code>memref&lt;?x?xf32></code>.</p><p>Layout map examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// MxN matrix stored in row major layout in memory:
+</span><span class=c></span><span class=nv>#layout_map_row_major</span> <span class=p>=</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>)</span>
 
-// MxN matrix stored in column major layout in memory:
-#layout_map_col_major = (i, j) -&gt; (j, i)
+<span class=c>// MxN matrix stored in column major layout in memory:
+</span><span class=c></span><span class=nv>#layout_map_col_major</span> <span class=p>=</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>j<span class=p>,</span> i<span class=p>)</span>
 
-// MxN matrix stored in a 2-d blocked/tiled layout with 64x64 tiles.
-#layout_tiled = (i, j) -&gt; (i floordiv 64, j floordiv 64, i mod 64, j mod 64)
-</code></pre><h5 id=affine-map-composition>Affine Map Composition</h5><p>A memref specifies a semi-affine map composition as part of its type. A
+<span class=c>// MxN matrix stored in a 2-d blocked/tiled layout with 64x64 tiles.
+</span><span class=c></span><span class=nv>#layout_tiled</span> <span class=p>=</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>i floordiv <span class=m>64</span><span class=p>,</span> j floordiv <span class=m>64</span><span class=p>,</span> i mod <span class=m>64</span><span class=p>,</span> j mod <span class=m>64</span><span class=p>)</span>
+</code></pre></div><h5 id=affine-map-composition>Affine Map Composition</h5><p>A memref specifies a semi-affine map composition as part of its type. A
 semi-affine map composition is a composition of semi-affine maps beginning with
 zero or more index maps, and ending with a layout map. The composition must be
 conformant: the number of dimensions of the range of one map, must match the
@@ -726,41 +726,41 @@ returns the size of a
 dimension from a value of tensor type.</p><p>Note: hexadecimal integer literals are not allowed in tensor type declarations
 to avoid confusion between <code>0xf32</code> and <code>0 x f32</code>. Zero sizes are allowed in
 tensors and treated as other sizes, e.g., <code>tensor&lt;0 x 1 x i32></code> and <code>tensor&lt;1 x 0 x i32></code> are different types. Since zero sizes are not allowed in some other
-types, such tensors should be optimized away before lowering tensors to vectors.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// Tensor with unknown rank.
-tensor&lt;* x f32&gt;
+types, such tensors should be optimized away before lowering tensors to vectors.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Tensor with unknown rank.
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span> <span class=p>x</span> <span class=k>f32</span><span class=p>&gt;</span>
 
-// Known rank but unknown dimensions.
-tensor&lt;? x ? x ? x ? x f32&gt;
+<span class=c>// Known rank but unknown dimensions.
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>? x</span> <span class=m>? x</span> <span class=m>? x</span> <span class=m>? x</span> <span class=k>f32</span><span class=p>&gt;</span>
 
-// Partially known dimensions.
-tensor&lt;? x ? x 13 x ? x f32&gt;
+<span class=c>// Partially known dimensions.
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>? x</span> <span class=m>? x</span> <span class=m>13 x</span> <span class=m>? x</span> <span class=k>f32</span><span class=p>&gt;</span>
 
-// Full static shape.
-tensor&lt;17 x 4 x 13 x 4 x f32&gt;
+<span class=c>// Full static shape.
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>17 x</span> <span class=m>4 x</span> <span class=m>13 x</span> <span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span>
 
-// Tensor with rank zero. Represents a scalar.
-tensor&lt;f32&gt;
+<span class=c>// Tensor with rank zero. Represents a scalar.
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span>
 
-// Zero-element dimensions are allowed.
-tensor&lt;0 x 42 x f32&gt;
+<span class=c>// Zero-element dimensions are allowed.
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>0</span> <span class=p>x</span> <span class=m>42 x</span> <span class=k>f32</span><span class=p>&gt;</span>
 
-// Zero-element tensor of f32 type (hexadecimal literals not allowed here).
-tensor&lt;0xf32&gt;
-</code></pre><h4 id=tuple-type>Tuple Type</h4><p>Syntax:</p><pre><code>tuple-type ::= `tuple` `&lt;` (type ( `,` type)*)? `&gt;`
+<span class=c>// Zero-element tensor of f32 type (hexadecimal literals not allowed here).
+</span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>0xf32</span><span class=p>&gt;</span>
+</code></pre></div><h4 id=tuple-type>Tuple Type</h4><p>Syntax:</p><pre><code>tuple-type ::= `tuple` `&lt;` (type ( `,` type)*)? `&gt;`
 </code></pre><p>The value of <code>tuple</code> type represents a fixed-size collection of elements, where
 each element may be of a different type.</p><p><strong>Rationale:</strong> Though this type is first class in the type system, MLIR provides
 no standard operations for operating on <code>tuple</code> types
 (
 <a href=/docs/Rationale/#tuple-types>rationale</a>
-).</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// Empty tuple.
-tuple&lt;&gt;
+).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Empty tuple.
+</span><span class=c></span>tuple<span class=p>&lt;</span><span class=p>&gt;</span>
 
-// Single element
-tuple&lt;f32&gt;
+<span class=c>// Single element
+</span><span class=c></span>tuple<span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span>
 
-// Many elements.
-tuple&lt;i32, f32, tensor&lt;i1&gt;, i5&gt;
-</code></pre><h4 id=vector-type>Vector Type</h4><p>Syntax:</p><pre><code>vector-type ::= `vector` `&lt;` static-dimension-list vector-element-type `&gt;`
+<span class=c>// Many elements.
+</span><span class=c></span>tuple<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> <span class=k>f32</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=k>i1</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>i5</span><span class=p>&gt;</span>
+</code></pre></div><h4 id=vector-type>Vector Type</h4><p>Syntax:</p><pre><code>vector-type ::= `vector` `&lt;` static-dimension-list vector-element-type `&gt;`
 vector-element-type ::= float-type | integer-type
 
 static-dimension-list ::= (decimal-literal `x`)+
@@ -796,28 +796,28 @@ an identifier that can be used in the place of the attribute that it defines.
 These aliases <em>must</em> be defined before their uses. Alias names may not contain a
 &lsquo;.', since those names are reserved for
 <a href=#dialect-attribute-values>dialect attributes</a>
-.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>#map = affine_map&lt;(d0) -&gt; (d0 + 10)&gt;
+.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>#map</span> <span class=p>=</span> affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 <span class=err>+</span> <span class=m>10</span><span class=p>)</span><span class=p>&gt;</span>
 
-// Using the original attribute.
-%b = affine.apply affine_map&lt;(d0) -&gt; (d0 + 10)&gt; (%a)
+<span class=c>// Using the original attribute.
+</span><span class=c></span><span class=nv>%b</span> <span class=p>=</span> affine<span class=p>.</span>apply affine_map<span class=p>&lt;</span><span class=p>(</span>d0<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 <span class=err>+</span> <span class=m>10</span><span class=p>)</span><span class=p>&gt;</span> <span class=p>(</span><span class=nv>%a</span><span class=p>)</span>
 
-// Using the attribute alias.
-%b = affine.apply #map(%a)
-</code></pre><h3 id=dialect-attribute-values>Dialect Attribute Values</h3><p>Similarly to operations, dialects may define custom attribute values. The
+<span class=c>// Using the attribute alias.
+</span><span class=c></span><span class=nv>%b</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map</span><span class=p>(</span><span class=nv>%a</span><span class=p>)</span>
+</code></pre></div><h3 id=dialect-attribute-values>Dialect Attribute Values</h3><p>Similarly to operations, dialects may define custom attribute values. The
 syntactic structure of these values is identical to custom dialect type values,
 except that dialect attributes values are distinguished with a leading &lsquo;#',
 while dialect types are distinguished with a leading &lsquo;!'.</p><pre><code>dialect-attribute ::= '#' opaque-dialect-item
 dialect-attribute ::= '#' pretty-dialect-item
-</code></pre><p>Dialect attributes can be specified in a verbose form, e.g. like this:</p><pre><code class=language-mlir data-lang=mlir>// Complex attribute
-#foo&lt;&quot;something&lt;abcd&gt;&quot;&gt;
+</code></pre><p>Dialect attributes can be specified in a verbose form, e.g. like this:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Complex attribute
+</span><span class=c></span><span class=nv>#foo</span><span class=p>&lt;</span><span class=s>&#34;something&lt;abcd&gt;&#34;</span><span class=p>&gt;</span>
 
-// Even more complex attribute
-#foo&lt;&quot;something&lt;a%%123^^^&gt;&gt;&gt;&quot;&gt;
-</code></pre><p>Dialect attributes that are simple enough can use the pretty format, which is a
-lighter weight syntax that is equivalent to the above forms:</p><pre><code class=language-mlir data-lang=mlir>// Complex attribute
-#foo.something&lt;abcd&gt;
-</code></pre><p>Sufficiently complex dialect attributes are required to use the verbose form for
-generality. For example, the more complex type shown above wouldn't be valid in
+<span class=c>// Even more complex attribute
+</span><span class=c></span><span class=nv>#foo</span><span class=p>&lt;</span><span class=s>&#34;something&lt;a%%123^^^&gt;&gt;&gt;&#34;</span><span class=p>&gt;</span>
+</code></pre></div><p>Dialect attributes that are simple enough can use the pretty format, which is a
+lighter weight syntax that is equivalent to the above forms:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Complex attribute
+</span><span class=c></span><span class=nv>#foo.something</span><span class=p>&lt;</span>abcd<span class=p>&gt;</span>
+</code></pre></div><p>Sufficiently complex dialect attributes are required to use the verbose form for
+generality. For example, the more complex type shown above wouldn&rsquo;t be valid in
 the lighter syntax: <code>#foo.something&lt;a%%123^^^>>></code> because it contains characters
 that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;></code>
 characters.</p><p>See
@@ -872,13 +872,13 @@ elements of the elements attribute. The indices are stored via a 2-D tensor of
 64-bit integer elements with shape [N, ndims], which specifies the indices of
 the elements in the sparse tensor that contains non-zero values. The element
 values are stored via a 1-D tensor with shape [N], that supplies the
-corresponding values for the indices.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>  sparse&lt;[[0, 0], [1, 2]], [1, 5]&gt; : tensor&lt;3x4xi32&gt;
+corresponding values for the indices.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  sparse<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>]</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>5</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x4x</span><span class=k>i32</span><span class=p>&gt;</span>
 
-// This represents the following tensor:
-///  [[1, 0, 0, 0],
-///   [0, 0, 5, 0],
-///   [0, 0, 0, 0]]
-</code></pre><h4 id=float-attribute>Float Attribute</h4><p>Syntax:</p><pre><code>float-attribute ::= (float-literal (`:` float-type)?)
+<span class=c>// This represents the following tensor:
+</span><span class=c></span><span class=c>///  [[1, 0, 0, 0],
+</span><span class=c></span><span class=c>///   [0, 0, 5, 0],
+</span><span class=c></span><span class=c>///   [0, 0, 0, 0]]
+</span></code></pre></div><h4 id=float-attribute>Float Attribute</h4><p>Syntax:</p><pre><code>float-attribute ::= (float-literal (`:` float-type)?)
                   | (hexadecimal-literal `:` float-type)
 </code></pre><p>A float attribute is a literal attribute that represents a floating point value
 of the specified
@@ -927,11 +927,11 @@ attribute indicates that a function parameter is the self/context parameter. It
 could be represented as a
 <a href=#boolean-attribute>boolean attribute</a>
 (true or
-false), but a value of false doesn't really bring any value. The parameter
-either is the self/context or it isn't.</p><pre><code class=language-mlir data-lang=mlir>// A unit attribute defined with the `unit` value specifier.
-func @verbose_form(i1) attributes {dialectName.unitAttr = unit}
+false), but a value of false doesn&rsquo;t really bring any value. The parameter
+either is the self/context or it isn&rsquo;t.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A unit attribute defined with the `unit` value specifier.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@verbose_form</span><span class=p>(</span><span class=k>i1</span><span class=p>)</span> attributes <span class=p>{</span><span class=nl>dialectName.unitAttr =</span> unit<span class=p>}</span>
 
-// A unit attribute can also be defined without the value specifier.
-func @simple_form(i1) attributes {dialectName.unitAttr}
-</code></pre><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Rationale/ title="MLIR Rationale"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - MLIR Rationale</a>
+<span class=c>// A unit attribute can also be defined without the value specifier.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@simple_form</span><span class=p>(</span><span class=k>i1</span><span class=p>)</span> attributes <span class=p>{</span>dialectName<span class=p>.</span>unitAttr<span class=p>}</span>
+</code></pre></div><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Rationale/ title="MLIR Rationale"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - MLIR Rationale</a>
 <a class="nav nav-next" href=/docs/MLIRForGraphAlgorithms/ title="MLIR: Incremental Application to Graph Algorithms in ML Frameworks">Next - MLIR: Incremental Application to Graph Algorithms in ML Frameworks <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect 'affine' definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect 'fxpmath' definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect 'gpu' definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect 'linalg' definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect 'loop' definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect 'nvvm' definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect 'quant' definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect 'rocdl' definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect 'spv' definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect 'vector' definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li class=active><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/ShapeInference/>Shape inference</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of 'Const' in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

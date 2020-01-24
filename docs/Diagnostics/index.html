@@ -1,5 +1,5 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Diagnostics/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
-MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</h1><p>[TOC]</p><p>This document presents an introduction to using and interfacing with MLIR's
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Diagnostics/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</h1><p>[TOC]</p><p>This document presents an introduction to using and interfacing with MLIR&rsquo;s
 diagnostics infrastructure.</p><p>See
 <a href=/docs/LangRef/>MLIR specification</a>
 for more information about MLIR, the
@@ -168,30 +168,30 @@ func @foo<span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</spa
 <span class=n>SourceMgrDiagnosticHandler</span> <span class=nf>sourceMgrHandler</span><span class=p>(</span><span class=n>sourceMgr</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>context</span><span class=p>)</span><span class=p>;</span>
 </code></pre></div><h3 id=sourcemgr-diagnostic-verifier-handler>SourceMgr Diagnostic Verifier Handler</h3><p>This handler is a wrapper around a llvm::SourceMgr that is used to verify that
 certain diagnostics have been emitted to the context. To use this handler,
-annotate your source file with expected diagnostics in the form of:</p><ul><li><code>expected-(error|note|remark|warning) {{ message }}</code></li></ul><p>A few examples are shown below:</p><pre><code class=language-mlir data-lang=mlir>// Expect an error on the same line.
-func @bad_branch() {
-  br ^missing  // expected-error {{reference to an undefined block}}
-}
+annotate your source file with expected diagnostics in the form of:</p><ul><li><code>expected-(error|note|remark|warning) {{ message }}</code></li></ul><p>A few examples are shown below:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Expect an error on the same line.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@bad_branch</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  br <span class=nl>^missing  </span><span class=c>// expected-error {{reference to an undefined block}}
+</span><span class=c></span><span class=p>}</span>
 
-// Expect an error on an adjacent line.
-func @foo(%a : f32) {
-  // expected-error@+1 {{unknown comparison predicate &quot;foo&quot;}}
-  %result = cmpf &quot;foo&quot;, %a, %a : f32
-  return
-}
+<span class=c>// Expect an error on an adjacent line.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%a</span> <span class=p>:</span> <span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// expected-error@+1 {{unknown comparison predicate &#34;foo&#34;}}
+</span><span class=c></span>  <span class=nv>%result</span> <span class=p>=</span> cmpf <span class=s>&#34;foo&#34;</span><span class=p>,</span> <span class=nv>%a</span><span class=p>,</span> <span class=nv>%a</span> <span class=p>:</span> <span class=k>f32</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
 
-// Expect an error on the next line that does not contain a designator.
-// expected-remark@below {{remark on function below}}
-// expected-remark@below {{another remark on function below}}
-func @bar(%a : f32)
+<span class=c>// Expect an error on the next line that does not contain a designator.
+</span><span class=c></span><span class=c>// expected-remark@below {{remark on function below}}
+</span><span class=c></span><span class=c>// expected-remark@below {{another remark on function below}}
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=nv>%a</span> <span class=p>:</span> <span class=k>f32</span><span class=p>)</span>
 
-// Expect an error on the previous line that does not contain a designator.
-func @baz(%a : f32)
-// expected-remark@above {{remark on function above}}
-// expected-remark@above {{another remark on function above}}
-
-</code></pre><p>The handler will report an error if any unexpected diagnostics were seen, or if
-any expected diagnostics weren't.</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ mlir-opt foo.mlir
+<span class=c>// Expect an error on the previous line that does not contain a designator.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@baz</span><span class=p>(</span><span class=nv>%a</span> <span class=p>:</span> <span class=k>f32</span><span class=p>)</span>
+<span class=c>// expected-remark@above {{remark on function above}}
+</span><span class=c></span><span class=c>// expected-remark@above {{another remark on function above}}
+</span><span class=c></span>
+</code></pre></div><p>The handler will report an error if any unexpected diagnostics were seen, or if
+any expected diagnostics weren&rsquo;t.</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ mlir-opt foo.mlir
 
 /tmp/test.mlir:6:24: error: unexpected error: expected non-function <span class=nb>type</span>
 func @foo<span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</span>index, ind<span class=o>)</span> <span class=o>{</span>

@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect 'spv' definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/SPIRVOps/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Dialect 'spv' definition - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/SPIRVOps/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Dialect 'spv' definition</h1><p>The SPIR-V dialect in MLIR.</p><p>SPIR-V is a binary intermediate language for representing graphical-shader
 stages and compute kernels for multiple Khronos APIs, including OpenCL,
 OpenGL, and Vulkan.
@@ -32,7 +32,7 @@ no remaining (unused) indexes.</p><p>Each index in Indexes</p><ul><li><p>must be
 </code></pre><h4 id=operands>Operands:</h4><ol><li><code>base_ptr</code>: any SPIR-V pointer type</li><li><code>indices</code>: 8/16/32/64-bit integer</li></ol><h4 id=attributes>Attributes:</h4><h4 id=results>Results:</h4><ol><li><code>component_ptr</code>: any SPIR-V pointer type</li></ol><h3 id=spv_address_of-spirvaddressofop>spv._address_of (spirv::AddressOfOp)</h3><p>Get the address of a global variable.</p><h4 id=description-1>Description:</h4><p>Variables in module scope are defined using symbol names. This op generates
 an SSA value that can be used to refer to the symbol within function scope
 for use in ops that expect an SSA value. This operation has no corresponding
-SPIR-V instruction; it's merely used for modelling purpose in the SPIR-V
+SPIR-V instruction; it&rsquo;s merely used for modelling purpose in the SPIR-V
 dialect. Since variables in module scope in SPIR-V dialect are of pointer
 type, this op returns a pointer type as well, and the type is the same as
 the variable referenced.</p><h3 id=custom-assembly-form-1>Custom assembly form</h3><pre><code>spv-address-of-op ::= ssa-id `=` `spv._address_of` symbol-ref-id
@@ -861,7 +861,7 @@ instruction for indicating the merge and continue target, we use regions
 to delimit the boundary of the loop: the merge target is the next op
 following the <code>spv.loop</code> op and the continue target is the block that
 has a back-edge pointing to the entry block inside the <code>spv.loop</code>'s region.
-This way it's easier to discover all blocks belonging to a construct and
+This way it&rsquo;s easier to discover all blocks belonging to a construct and
 it plays nicer with the MLIR system.</p><p>The <code>spv.loop</code> region should contain at least four blocks: one entry block,
 one loop header block, one loop continue block, one loop merge block.
 The entry block should be the first block and it should jump to the loop
@@ -888,7 +888,7 @@ memory-barrier-op ::= `spv.MemoryBarrier` scope, memory-semantics
 This op is a terminator used inside their regions to mean jumping to the
 merge point, which is the next op following the <code>spv.selection</code> or
 <code>spv.loop</code> op. This op does not have a corresponding instruction in the
-SPIR-V binary format; it's solely for structural purpose.</p><h4 id=operands-88>Operands:</h4><h4 id=attributes-88>Attributes:</h4><h4 id=results-88>Results:</h4><h3 id=spv_module_end-spirvmoduleendop>spv._module_end (spirv::ModuleEndOp)</h3><p>The pseudo op that ends a SPIR-V module</p><h4 id=description-89>Description:</h4><p>This op terminates the only block inside a <code>spv.module</code>'s only region.
+SPIR-V binary format; it&rsquo;s solely for structural purpose.</p><h4 id=operands-88>Operands:</h4><h4 id=attributes-88>Attributes:</h4><h4 id=results-88>Results:</h4><h3 id=spv_module_end-spirvmoduleendop>spv._module_end (spirv::ModuleEndOp)</h3><p>The pseudo op that ends a SPIR-V module</p><h4 id=description-89>Description:</h4><p>This op terminates the only block inside a <code>spv.module</code>'s only region.
 This op does not have a corresponding SPIR-V instruction and thus will
 not be serialized into the binary format; it is used solely to satisfy
 the structual requirement that an block must be ended with a terminator.</p><h4 id=operands-89>Operands:</h4><h4 id=attributes-89>Attributes:</h4><h4 id=results-89>Results:</h4><h3 id=spvmodule-spirvmoduleop>spv.module (spirv::ModuleOp)</h3><p>The top-level op that defines a SPIR-V module</p><h4 id=description-90>Description:</h4><p>This op defines a SPIR-V module using a MLIR region. The region contains
@@ -923,8 +923,8 @@ not-op ::= ssa-id `=` `spv.BitNot` ssa-use `:` integer-scalar-vector-type
 </code></pre><h4 id=operands-91>Operands:</h4><ol><li><code>operand</code>: 8/16/32/64-bit integer or vector of 8/16/32/64-bit integer values of length 2/3/4</li></ol><h4 id=attributes-91>Attributes:</h4><h4 id=results-91>Results:</h4><ol><li><code>result</code>: 8/16/32/64-bit integer or vector of 8/16/32/64-bit integer values of length 2/3/4</li></ol><h3 id=spv_reference_of-spirvreferenceofop>spv._reference_of (spirv::ReferenceOfOp)</h3><p>Reference a specialization constant.</p><h4 id=description-92>Description:</h4><p>Specialization constant in module scope are defined using symbol names.
 This op generates an SSA value that can be used to refer to the symbol
 within function scope for use in ops that expect an SSA value.
-This operation has no corresponding SPIR-V instruction; it's merely used
-for modelling purpose in the SPIR-V dialect. This op's return type is
+This operation has no corresponding SPIR-V instruction; it&rsquo;s merely used
+for modelling purpose in the SPIR-V dialect. This op&rsquo;s return type is
 the same as the specialization constant.</p><h3 id=custom-assembly-form-73>Custom assembly form</h3><pre><code>spv-reference-of-op ::= ssa-id `=` `spv._reference_of` symbol-ref-id
                                    `:` spirv-scalar-type
 </code></pre><p>For example:</p><pre><code>%0 = spv._reference_of @spec_const : f32
@@ -1046,7 +1046,7 @@ and exited in structured ways. See &ldquo;2.11. Structured Control Flow&rdquo; o
 SPIR-V spec for more details.</p><p>Instead of having a <code>spv.SelectionMerge</code> op to directly model selection
 merge instruction for indicating the merge target, we use regions to delimit
 the boundary of the selection: the merge target is the next op following the
-<code>spv.selection</code> op. This way it's easier to discover all blocks belonging to
+<code>spv.selection</code> op. This way it&rsquo;s easier to discover all blocks belonging to
 the selection and it plays nicer with the MLIR system.</p><p>The <code>spv.selection</code> region should contain at least two blocks: one selection
 header block, and one selection merge. The selection header block should be
 the first block. The selection merge block should be the last block.

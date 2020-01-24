@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Rationale - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Rationale/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Rationale - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Rationale/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>MLIR Rationale</h1><p>This document is intended to capture some of the alternatives considered and
 open debates in the design of MLIR, along with the rationale for certain
 decisions we made. This is not intended to be a &ldquo;finely groomed&rdquo; document - we
@@ -58,7 +58,7 @@ subsume all traditional loop transformations (unimodular and non-unimodular)
 such as loop tiling, interchange, permutation, skewing, scaling, relative
 shifting, reversal, fusion, and distribution/fission. Transformations on data
 layout such as padding and transforming to blocked layouts are also represented
-well via affine layout maps.</p><p>MLIR's design allows a progressive lowering to target-specific forms. Besides
+well via affine layout maps.</p><p>MLIR&rsquo;s design allows a progressive lowering to target-specific forms. Besides
 high-level transformations for loop nests and data layouts that a typical
 mid-level optimizer is expected to deal with, MLIR is also designed to perform
 certain low-level scheduling and mapping decisions that a typical backend IR is
@@ -68,11 +68,11 @@ transformations stems from the fact that neural network accelerators have
 specialized units that deal with large chunks of data whose computation maps
 back to chunks of more than one loop of the loop nests as viewed by a program at
 a level closer to the original specification. Such specialized units or
-instructions operate on multidimensional data chunks from a programmer's
+instructions operate on multidimensional data chunks from a programmer&rsquo;s
 viewpoint. It thus makes it hard or infeasible for a backend operating on a very
 low-level IR close to assembly to lift and reconstruct loops and perform such a
 mapping. This is in contrast to classic instruction selection and scheduling in
-today's compilers that primarily only deals with the body of the innermost loop.
+today&rsquo;s compilers that primarily only deals with the body of the innermost loop.
 MLIR also facilitates automatic mapping to expert pre-tuned primitives or vendor
 libraries operating on data at higher levels (or at the highest level) of the
 memory hierarchy.</p><p>In summary, MLIR is convenient for and closed under the kind of transformations
@@ -95,37 +95,37 @@ is possible because of the
 <a href=/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols>restrictions on dimensions and symbols</a>
 .</p><p>A scalar of element-type (a primitive type or a vector type) that is stored in
 memory is modeled as a 0-d memref. This is also necessary for scalars that are
-live out of for loops and if conditionals in a function, for which we don't yet
+live out of for loops and if conditionals in a function, for which we don&rsquo;t yet
 have an SSA representation &ndash;
 <a href=#mlfunction-extensions-for-%22escaping-scalars%22>an extension</a>
 to allow that is
 described later in this doc.</p><h3 id=symbols-and-types>Symbols and types</h3><p>The current MLIR disallows use of symbols in types. For example, when a tensor
 or memref dimension is statically unknown, it is denoted in the type as &lsquo;?'. An
 SSA symbol is then bound to it when a memref is created. The actual value of the
-unknown dimension can be queried using the &ldquo;dim&rdquo; builtin as shown below.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>func foo(...) {
-  %A = alloc &lt;8x?xf32, #lmap&gt; (%N)
-  ...
-  call bar(%A) : (memref&lt;8x?xf32, #lmap&gt;)
-}
+unknown dimension can be queried using the &ldquo;dim&rdquo; builtin as shown below.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> foo<span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%A</span> <span class=p>=</span> alloc <span class=p>&lt;</span><span class=m>8x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lmap</span><span class=p>&gt;</span> <span class=p>(</span><span class=nv>%N</span><span class=p>)</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+  call bar<span class=p>(</span><span class=nv>%A</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>8x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lmap</span><span class=p>&gt;</span><span class=p>)</span>
+<span class=p>}</span>
 
-func bar(%A : memref&lt;8x?xf32, #lmap&gt;) {
-  // Type of %A indicates that %A has dynamic shape with 8 rows
-  // and unknown number of columns. The number of columns is queried
-  // dynamically using dim instruction.
-  %N = dim %A, 1 : memref&lt;8x?xf32, #lmap&gt;
+<span class=kt>func</span> bar<span class=p>(</span><span class=nv>%A</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>8x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lmap</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// Type of %A indicates that %A has dynamic shape with 8 rows
+</span><span class=c></span>  <span class=c>// and unknown number of columns. The number of columns is queried
+</span><span class=c></span>  <span class=c>// dynamically using dim instruction.
+</span><span class=c></span>  <span class=nv>%N</span> <span class=p>=</span> dim <span class=nv>%A</span><span class=p>,</span> <span class=m>1</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>8x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lmap</span><span class=p>&gt;</span>
 
-  affine.for %i = 0 to 8 {
-    affine.for %j = 0 to %N {
-      // A[i,j] += 1
-      %s1 = affine.load %A[%i, %j] : memref&lt;8x?xf32, #lmap&gt;
-      %s2 = add %s1, 1
-      affine.store %s2, %A[%i, %j] : memref&lt;8x?xf32, #lmap&gt;
-    }
-  }
-  return
-}
+  affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>8</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%j</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%N</span> <span class=p>{</span>
+      <span class=c>// A[i,j] += 1
+</span><span class=c></span>      <span class=nv>%s1</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>8x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lmap</span><span class=p>&gt;</span>
+      <span class=nv>%s2</span> <span class=p>=</span> add <span class=nv>%s1</span><span class=p>,</span> <span class=m>1</span>
+      affine<span class=p>.</span>store <span class=nv>%s2</span><span class=p>,</span> <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>8x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lmap</span><span class=p>&gt;</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
 
-</code></pre><p>An alternative design is to embed the reference to symbols directly in the
+</code></pre></div><p>An alternative design is to embed the reference to symbols directly in the
 type - memref&lt;8x%Nxf32>. We went for the current approach in MLIR because it
 simplifies the design &mdash; types remain immutable when the values of symbols
 change.</p><h3 id=block-arguments-vs-phi-nodes>Block Arguments vs PHI nodes</h3><p>MLIR Regions represent SSA using &ldquo;
@@ -152,7 +152,7 @@ is defined away with BB argument representation.</li><li>LLVM has no way to repr
 but not the other, e.g. its invoke instruction cannot produce the exception
 value JUST on the exception edge. Instead, the
 <a href=http://llvm.org/docs/LangRef.html#landingpad-instruction>landingpad instruction</a>
-is a hack used to represent this. MLIR doesn't make use of this capability,
+is a hack used to represent this. MLIR doesn&rsquo;t make use of this capability,
 but SIL uses it extensively, e.g. in the
 <a href=https://github.com/apple/swift/blob/master/docs/SIL.rst#switch-enum>switch_enum instruction</a>
 .</li></ol><p>For more context, block arguments were previously used in the Swift
@@ -196,7 +196,7 @@ introduced.</p><p>The bit width is not defined for dialect-specific types at MLI
 are free to define their own quantities for type sizes.</p><h3 id=signless-types>Signless types</h3><p>Integers in the builtin MLIR type system have a bitwidth (note that the <code>index</code>
 type has a symbolic width equal to the machine word size), but they do not have
 an intrinsic sign. This means that the &ldquo;standard ops&rdquo; operation set has things
-like <code>addi</code> and <code>muli</code> which do two's complement arithmetic, but some other
+like <code>addi</code> and <code>muli</code> which do two&rsquo;s complement arithmetic, but some other
 operations get a sign, e.g. <code>divis</code> vs <code>diviu</code>.</p><p>LLVM uses the
 <a href=http://llvm.org/docs/LangRef.html#integer-type>same design</a>
 ,
@@ -230,7 +230,7 @@ operations into different categories, for example <code>addf</code> vs <code>add
 These instructions <em>are</em> polymorphic on the number of elements in the type
 though, for example <code>addf</code> is used with scalar floats, vectors of floats, and
 tensors of floats (LLVM does the same thing with its scalar/vector types).</p><p>This split is important because floating point and integer operations are quite
-different in practice: for example, floating point values include NaN's, so
+different in practice: for example, floating point values include NaN&rsquo;s, so
 <a href=http://llvm.org/docs/LangRef.html#icmp-instruction>integer comparisons</a>
 and
 <a href=http://llvm.org/docs/LangRef.html#fcmp-instruction>floating point comparisons</a>
@@ -238,10 +238,10 @@ should use different comparison opcodes. On the arithmetic side of things,
 floating point operations support rounding modes, floating point contractions,
 <a href=http://llvm.org/docs/LangRef.html#fadd-instruction>&ldquo;fast math&rdquo;</a>
 , and integers
-may want to have two's complement overflow behavior or be undefined on
+may want to have two&rsquo;s complement overflow behavior or be undefined on
 <a href=http://llvm.org/docs/LangRef.html#add-instruction>various forms of wrapping</a>
 for performance.</p><p>We are a long way from this sort of thing being a priority to care about in
-MLIR, but since we have experience and know the right way to do this, we'd
+MLIR, but since we have experience and know the right way to do this, we&rsquo;d
 rather design it in from the beginning.</p><p>Note that this rationale only applies to the &ldquo;standard ops&rdquo; dialect in which we
 can express an opinion about its design. Other dialects generally try to model
 an external system, and should aim to reflect its design as closely as possible.</p><h3 id=specifying-sign-in-integer-comparison-operations>Specifying sign in integer comparison operations</h3><p>Since integers are
@@ -282,10 +282,10 @@ introducing <code>select</code>: standalone min/max would concern themselves wit
 signedness of the comparison, already taken into account by <code>cmpi</code>; <code>select</code> can
 support floats transparently if used after a float-comparison operation; the
 lower-level targets provide <code>select</code>-like instructions making the translation
-trivial.</p><p>This operation could have been implemented with additional control flow: <code>%r = select %cond, %t, %f</code> is equivalent to</p><pre><code class=language-mlir data-lang=mlir>^bb0:
-  cond_br %cond, ^bb1(%t), ^bb1(%f)
-^bb1(%r):
-</code></pre><p>However, this control flow granularity is not available in the ML functions
+trivial.</p><p>This operation could have been implemented with additional control flow: <code>%r = select %cond, %t, %f</code> is equivalent to</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nl>^bb0</span><span class=p>:</span>
+  cond_br <span class=nv>%cond</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%t</span><span class=p>)</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%f</span><span class=p>)</span>
+<span class=nl>^bb1</span><span class=p>(</span><span class=nv>%r</span><span class=p>)</span><span class=p>:</span>
+</code></pre></div><p>However, this control flow granularity is not available in the ML functions
 where min/max, and thus <code>select</code>, are likely to appear. In addition, simpler
 control flow may be beneficial for optimization in general.</p><h3 id=regions>Regions</h3><h4 id=attributes-of-type-block>Attributes of type &lsquo;Block&rsquo;</h4><p>We considered representing regions through <code>ArrayAttr</code>s containing a list of a
 special type <code>IRBlockAttr</code>, which in turn would contain a list of operations.
@@ -323,7 +323,7 @@ semantic barriers, making it possible to unknowingly break region semantics.
 This is expected to be caught in the verifier after the transformation.</p><p>At the same time, one may choose to pass certain or all values as region
 arguments to explicitly break the use-def chains in the current proposal. This
 can be combined with an attribute-imposed semantic requirement disallowing the
-body of the region to refer to any value from outside it.</p><h3 id=quantized-integer-operations>Quantized integer operations</h3><p>We haven't designed integer quantized operations in MLIR, but experience from
+body of the region to refer to any value from outside it.</p><h3 id=quantized-integer-operations>Quantized integer operations</h3><p>We haven&rsquo;t designed integer quantized operations in MLIR, but experience from
 TensorFlow suggests that it is better to put information about the quantization
 range/scale into the type itself, rather than have a single type like &ldquo;qint8&rdquo;
 and put these on attributes of the operation.</p><p>There are a few ways to do this with MLIR, including at least:</p><ul><li>We could do the same thing TensorFlow does - and we will <em>have</em> to support
@@ -374,12 +374,12 @@ have many different, and sometimes conflicting, parsing constraints that would
 be difficult/unmaintainable to provide within a single interface.</p><p>This also has the added benefit of encouraging dialects to reuse existing
 external type parsers. For example, an LLVM dialect may provide an MLIR LLVM
 type that is simply a wrapper around LLVM types. The LLVM dialect would then use
-the existing LLVM type parsing infrastructure.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>%s = &quot;foo&quot;() : () -&gt; !llvm&lt;&quot;i32*&quot;&gt;
-</code></pre><h5 id=types-do-not-always-have-canonical-names>Types do not always have canonical names</h5><p>Unlike operations, types generally do not have a formal canonical name. For
+the existing LLVM type parsing infrastructure.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%s</span> <span class=p>=</span> <span class=s>&#34;foo&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32*&#34;</span><span class=p>&gt;</span>
+</code></pre></div><h5 id=types-do-not-always-have-canonical-names>Types do not always have canonical names</h5><p>Unlike operations, types generally do not have a formal canonical name. For
 example, function types have no defined keyword and integer types are defined by
 a regular expression to support arbitrary bitwidth. Dialects with existing type
 systems, e.g. LLVM, are likely to provide wrappers around their existing type
-systems. For these wrapper types there is no simple canonical name, it's logical
+systems. For these wrapper types there is no simple canonical name, it&rsquo;s logical
 to think of these types as existing within the namespace of the dialect. If a
 dialect wishes to assign a canonical name to a type, it can be done via
 <a href=/docs/LangRef/#type-aliases>type aliases</a>
@@ -403,55 +403,55 @@ assembly form is mandated by this aspect of MLIR system. It provides a default
 textual form for operations.</p><p>On the other hand, an assembly form is for assisting developers to investigate
 the IR. The generic form serves as a safe fallback but it can be too verbose for
 certain ops. Therefore, MLIR gives each dialect the choice to define a custom
-assembly form for each operation according to the operation's semantics and
+assembly form for each operation according to the operation&rsquo;s semantics and
 specific needs. The custom assembly form can de-duplicate information from the
 operation to derive a more concise form, thus better facilitating the
 comprehension of the IR.</p><h2 id=examples>Examples</h2><p>This section describes a few very simple examples that help understand how MLIR
-represents computation.</p><h3 id=non-affine-control-flow>Non-affine control flow</h3><pre><code class=language-mlir data-lang=mlir>// A simple linear search in every row of a matrix
-for (i = 0; i &lt; N; i++) {
-  for (j = 0; j &lt; N; j++) {
-    // dynamic control flow
-    if (a[i][j] == key) {
-      s[i] = j;
-      break;
-    }
-  }
-}
-</code></pre><p>The presence of dynamic control flow leads to an inner non-affine function
-nested in an outer function that using affine loops.</p><pre><code class=language-mlir data-lang=mlir>func @search(%A: memref&lt;?x?xi32, %S: &lt;?xi32&gt;, %key : i32) {
-  %ni = dim %A, 0 : memref&lt;?x?xi32&gt;
-  // This loop can be parallelized
-  affine.for %i = 0 to %ni {
-    call @search_body (%A, %S, %key, %i) : (memref&lt;?x?xi32&gt;, memref&lt;?xi32&gt;, i32, i32)
-  }
-  return
-}
+represents computation.</p><h3 id=non-affine-control-flow>Non-affine control flow</h3><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A simple linear search in every row of a matrix
+</span><span class=c></span>for <span class=p>(</span><span class=nl>i =</span> <span class=m>0</span><span class=err>;</span> i <span class=p>&lt;</span> N<span class=err>;</span> i<span class=err>+</span><span class=err>+</span><span class=p>)</span> <span class=p>{</span>
+  for <span class=p>(</span><span class=nl>j =</span> <span class=m>0</span><span class=err>;</span> j <span class=p>&lt;</span> N<span class=err>;</span> j<span class=err>+</span><span class=err>+</span><span class=p>)</span> <span class=p>{</span>
+    <span class=c>// dynamic control flow
+</span><span class=c></span>    if <span class=p>(</span>a<span class=p>[</span>i<span class=p>]</span><span class=p>[</span>j<span class=p>]</span> <span class=p>=</span><span class=p>=</span> key<span class=p>)</span> <span class=p>{</span>
+      s<span class=p>[</span>i<span class=p>]</span> <span class=p>=</span> j<span class=err>;</span>
+      break<span class=err>;</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+<span class=p>}</span>
+</code></pre></div><p>The presence of dynamic control flow leads to an inner non-affine function
+nested in an outer function that using affine loops.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@search</span><span class=p>(</span><span class=nv>%A</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>i32</span><span class=p>,</span> <span class=nv>%S</span><span class=p>:</span> <span class=p>&lt;</span><span class=m>?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%key</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%ni</span> <span class=p>=</span> dim <span class=nv>%A</span><span class=p>,</span> <span class=m>0</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>i32</span><span class=p>&gt;</span>
+  <span class=c>// This loop can be parallelized
+</span><span class=c></span>  affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%ni</span> <span class=p>{</span>
+    call <span class=nf>@search_body</span> <span class=p>(</span><span class=nv>%A</span><span class=p>,</span> <span class=nv>%S</span><span class=p>,</span> <span class=nv>%key</span><span class=p>,</span> <span class=nv>%i</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>i32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
 
-func @search_body(%A: memref&lt;?x?xi32&gt;, %S: memref&lt;?xi32&gt;, %key: i32, %i : i32) {
-  %nj = dim %A, 1 : memref&lt;?x?xi32&gt;
-  br ^bb1(0)
+<span class=kt>func</span> <span class=nf>@search_body</span><span class=p>(</span><span class=nv>%A</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%S</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%key</span><span class=p>:</span> <span class=k>i32</span><span class=p>,</span> <span class=nv>%i</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%nj</span> <span class=p>=</span> dim <span class=nv>%A</span><span class=p>,</span> <span class=m>1</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>i32</span><span class=p>&gt;</span>
+  br <span class=nl>^bb1</span><span class=p>(</span><span class=m>0</span><span class=p>)</span>
 
-^bb1(%j: i32)
-  %p1 = cmpi &quot;lt&quot;, %j, %nj : i32
-  cond_br %p1, ^bb2, ^bb5
+<span class=nl>^bb1</span><span class=p>(</span><span class=nv>%j</span><span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
+  <span class=nv>%p1</span> <span class=p>=</span> cmpi <span class=s>&#34;lt&#34;</span><span class=p>,</span> <span class=nv>%j</span><span class=p>,</span> <span class=nv>%nj</span> <span class=p>:</span> <span class=k>i32</span>
+  cond_br <span class=nv>%p1</span><span class=p>,</span> <span class=nl>^bb2</span><span class=p>,</span> <span class=nl>^bb5
+</span><span class=nl>
+</span><span class=nl></span><span class=nl>^bb2</span><span class=p>:</span>
+  <span class=nv>%v</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>i32</span><span class=p>&gt;</span>
+  <span class=nv>%p2</span> <span class=p>=</span> cmpi <span class=s>&#34;eq&#34;</span><span class=p>,</span> <span class=nv>%v</span><span class=p>,</span> <span class=nv>%key</span> <span class=p>:</span> <span class=k>i32</span>
+  cond_br <span class=nv>%p2</span><span class=p>,</span> <span class=nl>^bb3</span><span class=p>(</span><span class=nv>%j</span><span class=p>)</span><span class=p>,</span> <span class=nl>^bb4
+</span><span class=nl>
+</span><span class=nl></span><span class=nl>^bb3</span><span class=p>(</span><span class=nv>%j</span><span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
+  affine<span class=p>.</span>store <span class=nv>%j</span><span class=p>,</span> <span class=nv>%S</span><span class=p>[</span><span class=nv>%i</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>i32</span><span class=p>&gt;</span>
+  br <span class=nl>^bb5
+</span><span class=nl>
+</span><span class=nl></span><span class=nl>^bb4</span><span class=p>:</span>
+  <span class=nv>%jinc</span> <span class=p>=</span> addi <span class=nv>%j</span><span class=p>,</span> <span class=m>1</span> <span class=p>:</span> <span class=k>i32</span>
+  br <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%jinc</span><span class=p>)</span>
 
-^bb2:
-  %v = affine.load %A[%i, %j] : memref&lt;?x?xi32&gt;
-  %p2 = cmpi &quot;eq&quot;, %v, %key : i32
-  cond_br %p2, ^bb3(%j), ^bb4
-
-^bb3(%j: i32)
-  affine.store %j, %S[%i] : memref&lt;?xi32&gt;
-  br ^bb5
-
-^bb4:
-  %jinc = addi %j, 1 : i32
-  br ^bb1(%jinc)
-
-^bb5:
-  return
-}
-</code></pre><p>As per the
+<span class=nl>^bb5</span><span class=p>:</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>As per the
 <a href=/docs/LangRef/>MLIR spec</a>
 , the restrictions on dimensions and symbol
 identifiers to be used with the affine.apply operation only apply to accesses
@@ -466,86 +466,86 @@ context sensitive.</p><h3 id=non-affine-loop-bounds>Non-affine loop bounds</h3><
         <span class=c1>// block loop body
 </span><span class=c1></span>        <span class=p>.</span><span class=p>.</span><span class=p>.</span>
        <span class=p>}</span>
-</code></pre></div><pre><code class=language-mlir data-lang=mlir>func @outer_nest(%n : index) {
-  affine.for %i = 0 to %n {
-    affine.for %j = 0 to %n {
-      %pow = call @pow(2, %j) : (index, index) -&gt;  index
-      call @inner_nest(%pow, %n) : ...
-    }
-  }
-  return
-}
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@outer_nest</span><span class=p>(</span><span class=nv>%n</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>{</span>
+  affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%n</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%j</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%n</span> <span class=p>{</span>
+      <span class=nv>%pow</span> <span class=p>=</span> call <span class=nf>@pow</span><span class=p>(</span><span class=m>2</span><span class=p>,</span> <span class=nv>%j</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>index</span><span class=p>,</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span>  <span class=k>index</span>
+      call <span class=nf>@inner_nest</span><span class=p>(</span><span class=nv>%pow</span><span class=p>,</span> <span class=nv>%n</span><span class=p>)</span> <span class=p>:</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
 
-func @inner_nest(%m : index, %n : index) {
-  affine.for %k = 0 to %m {
-    affine.for %l = 0 to %n {
-      ...
-    }
-  }
-  return
-}
-</code></pre><h3 id=reference-2d-convolution>Reference 2D Convolution</h3><p>The following example illustrates a reference implementation of a 2D
+<span class=kt>func</span> <span class=nf>@inner_nest</span><span class=p>(</span><span class=nv>%m</span> <span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%n</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>{</span>
+  affine<span class=p>.</span>for <span class=nv>%k</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%m</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%l</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%n</span> <span class=p>{</span>
+      <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=reference-2d-convolution>Reference 2D Convolution</h3><p>The following example illustrates a reference implementation of a 2D
 convolution, which uses an integer set <code>#domain</code> to represent valid input data
-in a dilated convolution.</p><pre><code class=language-mlir data-lang=mlir>// Dilation factors S0 and S1 can be constant folded if constant at compile time.
-#domain = (d0, d1)[S0,S1,S2,S3]: (d0 % S0 == 0, d1 % S1 == 0, d0 &gt;= 0, d1 &gt;= 0,
-                                   S3 - d0 - 1 &gt;= 0, S4 - d1 - 1 &gt;= 0)
-// Identity map (shown here for illustration).
-#map0 = (d0, d1, d2, d3, d4, d5, d6) -&gt; (d0, d1, d2, d3, d4, d5, d6)
+in a dilated convolution.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Dilation factors S0 and S1 can be constant folded if constant at compile time.
+</span><span class=c></span><span class=nv>#domain</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>S0<span class=p>,</span>S1<span class=p>,</span>S2<span class=p>,</span>S3<span class=p>]</span><span class=p>:</span> <span class=p>(</span>d0 <span class=err>%</span> <span class=nl>S0 =</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d1 <span class=err>%</span> <span class=nl>S1 =</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d0 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d1 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span>
+                                   S3 <span class=err>-</span> d0 <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> S4 <span class=err>-</span> d1 <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>)</span>
+<span class=c>// Identity map (shown here for illustration).
+</span><span class=c></span><span class=nv>#map0</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>,</span> d2<span class=p>,</span> d3<span class=p>,</span> d4<span class=p>,</span> d5<span class=p>,</span> d6<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>,</span> d2<span class=p>,</span> d3<span class=p>,</span> d4<span class=p>,</span> d5<span class=p>,</span> d6<span class=p>)</span>
 
-// Affine map from output to input coordinate space.
-// d0 = output_h, d1 = output_w, d2 = kernel_h, d3 = kernel_w
-// S0 = h_stride, S1 = w_stride, S2 = h_kernel_dilation, S3 = w_kernel_dilation
-// S4 = h_pad_low, S5 = w_pad_low
-//     %out0 =  %0#1 * %h_stride + %0#4 * %h_kernel_dilation - %h_pad_low
-//     %out1=  %0#2 * %w_stride + %0#5 * %w_kernel_dilation - %w_pad_low
-#map1_0 = (d0, d1, d2, d3) [S0, S1, S2, S3, S4, S5] -&gt; (d0 * S0 + d2 * S2 - %S4)
-#map1_1 = (d0, d1, d2, d3) [S0, S1, S2, S3, S4, S5] -&gt; (d1 * S1 + d3 * S3 - %S5)
+<span class=c>// Affine map from output to input coordinate space.
+</span><span class=c></span><span class=c>// d0 = output_h, d1 = output_w, d2 = kernel_h, d3 = kernel_w
+</span><span class=c></span><span class=c>// S0 = h_stride, S1 = w_stride, S2 = h_kernel_dilation, S3 = w_kernel_dilation
+</span><span class=c></span><span class=c>// S4 = h_pad_low, S5 = w_pad_low
+</span><span class=c></span><span class=c>//     %out0 =  %0#1 * %h_stride + %0#4 * %h_kernel_dilation - %h_pad_low
+</span><span class=c></span><span class=c>//     %out1=  %0#2 * %w_stride + %0#5 * %w_kernel_dilation - %w_pad_low
+</span><span class=c></span><span class=nv>#map1_0</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>,</span> d2<span class=p>,</span> d3<span class=p>)</span> <span class=p>[</span>S0<span class=p>,</span> S1<span class=p>,</span> S2<span class=p>,</span> S3<span class=p>,</span> S4<span class=p>,</span> S5<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 <span class=p>*</span> S0 <span class=err>+</span> d2 <span class=p>*</span> S2 <span class=err>-</span> <span class=nv>%S4</span><span class=p>)</span>
+<span class=nv>#map1_1</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>,</span> d2<span class=p>,</span> d3<span class=p>)</span> <span class=p>[</span>S0<span class=p>,</span> S1<span class=p>,</span> S2<span class=p>,</span> S3<span class=p>,</span> S4<span class=p>,</span> S5<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d1 <span class=p>*</span> S1 <span class=err>+</span> d3 <span class=p>*</span> S3 <span class=err>-</span> <span class=nv>%S5</span><span class=p>)</span>
 
-// Semi-affine map to undilated input coordinate space.
-// d0 = input_h, d1 = input_w, S0 = h_base_dilation, S1 = w_base_dilation.
-#map2_0 = (d0, d1) [S0, S1] -&gt; (d0 / S0)
-#map2_1 = (d0, d1) [S0, S1] -&gt; (d1 / S1)
+<span class=c>// Semi-affine map to undilated input coordinate space.
+</span><span class=c></span><span class=c>// d0 = input_h, d1 = input_w, S0 = h_base_dilation, S1 = w_base_dilation.
+</span><span class=c></span><span class=nv>#map2_0</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>[</span>S0<span class=p>,</span> S1<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d0 <span class=err>/</span> S0<span class=p>)</span>
+<span class=nv>#map2_1</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span> <span class=p>[</span>S0<span class=p>,</span> S1<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>d1 <span class=err>/</span> S1<span class=p>)</span>
 
-// Conv2D shapes:
-// input:   [batch, input_height, input_width, input_feature]
-// kernel: [kernel_height, kernel_width, input_feature, output_feature]
-// output: [batch, output_height, output_width, output_feature]
-func @conv2d(%input: memref&lt;16x1024x1024x3xf32, #lm0, /*scratchpad=*/1&gt;,
-             %kernel: memref&lt;5x5x3x32xf32, #lm0, /*scratchpad=*/1&gt;,
-             %output: memref&lt;16x512x512x32xf32, #lm0, /*scratchpad=*/1&gt;) {
-  affine.for %b = 0 to %batch {
-    affine.for %oh = 0 to %output_height {
-      affine.for %ow = 0 to %output_width {
-        affine.for %of = 0 to %output_feature {
-          affine.for %kh = 0 to %kernel_height {
-            affine.for %kw = 0 to %kernel_width {
-              affine.for %if = 0 to %input_feature {
-                // Calculate input indices.
-                %1_0 = affine.apply #map1_0 (%0#1, %0#2, %0#4, %0#5)
-                  [%h_stride, %w_stride, %h_kernel_dilation, %w_kernel_dilation,
-                   %h_pad_low, %w_pad_low]
-                %1_1 = affine.apply #map1_1 (%0#1, %0#2, %0#4, %0#5)
-                  [%h_stride, %w_stride, %h_kernel_dilation, %w_kernel_dilation,
-                   %h_pad_low, %w_pad_low]
+<span class=c>// Conv2D shapes:
+</span><span class=c></span><span class=c>// input:   [batch, input_height, input_width, input_feature]
+</span><span class=c></span><span class=c>// kernel: [kernel_height, kernel_width, input_feature, output_feature]
+</span><span class=c></span><span class=c>// output: [batch, output_height, output_width, output_feature]
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@conv2d</span><span class=p>(</span><span class=nv>%input</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x1024x1024x3x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lm0</span><span class=p>,</span> <span class=err>/</span><span class=p>*</span><span class=nl>scratchpad=</span><span class=p>*</span><span class=err>/</span><span class=m>1</span><span class=p>&gt;</span><span class=p>,</span>
+             <span class=nv>%kernel</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>5x5x3x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lm0</span><span class=p>,</span> <span class=err>/</span><span class=p>*</span><span class=nl>scratchpad=</span><span class=p>*</span><span class=err>/</span><span class=m>1</span><span class=p>&gt;</span><span class=p>,</span>
+             <span class=nv>%output</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x512x512x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#lm0</span><span class=p>,</span> <span class=err>/</span><span class=p>*</span><span class=nl>scratchpad=</span><span class=p>*</span><span class=err>/</span><span class=m>1</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  affine<span class=p>.</span>for <span class=nv>%b</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%batch</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%oh</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%output_height</span> <span class=p>{</span>
+      affine<span class=p>.</span>for <span class=nv>%ow</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%output_width</span> <span class=p>{</span>
+        affine<span class=p>.</span>for <span class=nv>%of</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%output_feature</span> <span class=p>{</span>
+          affine<span class=p>.</span>for <span class=nv>%kh</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%kernel_height</span> <span class=p>{</span>
+            affine<span class=p>.</span>for <span class=nv>%kw</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%kernel_width</span> <span class=p>{</span>
+              affine<span class=p>.</span>for <span class=nv>%if</span> <span class=p>=</span> <span class=m>0</span> to <span class=nv>%input_feature</span> <span class=p>{</span>
+                <span class=c>// Calculate input indices.
+</span><span class=c></span>                <span class=nv>%1_0</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map1_0</span> <span class=p>(</span><span class=nv>%0</span><span class=nv>#1</span><span class=p>,</span> <span class=nv>%0</span><span class=nv>#2</span><span class=p>,</span> <span class=nv>%0</span><span class=nv>#4</span><span class=p>,</span> <span class=nv>%0</span><span class=nv>#5</span><span class=p>)</span>
+                  <span class=p>[</span><span class=nv>%h_stride</span><span class=p>,</span> <span class=nv>%w_stride</span><span class=p>,</span> <span class=nv>%h_kernel_dilation</span><span class=p>,</span> <span class=nv>%w_kernel_dilation</span><span class=p>,</span>
+                   <span class=nv>%h_pad_low</span><span class=p>,</span> <span class=nv>%w_pad_low</span><span class=p>]</span>
+                <span class=nv>%1_1</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map1_1</span> <span class=p>(</span><span class=nv>%0</span><span class=nv>#1</span><span class=p>,</span> <span class=nv>%0</span><span class=nv>#2</span><span class=p>,</span> <span class=nv>%0</span><span class=nv>#4</span><span class=p>,</span> <span class=nv>%0</span><span class=nv>#5</span><span class=p>)</span>
+                  <span class=p>[</span><span class=nv>%h_stride</span><span class=p>,</span> <span class=nv>%w_stride</span><span class=p>,</span> <span class=nv>%h_kernel_dilation</span><span class=p>,</span> <span class=nv>%w_kernel_dilation</span><span class=p>,</span>
+                   <span class=nv>%h_pad_low</span><span class=p>,</span> <span class=nv>%w_pad_low</span><span class=p>]</span>
 
-                // Check if access is not in padding.
-                affine.if #domain(%1_0, %1_1)
-                                       [%h_base_dilation, %w_kernel_dilation, %h_bound, %w_bound] {
-                  %2_0 = affine.apply #map2 (%1_0, %1_1)
-                  %2_1 = affine.apply #map2 (%1_0, %1_1)
-                  // Compute: output[output_indices] += input[input_indices] * kernel[kernel_indices]
-                  call @multiply_accumulate(%input, %kernel, %output, %b, %oh, %ow, %of, %kh, %kw, %if, %2_0, %2_1)
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  return
-}
-</code></pre><p>TODO (Add more examples showing the IR for a variety of interesting cases)</p><h2 id=design-alternatives-and-extensions>Design alternatives and extensions</h2><p>This is a list of some design alternatives and extensions that we discussed in
+                <span class=c>// Check if access is not in padding.
+</span><span class=c></span>                affine<span class=p>.</span>if <span class=nv>#domain</span><span class=p>(</span><span class=nv>%1_0</span><span class=p>,</span> <span class=nv>%1_1</span><span class=p>)</span>
+                                       <span class=p>[</span><span class=nv>%h_base_dilation</span><span class=p>,</span> <span class=nv>%w_kernel_dilation</span><span class=p>,</span> <span class=nv>%h_bound</span><span class=p>,</span> <span class=nv>%w_bound</span><span class=p>]</span> <span class=p>{</span>
+                  <span class=nv>%2_0</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map2</span> <span class=p>(</span><span class=nv>%1_0</span><span class=p>,</span> <span class=nv>%1_1</span><span class=p>)</span>
+                  <span class=nv>%2_1</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map2</span> <span class=p>(</span><span class=nv>%1_0</span><span class=p>,</span> <span class=nv>%1_1</span><span class=p>)</span>
+                  <span class=c>// Compute: output[output_indices] += input[input_indices] * kernel[kernel_indices]
+</span><span class=c></span>                  call <span class=nf>@multiply_accumulate</span><span class=p>(</span><span class=nv>%input</span><span class=p>,</span> <span class=nv>%kernel</span><span class=p>,</span> <span class=nv>%output</span><span class=p>,</span> <span class=nv>%b</span><span class=p>,</span> <span class=nv>%oh</span><span class=p>,</span> <span class=nv>%ow</span><span class=p>,</span> <span class=nv>%of</span><span class=p>,</span> <span class=nv>%kh</span><span class=p>,</span> <span class=nv>%kw</span><span class=p>,</span> <span class=nv>%if</span><span class=p>,</span> <span class=nv>%2_0</span><span class=p>,</span> <span class=nv>%2_1</span><span class=p>)</span>
+                <span class=p>}</span>
+              <span class=p>}</span>
+            <span class=p>}</span>
+          <span class=p>}</span>
+        <span class=p>}</span>
+      <span class=p>}</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>TODO (Add more examples showing the IR for a variety of interesting cases)</p><h2 id=design-alternatives-and-extensions>Design alternatives and extensions</h2><p>This is a list of some design alternatives and extensions that we discussed in
 detail but did not include in the spec or postponed them for future
 consideration on demand. We will revisit these discussions when we have more
 implementation experience and learn more about the challenges and limitations of
@@ -581,44 +581,44 @@ latter can be piece-wise affine relations. In the schedule tree representation,
 domain and schedules for instructions are represented in a tree-like structure
 which is called a schedule tree. Each non-leaf node of the tree is an abstract
 polyhedral dimension corresponding to an abstract fused loop for each ML
-instruction that appears in that branch. Each leaf node is an ML Instruction.</p><pre><code class=language-mlir data-lang=mlir>// A tiled matmul code (128x128x128) represented in schedule tree form
+instruction that appears in that branch. Each leaf node is an ML Instruction.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A tiled matmul code (128x128x128) represented in schedule tree form
+</span><span class=c></span>
+<span class=c>// #map0 = (d0, d1, d2, d3, d4, d5) -&gt; (128*d0 + d3, 128*d1 + d4, 128*d2 + d5)
+</span><span class=c></span><span class=nv>#intset_ij</span> <span class=p>=</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>)</span> <span class=p>[</span>M<span class=p>,</span> N<span class=p>,</span> K<span class=p>]</span>  <span class=p>:</span> i <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=err>-</span>i <span class=err>+</span> N <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> j <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=err>-</span>j <span class=err>+</span> N<span class=m>-1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span>
+<span class=nv>#intset_ijk</span> <span class=p>=</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>,</span> k<span class=p>)</span> <span class=p>[</span>M<span class=p>,</span> N<span class=p>,</span> K<span class=p>]</span> <span class=p>:</span> i <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=err>-</span>i <span class=err>+</span> N <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> j <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span>
+                                     <span class=err>-</span>j <span class=err>+</span>  M<span class=m>-1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> k <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> <span class=err>-</span>k <span class=err>+</span> N <span class=err>-</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>)</span>
+<span class=kt>func</span> <span class=nf>@matmul</span><span class=p>(</span><span class=nv>%A</span><span class=p>,</span> <span class=nv>%B</span><span class=p>,</span> <span class=nv>%C</span><span class=p>,</span> <span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span>  <span class=p>{</span> <span class=c>// %M, N, K are symbols
+</span><span class=c></span>  <span class=c>// t1, t2, t3, t4, t5, t6  are abstract polyhedral loops
+</span><span class=c></span>  mldim <span class=nv>%t1</span> <span class=p>:</span> <span class=p>{</span>S1<span class=p>,</span>S2<span class=p>,</span>S3<span class=p>,</span>S4<span class=p>,</span>S5<span class=p>}</span>  floordiv <span class=p>(</span>i<span class=p>,</span> <span class=m>128</span><span class=p>)</span> <span class=p>{</span>
+    mldim <span class=nv>%t2</span> <span class=p>:</span> <span class=p>{</span>S1<span class=p>,</span>S2<span class=p>,</span>S3<span class=p>,</span>S4<span class=p>,</span>S5<span class=p>}</span>  floordiv <span class=p>(</span>j<span class=p>,</span> <span class=m>128</span><span class=p>)</span> <span class=p>{</span>
+      <span class=c>// (%i, %j) = affine.apply (d0, d1) -&gt; (128*d0, 128*d1) (%t1, %t2)
+</span><span class=c></span>      call dma_mem_to_scratchpad<span class=p>(</span><span class=nv>%C</span><span class=p>,</span> <span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>,</span> <span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>)</span>
+          with <span class=nf>@intset_ij</span><span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>)</span> <span class=p>[</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>]</span>
+      mldim <span class=nv>%t3</span> <span class=p>:</span>   <span class=p>{</span>S2<span class=p>,</span>S3<span class=p>,</span>S4<span class=p>,</span>S5<span class=p>}</span> floordiv <span class=p>(</span>k<span class=p>,</span> <span class=m>128</span><span class=p>)</span> <span class=p>{</span>
+        <span class=c>// (%i, %j, %k) = affine.apply (d0, d1, d2)
+</span><span class=c></span>        <span class=c>//                          -&gt; (128*d0, 128*d1, 128*d2)  (%t1, %t2, %t3)
+</span><span class=c></span>        call dma_mem_to_scratchpad<span class=p>(</span><span class=nv>%A</span><span class=p>,</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span> with <span class=nv>#inset_ijk</span> <span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>,</span> <span class=nv>%k</span><span class=p>)</span> <span class=p>[</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>]</span>
+        <span class=c>// (%i, %j, %k) = affine.apply (d0, d1, d2)
+</span><span class=c></span>        <span class=c>//                          -&gt; (128*d0, 128*d1, 128*d2)  (%t1, %t2, %t3)
+</span><span class=c></span>        call dma_mem_to_scratchpad<span class=p>(</span><span class=nv>%B</span><span class=p>,</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span> with <span class=nv>#inset_ijk</span> <span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>,</span> <span class=nv>%k</span><span class=p>)</span> <span class=p>[</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>]</span>
+        mldim <span class=nv>%t4</span> <span class=p>:</span> <span class=p>{</span>S4<span class=p>}</span> i mod <span class=m>128</span> <span class=p>{</span>
+          mldim <span class=nv>%t5</span> <span class=p>:</span> <span class=p>{</span>S4<span class=p>}</span> j mod <span class=m>128</span> <span class=p>{</span>
+            mldim <span class=nv>%t6</span> <span class=p>:</span> <span class=p>{</span>S4<span class=p>}</span> k mod <span class=m>128</span> <span class=p>{</span>
+              <span class=c>// (%i, %j, %k) = affine.apply #map0 (%t1, %t2, %t3, %t4, %t5, %t6)
+</span><span class=c></span>              call matmul_body<span class=p>(</span>A<span class=p>,</span> B<span class=p>,</span> C<span class=p>,</span> <span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>,</span> <span class=nv>%k</span><span class=p>,</span> <span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>)</span>
+                  with <span class=nv>#inset_ijk</span><span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>,</span> <span class=nv>%k</span><span class=p>)</span> <span class=p>[</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>]</span>
+            <span class=p>}</span> <span class=c>// end mld4im t6
+</span><span class=c></span>          <span class=p>}</span> <span class=c>// end mldim t5
+</span><span class=c></span>        <span class=p>}</span> <span class=c>// end mldim t4
+</span><span class=c></span>      <span class=p>}</span> <span class=c>// end mldim t3
+</span><span class=c></span>      <span class=c>// (%i, %j) = affine.apply (d0, d1) -&gt; (128*d0, 128*d1) (%t1, %t2)
+</span><span class=c></span>      call <span class=err>$</span>dma_scratchpad_to_mem_C <span class=p>.</span><span class=p>.</span><span class=p>.</span> with <span class=nv>#intset</span><span class=p>(</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>)</span> <span class=p>[</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>,</span> <span class=nv>%K</span><span class=p>]</span>
+    <span class=p>}</span>  <span class=c>// end mldim t2
+</span><span class=c></span>  <span class=p>}</span> <span class=c>// end mldim t1
+</span><span class=c></span>  <span class=kt>return</span>
+<span class=p>}</span>
 
-// #map0 = (d0, d1, d2, d3, d4, d5) -&gt; (128*d0 + d3, 128*d1 + d4, 128*d2 + d5)
-#intset_ij = (i, j) [M, N, K]  : i &gt;= 0, -i + N - 1 &gt;= 0, j &gt;= 0, -j + N-1 &gt;= 0
-#intset_ijk = (i, j, k) [M, N, K] : i &gt;= 0, -i + N - 1 &gt;= 0, j &gt;= 0,
-                                     -j +  M-1 &gt;= 0, k &gt;= 0, -k + N - 1 &gt;= 0)
-func @matmul(%A, %B, %C, %M, %N, %K) : (...)  { // %M, N, K are symbols
-  // t1, t2, t3, t4, t5, t6  are abstract polyhedral loops
-  mldim %t1 : {S1,S2,S3,S4,S5}  floordiv (i, 128) {
-    mldim %t2 : {S1,S2,S3,S4,S5}  floordiv (j, 128) {
-      // (%i, %j) = affine.apply (d0, d1) -&gt; (128*d0, 128*d1) (%t1, %t2)
-      call dma_mem_to_scratchpad(%C, %i, %j, %M, %N, %K)
-          with @intset_ij(%i, %j) [%M, %N, %K]
-      mldim %t3 :   {S2,S3,S4,S5} floordiv (k, 128) {
-        // (%i, %j, %k) = affine.apply (d0, d1, d2)
-        //                          -&gt; (128*d0, 128*d1, 128*d2)  (%t1, %t2, %t3)
-        call dma_mem_to_scratchpad(%A, ...) with #inset_ijk (%i, %j, %k) [%M, %N, %K]
-        // (%i, %j, %k) = affine.apply (d0, d1, d2)
-        //                          -&gt; (128*d0, 128*d1, 128*d2)  (%t1, %t2, %t3)
-        call dma_mem_to_scratchpad(%B, ...) with #inset_ijk (%i, %j, %k) [%M, %N, %K]
-        mldim %t4 : {S4} i mod 128 {
-          mldim %t5 : {S4} j mod 128 {
-            mldim %t6 : {S4} k mod 128 {
-              // (%i, %j, %k) = affine.apply #map0 (%t1, %t2, %t3, %t4, %t5, %t6)
-              call matmul_body(A, B, C, %i, %j, %k, %M, %N, %K)
-                  with #inset_ijk(%i, %j, %k) [%M, %N, %K]
-            } // end mld4im t6
-          } // end mldim t5
-        } // end mldim t4
-      } // end mldim t3
-      // (%i, %j) = affine.apply (d0, d1) -&gt; (128*d0, 128*d1) (%t1, %t2)
-      call $dma_scratchpad_to_mem_C ... with #intset(%i, %j) [%M, %N, %K]
-    }  // end mldim t2
-  } // end mldim t1
-  return
-}
-
-</code></pre><h3 id=affine-relations>Affine Relations</h3><p>The current MLIR spec includes affine maps and integer sets, but not affine
+</code></pre></div><h3 id=affine-relations>Affine Relations</h3><p>The current MLIR spec includes affine maps and integer sets, but not affine
 relations. Affine relations are a natural way to model read and write access
 information, which can be very useful to capture the behavior of opaque external
 library calls, high-performance vendor libraries, or user-provided / user-tuned
@@ -646,21 +646,21 @@ pairwise distinct. All affine-constraint non-terminals in the above syntax are
 allowed to contain identifiers only from input-dims, output-dims, and
 symbol-dims.</p><p>Affine relations are used to model read, write, may_read, and may_write sets of
 functions in the IR. The output dimension identifiers correspond to the data
-dimensions.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// read relation: two elements ( d0 &lt;= r0 &lt;= d0+1 )
-##aff_rel9 = (d0) -&gt; (r0) : r0 - d0 &gt;= 0, d0 - r0 + 1 &gt;= 0
+dimensions.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// read relation: two elements ( d0 &lt;= r0 &lt;= d0+1 )
+</span><span class=c></span><span class=err>#</span><span class=nv>#aff_rel9</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>r0<span class=p>)</span> <span class=p>:</span> r0 <span class=err>-</span> d0 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d0 <span class=err>-</span> r0 <span class=err>+</span> <span class=m>1</span> <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span>
 
-func @count (%A : memref&lt;128xf32&gt;, %pos : i32) -&gt; f32
-  reads: {%A ##aff_rel9 (%pos)}
-  writes: /* empty */
-  may_reads: /* empty */
-  may_writes: /* empty */ {
-bb0 (%0, %1: memref&lt;128xf32&gt;, i64):
-  %val = affine.load %A [%pos]
-  %val = affine.load %A [%pos + 1]
-  %p = mulf %val, %val : f32
-  return %p : f32
-}
-</code></pre><h3 id=regions-1>Regions</h3><h4 id=making-function-definition-an-operation>Making function definition an operation</h4><p>MLIR supports values of a Function type. Instead of having first-class IR
+<span class=kt>func</span> <span class=nf>@count</span> <span class=p>(</span><span class=nv>%A</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>128x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%pos</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>f32</span>
+  reads<span class=p>:</span> <span class=p>{</span><span class=nv>%A</span> <span class=err>#</span><span class=nv>#aff_rel9</span> <span class=p>(</span><span class=nv>%pos</span><span class=p>)</span><span class=p>}</span>
+  writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+  may_reads<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+  may_writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span> <span class=p>{</span>
+bb0 <span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>128x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span><span class=p>:</span>
+  <span class=nv>%val</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%A</span> <span class=p>[</span><span class=nv>%pos</span><span class=p>]</span>
+  <span class=nv>%val</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%A</span> <span class=p>[</span><span class=nv>%pos</span> <span class=err>+</span> <span class=m>1</span><span class=p>]</span>
+  <span class=nv>%p</span> <span class=p>=</span> mulf <span class=nv>%val</span><span class=p>,</span> <span class=nv>%val</span> <span class=p>:</span> <span class=k>f32</span>
+  <span class=kt>return</span> <span class=nv>%p</span> <span class=p>:</span> <span class=k>f32</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=regions-1>Regions</h3><h4 id=making-function-definition-an-operation>Making function definition an operation</h4><p>MLIR supports values of a Function type. Instead of having first-class IR
 concept for functions, one could define an operation with a body region that
 defines a function value. The particularity of functions is that their names are
 globally visible and can be referred to before being defined, unlike SSA values
@@ -693,26 +693,26 @@ as DMA ones is a powerful feature. It allows the compiler to perform analysis,
 composition/transformation in the presence of such calls and with loops around
 such calls on sub-tensors. For user-provided or custom hand-tuned functions, the
 read/write/may_read/may_write sets could be provided a-priori by a user as part
-of the external function signature or they could be part of a database.</p><p>TODO: Design this, and update to use function attribute syntax.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>##rel9 ( ) [s0] -&gt; (r0, r1) : 0 &lt;= r0 &lt;= 1023, 0 &lt;= r1 &lt;= s0 - 1
+of the external function signature or they could be part of a database.</p><p>TODO: Design this, and update to use function attribute syntax.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=err>#</span><span class=nv>#rel9</span> <span class=p>(</span> <span class=p>)</span> <span class=p>[</span>s0<span class=p>]</span> <span class=p>-&gt;</span> <span class=p>(</span>r0<span class=p>,</span> r1<span class=p>)</span> <span class=p>:</span> <span class=m>0</span> <span class=p>&lt;</span><span class=p>=</span> r0 <span class=p>&lt;</span><span class=p>=</span> <span class=m>1023</span><span class=p>,</span> <span class=m>0</span> <span class=p>&lt;</span><span class=p>=</span> r1 <span class=p>&lt;</span><span class=p>=</span> s0 <span class=err>-</span> <span class=m>1</span>
 
-func @cblas_reduce_ffi(%M: memref&lt;1024 x ? x f32, #layout_map0, /*mem=*/0&gt;)
-  -&gt; f32 [
-  reads: {%M, ##rel9() }
-  writes: /* empty */
-  may_reads: /* empty */
-  may_writes: /* empty */
-]
+<span class=kt>func</span> <span class=nf>@cblas_reduce_ffi</span><span class=p>(</span><span class=nv>%M</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024 x</span> <span class=m>? x</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>#layout_map0</span><span class=p>,</span> <span class=err>/</span><span class=p>*</span><span class=nl>mem=</span><span class=p>*</span><span class=err>/</span><span class=m>0</span><span class=p>&gt;</span><span class=p>)</span>
+  <span class=p>-&gt;</span> <span class=k>f32</span> <span class=p>[</span>
+  reads<span class=p>:</span> <span class=p>{</span><span class=nv>%M</span><span class=p>,</span> <span class=err>#</span><span class=nv>#rel9</span><span class=p>(</span><span class=p>)</span> <span class=p>}</span>
+  writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+  may_reads<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+  may_writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+<span class=p>]</span>
 
-func @dma_mem_to_scratchpad(%a : memref&lt;1024 x f32, #layout_map0, /*mem=*/0&gt;,
-    %b : memref&lt;1024 x f32, #layout_map0, 1&gt;, %c : memref&lt;1024 x f32,
-    #layout_map0&gt;) [
-  reads: {%M, ##rel9() }
-  writes: /* empty */
-  may_reads: /* empty */
-  may_writes: /* empty */
- ]
+<span class=kt>func</span> <span class=nf>@dma_mem_to_scratchpad</span><span class=p>(</span><span class=nv>%a</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024 x</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>#layout_map0</span><span class=p>,</span> <span class=err>/</span><span class=p>*</span><span class=nl>mem=</span><span class=p>*</span><span class=err>/</span><span class=m>0</span><span class=p>&gt;</span><span class=p>,</span>
+    <span class=nv>%b</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024 x</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>#layout_map0</span><span class=p>,</span> <span class=m>1</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%c</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024 x</span> <span class=k>f32</span><span class=p>,</span>
+    <span class=nv>#layout_map0</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>[</span>
+  reads<span class=p>:</span> <span class=p>{</span><span class=nv>%M</span><span class=p>,</span> <span class=err>#</span><span class=nv>#rel9</span><span class=p>(</span><span class=p>)</span> <span class=p>}</span>
+  writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+  may_reads<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+  may_writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
+ <span class=p>]</span>
 
-</code></pre><h3 id=memref-extensions>Memref Extensions</h3><ol><li><p>Arbitrary polyhedral shapes for tensors: e.g., triangular shapes in tensor
+</code></pre></div><h3 id=memref-extensions>Memref Extensions</h3><ol><li><p>Arbitrary polyhedral shapes for tensors: e.g., triangular shapes in tensor
 dimensions where there is symmetry: use integer set (affine constraints) to
 model tensor data space (instead of just extents). Requires some changes to
 the IR and the in-memory form.</p></li><li><p>Layout maps</p><ol><li>Allow piece-wise affine maps for layouts: allows clean modeling of
@@ -735,38 +735,38 @@ for %&lt;index-variable-name&gt; = &lt;lower-bound&gt; ... &lt;upper-bound&gt; s
 </code></pre><p>out-var-list is a comma separated list of SSA values defined in the loop body
 and used outside the loop body. in-var-list is a comma separated list of SSA
 values used inside the loop body and their initializers. loop-instruction-list
-is a list of instructions that may also include a yield instruction.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// Return sum of elements in 1-dimensional mref A
-func i32 @sum(%A : memref&lt;?xi32&gt;, %N : i32) -&gt; (i32) {
-   %init = 0
-   %result = affine.for %i = 0 to N with %tmp(%init) {
-      %value = affine.load %A[%i]
-      %sum = %value + %tmp
-      yield %sum
-   }
-   return %result : i32
-}
-</code></pre><h4 id=affineifelse-instruction>affine.if/else Instruction</h4><p>Syntax:</p><pre><code>&lt;out-var-list&gt; = affine.if (&lt;cond-list&gt;) {...} [else {...}]
+is a list of instructions that may also include a yield instruction.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Return sum of elements in 1-dimensional mref A
+</span><span class=c></span><span class=kt>func</span> <span class=k>i32</span> <span class=nf>@sum</span><span class=p>(</span><span class=nv>%A</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%N</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>{</span>
+   <span class=nv>%init</span> <span class=p>=</span> <span class=m>0</span>
+   <span class=nv>%result</span> <span class=p>=</span> affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>0</span> to N with <span class=nv>%tmp</span><span class=p>(</span><span class=nv>%init</span><span class=p>)</span> <span class=p>{</span>
+      <span class=nv>%value</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>]</span>
+      <span class=nv>%sum</span> <span class=p>=</span> <span class=nv>%value</span> <span class=err>+</span> <span class=nv>%tmp</span>
+      yield <span class=nv>%sum</span>
+   <span class=p>}</span>
+   <span class=kt>return</span> <span class=nv>%result</span> <span class=p>:</span> <span class=k>i32</span>
+<span class=p>}</span>
+</code></pre></div><h4 id=affineifelse-instruction>affine.if/else Instruction</h4><p>Syntax:</p><pre><code>&lt;out-var-list&gt; = affine.if (&lt;cond-list&gt;) {...} [else {...}]
 </code></pre><p>Out-var-list is a list of SSA values defined by the if-instruction. The values
 are arguments to the yield-instruction that occurs in both then and else clauses
 when else clause is present. When if instruction contains only if clause, the
 escaping value defined in the then clause should be merged with the value the
 variable had before the if instruction. The design captured here does not handle
-this situation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// Compute sum of half of the array
-func i32 @sum_half(%A : memref&lt;?xi32&gt;, %N : i32) -&gt; (i32) {
-   %s0 = 0
-   %s1 = affine.for %i = 1 ... N step 1 with %s2 (%s0) {
-       %s3 = if (%i &gt;= %N / 2) {
-          %v0 = affine.load %A[%i]
-          %s4 = %s2 + %v0
-          yield %s4
-       }
-       yield %s3
-   }
-   return %s1 : i32
-}
-</code></pre><h3 id=multithreading-the-compiler>Multithreading the compiler</h3><p>People want compilers to go fast, and one simple way to do that is to
+this situation.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Compute sum of half of the array
+</span><span class=c></span><span class=kt>func</span> <span class=k>i32</span> <span class=nf>@sum_half</span><span class=p>(</span><span class=nv>%A</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>i32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%N</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>{</span>
+   <span class=nv>%s0</span> <span class=p>=</span> <span class=m>0</span>
+   <span class=nv>%s1</span> <span class=p>=</span> affine<span class=p>.</span>for <span class=nv>%i</span> <span class=p>=</span> <span class=m>1</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> N step <span class=m>1</span> with <span class=nv>%s2</span> <span class=p>(</span><span class=nv>%s0</span><span class=p>)</span> <span class=p>{</span>
+       <span class=nv>%s3</span> <span class=p>=</span> if <span class=p>(</span><span class=nv>%i</span> <span class=p>&gt;</span><span class=p>=</span> <span class=nv>%N</span> <span class=err>/</span> <span class=m>2</span><span class=p>)</span> <span class=p>{</span>
+          <span class=nv>%v0</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>]</span>
+          <span class=nv>%s4</span> <span class=p>=</span> <span class=nv>%s2</span> <span class=err>+</span> <span class=nv>%v0</span>
+          yield <span class=nv>%s4</span>
+       <span class=p>}</span>
+       yield <span class=nv>%s3</span>
+   <span class=p>}</span>
+   <span class=kt>return</span> <span class=nv>%s1</span> <span class=p>:</span> <span class=k>i32</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=multithreading-the-compiler>Multithreading the compiler</h3><p>People want compilers to go fast, and one simple way to do that is to
 multi-thread them. There are multiple strategies for this, but a simple one is
-to optimize and compile separate functions in parallel. LLVM's original pass
+to optimize and compile separate functions in parallel. LLVM&rsquo;s original pass
 manager anticipated this demand, and the CallGraphSCCPass manager is even
 designed to support this as well, but unfortunately, a few early design
 decisions in LLVM prevent this from ever happening. Instead, things like ThinLTO
@@ -776,11 +776,11 @@ and also mutable: notably constants like <code>i32 0</code>. In LLVM, these cons
 <code>Value</code>'s, which allow them to be used as operands to instructions, and that
 they also have SSA use lists. Because these things are uniqued, every <code>i32 0</code> in
 any function shares a use list. This means that optimizing multiple functions in
-parallel won't work (at least without some sort of synchronization on the use
+parallel won&rsquo;t work (at least without some sort of synchronization on the use
 lists, which would be unbearably inefficient).</p><p>MLIR now supports a multithreaded pass manager. We do this through several
 design choices:</p><ol><li>MLIR makes use of extensive uniqued immutable data structures (affine
 expressions, types, etc are all immutable, uniqued, and immortal).</li><li>Constants are defined in per-function pools, instead of being globally
-uniqued.</li><li>Functions themselves are not SSA values either, so they don't have the same
+uniqued.</li><li>Functions themselves are not SSA values either, so they don&rsquo;t have the same
 problem as constants.</li><li>FunctionPasses are copied (through their copy ctor) into one instance per
 thread, avoiding sharing of local state across threads.</li></ol><p>This allows MLIR function passes to support efficient multithreaded compilation
 and code generation.</p><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Quantization/ title="MLIR Quantization"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - MLIR Quantization</a>

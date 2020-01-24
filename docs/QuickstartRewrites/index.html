@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quickstart tutorial to adding MLIR graph rewrite - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/QuickstartRewrites/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Quickstart tutorial to adding MLIR graph rewrite - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/QuickstartRewrites/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Quickstart tutorial to adding MLIR graph rewrite</h1><p>This document will present a quickstart to adding graph rewrites. We shall start
 by defining an operation, showing multiple ways to define the rewrite using
 patterns, as well as defining the rewrite using a graph walker (note: using
@@ -32,26 +32,26 @@ must be named.</li><li>The result(s) of the operation. These may again named or 
 a longer human-readable description of the operation.</li><li>Dialect specific information. Additional information could be added to the
 operation definition that are only used by dialect specific drivers. These
 are ignored by the main op and doc generators, but could be used in, say,
-the translation from a dialect to another representation.</li></ul><pre><code class=language-tablegen data-lang=tablegen>def TFL_LeakyReluOp: TFL_Op&lt;TFL_Dialect, &quot;leaky_relu&quot;,
-                            [NoSideEffect, SameValueType]&gt;,
-                     Results&lt;(outs Tensor)&gt; {
-  let arguments = (ins
-    F32Tensor:$x,
-    // Slope of the activation function at x &lt; 0.
-    F32Attr:$alpha
-  );
+the translation from a dialect to another representation.</li></ul><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>TFL_LeakyReluOp</span><span class=p>:</span> <span class=nv>TFL_Op</span><span class=p>&lt;</span><span class=nv>TFL_Dialect</span><span class=p>,</span> <span class=s>&#34;leaky_relu&#34;</span><span class=p>,</span>
+                            <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>,</span> <span class=nv>SameValueType</span><span class=p>]</span><span class=p>&gt;</span><span class=p>,</span>
+                     <span class=nv>Results</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>outs</span> <span class=nv>Tensor</span><span class=p>)</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
+    <span class=nv>F32Tensor</span><span class=p>:</span><span class=nv>$x</span><span class=p>,</span>
+    <span class=c>// Slope of the activation function at x &lt; 0.
+</span><span class=c></span>    <span class=nv>F32Attr</span><span class=p>:</span><span class=nv>$alpha</span>
+  <span class=p>)</span><span class=p>;</span>
 
-  let summary = &quot;Leaky ReLU operator&quot;;
-  let description = [{
-    Element-wise Leaky ReLU operator
-      x -&gt; x &gt;= 0 ? x : (alpha * x)
-  }];
+  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;Leaky ReLU operator&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    Element-wise Leaky ReLU operator
+</span><span class=s>      x -&gt; x &gt;= 0 ? x : (alpha * x)
+</span><span class=s>  }]</span><span class=p>;</span>
 
-  // TFLite specific attribute that is used when generating the output
-  // flatbuffer.
-  let hasOptions = 1;
-}
-</code></pre><p>Note in the above the result types and inputs are specified in different ways,
+  <span class=c>// TFLite specific attribute that is used when generating the output
+</span><span class=c></span>  <span class=c>// flatbuffer.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>hasOptions</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Note in the above the result types and inputs are specified in different ways,
 one by way of trait and the other by way of let. It is possible to specify both
 in either way.</p><p>Operations can also have custom parser, printer, builder, verifier, constant
 folder, or canonicalizer. These require specifying additional C++ methods to
@@ -67,9 +67,9 @@ the most common is DAG tile to DAG tile rewrite. Patterns provide a concise way
 to express this transformation as a pair of source pattern to match and
 resultant pattern. There are both the C++ classes to represent this
 transformation, as well as the patterns in TableGen from which these can be
-generated.</p><h3 id=tablegen-patterns>TableGen patterns</h3><p>Let us continue with LeakyRelu. To map from TensorFlow's <code>LeakyRelu</code> to
-TensorFlow Lite's <code>LeakyRelu</code>:</p><pre><code class=language-tablegen data-lang=tablegen>def : Pat&lt;(TF_LeakyReluOp $arg, F32Attr:$a), (TFL_LeakyReluOp $arg, $a)&gt;
-</code></pre><p>The pattern is specified by instantiating a <code>Pat</code> with a source and result DAG.
+generated.</p><h3 id=tablegen-patterns>TableGen patterns</h3><p>Let us continue with LeakyRelu. To map from TensorFlow&rsquo;s <code>LeakyRelu</code> to
+TensorFlow Lite&rsquo;s <code>LeakyRelu</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>TF_LeakyReluOp</span> <span class=nv>$arg</span><span class=p>,</span> <span class=nv>F32Attr</span><span class=p>:</span><span class=nv>$a</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>TFL_LeakyReluOp</span> <span class=nv>$arg</span><span class=p>,</span> <span class=nv>$a</span><span class=p>)</span><span class=p>&gt;</span>
+</code></pre></div><p>The pattern is specified by instantiating a <code>Pat</code> with a source and result DAG.
 The arguments in the source pattern is captured and can be used in the result
 pattern. This is a simple pattern as we have a 1:1 mapping and the attribute
 does not need to be transformed (e.g., both have a floating point attribute for
@@ -79,12 +79,12 @@ definition but the order of arguments of the dags do need to match.</p><p>To spe
 TableGen.</p><p>If this were a more advance pattern that the current framework could not express
 as destination then one could use a general native code fallback method. This
 consists of defining a pattern as well as adding a C++ function to perform the
-replacement:</p><pre><code class=language-tablegen data-lang=tablegen>def createTFLLeakyRelu : NativeCodeCall&lt;
-    &quot;createTFLLeakyRelu($_builder, $0.getDefiningOp(), $1, $2)&quot;&gt;;
+replacement:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>createTFLLeakyRelu</span> <span class=p>:</span> <span class=nv>NativeCodeCall</span><span class=p>&lt;</span>
+    <span class=s>&#34;createTFLLeakyRelu($_builder, $0.getDefiningOp(), $1, $2)&#34;</span><span class=p>&gt;</span><span class=p>;</span>
 
-def : Pat&lt;(TF_LeakyReluOp:$old_value, $arg, F32Attr:$a),
-          (createTFLLeakyRelu $old_value, $arg, $a)&gt;;
-</code></pre><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=n>Value</span> <span class=nf>createTFLLeakyRelu</span><span class=p>(</span><span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>,</span> <span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span>
+<span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>TF_LeakyReluOp</span><span class=p>:</span><span class=nv>$old_value</span><span class=p>,</span> <span class=nv>$arg</span><span class=p>,</span> <span class=nv>F32Attr</span><span class=p>:</span><span class=nv>$a</span><span class=p>)</span><span class=p>,</span>
+          <span class=p>(</span><span class=nv>createTFLLeakyRelu</span> <span class=nv>$old_value</span><span class=p>,</span> <span class=nv>$arg</span><span class=p>,</span> <span class=nv>$a</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=n>Value</span> <span class=nf>createTFLLeakyRelu</span><span class=p>(</span><span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>,</span> <span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span>
                                 <span class=n>Value</span> <span class=n>operand</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>)</span> <span class=p>{</span>
   <span class=k>return</span> <span class=n>rewriter</span><span class=p>.</span><span class=n>create</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>TFL</span><span class=o>:</span><span class=o>:</span><span class=n>LeakyReluOp</span><span class=o>&gt;</span><span class=p>(</span>
       <span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getLoc</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=n>operands</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=p>.</span><span class=n>getType</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=cm>/*arg=*/</span><span class=n>operands</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=p>,</span>
@@ -148,16 +148,16 @@ the input IR file, running a transformation and then verifying the output IR.
 C++ unit tests are the exception, with the IR transformation serving as the core
 testing mechanism. This results in fewer binaries that need to be built (and
 linked) and forces to focus on the representation as an important piece.</p><p>For the legalization transform above we would have a test (probably as part of
-the legalization pass test in TensorFlow Lite) such as:</p><pre><code class=language-mlir data-lang=mlir>// RUN: mlir-opt -tfl-legalize-tf %s | FileCheck %s
+the legalization pass test in TensorFlow Lite) such as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// RUN: mlir-opt -tfl-legalize-tf %s | FileCheck %s
+</span><span class=c></span>
+<span class=kt>func</span> <span class=nf>@LeakyRelu</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;tf.LeakyRelu&#34;</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>{</span>alpha<span class=p>:</span> <span class=m>0.1</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>&gt;</span>
+  <span class=kt>return</span> <span class=nv>%2</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>1x</span><span class=k>f32</span><span class=p>&gt;</span>
 
-func @LeakyRelu(%arg0: tensor&lt;1xf32&gt;) -&gt; tensor&lt;1xf32&gt; {
-  %2 = &quot;tf.LeakyRelu&quot;(%arg0) {alpha: 0.1} : (tensor&lt;1xf32&gt;) -&gt; tensor&lt;1xf32&gt;
-  return %2: tensor&lt;1xf32&gt;
-
-// CHECK-LABEL: LeakyRelu
-// CHECK:  %0 = &quot;tfl.leaky_relu&quot;(%arg0) {alpha: 1.000000e-01} : (tensor&lt;1xf32&gt;) -&gt; tensor&lt;1xf32&gt;
-}
-</code></pre><p>The RUN command at the top results in running the <code>mlir-opt</code> binary (which is
+<span class=c>// CHECK-LABEL: LeakyRelu
+</span><span class=c></span><span class=c>// CHECK:  %0 = &#34;tfl.leaky_relu&#34;(%arg0) {alpha: 1.000000e-01} : (tensor&lt;1xf32&gt;) -&gt; tensor&lt;1xf32&gt;
+</span><span class=c></span><span class=p>}</span>
+</code></pre></div><p>The RUN command at the top results in running the <code>mlir-opt</code> binary (which is
 compiler writer tool to exercise different registered passes) to invoke the
 optimization pass this transform was added as part of on the current file and to
 verify its output using <code>FileCheck</code>. <code>FileCheck</code> is textual output verifier. In

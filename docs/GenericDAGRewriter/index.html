@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Generic DAG Rewriter Infrastructure - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/GenericDAGRewriter/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Generic DAG Rewriter Infrastructure - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/GenericDAGRewriter/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>MLIR Generic DAG Rewriter Infrastructure</h1><h2 id=introduction-and-motivation>Introduction and Motivation</h2><p>The goal of a compiler IR is to represent code - at various levels of
 abstraction which pose different sets of tradeoffs in terms of representational
 capabilities and ease of transformation. However, the ability to represent code
@@ -48,12 +48,12 @@ function, which could invalidate iterators. Constant folding as an API does not
 remove any nodes, it just provides a (list of) constant values and allows the
 clients to update their data structures as necessary.</p><h3 id=ast-level-pattern-matchers>AST-Level Pattern Matchers</h3><p>The literature is full of source-to-source translators which transform
 identities in order to improve performance (e.g. transforming <code>X*0</code> into <code>0</code>).
-One large example that I'm aware of is the GCC <code>fold</code> function, which performs
+One large example that I&rsquo;m aware of is the GCC <code>fold</code> function, which performs
 <a href=https://github.com/gcc-mirror/gcc/blob/master/gcc/fold-const.c>many optimizations</a>
 on ASTs. Clang has
 <a href=http://releases.llvm.org/3.5.0/tools/clang/docs/InternalsManual.html#constant-folding-in-the-clang-ast>similar routines</a>
 for simple constant folding of expressions (as required by the C++ standard) but
-doesn't perform general optimizations on its ASTs.</p><p>The primary downside of tree optimizers is that you can't see across operations
+doesn&rsquo;t perform general optimizations on its ASTs.</p><p>The primary downside of tree optimizers is that you can&rsquo;t see across operations
 that have multiple uses. It is
 <a href=https://llvm.org/pubs/2008-06-LCTES-ISelUsingSSAGraphs.pdf>well known in literature</a>
 that DAG pattern matching is more powerful than tree pattern matching, but OTOH,
@@ -65,10 +65,10 @@ GCC
 <a href=http://llvm.org/viewvc/llvm-project/llvm/trunk/lib/Transforms/InstCombine/>Inst Combine</a>
 <a href=https://llvm.org/docs/Passes.html#instcombine-combine-redundant-instructions>pass</a>
 ,
-LLVM's
+LLVM&rsquo;s
 <a href=https://github.com/llvm-mirror/llvm/blob/master/lib/CodeGen/SelectionDAG/DAGCombiner.cpp>DAG Combiner</a>
 ,
-the Swift compiler's
+the Swift compiler&rsquo;s
 <a href=https://github.com/apple/swift/tree/master/lib/SILOptimizer/SILCombiner>SIL Combiner</a>
 ,
 etc. These generally match one or more operations and produce zero or more
@@ -80,7 +80,7 @@ visitor pattern (or equivalent) to switch over the class of operation and
 dispatch to a method. That method contains a long list of hand-written C++ code
 that pattern-matches various special cases. LLVM introduced a &ldquo;match&rdquo; function
 that allows writing patterns in a somewhat more declarative style using template
-metaprogramming (MLIR has similar facilities). Here's a simple example:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=c1>// Y - (X + 1) --&gt; ~X + Y
+metaprogramming (MLIR has similar facilities). Here&rsquo;s a simple example:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=c1>// Y - (X + 1) --&gt; ~X + Y
 </span><span class=c1></span>  <span class=k>if</span> <span class=p>(</span><span class=n>match</span><span class=p>(</span><span class=n>Op1</span><span class=p>,</span> <span class=n>m_OneUse</span><span class=p>(</span><span class=n>m_Add</span><span class=p>(</span><span class=n>m_Value</span><span class=p>(</span><span class=n>X</span><span class=p>)</span><span class=p>,</span> <span class=n>m_One</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>)</span><span class=p>)</span><span class=p>)</span>
     <span class=k>return</span> <span class=n>BinaryOperator</span><span class=o>:</span><span class=o>:</span><span class=n>CreateAdd</span><span class=p>(</span><span class=n>Builder</span><span class=p>.</span><span class=n>CreateNot</span><span class=p>(</span><span class=n>X</span><span class=p>)</span><span class=p>,</span> <span class=n>Op0</span><span class=p>)</span><span class=p>;</span>
 </code></pre></div><p>Here is a somewhat more complicated one (this is not the biggest or most
@@ -101,12 +101,12 @@ operators) and the C++ code has to handle it manually - take a look at
 <a href="http://llvm.org/viewvc/llvm-project/llvm/trunk/lib/Transforms/InstCombine/InstCombineAddSub.cpp?view=markup#l775">the full code</a>
 for checkForNegativeOperand that defines the second pattern).</li><li>The matching code compiles slowly, both because it generates tons of code
 and because the templates instantiate slowly.</li><li>Adding new patterns (e.g. for count leading zeros in the example above) is
-awkward and doesn't often happen.</li><li>The cost model for these patterns is not really defined - it is emergent
-based on the order the patterns are matched in code.</li><li>They are non-extensible without rebuilding the compiler.</li><li>It isn't practical to apply theorem provers and other tools to these
+awkward and doesn&rsquo;t often happen.</li><li>The cost model for these patterns is not really defined - it is emergent
+based on the order the patterns are matched in code.</li><li>They are non-extensible without rebuilding the compiler.</li><li>It isn&rsquo;t practical to apply theorem provers and other tools to these
 patterns - they cannot be reused for other purposes.</li></ul><p>In addition to structured &ldquo;combiners&rdquo; like these, there are lots of ad-hoc
 systems like the
 <a href="http://llvm.org/viewvc/llvm-project/llvm/trunk/lib/CodeGen/PeepholeOptimizer.cpp?view=markup">LLVM Machine code peephole optimizer</a>
-which are related.</p><h3 id=llvms-dag-to-dag-instruction-selection-infrastructure>LLVM's DAG-to-DAG Instruction Selection Infrastructure</h3><p>The instruction selection subsystem in LLVM is the result of many years worth of
+which are related.</p><h3 id=llvms-dag-to-dag-instruction-selection-infrastructure>LLVM&rsquo;s DAG-to-DAG Instruction Selection Infrastructure</h3><p>The instruction selection subsystem in LLVM is the result of many years worth of
 iteration and discovery, driven by the need for LLVM to support code generation
 for lots of targets, the complexity of code generators for modern instruction
 sets (e.g. X86), and the fanatical pursuit of reusing code across targets. Eli
@@ -122,24 +122,24 @@ writing patterns like this.</p><pre><code>def : Pat&lt;(or GR64:$src, (not (add 
 in the
 <a href="http://llvm.org/viewvc/llvm-project/llvm/trunk/lib/Target/X86/X86InstrInfo.td?view=markup">X86 target description</a>
 ,
-there are many others in that file (look for <code>Pat&lt;></code> patterns, since they aren't
+there are many others in that file (look for <code>Pat&lt;></code> patterns, since they aren&rsquo;t
 entangled in details of the compiler like assembler/disassembler generation
 logic).</p><p>For our purposes, there is much to like about this system, for example:</p><ul><li>It is defined in a declarative format.</li><li>It is extensible to target-defined operations.</li><li>It automates matching across identities, like commutative patterns.</li><li>It allows custom abstractions and intense factoring of target-specific
 commonalities.</li><li>It generates compact code - it compiles into a state machine, which is
 interpreted.</li><li>It allows the instruction patterns to be defined and reused for multiple
 purposes.</li><li>The patterns are &ldquo;type checked&rdquo; at compile time, detecting lots of bugs
 early and eliminating redundancy from the pattern specifications.</li><li>It allows the use of general C++ code for weird/complex cases.</li></ul><p>While there is a lot that is good here, there is also a lot of bad things:</p><ul><li>All of this machinery is only applicable to instruction selection. Even
-directly adjacent problems like the DAGCombiner and Legalizer can't use it.</li><li>This isn't extensible at compiler runtime, you have to rebuild the compiler
+directly adjacent problems like the DAGCombiner and Legalizer can&rsquo;t use it.</li><li>This isn&rsquo;t extensible at compiler runtime, you have to rebuild the compiler
 to extend it.</li><li>The error messages when failing to match a pattern
 <a href="https://www.google.com/search?q=llvm+cannot+select">are not exactly optimal</a>
-.</li><li>It has lots of implementation problems and limitations (e.g. can't write a
+.</li><li>It has lots of implementation problems and limitations (e.g. can&rsquo;t write a
 pattern for a multi-result operation) as a result of working with the
 awkward SelectionDAG representation and being designed and implemented
 lazily.</li><li>This stuff all grew organically over time and has lots of sharp edges.</li></ul><h3 id=summary>Summary</h3><p>MLIR will face a wide range of pattern matching and graph rewrite problems, and
 one of the major advantages of having a common representation for code at
 multiple levels that it allows us to invest in - and highly leverage - a single
 infra for doing this sort of work.</p><h2 id=goals>Goals</h2><p>This proposal includes support for defining pattern matching and rewrite
-algorithms on MLIR. We'd like these algorithms to encompass many problems in the
+algorithms on MLIR. We&rsquo;d like these algorithms to encompass many problems in the
 MLIR space, including 1-to-N expansions (e.g. as seen in the TF/XLA bridge when
 lowering a &ldquo;tf.AddN&rdquo; to multiple &ldquo;add&rdquo; HLOs), M-to-1 patterns (as seen in
 Grappler optimization passes, e.g. that convert multiple/add into a single
@@ -171,15 +171,15 @@ malfunction is too great to be fully enumerated and handled optimally, but there
 are better and worse ways to handle the situation. MLIR is already designed to
 represent the provenance of an operation well. This project aims to propagate
 that provenance information precisely, as well as diagnose pattern match
-failures with the rationale for why a set of patterns do not apply.</p><h3 id=non-goals>Non goals</h3><p>This proposal doesn't aim to solve all compiler problems, it is simply a
+failures with the rationale for why a set of patterns do not apply.</p><h3 id=non-goals>Non goals</h3><p>This proposal doesn&rsquo;t aim to solve all compiler problems, it is simply a
 DAG-to-DAG pattern matching system, starting with a greedy driver algorithm.
 Compiler algorithms that require global dataflow analysis (e.g. common
 subexpression elimination, conditional constant propagation, and many many
 others) will not be directly solved by this infrastructure.</p><p>This proposal is limited to DAG patterns, which (by definition) prevent the
 patterns from seeing across cycles in a graph. In an SSA-based IR like MLIR,
-this means that these patterns don't see across PHI nodes / basic block
+this means that these patterns don&rsquo;t see across PHI nodes / basic block
 arguments. We consider this acceptable given the set of problems we are trying
-to solve - we don't know of any other system that attempts to do so, and
+to solve - we don&rsquo;t know of any other system that attempts to do so, and
 consider the payoff of worrying about this to be low.</p><p>This design includes the ability for DAG patterns to have associated costs
 (benefits), but those costs are defined in terms of magic numbers (typically
 equal to the number of nodes being replaced). For any given application, the

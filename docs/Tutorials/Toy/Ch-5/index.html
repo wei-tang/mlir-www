@@ -1,11 +1,11 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-5/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-5/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</h1><p>[TOC]</p><p>At this point, we are eager to generate actual code and see our Toy language
 take life. We will use LLVM to generate code, but just showing the LLVM builder
-interface here wouldn't be very exciting. Instead, we will show how to perform
+interface here wouldn&rsquo;t be very exciting. Instead, we will show how to perform
 progressive lowering through a mix of dialects coexisting in the same function.</p><p>To make it more interesting, in this chapter we will consider that we want to
 reuse existing optimizations implemented in a dialect optimizing affine
 transformations: <code>Affine</code>. This dialect is tailored to the computation-heavy
-part of the program and is limited: it doesn't support representing our
+part of the program and is limited: it doesn&rsquo;t support representing our
 <code>toy.print</code> builtin, for instance, neither should it! Instead, we can target
 <code>Affine</code> for the computation heavy part of Toy, and in the
 <a href=/docs/Tutorials/Toy/Ch-6/>next chapter</a>
@@ -16,7 +16,7 @@ that <code>Toy</code> operates on to the
 <a href=/docs/LangRef/#memref-type>MemRefType</a>
 that is indexed via an affine
 loop-nest. Tensors represent an abstract value-typed sequence of data, meaning
-that they don't live in any memory. MemRefs, on the other hand, represent lower
+that they don&rsquo;t live in any memory. MemRefs, on the other hand, represent lower
 level buffer access, as they are concrete references to a region of memory.</p><p>MLIR has many different dialects, so it is important to have a unified framework
 for
 <a href=/getting_started/Glossary/#conversion>converting</a>
@@ -25,7 +25,7 @@ between them. This is where the
 transforming a set of <code>illegal</code> operations to a set of <code>legal</code> ones. To use this
 framework, we need to provide two things (and an optional third):</p><ul><li><p>A
 <a href=/docs/DialectConversion/#conversion-target>Conversion Target</a></p><ul><li>This is the formal specification of what operations or dialects are
-legal for the conversion. Operations that aren't legal will require
+legal for the conversion. Operations that aren&rsquo;t legal will require
 rewrite patterns to perform
 <a href=/getting_started/Glossary/#legalization>legalization</a>
 .</li></ul></li><li><p>A set of
@@ -35,7 +35,7 @@ used to
 convert <code>illegal</code> operations into a set of zero or more <code>legal</code> ones.</li></ul></li><li><p>Optionally, a
 <a href=/docs/DialectConversion/#type-conversion>Type Converter</a>
 .</p><ul><li>If provided, this is used to convert the types of block arguments. We
-won't be needing this for our conversion.</li></ul></li></ul><h2 id=conversion-target>Conversion Target</h2><p>For our purposes, we want to convert the compute-intensive <code>Toy</code> operations into
+won&rsquo;t be needing this for our conversion.</li></ul></li></ul><h2 id=conversion-target>Conversion Target</h2><p>For our purposes, we want to convert the compute-intensive <code>Toy</code> operations into
 a combination of operations from the <code>Affine</code> <code>Standard</code> dialects for further
 optimization. To start off the lowering, we first define our conversion target:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=n>ToyToAffineLoweringPass</span><span class=o>:</span><span class=o>:</span><span class=n>runOnFunction</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
   <span class=c1>// The first thing to define is the conversion target. This will define the
@@ -74,7 +74,7 @@ old. For our lowering, this invariant will be useful as it translates from the
 <a href=/docs/LangRef/#tensor-type>TensorType</a>
 currently being operated on to the
 <a href=/docs/LangRef/#memref-type>MemRefType</a>
-. Let's look at a snippet of lowering
+. Let&rsquo;s look at a snippet of lowering
 the <code>toy.transpose</code> operation:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Lower the `toy.transpose` operation to an affine loop nest.
 </span><span class=c1></span><span class=k>struct</span> <span class=nc>TransposeOpLowering</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ConversionPattern</span> <span class=p>{</span>
   <span class=n>TransposeOpLowering</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>ctx</span><span class=p>)</span>
@@ -175,109 +175,109 @@ simple, does not introduce an additional hidden copy, and does not require
 another operation definition. The downside to this option is that it requires
 mixing abstraction levels in the <code>Toy</code> dialect.</p><p>For the sake of simplicity, we will use the third option for this lowering. This
 involves updating the type constraints on the PrintOp in the operation
-definition file:</p><pre><code class=language-tablegen data-lang=tablegen>def PrintOp : Toy_Op&lt;&quot;print&quot;&gt; {
-  ...
+definition file:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>PrintOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;print&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
-  // The print operation takes an input tensor to print.
-  // We also allow a F64MemRef to enable interop during partial lowering.
-  let arguments = (ins AnyTypeOf&lt;[F64Tensor, F64MemRef]&gt;:$input);
-}
-</code></pre><h2 id=complete-toy-example>Complete Toy Example</h2><p>Looking back at our current working example:</p><pre><code class=language-mlir data-lang=mlir>func @main() {
-  %0 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-  %2 = &quot;toy.transpose&quot;(%0) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  %3 = &quot;toy.mul&quot;(%2, %2) : (tensor&lt;3x2xf64&gt;, tensor&lt;3x2xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  &quot;toy.print&quot;(%3) : (tensor&lt;3x2xf64&gt;) -&gt; ()
-  &quot;toy.return&quot;() : () -&gt; ()
-}
-</code></pre><p>With affine lowering added to our pipeline, we can now generate:</p><pre><code class=language-mlir data-lang=mlir>func @main() {
-  %cst = constant 1.000000e+00 : f64
-  %cst_0 = constant 2.000000e+00 : f64
-  %cst_1 = constant 3.000000e+00 : f64
-  %cst_2 = constant 4.000000e+00 : f64
-  %cst_3 = constant 5.000000e+00 : f64
-  %cst_4 = constant 6.000000e+00 : f64
+  <span class=c>// The print operation takes an input tensor to print.
+</span><span class=c></span>  <span class=c>// We also allow a F64MemRef to enable interop during partial lowering.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>AnyTypeOf</span><span class=p>&lt;</span><span class=p>[</span><span class=nv>F64Tensor</span><span class=p>,</span> <span class=nv>F64MemRef</span><span class=p>]</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$input</span><span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=complete-toy-example>Complete Toy Example</h2><p>Looking back at our current working example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> <span class=s>&#34;toy.mul&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>,</span> <span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>With affine lowering added to our pipeline, we can now generate:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%cst</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>1.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>2.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_1</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>3.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_2</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>4.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_3</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>5.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_4</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>6.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
 
-  // Allocating buffers for the inputs and outputs.
-  %0 = alloc() : memref&lt;3x2xf64&gt;
-  %1 = alloc() : memref&lt;3x2xf64&gt;
-  %2 = alloc() : memref&lt;2x3xf64&gt;
+  <span class=c>// Allocating buffers for the inputs and outputs.
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
 
-  // Initialize the input buffer with the constant values.
-  affine.store %cst, %2[0, 0] : memref&lt;2x3xf64&gt;
-  affine.store %cst_0, %2[0, 1] : memref&lt;2x3xf64&gt;
-  affine.store %cst_1, %2[0, 2] : memref&lt;2x3xf64&gt;
-  affine.store %cst_2, %2[1, 0] : memref&lt;2x3xf64&gt;
-  affine.store %cst_3, %2[1, 1] : memref&lt;2x3xf64&gt;
-  affine.store %cst_4, %2[1, 2] : memref&lt;2x3xf64&gt;
+  <span class=c>// Initialize the input buffer with the constant values.
+</span><span class=c></span>  affine<span class=p>.</span>store <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_0</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_1</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_2</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_3</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_4</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
 
-  // Load the transpose value from the input buffer and store it into the
-  // next input buffer.
-  affine.for %arg0 = 0 to 3 {
-    affine.for %arg1 = 0 to 2 {
-      %3 = affine.load %2[%arg1, %arg0] : memref&lt;2x3xf64&gt;
-      affine.store %3, %1[%arg0, %arg1] : memref&lt;3x2xf64&gt;
-    }
-  }
+  <span class=c>// Load the transpose value from the input buffer and store it into the
+</span><span class=c></span>  <span class=c>// next input buffer.
+</span><span class=c></span>  affine<span class=p>.</span>for <span class=nv>%arg0</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>3</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%arg1</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>2</span> <span class=p>{</span>
+      <span class=nv>%3</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%2</span><span class=p>[</span><span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%arg0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+      affine<span class=p>.</span>store <span class=nv>%3</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
 
-  // Multiply and store into the output buffer.
-  affine.for %arg0 = 0 to 2 {
-    affine.for %arg1 = 0 to 3 {
-      %3 = affine.load %1[%arg0, %arg1] : memref&lt;3x2xf64&gt;
-      %4 = affine.load %1[%arg0, %arg1] : memref&lt;3x2xf64&gt;
-      %5 = mulf %3, %4 : f64
-      affine.store %5, %0[%arg0, %arg1] : memref&lt;3x2xf64&gt;
-    }
-  }
+  <span class=c>// Multiply and store into the output buffer.
+</span><span class=c></span>  affine<span class=p>.</span>for <span class=nv>%arg0</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>2</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%arg1</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>3</span> <span class=p>{</span>
+      <span class=nv>%3</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%1</span><span class=p>[</span><span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+      <span class=nv>%4</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%1</span><span class=p>[</span><span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+      <span class=nv>%5</span> <span class=p>=</span> mulf <span class=nv>%3</span><span class=p>,</span> <span class=nv>%4</span> <span class=p>:</span> <span class=k>f64</span>
+      affine<span class=p>.</span>store <span class=nv>%5</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
 
-  // Print the value held by the buffer.
-  &quot;toy.print&quot;(%0) : (memref&lt;3x2xf64&gt;) -&gt; ()
-  dealloc %2 : memref&lt;2x3xf64&gt;
-  dealloc %1 : memref&lt;3x2xf64&gt;
-  dealloc %0 : memref&lt;3x2xf64&gt;
-  return
-}
-</code></pre><h2 id=taking-advantage-of-affine-optimization>Taking Advantage of Affine Optimization</h2><p>Our naive lowering is correct, but it leaves a lot to be desired with regards to
+  <span class=c>// Print the value held by the buffer.
+</span><span class=c></span>  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  dealloc <span class=nv>%2</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  dealloc <span class=nv>%1</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  dealloc <span class=nv>%0</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=taking-advantage-of-affine-optimization>Taking Advantage of Affine Optimization</h2><p>Our naive lowering is correct, but it leaves a lot to be desired with regards to
 efficiency. For example, the lowering of <code>toy.mul</code> has generated some redundant
-loads. Let's look at how adding a few existing optimizations to the pipeline can
+loads. Let&rsquo;s look at how adding a few existing optimizations to the pipeline can
 help clean this up. Adding the <code>LoopFusion</code> and <code>MemRefDataFlowOpt</code> passes to
-the pipeline gives the following result:</p><pre><code class=language-mlir data-lang=mlir>func @main() {
-  %cst = constant 1.000000e+00 : f64
-  %cst_0 = constant 2.000000e+00 : f64
-  %cst_1 = constant 3.000000e+00 : f64
-  %cst_2 = constant 4.000000e+00 : f64
-  %cst_3 = constant 5.000000e+00 : f64
-  %cst_4 = constant 6.000000e+00 : f64
+the pipeline gives the following result:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%cst</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>1.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>2.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_1</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>3.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_2</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>4.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_3</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>5.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
+  <span class=nv>%cst_4</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>6.000000e+00</span> <span class=p>:</span> <span class=k>f64</span>
 
-  // Allocating buffers for the inputs and outputs.
-  %0 = alloc() : memref&lt;3x2xf64&gt;
-  %1 = alloc() : memref&lt;2x3xf64&gt;
+  <span class=c>// Allocating buffers for the inputs and outputs.
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
 
-  // Initialize the input buffer with the constant values.
-  affine.store %cst, %1[0, 0] : memref&lt;2x3xf64&gt;
-  affine.store %cst_0, %1[0, 1] : memref&lt;2x3xf64&gt;
-  affine.store %cst_1, %1[0, 2] : memref&lt;2x3xf64&gt;
-  affine.store %cst_2, %1[1, 0] : memref&lt;2x3xf64&gt;
-  affine.store %cst_3, %1[1, 1] : memref&lt;2x3xf64&gt;
-  affine.store %cst_4, %1[1, 2] : memref&lt;2x3xf64&gt;
+  <span class=c>// Initialize the input buffer with the constant values.
+</span><span class=c></span>  affine<span class=p>.</span>store <span class=nv>%cst</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_0</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>0</span><span class=p>,</span> <span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_2</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_3</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  affine<span class=p>.</span>store <span class=nv>%cst_4</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>,</span> <span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
 
-  affine.for %arg0 = 0 to 3 {
-    affine.for %arg1 = 0 to 2 {
-      // Load the transpose value from the input buffer.
-      %2 = affine.load %1[%arg1, %arg0] : memref&lt;2x3xf64&gt;
+  affine<span class=p>.</span>for <span class=nv>%arg0</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>3</span> <span class=p>{</span>
+    affine<span class=p>.</span>for <span class=nv>%arg1</span> <span class=p>=</span> <span class=m>0</span> to <span class=m>2</span> <span class=p>{</span>
+      <span class=c>// Load the transpose value from the input buffer.
+</span><span class=c></span>      <span class=nv>%2</span> <span class=p>=</span> affine<span class=p>.</span>load <span class=nv>%1</span><span class=p>[</span><span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%arg0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
 
-      // Multiply and store into the output buffer.
-      %3 = mulf %2, %2 : f64
-      affine.store %3, %0[%arg0, %arg1] : memref&lt;3x2xf64&gt;
-    }
-  }
+      <span class=c>// Multiply and store into the output buffer.
+</span><span class=c></span>      <span class=nv>%3</span> <span class=p>=</span> mulf <span class=nv>%2</span><span class=p>,</span> <span class=nv>%2</span> <span class=p>:</span> <span class=k>f64</span>
+      affine<span class=p>.</span>store <span class=nv>%3</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+    <span class=p>}</span>
+  <span class=p>}</span>
 
-  // Print the value held by the buffer.
-  &quot;toy.print&quot;(%0) : (memref&lt;3x2xf64&gt;) -&gt; ()
-  dealloc %1 : memref&lt;2x3xf64&gt;
-  dealloc %0 : memref&lt;3x2xf64&gt;
-  return
-}
-</code></pre><p>Here, we can see that a redundant allocation was removed, the two loop nests
+  <span class=c>// Print the value held by the buffer.
+</span><span class=c></span>  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  dealloc <span class=nv>%1</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  dealloc <span class=nv>%0</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>Here, we can see that a redundant allocation was removed, the two loop nests
 were fused, and some unnecessary <code>load</code>s were removed. You can build <code>toyc-ch5</code>
 and try yourself: <code>toyc-ch5 test/lowering.toy -emit=mlir-affine</code>. We can also
 check our optimizations by adding <code>-opt</code>.</p><p>In this chapter we explored some aspects of partial lowering, with the intent to

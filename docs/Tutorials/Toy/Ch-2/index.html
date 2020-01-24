@@ -1,5 +1,5 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 2: Emitting Basic MLIR - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-2/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
-MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 2: Emitting Basic MLIR</h1><p>[TOC]</p><p>Now that we're familiar with our language and the AST, let's see how MLIR can
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 2: Emitting Basic MLIR - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-2/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 2: Emitting Basic MLIR</h1><p>[TOC]</p><p>Now that we&rsquo;re familiar with our language and the AST, let&rsquo;s see how MLIR can
 help to compile Toy.</p><h2 id=introduction-multi-level-intermediate-representation>Introduction: Multi-Level Intermediate Representation</h2><p>Other compilers, like LLVM (see the
 <a href=https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>Kaleidoscope tutorial</a>
 ),
@@ -23,8 +23,8 @@ are the core unit of
 abstraction and computation, similar in many ways to LLVM instructions.
 Operations can have application-specific semantics and can be used to represent
 all of the core IR structures in LLVM: instructions, globals (like functions),
-modules, etc.</p><p>Here is the MLIR assembly for the Toy <code>transpose</code> operations:</p><pre><code class=language-mlir data-lang=mlir>%t_tensor = &quot;toy.transpose&quot;(%tensor) {inplace = true} : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt; loc(&quot;example/file/path&quot;:12:1)
-</code></pre><p>Let's break down the anatomy of this MLIR operation:</p><ul><li><p><code>%t_tensor</code></p><ul><li>The name given to the result defined by this operation (which includes
+modules, etc.</p><p>Here is the MLIR assembly for the Toy <code>transpose</code> operations:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%t_tensor</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%tensor</span><span class=p>)</span> <span class=p>{</span><span class=nl>inplace =</span> true<span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;example/file/path&#34;</span><span class=p>:</span><span class=m>12</span><span class=p>:</span><span class=m>1</span><span class=p>)</span>
+</code></pre></div><p>Let&rsquo;s break down the anatomy of this MLIR operation:</p><ul><li><p><code>%t_tensor</code></p><ul><li>The name given to the result defined by this operation (which includes
 <a href=/docs/LangRef/#identifiers-and-keywords>a prefixed sigil to avoid collisions</a>
 ).
 An operation may define zero or more results (in the context of Toy, we
@@ -59,7 +59,7 @@ Contrary to LLVM, where debug info locations are metadata and can be dropped, in
 MLIR, the location is a core requirement, and APIs depend on and manipulate it.
 Dropping a location is thus an explicit choice which cannot happen by mistake.</p><p>To provide an illustration: If a transformation replaces an operation by
 another, that new operation must still have a location attached. This makes it
-possible to track where that operation came from.</p><p>It's worth noting that the mlir-opt tool - a tool for testing
+possible to track where that operation came from.</p><p>It&rsquo;s worth noting that the mlir-opt tool - a tool for testing
 compiler passes - does not include locations in the output by default. The
 <code>-mlir-print-debuginfo</code> flag specifies to include locations. (Run <code>mlir-opt --help</code> for more options.)</p><h3 id=opaque-api>Opaque API</h3><p>MLIR is designed to be a completely extensible system, and as such, the
 infrastructure has the capability to opaquely represent all of its core
@@ -68,23 +68,23 @@ represent, and
 <a href=/getting_started/Glossary/#round-trip>round-trip</a>
 any valid IR. For
 example, we could place our Toy operation from above into an <code>.mlir</code> file and
-round-trip through <em>mlir-opt</em> without registering anything:</p><pre><code class=language-mlir data-lang=mlir>func @toy_func(%tensor: tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt; {
-  %t_tensor = &quot;toy.transpose&quot;(%tensor) { inplace = true } : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  return %t_tensor : tensor&lt;3x2xf64&gt;
-}
-</code></pre><p>In the cases of unregistered attributes, operations, and types, MLIR will
+round-trip through <em>mlir-opt</em> without registering anything:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@toy_func</span><span class=p>(</span><span class=nv>%tensor</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=nv>%t_tensor</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%tensor</span><span class=p>)</span> <span class=p>{</span> <span class=nl>inplace =</span> true <span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=kt>return</span> <span class=nv>%t_tensor</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+<span class=p>}</span>
+</code></pre></div><p>In the cases of unregistered attributes, operations, and types, MLIR will
 enforce some structural constraints (SSA, block termination, etc.), but
 otherwise they are completely opaque. This can be useful for bootstrapping
 purposes, but it is generally advised against. Opaque operations must be treated
 conservatively by transformations and analyses, and they are much harder to
 construct and manipulate.</p><p>This handling can be observed by crafting what should be an invalid IR for Toy
-and seeing it round-trip without tripping the verifier:</p><pre><code class=language-mlir data-lang=mlir>// RUN: toyc %s -emit=mlir
-
-func @main() {
-  %0 = &quot;toy.print&quot;() : () -&gt; tensor&lt;2x3xf64&gt;
-}
-</code></pre><p>There are multiple problems here: the <code>toy.print</code> operation is not a terminator;
-it should take an operand; and it shouldn't return any values. In the next
+and seeing it round-trip without tripping the verifier:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// RUN: toyc %s -emit=mlir
+</span><span class=c></span>
+<span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+<span class=p>}</span>
+</code></pre></div><p>There are multiple problems here: the <code>toy.print</code> operation is not a terminator;
+it should take an operand; and it shouldn&rsquo;t return any values. In the next
 section, we will register our dialect and operations with MLIR, plug into the
 verifier, and add nicer APIs to manipulate our operations.</p><h2 id=defining-a-toy-dialect>Defining a Toy Dialect</h2><p>To effectively interface with MLIR, we will define a new Toy dialect. This
 dialect will properly model the semantics of the Toy language, as well as
@@ -104,8 +104,8 @@ provide an easy avenue for high-level analysis and transformation.</p><div class
 </code></pre></div><p>Any new <code>MLIRContext</code> created from now on will contain an instance of the Toy
 dialect and invoke specific hooks for things like parsing attributes and types.</p><h2 id=defining-toy-operations>Defining Toy Operations</h2><p>Now that we have a <code>Toy</code> dialect, we can start registering operations. This will
 allow for providing semantic information that the rest of the system can hook
-into. Let's walk through the creation of the <code>toy.constant</code> operation:</p><pre><code class=language-mlir data-lang=mlir> %4 = &quot;toy.constant&quot;() {value = dense&lt;1.0&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-</code></pre><p>This operation takes zero operands, a
+into. Let&rsquo;s walk through the creation of the <code>toy.constant</code> operation:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir> <span class=nv>%4</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=m>1.0</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+</code></pre></div><p>This operation takes zero operands, a
 <a href=/docs/LangRef/#dense-elements-attribute>dense elements</a>
 attribute named
 <code>value</code>, and returns a single result of
@@ -171,7 +171,7 @@ providing a clean interface for building and interfacing with the <code>Operatio
 class; this is why our <code>ConstantOp</code> defines no class fields. Therefore, we
 always pass these classes around by value, instead of by reference or pointer
 (<em>passing by value</em> is a common idiom and applies similarly to attributes,
-types, etc). We can always get an instance of our toy operation by using LLVM's
+types, etc). We can always get an instance of our toy operation by using LLVM&rsquo;s
 casting infrastructure:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=nf>processConstantOp</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Operation</span> <span class=o>*</span><span class=n>operation</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>ConstantOp</span> <span class=n>op</span> <span class=o>=</span> <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>dyn_cast</span><span class=o>&lt;</span><span class=n>ConstantOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>operation</span><span class=p>)</span><span class=p>;</span>
 
@@ -194,27 +194,27 @@ compile time. Using the ODS framework is the desired way for defining operations
 in MLIR given the simplicity, conciseness, and general stability in the face of
 C++ API changes.</p><p>Lets see how to define the ODS equivalent of our ConstantOp:</p><p>The first thing to do is to define a link to the Toy dialect that we defined in
 C++. This is used to link all of the operations that we will define to our
-dialect:</p><pre><code class=language-tablegen data-lang=tablegen>// Provide a definition of the 'toy' dialect in the ODS framework so that we
-// can define our operations.
-def Toy_Dialect : Dialect {
-  // The namespace of our dialect, this corresponds 1-1 with the string we
-  // provided in `ToyDialect::getDialectNamespace`.
-  let name = &quot;toy&quot;;
+dialect:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=c>// Provide a definition of the &#39;toy&#39; dialect in the ODS framework so that we
+</span><span class=c></span><span class=c>// can define our operations.
+</span><span class=c></span><span class=k>def</span> <span class=nv>Toy_Dialect</span> <span class=p>:</span> <span class=nv>Dialect</span> <span class=p>{</span>
+  <span class=c>// The namespace of our dialect, this corresponds 1-1 with the string we
+</span><span class=c></span>  <span class=c>// provided in `ToyDialect::getDialectNamespace`.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>name</span> <span class=p>=</span> <span class=s>&#34;toy&#34;</span><span class=p>;</span>
 
-  // The C++ namespace that the dialect class definition resides in.
-  let cppNamespace = &quot;toy&quot;;
-}
-</code></pre><p>Now that we have defined a link to the Toy dialect, we can start defining
+  <span class=c>// The C++ namespace that the dialect class definition resides in.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>cppNamespace</span> <span class=p>=</span> <span class=s>&#34;toy&#34;</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Now that we have defined a link to the Toy dialect, we can start defining
 operations. Operations in ODS are defined by inheriting from the <code>Op</code> class. To
 simplify our operation definitions, we will define a base class for operations
-in the Toy dialect.</p><pre><code class=language-tablegen data-lang=tablegen>// Base class for toy dialect operations. This operation inherits from the base
-// `Op` class in OpBase.td, and provides:
-//   * The parent dialect of the operation.
-//   * The mnemonic for the operation, or the name without the dialect prefix.
-//   * A list of traits for the operation.
-class Toy_Op&lt;string mnemonic, list&lt;OpTrait&gt; traits = []&gt; :
-    Op&lt;Toy_Dialect, mnemonic, traits&gt;;
-</code></pre><p>With all of the preliminary pieces defined, we can begin to define the constant
+in the Toy dialect.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=c>// Base class for toy dialect operations. This operation inherits from the base
+</span><span class=c></span><span class=c>// `Op` class in OpBase.td, and provides:
+</span><span class=c></span><span class=c>//   * The parent dialect of the operation.
+</span><span class=c></span><span class=c>//   * The mnemonic for the operation, or the name without the dialect prefix.
+</span><span class=c></span><span class=c>//   * A list of traits for the operation.
+</span><span class=c></span><span class=k>class</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=k>string</span> <span class=nv>mnemonic</span><span class=p>,</span> <span class=k>list</span><span class=p>&lt;</span><span class=nv>OpTrait</span><span class=p>&gt;</span> <span class=nv>traits</span> <span class=p>=</span> <span class=p>[</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span>
+    <span class=nv>Op</span><span class=p>&lt;</span><span class=nv>Toy_Dialect</span><span class=p>,</span> <span class=nv>mnemonic</span><span class=p>,</span> <span class=nv>traits</span><span class=p>&gt;</span><span class=p>;</span>
+</code></pre></div><p>With all of the preliminary pieces defined, we can begin to define the constant
 operation.</p><p>We define a toy operation by inheriting from our base &lsquo;Toy_Op&rsquo; class above. Here
 we provide the mnemonic and a list of traits for the operation. The
 <a href=/docs/OpDefinitions/#operation-name>mnemonic</a>
@@ -224,9 +224,9 @@ operation here is also marked as &lsquo;NoSideEffect&rsquo;. This is an ODS trai
 matches one-to-one with the trait we providing when defining <code>ConstantOp</code>:
 <code>mlir::OpTrait::HasNoSideEffect</code>. Missing here from our C++ definition are the
 <code>ZeroOperands</code> and <code>OneResult</code> traits; these will be automatically inferred
-based upon the <code>arguments</code> and <code>results</code> fields we define later.</p><pre><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&quot;constant&quot;, [NoSideEffect]&gt; {
-}
-</code></pre><p>At this point you probably might want to know what the C++ code generated by
+based upon the <code>arguments</code> and <code>results</code> fields we define later.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ConstantOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;constant&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+<span class=p>}</span>
+</code></pre></div><p>At this point you probably might want to know what the C++ code generated by
 TableGen looks like. Simply run the <code>mlir-tblgen</code> command with the
 <code>gen-op-decls</code> or the <code>gen-op-defs</code> action like so:</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell><span class=si>${</span><span class=nv>build_root</span><span class=si>}</span>/bin/mlir-tblgen -gen-op-defs <span class=si>${</span><span class=nv>mlir_src_root</span><span class=si>}</span>/examples/toy/Ch2/include/toy/Ops.td -I <span class=si>${</span><span class=nv>mlir_src_root</span><span class=si>}</span>/include/
 </code></pre></div><p>Depending on the selected action, this will print either the <code>ConstantOp</code> class
@@ -238,132 +238,132 @@ and
 to our operation. The
 inputs, or arguments, to an operation may be attributes or types for SSA operand
 values. The results correspond to a set of types for the values produced by the
-operation:</p><pre><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&quot;constant&quot;, [NoSideEffect]&gt; {
-  // The constant operation takes an attribute as the only input.
-  // `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
-  let arguments = (ins F64ElementsAttr:$value);
+operation:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ConstantOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;constant&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=c>// The constant operation takes an attribute as the only input.
+</span><span class=c></span>  <span class=c>// `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F64ElementsAttr</span><span class=p>:</span><span class=nv>$value</span><span class=p>)</span><span class=p>;</span>
 
-  // The constant operation returns a single value of TensorType.
-  // F64Tensor corresponds to a 64-bit floating-point TensorType.
-  let results = (outs F64Tensor);
-}
-</code></pre><p>By providing a name to the arguments or results, e.g. <code>$value</code>, ODS will
+  <span class=c>// The constant operation returns a single value of TensorType.
+</span><span class=c></span>  <span class=c>// F64Tensor corresponds to a 64-bit floating-point TensorType.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>By providing a name to the arguments or results, e.g. <code>$value</code>, ODS will
 automatically generate a matching accessor: <code>DenseElementsAttr ConstantOp::value()</code>.</p><h4 id=adding-documentation>Adding Documentation</h4><p>The next step after defining the operation is to document it. Operations may
 provide
 <a href=/docs/OpDefinitions/#operation-documentation><code>summary</code> and <code>description</code></a>
 fields to describe the semantics of the operation. This information is useful
 for users of the dialect and can even be used to auto-generate Markdown
-documents.</p><pre><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&quot;constant&quot;, [NoSideEffect]&gt; {
-  // Provide a summary and description for this operation. This can be used to
-  // auto-generate documentation of the operations within our dialect.
-  let summary = &quot;constant operation&quot;;
-  let description = [{
-    Constant operation turns a literal into an SSA value. The data is attached
-    to the operation as an attribute. For example:
+documents.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ConstantOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;constant&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=c>// Provide a summary and description for this operation. This can be used to
+</span><span class=c></span>  <span class=c>// auto-generate documentation of the operations within our dialect.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;constant operation&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    Constant operation turns a literal into an SSA value. The data is attached
+</span><span class=s>    to the operation as an attribute. For example:
+</span><span class=s>
+</span><span class=s>      %0 = &#34;toy.constant&#34;()
+</span><span class=s>         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
+</span><span class=s>        : () -&gt; tensor&lt;2x3xf64&gt;
+</span><span class=s>  }]</span><span class=p>;</span>
 
-      %0 = &quot;toy.constant&quot;()
-         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
-        : () -&gt; tensor&lt;2x3xf64&gt;
-  }];
+  <span class=c>// The constant operation takes an attribute as the only input.
+</span><span class=c></span>  <span class=c>// `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F64ElementsAttr</span><span class=p>:</span><span class=nv>$value</span><span class=p>)</span><span class=p>;</span>
 
-  // The constant operation takes an attribute as the only input.
-  // `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
-  let arguments = (ins F64ElementsAttr:$value);
-
-  // The generic call operation returns a single value of TensorType.
-  // F64Tensor corresponds to a 64-bit floating-point TensorType.
-  let results = (outs F64Tensor);
-}
-</code></pre><h4 id=verifying-operation-semantics>Verifying Operation Semantics</h4><p>At this point we've already covered a majority of the original C++ operation
+  <span class=c>// The generic call operation returns a single value of TensorType.
+</span><span class=c></span>  <span class=c>// F64Tensor corresponds to a 64-bit floating-point TensorType.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><h4 id=verifying-operation-semantics>Verifying Operation Semantics</h4><p>At this point we&rsquo;ve already covered a majority of the original C++ operation
 definition. The next piece to define is the verifier. Luckily, much like the
 named accessor, the ODS framework will automatically generate a lot of the
 necessary verification logic based upon the constraints we have given. This
-means that we don't need to verify the structure of the return type, or even the
+means that we don&rsquo;t need to verify the structure of the return type, or even the
 input attribute <code>value</code>. In many cases, additional verification is not even
 necessary for ODS operations. To add additional verification logic, an operation
 can override the
 <a href=/docs/OpDefinitions/#custom-verifier-code><code>verifier</code></a>
 field. The <code>verifier</code> field allows for defining a C++ code blob that will be run
 as part of <code>ConstantOp::verify</code>. This blob can assume that all of the other
-invariants of the operation have already been verified:</p><pre><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&quot;constant&quot;, [NoSideEffect]&gt; {
-  // Provide a summary and description for this operation. This can be used to
-  // auto-generate documentation of the operations within our dialect.
-  let summary = &quot;constant operation&quot;;
-  let description = [{
-    Constant operation turns a literal into an SSA value. The data is attached
-    to the operation as an attribute. For example:
+invariants of the operation have already been verified:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ConstantOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;constant&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=c>// Provide a summary and description for this operation. This can be used to
+</span><span class=c></span>  <span class=c>// auto-generate documentation of the operations within our dialect.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;constant operation&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    Constant operation turns a literal into an SSA value. The data is attached
+</span><span class=s>    to the operation as an attribute. For example:
+</span><span class=s>
+</span><span class=s>      %0 = &#34;toy.constant&#34;()
+</span><span class=s>         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
+</span><span class=s>        : () -&gt; tensor&lt;2x3xf64&gt;
+</span><span class=s>  }]</span><span class=p>;</span>
 
-      %0 = &quot;toy.constant&quot;()
-         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
-        : () -&gt; tensor&lt;2x3xf64&gt;
-  }];
+  <span class=c>// The constant operation takes an attribute as the only input.
+</span><span class=c></span>  <span class=c>// `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F64ElementsAttr</span><span class=p>:</span><span class=nv>$value</span><span class=p>)</span><span class=p>;</span>
 
-  // The constant operation takes an attribute as the only input.
-  // `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
-  let arguments = (ins F64ElementsAttr:$value);
+  <span class=c>// The generic call operation returns a single value of TensorType.
+</span><span class=c></span>  <span class=c>// F64Tensor corresponds to a 64-bit floating-point TensorType.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
 
-  // The generic call operation returns a single value of TensorType.
-  // F64Tensor corresponds to a 64-bit floating-point TensorType.
-  let results = (outs F64Tensor);
-
-  // Add additional verification logic to the constant operation. Here we invoke
-  // a static `verify` method in a C++ source file. This codeblock is executed
-  // inside of ConstantOp::verify, so we can use `this` to refer to the current
-  // operation instance.
-  let verifier = [{ return ::verify(*this); }];
-}
-</code></pre><h4 id=attaching-build-methods>Attaching <code>build</code> Methods</h4><p>The final missing component here from our original C++ example are the <code>build</code>
+  <span class=c>// Add additional verification logic to the constant operation. Here we invoke
+</span><span class=c></span>  <span class=c>// a static `verify` method in a C++ source file. This codeblock is executed
+</span><span class=c></span>  <span class=c>// inside of ConstantOp::verify, so we can use `this` to refer to the current
+</span><span class=c></span>  <span class=c>// operation instance.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>verifier</span> <span class=p>=</span> <span class=s>[{ return ::verify(*this); }]</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><h4 id=attaching-build-methods>Attaching <code>build</code> Methods</h4><p>The final missing component here from our original C++ example are the <code>build</code>
 methods. ODS can generate some simple build methods automatically, and in this
 case it will generate our first build method for us. For the rest, we define the
 <a href=/docs/OpDefinitions/#custom-builder-methods><code>builders</code></a>
 field. This field
 takes a list of <code>OpBuilder</code> objects that take a string corresponding to a list
 of C++ parameters, as well as an optional code block that can be used to specify
-the implementation inline.</p><pre><code class=language-tablegen data-lang=tablegen>def ConstantOp : Toy_Op&lt;&quot;constant&quot;, [NoSideEffect]&gt; {
-  // Provide a summary and description for this operation. This can be used to
-  // auto-generate documentation of the operations within our dialect.
-  let summary = &quot;constant operation&quot;;
-  let description = [{
-    Constant operation turns a literal into an SSA value. The data is attached
-    to the operation as an attribute. For example:
+the implementation inline.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ConstantOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;constant&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=c>// Provide a summary and description for this operation. This can be used to
+</span><span class=c></span>  <span class=c>// auto-generate documentation of the operations within our dialect.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;constant operation&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    Constant operation turns a literal into an SSA value. The data is attached
+</span><span class=s>    to the operation as an attribute. For example:
+</span><span class=s>
+</span><span class=s>      %0 = &#34;toy.constant&#34;()
+</span><span class=s>         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
+</span><span class=s>        : () -&gt; tensor&lt;2x3xf64&gt;
+</span><span class=s>  }]</span><span class=p>;</span>
 
-      %0 = &quot;toy.constant&quot;()
-         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
-        : () -&gt; tensor&lt;2x3xf64&gt;
-  }];
+  <span class=c>// The constant operation takes an attribute as the only input.
+</span><span class=c></span>  <span class=c>// `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F64ElementsAttr</span><span class=p>:</span><span class=nv>$value</span><span class=p>)</span><span class=p>;</span>
 
-  // The constant operation takes an attribute as the only input.
-  // `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
-  let arguments = (ins F64ElementsAttr:$value);
+  <span class=c>// The generic call operation returns a single value of TensorType.
+</span><span class=c></span>  <span class=c>// F64Tensor corresponds to a 64-bit floating-point TensorType.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
 
-  // The generic call operation returns a single value of TensorType.
-  // F64Tensor corresponds to a 64-bit floating-point TensorType.
-  let results = (outs F64Tensor);
+  <span class=c>// Add additional verification logic to the constant operation. Here we invoke
+</span><span class=c></span>  <span class=c>// a static `verify` method in a c++ source file. This codeblock is executed
+</span><span class=c></span>  <span class=c>// inside of ConstantOp::verify, so we can use `this` to refer to the current
+</span><span class=c></span>  <span class=c>// operation instance.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>verifier</span> <span class=p>=</span> <span class=s>[{ return ::verify(*this); }]</span><span class=p>;</span>
 
-  // Add additional verification logic to the constant operation. Here we invoke
-  // a static `verify` method in a c++ source file. This codeblock is executed
-  // inside of ConstantOp::verify, so we can use `this` to refer to the current
-  // operation instance.
-  let verifier = [{ return ::verify(*this); }];
+  <span class=c>// Add custom build methods for the constant operation. These methods populate
+</span><span class=c></span>  <span class=c>// the `state` that MLIR uses to create operations, i.e. these are used when
+</span><span class=c></span>  <span class=c>// using `builder.create&lt;ConstantOp&gt;(...)`.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>builders</span> <span class=p>=</span> <span class=p>[</span>
+    <span class=c>// Build a constant with a given constant tensor value.
+</span><span class=c></span>    <span class=nv>OpBuilder</span><span class=p>&lt;</span><span class=s>&#34;Builder *builder, OperationState &amp;result, &#34;</span>
+              <span class=s>&#34;DenseElementsAttr value&#34;</span><span class=p>,</span> <span class=s>[{
+</span><span class=s>      // Call into an autogenerated `build` method.
+</span><span class=s>      build(builder, result, value.getType(), value);
+</span><span class=s>    }]</span><span class=p>&gt;</span><span class=p>,</span>
 
-  // Add custom build methods for the constant operation. These methods populate
-  // the `state` that MLIR uses to create operations, i.e. these are used when
-  // using `builder.create&lt;ConstantOp&gt;(...)`.
-  let builders = [
-    // Build a constant with a given constant tensor value.
-    OpBuilder&lt;&quot;Builder *builder, OperationState &amp;result, &quot;
-              &quot;DenseElementsAttr value&quot;, [{
-      // Call into an autogenerated `build` method.
-      build(builder, result, value.getType(), value);
-    }]&gt;,
-
-    // Build a constant with a given constant floating-point value. This builder
-    // creates a declaration for `ConstantOp::build` with the given parameters.
-    OpBuilder&lt;&quot;Builder *builder, OperationState &amp;result, double value&quot;&gt;
-  ];
-}
-</code></pre><p>Above we introduce several of the concepts for defining operations in the ODS
-framework, but there are many more that we haven't had a chance to: regions,
+    <span class=c>// Build a constant with a given constant floating-point value. This builder
+</span><span class=c></span>    <span class=c>// creates a declaration for `ConstantOp::build` with the given parameters.
+</span><span class=c></span>    <span class=nv>OpBuilder</span><span class=p>&lt;</span><span class=s>&#34;Builder *builder, OperationState &amp;result, double value&#34;</span><span class=p>&gt;</span>
+  <span class=p>]</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Above we introduce several of the concepts for defining operations in the ODS
+framework, but there are many more that we haven&rsquo;t had a chance to: regions,
 variadic operands, etc. Check out the
 <a href=/docs/OpDefinitions/>full specification</a>
 for more details.</p><h2 id=complete-toy-example>Complete Toy Example</h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
@@ -378,25 +378,25 @@ def main() {
   var d = multiply_transpose(b, a);
   print(d);
 }
-</code></pre><p>Results in the following IR:</p><pre><code class=language-mlir data-lang=mlir>module {
-  func @multiply_transpose(%arg0: tensor&lt;*xf64&gt;, %arg1: tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt; {
-    %0 = &quot;toy.transpose&quot;(%arg0) : (tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt; loc(&quot;test/codegen.toy&quot;:5:10)
-    %1 = &quot;toy.transpose&quot;(%arg1) : (tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt; loc(&quot;test/codegen.toy&quot;:5:25)
-    %2 = &quot;toy.mul&quot;(%0, %1) : (tensor&lt;*xf64&gt;, tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt; loc(&quot;test/codegen.toy&quot;:5:25)
-    &quot;toy.return&quot;(%2) : (tensor&lt;*xf64&gt;) -&gt; () loc(&quot;test/codegen.toy&quot;:5:3)
-  } loc(&quot;test/codegen.toy&quot;:4:1)
-  func @main() {
-    %0 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt; loc(&quot;test/codegen.toy&quot;:9:17)
-    %1 = &quot;toy.reshape&quot;(%0) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;2x3xf64&gt; loc(&quot;test/codegen.toy&quot;:9:3)
-    %2 = &quot;toy.constant&quot;() {value = dense&lt;[1.000000e+00, 2.000000e+00, 3.000000e+00, 4.000000e+00, 5.000000e+00, 6.000000e+00]&gt; : tensor&lt;6xf64&gt;} : () -&gt; tensor&lt;6xf64&gt; loc(&quot;test/codegen.toy&quot;:10:17)
-    %3 = &quot;toy.reshape&quot;(%2) : (tensor&lt;6xf64&gt;) -&gt; tensor&lt;2x3xf64&gt; loc(&quot;test/codegen.toy&quot;:10:3)
-    %4 = &quot;toy.generic_call&quot;(%1, %3) {callee = @multiply_transpose} : (tensor&lt;2x3xf64&gt;, tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;*xf64&gt; loc(&quot;test/codegen.toy&quot;:11:11)
-    %5 = &quot;toy.generic_call&quot;(%3, %1) {callee = @multiply_transpose} : (tensor&lt;2x3xf64&gt;, tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;*xf64&gt; loc(&quot;test/codegen.toy&quot;:12:11)
-    &quot;toy.print&quot;(%5) : (tensor&lt;*xf64&gt;) -&gt; () loc(&quot;test/codegen.toy&quot;:13:3)
-    &quot;toy.return&quot;() : () -&gt; () loc(&quot;test/codegen.toy&quot;:8:1)
-  } loc(&quot;test/codegen.toy&quot;:8:1)
-} loc(&quot;test/codegen.toy&quot;:0:0)
-</code></pre><p>You can build <code>toyc-ch2</code> and try yourself: <code>toyc-ch2 test/Examples/Toy/Ch2/codegen.toy -emit=mlir -mlir-print-debuginfo</code>. We can also
+</code></pre><p>Results in the following IR:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>module <span class=p>{</span>
+  <span class=kt>func</span> <span class=nf>@multiply_transpose</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=p>{</span>
+    <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>5</span><span class=p>:</span><span class=m>10</span><span class=p>)</span>
+    <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%arg1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>5</span><span class=p>:</span><span class=m>25</span><span class=p>)</span>
+    <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.mul&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>5</span><span class=p>:</span><span class=m>25</span><span class=p>)</span>
+    <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>5</span><span class=p>:</span><span class=m>3</span><span class=p>)</span>
+  <span class=p>}</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>4</span><span class=p>:</span><span class=m>1</span><span class=p>)</span>
+  <span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+    <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>9</span><span class=p>:</span><span class=m>17</span><span class=p>)</span>
+    <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;toy.reshape&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>9</span><span class=p>:</span><span class=m>3</span><span class=p>)</span>
+    <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>,</span> <span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>6x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>6x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>10</span><span class=p>:</span><span class=m>17</span><span class=p>)</span>
+    <span class=nv>%3</span> <span class=p>=</span> <span class=s>&#34;toy.reshape&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>6x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>10</span><span class=p>:</span><span class=m>3</span><span class=p>)</span>
+    <span class=nv>%4</span> <span class=p>=</span> <span class=s>&#34;toy.generic_call&#34;</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%3</span><span class=p>)</span> <span class=p>{</span><span class=nl>callee =</span> <span class=nf>@multiply_transpose</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>11</span><span class=p>:</span><span class=m>11</span><span class=p>)</span>
+    <span class=nv>%5</span> <span class=p>=</span> <span class=s>&#34;toy.generic_call&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>{</span><span class=nl>callee =</span> <span class=nf>@multiply_transpose</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>12</span><span class=p>:</span><span class=m>11</span><span class=p>)</span>
+    <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%5</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>13</span><span class=p>:</span><span class=m>3</span><span class=p>)</span>
+    <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>8</span><span class=p>:</span><span class=m>1</span><span class=p>)</span>
+  <span class=p>}</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>8</span><span class=p>:</span><span class=m>1</span><span class=p>)</span>
+<span class=p>}</span> <span class=kt>loc</span><span class=p>(</span><span class=s>&#34;test/codegen.toy&#34;</span><span class=p>:</span><span class=m>0</span><span class=p>:</span><span class=m>0</span><span class=p>)</span>
+</code></pre></div><p>You can build <code>toyc-ch2</code> and try yourself: <code>toyc-ch2 test/Examples/Toy/Ch2/codegen.toy -emit=mlir -mlir-print-debuginfo</code>. We can also
 check our RoundTrip: <code>toyc-ch2 test/Examples/Toy/Ch2/codegen.toy -emit=mlir -mlir-print-debuginfo 2> codegen.mlir</code> followed by <code>toyc-ch2 codegen.mlir -emit=mlir</code>. You should also use <code>mlir-tblgen</code> on the final definition file and
 study the generated C++ code.</p><p>At this point, MLIR knows about our Toy dialect and operations. In the
 <a href=/docs/Tutorials/Toy/Ch-3/>next chapter</a>

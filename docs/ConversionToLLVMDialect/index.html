@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Conversion to the LLVM Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/ConversionToLLVMDialect/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Conversion to the LLVM Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/ConversionToLLVMDialect/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Conversion to the LLVM Dialect</h1><p>Conversion from the Standard to the
 <a href=/docs/Dialects/LLVM/>LLVM Dialect</a>
 can be
@@ -36,26 +36,26 @@ the number of consecutive elements of the underlying buffer.</li></ol><p>For con
 runtime value matches the static value. This normalization serves as an ABI for
 the memref type to interoperate with externally linked functions. In the
 particular case of rank <code>0</code> memrefs, the size and stride arrays are omitted,
-resulting in a struct containing two pointers + offset.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>memref&lt;f32&gt; -&gt; !llvm&lt;&quot;{ float*, float*, i64 }&quot;&gt;
-memref&lt;1 x f32&gt; -&gt; !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }&quot;&gt;
-memref&lt;? x f32&gt; -&gt; !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }&quot;&gt;
-memref&lt;10x42x42x43x123 x f32&gt; -&gt; !llvm&lt;&quot;{ float*, float*, i64, [5 x i64], [5 x i64] }&quot;&gt;
-memref&lt;10x?x42x?x123 x f32&gt; -&gt; !llvm&lt;&quot;{ float*, float*, i64, [5 x i64], [5 x i64]  }&quot;&gt;
+resulting in a struct containing two pointers + offset.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>memref</span><span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64 }&#34;</span><span class=p>&gt;</span>
+<span class=kt>memref</span><span class=p>&lt;</span><span class=m>1 x</span> <span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+<span class=kt>memref</span><span class=p>&lt;</span><span class=m>? x</span> <span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+<span class=kt>memref</span><span class=p>&lt;</span><span class=m>10x42x42x43x123 x</span> <span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [5 x i64], [5 x i64] }&#34;</span><span class=p>&gt;</span>
+<span class=kt>memref</span><span class=p>&lt;</span><span class=m>10x?x42x?x123 x</span> <span class=k>f32</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [5 x i64], [5 x i64]  }&#34;</span><span class=p>&gt;</span>
 
-// Memref types can have vectors as element types
-memref&lt;1x? x vector&lt;4xf32&gt;&gt; -&gt; !llvm&lt;&quot;{ &lt;4 x float&gt;*, &lt;4 x float&gt;*, i64, [1 x i64], [1 x i64] }&quot;&gt;
-</code></pre><p>If the rank of the memref is unknown at compile time, the Memref is converted to
+<span class=c>// Memref types can have vectors as element types
+</span><span class=c></span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>1x? x</span> <span class=kt>vector</span><span class=p>&lt;</span><span class=m>4x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ &lt;4 x float&gt;*, &lt;4 x float&gt;*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+</code></pre></div><p>If the rank of the memref is unknown at compile time, the Memref is converted to
 an unranked descriptor that contains:</p><ol><li>a 64-bit integer representing the dynamic rank of the memref, followed by</li><li>a pointer to a ranked memref descriptor with the contents listed above.</li></ol><p>Dynamic ranked memrefs should be used only to pass arguments to external library
 calls that expect a unified memref type. The called functions can parse any
 unranked memref descriptor by reading the rank and parsing the enclosed ranked
-descriptor pointer.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// unranked descriptor
-memref&lt;*xf32&gt; -&gt; !llvm&lt;&quot;{i64, i8*}&quot;&gt;
-</code></pre><p><strong>In function signatures,</strong> <code>memref</code> is passed as a <em>pointer</em> to the structured
-defined above to comply with the calling convention.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>// A function type with memref as argument
-(memref&lt;?xf32&gt;) -&gt; ()
-// is transformed into the LLVM function with pointer-to-structure argument.
-!llvm&lt;&quot;void({ float*, float*, i64, [1 x i64], [1 x i64]}*) &quot;&gt;
-</code></pre><h3 id=function-types>Function Types</h3><p>Function types get converted to LLVM function types. The arguments are converted
+descriptor pointer.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// unranked descriptor
+</span><span class=c></span><span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i64, i8*}&#34;</span><span class=p>&gt;</span>
+</code></pre></div><p><strong>In function signatures,</strong> <code>memref</code> is passed as a <em>pointer</em> to the structured
+defined above to comply with the calling convention.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A function type with memref as argument
+</span><span class=c></span><span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=c>// is transformed into the LLVM function with pointer-to-structure argument.
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void({ float*, float*, i64, [1 x i64], [1 x i64]}*) &#34;</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=function-types>Function Types</h3><p>Function types get converted to LLVM function types. The arguments are converted
 individually according to these rules. The result types need to accommodate the
 fact that LLVM IR functions always have a return type, which may be a Void type.
 The converted function always has a single result type. If the original function
@@ -67,92 +67,92 @@ structure corresponds to one of the results of the original function, converted
 using these rules. In high-order functions, function-typed arguments and results
 are converted to a wrapped LLVM IR function pointer type (since LLVM IR does not
 allow passing functions to functions without indirection) with the pointee type
-converted using these rules.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// zero-ary function type with no results.
-() -&gt; ()
-// is converted to a zero-ary function with `void` result
-!llvm&lt;&quot;void ()&quot;&gt;
+converted using these rules.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// zero-ary function type with no results.
+</span><span class=c></span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=c>// is converted to a zero-ary function with `void` result
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()&#34;</span><span class=p>&gt;</span>
 
-// unary function with one result
-(i32) -&gt; (i64)
-// has its argument and result type converted, before creating the LLVM IR function type
-!llvm&lt;&quot;i64 (i32)&quot;&gt;
+<span class=c>// unary function with one result
+</span><span class=c></span><span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i64</span><span class=p>)</span>
+<span class=c>// has its argument and result type converted, before creating the LLVM IR function type
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i64 (i32)&#34;</span><span class=p>&gt;</span>
 
-// binary function with one result
-(i32, f32) -&gt; (i64)
-// has its arguments handled separately
-!llvm&lt;&quot;i64 (i32, float)&quot;&gt;
+<span class=c>// binary function with one result
+</span><span class=c></span><span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i64</span><span class=p>)</span>
+<span class=c>// has its arguments handled separately
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i64 (i32, float)&#34;</span><span class=p>&gt;</span>
 
-// binary function with two results
-(i32, f32) -&gt; (i64, f64)
-// has its result aggregated into a structure type
-!llvm&lt;&quot;{i64, double} (i32, f32)&quot;&gt;
+<span class=c>// binary function with two results
+</span><span class=c></span><span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i64</span><span class=p>,</span> <span class=k>f64</span><span class=p>)</span>
+<span class=c>// has its result aggregated into a structure type
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i64, double} (i32, f32)&#34;</span><span class=p>&gt;</span>
 
-// function-typed arguments or results in higher-order functions
-(() -&gt; ()) -&gt; (() -&gt; ())
-// are converted into pointers to functions
-!llvm&lt;&quot;void ()* (void ()*)&quot;&gt;
-</code></pre><h2 id=calling-convention>Calling Convention</h2><h3 id=function-signature-conversion>Function Signature Conversion</h3><p>LLVM IR functions are defined by a custom operation. The function itself has a
+<span class=c>// function-typed arguments or results in higher-order functions
+</span><span class=c></span><span class=p>(</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span><span class=p>)</span>
+<span class=c>// are converted into pointers to functions
+</span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()* (void ()*)&#34;</span><span class=p>&gt;</span>
+</code></pre></div><h2 id=calling-convention>Calling Convention</h2><h3 id=function-signature-conversion>Function Signature Conversion</h3><p>LLVM IR functions are defined by a custom operation. The function itself has a
 wrapped LLVM IR function type converted as described above. The function
-definition operation uses MLIR syntax.</p><p>Examples:</p><pre><code class=language-mlir data-lang=mlir>// zero-ary function type with no results.
-func @foo() -&gt; ()
-// gets LLVM type void().
-llvm.func @foo() -&gt; ()
+definition operation uses MLIR syntax.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// zero-ary function type with no results.
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=c>// gets LLVM type void().
+</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
 
-// function with one result
-func @bar(i32) -&gt; (i64)
-// gets converted to LLVM type i64(i32).
-func @bar(!llvm.i32) -&gt; !llvm.i64
+<span class=c>// function with one result
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i64</span><span class=p>)</span>
+<span class=c>// gets converted to LLVM type i64(i32).
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-// function with two results
-func @qux(i32, f32) -&gt; (i64, f64)
-// has its result aggregated into a structure type
-func @qux(!llvm.i32, !llvm.float) -&gt; !llvm&lt;&quot;{i64, double}&quot;&gt;
+<span class=c>// function with two results
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@qux</span><span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i64</span><span class=p>,</span> <span class=k>f64</span><span class=p>)</span>
+<span class=c>// has its result aggregated into a structure type
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@qux</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span>float<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i64, double}&#34;</span><span class=p>&gt;</span>
 
-// function-typed arguments or results in higher-order functions
-func @quux(() -&gt; ()) -&gt; (() -&gt; ())
-// are converted into pointers to functions
-func @quux(!llvm&lt;&quot;void ()*&quot;&gt;) -&gt; !llvm&lt;&quot;void ()*&quot;&gt;
-// the call flow is handled by the LLVM dialect `call` operation supporting both
-// direct and indirect calls
-</code></pre><h3 id=result-packing>Result Packing</h3><p>In case of multi-result functions, the returned values are inserted into a
+<span class=c>// function-typed arguments or results in higher-order functions
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@quux</span><span class=p>(</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span><span class=p>)</span>
+<span class=c>// are converted into pointers to functions
+</span><span class=c></span><span class=kt>func</span> <span class=nf>@quux</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()*&#34;</span><span class=p>&gt;</span>
+<span class=c>// the call flow is handled by the LLVM dialect `call` operation supporting both
+</span><span class=c></span><span class=c>// direct and indirect calls
+</span></code></pre></div><h3 id=result-packing>Result Packing</h3><p>In case of multi-result functions, the returned values are inserted into a
 structure-typed value before being returned and extracted from it at the call
 site. This transformation is a part of the conversion and is transparent to the
-defines and uses of the values being returned.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>func @foo(%arg0: i32, %arg1: i64) -&gt; (i32, i64) {
-  return %arg0, %arg1 : i32, i64
-}
-func @bar() {
-  %0 = constant 42 : i32
-  %1 = constant 17 : i64
-  %2:2 = call @foo(%0, %1) : (i32, i64) -&gt; (i32, i64)
-  &quot;use_i32&quot;(%2#0) : (i32) -&gt; ()
-  &quot;use_i64&quot;(%2#1) : (i64) -&gt; ()
-}
+defines and uses of the values being returned.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=k>i32</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span> <span class=p>{</span>
+  <span class=kt>return</span> <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%arg1</span> <span class=p>:</span> <span class=k>i32</span><span class=p>,</span> <span class=k>i64</span>
+<span class=p>}</span>
+<span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>42</span> <span class=p>:</span> <span class=k>i32</span>
+  <span class=nv>%1</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>17</span> <span class=p>:</span> <span class=k>i64</span>
+  <span class=nv>%2</span><span class=p>:</span><span class=nl>2 =</span> call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span>
+  <span class=s>&#34;use_i32&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=nv>#0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;use_i64&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=nv>#1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
 
-// is transformed into
+<span class=c>// is transformed into
+</span><span class=c></span>
+<span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=c>// insert the vales into a structure
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span>undef <span class=p>:</span>  <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
 
-func @foo(%arg0: !llvm.i32, %arg1: !llvm.i64) -&gt; !llvm&lt;&quot;{i32, i64}&quot;&gt; {
-  // insert the vales into a structure
-  %0 = llvm.mlir.undef :  !llvm&lt;&quot;{i32, i64}&quot;&gt;
-  %1 = llvm.insertvalue %arg0, %0[0] : !llvm&lt;&quot;{i32, i64}&quot;&gt;
-  %2 = llvm.insertvalue %arg1, %1[1] : !llvm&lt;&quot;{i32, i64}&quot;&gt;
+  <span class=c>// return the structure value
+</span><span class=c></span>  llvm<span class=p>.</span><span class=kt>return</span> <span class=nv>%2</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
+<span class=p>}</span>
+<span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>42</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span>
+  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>17</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-  // return the structure value
-  llvm.return %2 : !llvm&lt;&quot;{i32, i64}&quot;&gt;
-}
-func @bar() {
-  %0 = llvm.mlir.constant(42 : i32) : !llvm.i32
-  %1 = llvm.mlir.constant(17) : !llvm.i64
+  <span class=c>// call and extract the values from the structure
+</span><span class=c></span>  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>call <span class=nf>@bar</span><span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%2</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%2</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{i32, i64}&#34;</span><span class=p>&gt;</span>
 
-  // call and extract the values from the structure
-  %2 = llvm.call @bar(%0, %1) : (%arg0: !llvm.i32, %arg1: !llvm.i32) -&gt; !llvm&lt;&quot;{i32, i64}&quot;&gt;
-  %3 = llvm.extractvalue %2[0] : !llvm&lt;&quot;{i32, i64}&quot;&gt;
-  %4 = llvm.extractvalue %2[1] : !llvm&lt;&quot;{i32, i64}&quot;&gt;
-
-  // use as before
-  &quot;use_i32&quot;(%3) : (!llvm.i32) -&gt; ()
-  &quot;use_i64&quot;(%4) : (!llvm.i64) -&gt; ()
-}
-</code></pre><h3 id=calling-convention-for-memref>Calling Convention for <code>memref</code></h3><p>For function <em>arguments</em> of <code>memref</code> type, ranked or unranked, the type of the
+  <span class=c>// use as before
+</span><span class=c></span>  <span class=s>&#34;use_i32&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;use_i64&#34;</span><span class=p>(</span><span class=nv>%4</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=calling-convention-for-memref>Calling Convention for <code>memref</code></h3><p>For function <em>arguments</em> of <code>memref</code> type, ranked or unranked, the type of the
 argument is a <em>pointer</em> to the memref descriptor type defined above. The caller
 of such function is required to store the descriptor in memory and guarantee
 that the storage remains live until the callee returns. The caller can than pass
@@ -163,43 +163,43 @@ ocally-defined descriptors.</p><p>This convention is implemented in the conversi
 the LLVM dialect. Conversions from other dialects should take it into account.
 The motivation for this convention is to simplify the ABI for interfacing with
 other LLVM modules, in particular those generated from C sources, while avoiding
-platform-specific aspects until MLIR has a proper ABI modeling.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>
-func @foo(memref&lt;?xf32&gt;) -&gt; () {
-  %c0 = constant 0 : index
-  load %arg0[%c0] : memref&lt;?xf32&gt;
-  return
-}
+platform-specific aspects until MLIR has a proper ABI modeling.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+<span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%c0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0</span> <span class=p>:</span> <span class=k>index</span>
+  load <span class=nv>%arg0</span><span class=p>[</span><span class=nv>%c0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
 
-func @bar(%arg0: index) {
-  %0 = alloc(%arg0) : memref&lt;?xf32&gt;
-  call @foo(%0) : (memref&lt;?xf32&gt;)-&gt; ()
-  return
-}
+<span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span>
+  call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span><span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
 
-// Gets converted to the following IR.
-// Accepts a pointer to the memref descriptor.
-llvm.func @foo(!llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }*&quot;&gt;) {
-  // Loads the descriptor so that it can be used similarly to locally
-  // created descriptors.
-  %0 = llvm.load %arg0 : !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }*&quot;&gt;
-}
+<span class=c>// Gets converted to the following IR.
+</span><span class=c></span><span class=c>// Accepts a pointer to the memref descriptor.
+</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// Loads the descriptor so that it can be used similarly to locally
+</span><span class=c></span>  <span class=c>// created descriptors.
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>load <span class=nv>%arg0</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span>
+<span class=p>}</span>
 
-llvm.func @bar(%arg0: !llvm.i64) {
-  // ... Allocation ...
-  // Definition of the descriptor.
-  %7 = llvm.mlir.undef : !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }&quot;&gt;
-  // ... Filling in the descriptor ...
-  %14 = // The final value of the allocated descriptor.
-  // Allocate the memory for the descriptor and store it.
-  %15 = llvm.mlir.constant(1 : index) : !llvm.i64
-  %16 = llvm.alloca %15 x !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }&quot;&gt;
-      : (!llvm.i64) -&gt; !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }*&quot;&gt;
-  llvm.store %14, %16 : !llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }*&quot;&gt;
-  // Pass the pointer to the function.
-  llvm.call @foo(%16) : (!llvm&lt;&quot;{ float*, float*, i64, [1 x i64], [1 x i64] }*&quot;&gt;) -&gt; ()
-  llvm.return
-}
-</code></pre><p><em>This convention may or may not apply if the conversion of MemRef types is
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// ... Allocation ...
+</span><span class=c></span>  <span class=c>// Definition of the descriptor.
+</span><span class=c></span>  <span class=nv>%7</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span>undef <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=c>// ... Filling in the descriptor ...
+</span><span class=c></span>  <span class=nv>%14</span> <span class=p>=</span> <span class=c>// The final value of the allocated descriptor.
+</span><span class=c></span>  <span class=c>// Allocate the memory for the descriptor and store it.
+</span><span class=c></span>  <span class=nv>%15</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>1</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%16</span> <span class=p>=</span> llvm<span class=p>.</span>alloca <span class=nv>%15</span> <span class=p>x</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+      <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span>
+  llvm<span class=p>.</span>store <span class=nv>%14</span><span class=p>,</span> <span class=nv>%16</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span>
+  <span class=c>// Pass the pointer to the function.
+</span><span class=c></span>  llvm<span class=p>.</span>call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%16</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p><em>This convention may or may not apply if the conversion of MemRef types is
 overridden by the user.</em></p><h2 id=repeated-successor-removal>Repeated Successor Removal</h2><p>Since the goal of the LLVM IR dialect is to reflect LLVM IR in MLIR, the dialect
 and the conversion procedure must account for the differences between block
 arguments and LLVM IR PHI nodes. In particular, LLVM IR disallows PHI nodes with
@@ -210,20 +210,20 @@ PHI source ambiguity by injecting dummy blocks if the same block is used more
 than once as a successor in an instruction. These dummy blocks branch
 unconditionally to the original successors, pass them the original operands
 (available in the dummy block because it is dominated by the original block) and
-are used instead of them in the original terminator operation.</p><p>Example:</p><pre><code class=language-mlir data-lang=mlir>  cond_br %0, ^bb1(%1 : i32), ^bb1(%2 : i32)
-^bb1(%3 : i32)
-  &quot;use&quot;(%3) : (i32) -&gt; ()
-</code></pre><p>leads to a new basic block being inserted,</p><pre><code class=language-mlir data-lang=mlir>  cond_br %0, ^bb1(%1 : i32), ^dummy
-^bb1(%3 : i32):
-  &quot;use&quot;(%3) : (i32) -&gt; ()
-^dummy:
-  br ^bb1(%4 : i32)
-</code></pre><p>before the conversion to the LLVM IR dialect:</p><pre><code class=language-mlir data-lang=mlir>  llvm.cond_br  %0, ^bb1(%1 : !llvm.i32), ^dummy
-^bb1(%3 : !llvm&lt;&quot;i32&quot;&gt;):
-  &quot;use&quot;(%3) : (!llvm.i32) -&gt; ()
-^dummy:
-  llvm.br ^bb1(%2 : !llvm.i32)
-</code></pre><h2 id=default-memref-model>Default Memref Model</h2><h3 id=memref-descriptor>Memref Descriptor</h3><p>Within a converted function, a <code>memref</code>-typed value is represented by a memref
+are used instead of them in the original terminator operation.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  cond_br <span class=nv>%0</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%1</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%2</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
+<span class=nl>^bb1</span><span class=p>(</span><span class=nv>%3</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
+  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+</code></pre></div><p>leads to a new basic block being inserted,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  cond_br <span class=nv>%0</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%1</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span><span class=p>,</span> <span class=nl>^dummy
+</span><span class=nl></span><span class=nl>^bb1</span><span class=p>(</span><span class=nv>%3</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span><span class=p>:</span>
+  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=nl>^dummy</span><span class=p>:</span>
+  br <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%4</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
+</code></pre></div><p>before the conversion to the LLVM IR dialect:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  llvm<span class=p>.</span>cond_br  <span class=nv>%0</span><span class=p>,</span> <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%1</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span><span class=p>,</span> <span class=nl>^dummy
+</span><span class=nl></span><span class=nl>^bb1</span><span class=p>(</span><span class=nv>%3</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32&#34;</span><span class=p>&gt;</span><span class=p>)</span><span class=p>:</span>
+  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=nl>^dummy</span><span class=p>:</span>
+  llvm<span class=p>.</span>br <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%2</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span>
+</code></pre></div><h2 id=default-memref-model>Default Memref Model</h2><h3 id=memref-descriptor>Memref Descriptor</h3><p>Within a converted function, a <code>memref</code>-typed value is represented by a memref
 <em>descriptor</em>, the type of which is the structure type obtained by converting
 from the memref type. This descriptor holds all the necessary information to
 produce an address of a specific element. In particular, it holds dynamic values
@@ -236,48 +236,48 @@ index is the slowest varying, similar to C, but accounting for strides). The
 computation of the linear address is emitted as arithmetic operation in the LLVM
 IR dialect. Strides are extracted from the memref descriptor.</p><p>Accesses to zero-dimensional memref (that are interpreted as pointers to the
 elemental type) are directly converted into <code>llvm.load</code> or <code>llvm.store</code> without
-any pointer manipulations.</p><p>Examples:</p><p>An access to a zero-dimensional memref is converted into a plain load:</p><pre><code class=language-mlir data-lang=mlir>// before
-%0 = load %m[] : memref&lt;f32&gt;
+any pointer manipulations.</p><p>Examples:</p><p>An access to a zero-dimensional memref is converted into a plain load:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// before
+</span><span class=c></span><span class=nv>%0</span> <span class=p>=</span> load <span class=nv>%m</span><span class=p>[</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span>
 
-// after
-%0 = llvm.load %m : !llvm&lt;&quot;float*&quot;&gt;
-</code></pre><p>An access to a memref with indices:</p><pre><code class=language-mlir data-lang=mlir>%0 = load %m[1,2,3,4] : memref&lt;10x?x13x?xf32&gt;
-</code></pre><p>is transformed into the equivalent of the following code:</p><pre><code class=language-mlir data-lang=mlir>// Compute the linearized index from strides. Each block below extracts one
-// stride from the descriptor, multiplies it with the index and accumulates
-// the total offset.
-%stride1 = llvm.extractvalue[4, 0] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
-%idx1 = llvm.mlir.constant(1 : index) !llvm.i64
-%addr1 = muli %stride1, %idx1 : !llvm.i64
+<span class=c>// after
+</span><span class=c></span><span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>load <span class=nv>%m</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span>
+</code></pre></div><p>An access to a memref with indices:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%0</span> <span class=p>=</span> load <span class=nv>%m</span><span class=p>[</span><span class=m>1</span><span class=p>,</span><span class=m>2</span><span class=p>,</span><span class=m>3</span><span class=p>,</span><span class=m>4</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>10x?x13x?x</span><span class=k>f32</span><span class=p>&gt;</span>
+</code></pre></div><p>is transformed into the equivalent of the following code:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Compute the linearized index from strides. Each block below extracts one
+</span><span class=c></span><span class=c>// stride from the descriptor, multiplies it with the index and accumulates
+</span><span class=c></span><span class=c>// the total offset.
+</span><span class=c></span><span class=nv>%stride1</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue<span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span>
+<span class=nv>%idx1</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>1</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr1</span> <span class=p>=</span> muli <span class=nv>%stride1</span><span class=p>,</span> <span class=nv>%idx1</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-%stride2 = llvm.extractvalue[4, 1] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
-%idx2 = llvm.mlir.constant(2 : index) !llvm.i64
-%addr2 = muli %stride2, %idx2 : !llvm.i64
-%addr3 = addi %addr1, %addr2 : !llvm.i64
+<span class=nv>%stride2</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue<span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span>
+<span class=nv>%idx2</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>2</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr2</span> <span class=p>=</span> muli <span class=nv>%stride2</span><span class=p>,</span> <span class=nv>%idx2</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr3</span> <span class=p>=</span> addi <span class=nv>%addr1</span><span class=p>,</span> <span class=nv>%addr2</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-%stride3 = llvm.extractvalue[4, 2] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
-%idx3 = llvm.mlir.constant(3 : index) !llvm.i64
-%addr4 = muli %stride3, %idx3 : !llvm.i64
-%addr5 = addi %addr3, %addr4 : !llvm.i64
+<span class=nv>%stride3</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue<span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span>
+<span class=nv>%idx3</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>3</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr4</span> <span class=p>=</span> muli <span class=nv>%stride3</span><span class=p>,</span> <span class=nv>%idx3</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr5</span> <span class=p>=</span> addi <span class=nv>%addr3</span><span class=p>,</span> <span class=nv>%addr4</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-%stride4 = llvm.extractvalue[4, 3] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
-%idx4 = llvm.mlir.constant(4 : index) !llvm.i64
-%addr6 = muli %stride4, %idx4 : !llvm.i64
-%addr7 = addi %addr5, %addr6 : !llvm.i64
+<span class=nv>%stride4</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue<span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>3</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span>
+<span class=nv>%idx4</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>4</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr6</span> <span class=p>=</span> muli <span class=nv>%stride4</span><span class=p>,</span> <span class=nv>%idx4</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+<span class=nv>%addr7</span> <span class=p>=</span> addi <span class=nv>%addr5</span><span class=p>,</span> <span class=nv>%addr6</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-// Add the linear offset to the address.
-%offset = llvm.extractvalue[2] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
-%addr8 = addi %addr7, %offset : !llvm.i64
+<span class=c>// Add the linear offset to the address.
+</span><span class=c></span><span class=nv>%offset</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue<span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span>
+<span class=nv>%addr8</span> <span class=p>=</span> addi <span class=nv>%addr7</span><span class=p>,</span> <span class=nv>%offset</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
 
-// Obtain the aligned pointer.
-%aligned = llvm.extractvalue[1] : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt;
+<span class=c>// Obtain the aligned pointer.
+</span><span class=c></span><span class=nv>%aligned</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue<span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span>
 
-// Get the address of the data pointer.
-%ptr = llvm.getelementptr %aligned[%addr8]
-    : !llvm&lt;&quot;{float*, float*, i64, i64[4], i64[4]}&quot;&gt; -&gt; !llvm&lt;&quot;float*&quot;&gt;
+<span class=c>// Get the address of the data pointer.
+</span><span class=c></span><span class=nv>%ptr</span> <span class=p>=</span> llvm<span class=p>.</span>getelementptr <span class=nv>%aligned</span><span class=p>[</span><span class=nv>%addr8</span><span class=p>]</span>
+    <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{float*, float*, i64, i64[4], i64[4]}&#34;</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span>
 
-// Perform the actual load.
-%0 = llvm.load %ptr : !llvm&lt;&quot;float*&quot;&gt;
-</code></pre><p>For stores, the address computation code is identical and only the actual store
+<span class=c>// Perform the actual load.
+</span><span class=c></span><span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>load <span class=nv>%ptr</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span>
+</code></pre></div><p>For stores, the address computation code is identical and only the actual store
 operation is different.</p><p>Note: the conversion does not perform any sort of common subexpression
 elimination when emitting memref accesses.</p><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/EDSC/ title="Background: declarative builders API"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Background: declarative builders API</a>
 <a class="nav nav-next" href=/docs/DialectConversion/ title="Dialect Conversion">Next - Dialect Conversion <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class=has-sub-menu><a href=/docs/Dialects/>Dialects<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect 'affine' definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect 'fxpmath' definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect 'gpu' definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect 'linalg' definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect 'loop' definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect 'nvvm' definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect 'quant' definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect 'rocdl' definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect 'spv' definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect 'vector' definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li class=active><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/ShapeInference/>Shape inference</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of 'Const' in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 4: Enabling Generic Transformation with Interfaces - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-4/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 4: Enabling Generic Transformation with Interfaces - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-4/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 4: Enabling Generic Transformation with Interfaces</h1><p>[TOC]</p><h2 id=background-grappling-with-an-extensible-ir>Background: Grappling with an Extensible IR</h2><p>Through dialects, MLIR allows for the representation of many different levels of
 abstraction; the Toy dialect that we have previously defined is one such
 example. Though these different dialects may represent different abstractions,
@@ -12,13 +12,13 @@ as seen in the
 <a href=/docs/Tutorials/Toy/Ch-3/>previous chapter</a>
 , where we registered some
 canonicalizations via a hook on our operations (<code>getCanonicalizationPatterns</code>).
-However, these types of hooks don't really scale well. Therefore, a more generic
+However, these types of hooks don&rsquo;t really scale well. Therefore, a more generic
 solution was designed, in the form of
 <a href=/docs/Interfaces/>interfaces</a>
 , to make
 the MLIR infrastructure as extensible as the representation. Interfaces provide
 a generic mechanism for dialects and operations to provide information to a
-transformation or analysis.</p><h2 id=shape-inference-preparing-for-code-generation>Shape Inference: Preparing for Code Generation</h2><p>Our Toy IR currently operates on generic tensors, meaning that we don't know the
+transformation or analysis.</p><h2 id=shape-inference-preparing-for-code-generation>Shape Inference: Preparing for Code Generation</h2><p>Our Toy IR currently operates on generic tensors, meaning that we don&rsquo;t know the
 shape of tensors other than during the initialization of constants. This
 complicates optimizations, as well as code generation. Fortunately, we can
 simply propagate the shapes through the computation until they are all known.
@@ -84,15 +84,15 @@ to mark an operation as being &ldquo;call-like&rdquo;. Unlike dialect interfaces
 interfaces provide a more refined granularity of information that is specific
 and core to a single operation. The interface that we will be adding here is the
 <code>CallOpInterface</code>.</p><p>To add this interface we just need to include the definition into our operation
-specification file (<code>Ops.td</code>):</p><pre><code class=language-tablegen data-lang=tablegen>#ifdef MLIR_CALLINTERFACES
-#else
-include &quot;mlir/Analysis/CallInterfaces.td&quot;
-#endif // MLIR_CALLINTERFACES
-</code></pre><p>and add it to the traits list of <code>GenericCallOp</code>:</p><pre><code class=language-tablegen data-lang=tablegen>def GenericCallOp : Toy_Op&lt;&quot;generic_call&quot;,
-    [DeclareOpInterfaceMethods&lt;CallOpInterface&gt;]&gt; {
-  ...
-}
-</code></pre><p>In the above we also use the <code>DeclareOpInterfaceMethods</code> directive to
+specification file (<code>Ops.td</code>):</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=cp>#ifdef MLIR_CALLINTERFACES</span>
+<span class=err>#</span><span class=nv>else</span>
+<span class=nv>include</span> <span class=s>&#34;mlir/Analysis/CallInterfaces.td&#34;</span>
+<span class=cp>#endif</span> <span class=c>// MLIR_CALLINTERFACES
+</span></code></pre></div><p>and add it to the traits list of <code>GenericCallOp</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>GenericCallOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;generic_call&#34;</span><span class=p>,</span>
+    <span class=p>[</span><span class=nv>DeclareOpInterfaceMethods</span><span class=p>&lt;</span><span class=nv>CallOpInterface</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>}</span>
+</code></pre></div><p>In the above we also use the <code>DeclareOpInterfaceMethods</code> directive to
 auto-declare all of the interface methods in the class declaration of
 GenericCallOp. This means that we just need to provide a definition:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Return the callee of the generic call operation, this is required by the
 </span><span class=c1></span><span class=c1>/// call interface.
@@ -105,46 +105,46 @@ GenericCallOp. This means that we just need to provide a definition:</p><div cla
 </span><span class=c1></span><span class=n>Operation</span><span class=o>:</span><span class=o>:</span><span class=n>operand_range</span> <span class=n>GenericCallOp</span><span class=o>:</span><span class=o>:</span><span class=n>getArgOperands</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=nf>inputs</span><span class=p>(</span><span class=p>)</span><span class=p>;</span> <span class=p>}</span>
 </code></pre></div><p>Now that the inliner has been informed about the Toy dialect, we can add the
 inliner pass to the pass manager for Toy:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>pm</span><span class=p>.</span><span class=n>addPass</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>createInlinerPass</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><p>Now let's look at a working example:</p><pre><code class=language-mlir data-lang=mlir>func @multiply_transpose(%arg0: tensor&lt;*xf64&gt;, %arg1: tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt; {
-  %0 = &quot;toy.transpose&quot;(%arg0) : (tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %1 = &quot;toy.transpose&quot;(%arg1) : (tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %2 = &quot;toy.mul&quot;(%0, %1) : (tensor&lt;*xf64&gt;, tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  &quot;toy.return&quot;(%2) : (tensor&lt;*xf64&gt;) -&gt; ()
-}
-func @main() {
-  %0 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-  %1 = &quot;toy.reshape&quot;(%0) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;2x3xf64&gt;
-  %2 = &quot;toy.constant&quot;() {value = dense&lt;[1.000000e+00, 2.000000e+00, 3.000000e+00, 4.000000e+00, 5.000000e+00, 6.000000e+00]&gt; : tensor&lt;6xf64&gt;} : () -&gt; tensor&lt;6xf64&gt;
-  %3 = &quot;toy.reshape&quot;(%2) : (tensor&lt;6xf64&gt;) -&gt; tensor&lt;2x3xf64&gt;
-  %4 = &quot;toy.generic_call&quot;(%1, %3) {callee = @multiply_transpose} : (tensor&lt;2x3xf64&gt;, tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %5 = &quot;toy.generic_call&quot;(%3, %1) {callee = @multiply_transpose} : (tensor&lt;2x3xf64&gt;, tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  &quot;toy.print&quot;(%5) : (tensor&lt;*xf64&gt;) -&gt; ()
-  &quot;toy.return&quot;() : () -&gt; ()
-}
-</code></pre><p>We have two calls to multiple_transpose that we would like to inline into main,
+</code></pre></div><p>Now let&rsquo;s look at a working example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@multiply_transpose</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%arg1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.mul&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+<span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;toy.reshape&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>,</span> <span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>6x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>6x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> <span class=s>&#34;toy.reshape&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>6x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> <span class=s>&#34;toy.generic_call&#34;</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%3</span><span class=p>)</span> <span class=p>{</span><span class=nl>callee =</span> <span class=nf>@multiply_transpose</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%5</span> <span class=p>=</span> <span class=s>&#34;toy.generic_call&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>{</span><span class=nl>callee =</span> <span class=nf>@multiply_transpose</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%5</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>We have two calls to multiple_transpose that we would like to inline into main,
 but if we look at the output nothing has changed. We are missing one last subtle
 piece: there is a hidden type conversion on the edge of the call. If we look at
 the above, the operands to the generic_call are of type <code>tensor&lt;2x3xf64></code>, while
 the inputs to the function expect <code>tensor&lt;*xf64></code>. To resolve this difference,
 the inliner expects an explicit cast operation to be inserted. For this, we need
 to add a new operation to the Toy dialect, <code>ToyCastOp</code>(toy.cast), to represent
-casts between two different shapes.</p><pre><code class=language-tablegen data-lang=tablegen>def CastOp : Toy_Op&lt;&quot;cast&quot;, [NoSideEffect, SameOperandsAndResultShape]&gt; {
-  let summary = &quot;shape cast operation&quot;;
-  let description = [{
-    The &quot;cast&quot; operation converts a tensor from one type to an equivalent type
-    without changing any data elements. The source and destination types
-    must both be tensor types with the same element type. If both are ranked
-    then the rank should be the same and static dimensions should match. The
-    operation is invalid if converting to a mismatching constant dimension.
-  }];
+casts between two different shapes.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>CastOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;cast&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>,</span> <span class=nv>SameOperandsAndResultShape</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;shape cast operation&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    The &#34;cast&#34; operation converts a tensor from one type to an equivalent type
+</span><span class=s>    without changing any data elements. The source and destination types
+</span><span class=s>    must both be tensor types with the same element type. If both are ranked
+</span><span class=s>    then the rank should be the same and static dimensions should match. The
+</span><span class=s>    operation is invalid if converting to a mismatching constant dimension.
+</span><span class=s>  }]</span><span class=p>;</span>
 
-  let arguments = (ins F64Tensor:$input);
-  let results = (outs F64Tensor:$output);
+  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F64Tensor</span><span class=p>:</span><span class=nv>$input</span><span class=p>)</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>:</span><span class=nv>$output</span><span class=p>)</span><span class=p>;</span>
 
-  // Set the folder bit so that we can fold redundant cast operations.
-  let hasFolder = 1;
-}
-</code></pre><p>We can then override the necessary hook on the ToyInlinerInterface to insert
+  <span class=c>// Set the folder bit so that we can fold redundant cast operations.
+</span><span class=c></span>  <span class=k>let</span> <span class=nv>hasFolder</span> <span class=p>=</span> <span class=m>1</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>We can then override the necessary hook on the ToyInlinerInterface to insert
 this for us when necessary:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>ToyInlinerInterface</span> <span class=o>:</span> <span class=k>public</span> <span class=n>DialectInlinerInterface</span> <span class=p>{</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
@@ -159,18 +159,18 @@ this for us when necessary:</p><div class=highlight><pre class=chroma><code clas
     <span class=k>return</span> <span class=n>builder</span><span class=p>.</span><span class=n>create</span><span class=o>&lt;</span><span class=n>CastOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>conversionLoc</span><span class=p>,</span> <span class=n>resultType</span><span class=p>,</span> <span class=n>input</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><p>If we run the working example through the pipeline again, we get the expected:</p><pre><code class=language-mlir data-lang=mlir>func @main() {
-  %0 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-  %1 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-  %2 = &quot;toy.cast&quot;(%1) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %3 = &quot;toy.cast&quot;(%0) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %4 = &quot;toy.transpose&quot;(%2) : (tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %5 = &quot;toy.transpose&quot;(%3) : (tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  %6 = &quot;toy.mul&quot;(%4, %5) : (tensor&lt;*xf64&gt;, tensor&lt;*xf64&gt;) -&gt; tensor&lt;*xf64&gt;
-  &quot;toy.print&quot;(%6) : (tensor&lt;*xf64&gt;) -&gt; ()
-  &quot;toy.return&quot;() : () -&gt; ()
-}
-</code></pre><p>NOTE: The generic inliner will also perform simplifications, so the output may
+</code></pre></div><p>If we run the working example through the pipeline again, we get the expected:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.cast&#34;</span><span class=p>(</span><span class=nv>%1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> <span class=s>&#34;toy.cast&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%5</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=nv>%6</span> <span class=p>=</span> <span class=s>&#34;toy.mul&#34;</span><span class=p>(</span><span class=nv>%4</span><span class=p>,</span> <span class=nv>%5</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%6</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>NOTE: The generic inliner will also perform simplifications, so the output may
 be a bit cleaner than expected.</p><h3 id=intraprocedural-shape-inference>Intraprocedural Shape Inference</h3><p>Now that we have inlined all of the functions, we are left with a main function
 containing a mix of static and dynamically shaped operations. We can now write a
 simple shape inference pass to propagate shapes intraprocedurally (within a
@@ -191,35 +191,35 @@ using
 the operation definition specification (ODS) framework.</p><p>The interface is defined by inheriting from <code>OpInterface</code>, which takes the name
 to be given to the generated C++ interface class as a template argument. For our
 purposes, we will name the generated class a simpler <code>ShapeInference</code>. We also
-provide a description for the interface.</p><pre><code class=language-tablegen data-lang=tablegen>def ShapeInferenceOpInterface : OpInterface&lt;&quot;ShapeInference&quot;&gt; {
-  let description = [{
-    Interface to access a registered method to infer the return types for an
-    operation that can be used during type inference.
-  }];
-}
-</code></pre><p>Next, we define the interface methods that the operations will need to provide.
+provide a description for the interface.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ShapeInferenceOpInterface</span> <span class=p>:</span> <span class=nv>OpInterface</span><span class=p>&lt;</span><span class=s>&#34;ShapeInference&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    Interface to access a registered method to infer the return types for an
+</span><span class=s>    operation that can be used during type inference.
+</span><span class=s>  }]</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Next, we define the interface methods that the operations will need to provide.
 An interface method is comprised of: a description; a C++ return type in string
 form; a method name in string form; and a few optional components, depending on
 the need. See the
 <a href=/docs/OpDefinitions/#operation-interfaces>ODS documentation</a>
 for more
-information.</p><pre><code class=language-tablegen data-lang=tablegen>def ShapeInferenceOpInterface : OpInterface&lt;&quot;ShapeInference&quot;&gt; {
-  let description = [{
-    Interface to access a registered method to infer the return types for an
-    operation that can be used during type inference.
-  }];
+information.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ShapeInferenceOpInterface</span> <span class=p>:</span> <span class=nv>OpInterface</span><span class=p>&lt;</span><span class=s>&#34;ShapeInference&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    Interface to access a registered method to infer the return types for an
+</span><span class=s>    operation that can be used during type inference.
+</span><span class=s>  }]</span><span class=p>;</span>
 
-  let methods = [
-    InterfaceMethod&lt;&quot;Infer and set the output shape for the current operation.&quot;,
-                    &quot;void&quot;, &quot;inferShapes&quot;&gt;
-  ];
-}
-</code></pre><p>Now that the interface is defined, we can add it to the necessary Toy operations
-in a similar way to how we added the <code>CallOpInterface</code> to the GenericCallOp:</p><pre><code class=language-tablegen data-lang=tablegen>def MulOp : Toy_Op&lt;&quot;mul&quot;,
-    [..., DeclareOpInterfaceMethods&lt;ShapeInferenceOpInterface&gt;]&gt; {
-  ...
-}
-</code></pre><p>Each of these operations will then need to provide a definition for the
+  <span class=k>let</span> <span class=nv>methods</span> <span class=p>=</span> <span class=p>[</span>
+    <span class=nv>InterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;Infer and set the output shape for the current operation.&#34;</span><span class=p>,</span>
+                    <span class=s>&#34;void&#34;</span><span class=p>,</span> <span class=s>&#34;inferShapes&#34;</span><span class=p>&gt;</span>
+  <span class=p>]</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>Now that the interface is defined, we can add it to the necessary Toy operations
+in a similar way to how we added the <code>CallOpInterface</code> to the GenericCallOp:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MulOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;mul&#34;</span><span class=p>,</span>
+    <span class=p>[</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>,</span> <span class=nv>DeclareOpInterfaceMethods</span><span class=p>&lt;</span><span class=nv>ShapeInferenceOpInterface</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>}</span>
+</code></pre></div><p>Each of these operations will then need to provide a definition for the
 <code>inferShapes()</code> method. As an example, for the mul op, the result shape is
 inferred as the shape of the inputs.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Infer the output shape of the MulOp, this is required by the shape inference
 </span><span class=c1></span><span class=c1>/// interface.
@@ -252,14 +252,14 @@ interface.</p><div class=highlight><pre class=chroma><code class=language-c++ da
     <span class=k>return</span> <span class=nf>signalPassFailure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 </code></pre></div><p>We can then add our pass to the pass manager:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>pm</span><span class=p>.</span><span class=n>addPass</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>createShapeInferencePass</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><p>If we rerun our original example, we now get the following:</p><pre><code class=language-mlir data-lang=mlir>func @main() {
-  %0 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-  %1 = &quot;toy.transpose&quot;(%0) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  %2 = &quot;toy.mul&quot;(%1, %1) : (tensor&lt;3x2xf64&gt;, tensor&lt;3x2xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  &quot;toy.print&quot;(%2) : (tensor&lt;3x2xf64&gt;) -&gt; ()
-  &quot;toy.return&quot;() : () -&gt; ()
-}
-</code></pre><p>You can build <code>toyc-ch4</code> and try yourself: <code>toyc-ch4 test/Examples/Toy/Ch4/codegen.toy -emit=mlir -opt</code>.</p><p>In the
+</code></pre></div><p>If we rerun our original example, we now get the following:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.mul&#34;</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>You can build <code>toyc-ch4</code> and try yourself: <code>toyc-ch4 test/Examples/Toy/Ch4/codegen.toy -emit=mlir -opt</code>.</p><p>In the
 <a href=/docs/Tutorials/Toy/Ch-5/>next chapter</a>
 , we will start the process of code generation by
 targeting a lower level dialect for optimizing some of the more compute-heavy

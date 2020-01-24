@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 6: Lowering to LLVM and CodeGeneration - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-6/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 6: Lowering to LLVM and CodeGeneration - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-6/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 6: Lowering to LLVM and CodeGeneration</h1><p>[TOC]</p><p>In the
 <a href=/docs/Tutorials/Toy/Ch-5/>previous chapter</a>
 , we introduced the
@@ -11,11 +11,11 @@ to the
 <a href=/docs/Dialects/LLVM/>LLVM dialect</a>
 . Thankfully, we have already
 lowered all but one of the <code>toy</code> operations, with the last being <code>toy.print</code>.
-Before going over the conversion to LLVM, let's lower the <code>toy.print</code> operation.
+Before going over the conversion to LLVM, let&rsquo;s lower the <code>toy.print</code> operation.
 We will lower this operation to a non-affine loop nest that invokes <code>printf</code> for
 each element. Note that, because the dialect conversion framework supports
 <a href=/getting_started/Glossary/#transitive-lowering>transitive lowering</a>
-, we don't need to
+, we don&rsquo;t need to
 directly emit operations in the LLVM dialect. By transitive lowering, we mean
 that the conversion framework may apply multiple patterns to fully legalize an
 operation. In this example, we are generating a structured loop nest instead of
@@ -54,7 +54,7 @@ everything to the LLVM dialect.</p><div class=highlight><pre class=chroma><code 
 operated on into a representation in LLVM. To perform this conversion, we use a
 TypeConverter as part of the lowering. This converter specifies how one type
 maps to another. This is necessary now that we are performing more complicated
-lowerings involving block arguments. Given that we don't have any
+lowerings involving block arguments. Given that we don&rsquo;t have any
 Toy-dialect-specific types that need to be lowered, the default converter is
 enough for our use case.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>LLVMTypeConverter</span> <span class=nf>typeConverter</span><span class=p>(</span><span class=o>&amp;</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
 </code></pre></div><h2 id=conversion-patterns>Conversion Patterns</h2><p>Now that the conversion target has been defined, we need to provide the patterns
@@ -77,52 +77,52 @@ that only legal operations will remain after the conversion.</p><div class=highl
   <span class=k>if</span> <span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>failed</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>applyFullConversion</span><span class=p>(</span><span class=n>module</span><span class=p>,</span> <span class=n>target</span><span class=p>,</span> <span class=n>patterns</span><span class=p>,</span>
                                              <span class=o>&amp;</span><span class=n>typeConverter</span><span class=p>)</span><span class=p>)</span><span class=p>)</span>
     <span class=n>signalPassFailure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><p>Looking back at our current working example:</p><pre><code class=language-mlir data-lang=mlir>func @main() {
-  %0 = &quot;toy.constant&quot;() {value = dense&lt;[[1.000000e+00, 2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]&gt; : tensor&lt;2x3xf64&gt;} : () -&gt; tensor&lt;2x3xf64&gt;
-  %2 = &quot;toy.transpose&quot;(%0) : (tensor&lt;2x3xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  %3 = &quot;toy.mul&quot;(%2, %2) : (tensor&lt;3x2xf64&gt;, tensor&lt;3x2xf64&gt;) -&gt; tensor&lt;3x2xf64&gt;
-  &quot;toy.print&quot;(%3) : (tensor&lt;3x2xf64&gt;) -&gt; ()
-  &quot;toy.return&quot;() : () -&gt; ()
-}
-</code></pre><p>We can now lower down to the LLVM dialect, which produces the following code:</p><pre><code class=language-mlir data-lang=mlir>llvm.func @free(!llvm&lt;&quot;i8*&quot;&gt;)
-llvm.func @printf(!llvm&lt;&quot;i8*&quot;&gt;, ...) -&gt; !llvm.i32
-llvm.func @malloc(!llvm.i64) -&gt; !llvm&lt;&quot;i8*&quot;&gt;
-llvm.func @main() {
-  %0 = llvm.mlir.constant(1.000000e+00 : f64) : !llvm.double
-  %1 = llvm.mlir.constant(2.000000e+00 : f64) : !llvm.double
+</code></pre></div><p>Looking back at our current working example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> <span class=s>&#34;toy.mul&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>,</span> <span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
+  <span class=s>&#34;toy.print&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=s>&#34;toy.return&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>We can now lower down to the LLVM dialect, which produces the following code:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@free</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>)</span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@printf</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@malloc</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>1.000000e+00</span> <span class=p>:</span> <span class=k>f64</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span>double
+  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>2.000000e+00</span> <span class=p>:</span> <span class=k>f64</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span>double
 
-  ...
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
-^bb16:
-  %221 = llvm.extractvalue %25[0 : index] : !llvm&lt;&quot;{ double*, i64, [2 x i64], [2 x i64] }&quot;&gt;
-  %222 = llvm.mlir.constant(0 : index) : !llvm.i64
-  %223 = llvm.mlir.constant(2 : index) : !llvm.i64
-  %224 = llvm.mul %214, %223 : !llvm.i64
-  %225 = llvm.add %222, %224 : !llvm.i64
-  %226 = llvm.mlir.constant(1 : index) : !llvm.i64
-  %227 = llvm.mul %219, %226 : !llvm.i64
-  %228 = llvm.add %225, %227 : !llvm.i64
-  %229 = llvm.getelementptr %221[%228] : (!llvm&lt;&quot;double*&quot;&gt;, !llvm.i64) -&gt; !llvm&lt;&quot;double*&quot;&gt;
-  %230 = llvm.load %229 : !llvm&lt;&quot;double*&quot;&gt;
-  %231 = llvm.call @printf(%207, %230) : (!llvm&lt;&quot;i8*&quot;&gt;, !llvm.double) -&gt; !llvm.i32
-  %232 = llvm.add %219, %218 : !llvm.i64
-  llvm.br ^bb15(%232 : !llvm.i64)
+<span class=nl>^bb16</span><span class=p>:</span>
+  <span class=nv>%221</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%25</span><span class=p>[</span><span class=m>0</span> <span class=p>:</span> <span class=k>index</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ double*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%222</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>0</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%223</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>2</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%224</span> <span class=p>=</span> llvm<span class=p>.</span>mul <span class=nv>%214</span><span class=p>,</span> <span class=nv>%223</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%225</span> <span class=p>=</span> llvm<span class=p>.</span>add <span class=nv>%222</span><span class=p>,</span> <span class=nv>%224</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%226</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>1</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%227</span> <span class=p>=</span> llvm<span class=p>.</span>mul <span class=nv>%219</span><span class=p>,</span> <span class=nv>%226</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%228</span> <span class=p>=</span> llvm<span class=p>.</span>add <span class=nv>%225</span><span class=p>,</span> <span class=nv>%227</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%229</span> <span class=p>=</span> llvm<span class=p>.</span>getelementptr <span class=nv>%221</span><span class=p>[</span><span class=nv>%228</span><span class=p>]</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;double*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;double*&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%230</span> <span class=p>=</span> llvm<span class=p>.</span>load <span class=nv>%229</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;double*&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%231</span> <span class=p>=</span> llvm<span class=p>.</span>call <span class=nf>@printf</span><span class=p>(</span><span class=nv>%207</span><span class=p>,</span> <span class=nv>%230</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span>double<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span>
+  <span class=nv>%232</span> <span class=p>=</span> llvm<span class=p>.</span>add <span class=nv>%219</span><span class=p>,</span> <span class=nv>%218</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  llvm<span class=p>.</span>br <span class=nl>^bb15</span><span class=p>(</span><span class=nv>%232</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span>
 
-  ...
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
-^bb18:
-  %235 = llvm.extractvalue %65[0 : index] : !llvm&lt;&quot;{ double*, i64, [2 x i64], [2 x i64] }&quot;&gt;
-  %236 = llvm.bitcast %235 : !llvm&lt;&quot;double*&quot;&gt; to !llvm&lt;&quot;i8*&quot;&gt;
-  llvm.call @free(%236) : (!llvm&lt;&quot;i8*&quot;&gt;) -&gt; ()
-  %237 = llvm.extractvalue %45[0 : index] : !llvm&lt;&quot;{ double*, i64, [2 x i64], [2 x i64] }&quot;&gt;
-  %238 = llvm.bitcast %237 : !llvm&lt;&quot;double*&quot;&gt; to !llvm&lt;&quot;i8*&quot;&gt;
-  llvm.call @free(%238) : (!llvm&lt;&quot;i8*&quot;&gt;) -&gt; ()
-  %239 = llvm.extractvalue %25[0 : index] : !llvm&lt;&quot;{ double*, i64, [2 x i64], [2 x i64] }&quot;&gt;
-  %240 = llvm.bitcast %239 : !llvm&lt;&quot;double*&quot;&gt; to !llvm&lt;&quot;i8*&quot;&gt;
-  llvm.call @free(%240) : (!llvm&lt;&quot;i8*&quot;&gt;) -&gt; ()
-  llvm.return
-}
-</code></pre><p>See
+<span class=nl>^bb18</span><span class=p>:</span>
+  <span class=nv>%235</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%65</span><span class=p>[</span><span class=m>0</span> <span class=p>:</span> <span class=k>index</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ double*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%236</span> <span class=p>=</span> llvm<span class=p>.</span>bitcast <span class=nv>%235</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;double*&#34;</span><span class=p>&gt;</span> to <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span>
+  llvm<span class=p>.</span>call <span class=nf>@free</span><span class=p>(</span><span class=nv>%236</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=nv>%237</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%45</span><span class=p>[</span><span class=m>0</span> <span class=p>:</span> <span class=k>index</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ double*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%238</span> <span class=p>=</span> llvm<span class=p>.</span>bitcast <span class=nv>%237</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;double*&#34;</span><span class=p>&gt;</span> to <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span>
+  llvm<span class=p>.</span>call <span class=nf>@free</span><span class=p>(</span><span class=nv>%238</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=nv>%239</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%25</span><span class=p>[</span><span class=m>0</span> <span class=p>:</span> <span class=k>index</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ double*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%240</span> <span class=p>=</span> llvm<span class=p>.</span>bitcast <span class=nv>%239</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;double*&#34;</span><span class=p>&gt;</span> to <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span>
+  llvm<span class=p>.</span>call <span class=nf>@free</span><span class=p>(</span><span class=nv>%240</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>See
 <a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM IR Dialect</a>
 for
 more in-depth details on lowering to the LLVM dialect.</p><p>At this point we are right at the cusp of code generation. We can generate code
@@ -202,7 +202,7 @@ a bit:</p><div class=highlight><pre class=chroma><code class=language-llvm data-
 <span class=p>}</span>
 </code></pre></div><h2 id=setting-up-a-jit>Setting up a JIT</h2><p>Setting up a JIT to run the module containing the LLVM dialect can be done using
 the <code>mlir::ExecutionEngine</code> infrastructure. This is a utility wrapper around
-LLVM's JIT that accepts <code>.mlir</code> as input. The full code listing for setting up
+LLVM&rsquo;s JIT that accepts <code>.mlir</code> as input. The full code listing for setting up
 the JIT can be found in <code>Ch6/toy.cpp</code> in the <code>runJit()</code> function:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>int</span> <span class=nf>runJit</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ModuleOp</span> <span class=n>module</span><span class=p>)</span> <span class=p>{</span>
   <span class=c1>// Initialize LLVM targets.
 </span><span class=c1></span>  <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>InitializeNativeTarget</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>

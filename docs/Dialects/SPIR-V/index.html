@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>SPIR-V Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/SPIR-V/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>SPIR-V Dialect - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Dialects/SPIR-V/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>SPIR-V Dialect</h1><p>This document describes the design of the SPIR-V dialect in MLIR. It lists
 various design choices we made for modeling different SPIR-V mechanisms, and
 their rationale.</p><p>This document also explains in a high-level manner how different components are
@@ -36,7 +36,7 @@ among various compilation paths. Because of the dual purpose of SPIR-V, SPIR-V
 dialect staying at the same semantic level as the SPIR-V specification also
 means we can still have straightforward serialization and deserialization for
 the majority of functionalities.</p><p>To summarize, the SPIR-V dialect follows the following design principles:</p><ul><li>Stay as the same semantic level as the SPIR-V specification by having
-one-to-one mapping for most concepts and entities.</li><li>Adopt SPIR-V specification's syntax if possible, but deviate intentionally
+one-to-one mapping for most concepts and entities.</li><li>Adopt SPIR-V specification&rsquo;s syntax if possible, but deviate intentionally
 to utilize MLIR mechanisms if it results in better representation and
 benefits transformation.</li><li>Be straightforward to serialize into and deserialize from the SPIR-V binary
 format.</li></ul><p>SPIR-V is designed to be consumed by hardware drivers, so its representation is
@@ -47,7 +47,7 @@ should support multiple execution environments if to be a proper proxy of SPIR-V
 in MLIR systems. The SPIR-V dialect is designed with these considerations: it
 has proper support for versions, extensions, and capabilities and is as
 extensible as SPIR-V specification.</p><h2 id=conventions>Conventions</h2><p>The SPIR-V dialect adopts the following conventions for IR:</p><ul><li>The prefix for all SPIR-V types and operations are <code>spv.</code>.</li><li>All instructions in an extended instruction set are further qualified with
-the extended instruction set's prefix. For example, all operations in the
+the extended instruction set&rsquo;s prefix. For example, all operations in the
 GLSL extended instruction set is has the prefix of <code>spv.GLSL.</code>.</li><li>Ops that directly mirror instructions in the specification have <code>CamelCase</code>
 names that are the same as the instruction opnames (without the <code>Op</code>
 prefix). For example, <code>spv.FMul</code> is a direct mirror of <code>OpFMul</code> in the
@@ -65,10 +65,10 @@ contains one block. Model-level instructions, including function definitions,
 are all placed inside the block. Functions are defined using the builtin <code>func</code>
 op.</p><p>We choose to model a SPIR-V module with a dedicated <code>spv.module</code> op based on the
 following considerations:</p><ul><li>It maps cleanly to a SPIR-V module in the specification.</li><li>We can enforce SPIR-V specific verification that is suitable to be performed
-at the module-level.</li><li>We can attach additional model-level attributes.</li><li>We can control custom assembly form.</li></ul><p>The <code>spv.module</code> op's region cannot capture SSA values from outside, neither
-implicitly nor explicitly. The <code>spv.module</code> op's region is closed as to what ops
+at the module-level.</li><li>We can attach additional model-level attributes.</li><li>We can control custom assembly form.</li></ul><p>The <code>spv.module</code> op&rsquo;s region cannot capture SSA values from outside, neither
+implicitly nor explicitly. The <code>spv.module</code> op&rsquo;s region is closed as to what ops
 can appear inside: apart from the builtin <code>func</code> op, it can only contain ops
-from the SPIR-V dialect. The <code>spv.module</code> op's verifier enforces this rule. This
+from the SPIR-V dialect. The <code>spv.module</code> op&rsquo;s verifier enforces this rule. This
 meaningfully guarantees that a <code>spv.module</code> can be the entry point and boundary
 for serialization.</p><h3 id=module-level-operations>Module-level operations</h3><p>SPIR-V binary format defines the following
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#_a_id_logicallayout_a_logical_layout_of_a_module>sections</a>
@@ -79,7 +79,7 @@ resource variables to interact with the execution environment.</p><p>Compared to
 instructions are represented in the SPIR-V dialect:</p><h4 id=use-mlir-attributes-for-metadata>Use MLIR attributes for metadata</h4><ul><li>Requirements for capabilities, extensions, extended instruction sets,
 addressing model, and memory model is conveyed using <code>spv.module</code>
 attributes. This is considered better because these information are for the
-execution environment. It's easier to probe them if on the module op itself.</li><li>Annotations/decoration instructions are &ldquo;folded&rdquo; into the instructions they
+execution environment. It&rsquo;s easier to probe them if on the module op itself.</li><li>Annotations/decoration instructions are &ldquo;folded&rdquo; into the instructions they
 decorate and represented as attributes on those ops. This eliminates
 potential forward references of SSA values, improves IR readability, and
 makes querying the annotations more direct. More discussions can be found in
@@ -121,9 +121,9 @@ OpDecorate %v2 NoContraction
 ...
 %v1 = OpFMul %float %0 %0
 %v2 = OpFMul %float %1 %1
-</code></pre><p>We can represent them in the SPIR-V dialect as:</p><pre><code class=language-mlir data-lang=mlir>%v1 = &quot;spv.FMul&quot;(%0, %0) {RelaxedPrecision: unit} : (f32, f32) -&gt; (f32)
-%v2 = &quot;spv.FMul&quot;(%1, %1) {NoContraction: unit} : (f32, f32) -&gt; (f32)
-</code></pre><p>This approach benefits transformations. Essentially those decorations are just
+</code></pre><p>We can represent them in the SPIR-V dialect as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%v1</span> <span class=p>=</span> <span class=s>&#34;spv.FMul&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>)</span> <span class=p>{</span>RelaxedPrecision<span class=p>:</span> unit<span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span>
+<span class=nv>%v2</span> <span class=p>=</span> <span class=s>&#34;spv.FMul&#34;</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>)</span> <span class=p>{</span>NoContraction<span class=p>:</span> unit<span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span>
+</code></pre></div><p>This approach benefits transformations. Essentially those decorations are just
 additional properties of the result ids (and thus their defining instructions).
 In SPIR-V binary format, they are just represented as instructions. Literally
 following SPIR-V binary format means we need to through def-use chains to find
@@ -148,9 +148,9 @@ function types can be used for SPIR-V <code>OpTypeFunction</code> types.</p><p>T
                | spirv-type
 
 array-type ::= `!spv.array&lt;` integer-literal `x` element-type `&gt;`
-</code></pre><p>For example,</p><pre><code class=language-mlir data-lang=mlir>!spv.array&lt;4 x i32&gt;
-!spv.array&lt;16 x vector&lt;4 x f32&gt;&gt;
-</code></pre><h3 id=image-type>Image type</h3><p>This corresponds to SPIR-V
+</code></pre><p>For example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>array<span class=p>&lt;</span><span class=m>4 x</span> <span class=k>i32</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>array<span class=p>&lt;</span><span class=m>16 x</span> <span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=image-type>Image type</h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#OpTypeImage>image type</a>
 . Its syntax is</p><pre><code>dim ::= `1D` | `2D` | `3D` | `Cube` | &lt;and other SPIR-V Dim specifiers...&gt;
 
@@ -167,9 +167,9 @@ format ::= `Unknown` | `Rgba32f` | &lt;and other SPIR-V Image Formats...&gt;
 image-type ::= `!spv.image&lt;` element-type `,` dim `,` depth-info `,`
                            arrayed-info `,` sampling-info `,`
                            sampler-use-info `,` format `&gt;`
-</code></pre><p>For example,</p><pre><code class=language-mlir data-lang=mlir>!spv.image&lt;f32, 1D, NoDepth, NonArrayed, SingleSampled, SamplerUnknown, Unknown&gt;
-!spv.image&lt;f32, Cube, IsDepth, Arrayed, MultiSampled, NeedSampler, Rgba32f&gt;
-</code></pre><h3 id=pointer-type>Pointer type</h3><p>This corresponds to SPIR-V
+</code></pre><p>For example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>image<span class=p>&lt;</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span>D<span class=p>,</span> NoDepth<span class=p>,</span> NonArrayed<span class=p>,</span> SingleSampled<span class=p>,</span> SamplerUnknown<span class=p>,</span> Unknown<span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>image<span class=p>&lt;</span><span class=k>f32</span><span class=p>,</span> Cube<span class=p>,</span> IsDepth<span class=p>,</span> Arrayed<span class=p>,</span> MultiSampled<span class=p>,</span> NeedSampler<span class=p>,</span> Rgba32f<span class=p>&gt;</span>
+</code></pre></div><h3 id=pointer-type>Pointer type</h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#OpTypePointer>pointer type</a>
 . Its syntax is</p><pre><code>storage-class ::= `UniformConstant`
                 | `Uniform`
@@ -177,23 +177,23 @@ image-type ::= `!spv.image&lt;` element-type `,` dim `,` depth-info `,`
                 | &lt;and other storage classes...&gt;
 
 pointer-type ::= `!spv.ptr&lt;` element-type `,` storage-class `&gt;`
-</code></pre><p>For example,</p><pre><code class=language-mlir data-lang=mlir>!spv.ptr&lt;i32, Function&gt;
-!spv.ptr&lt;vector&lt;4 x f32&gt;, Uniform&gt;
-</code></pre><h3 id=runtime-array-type>Runtime array type</h3><p>This corresponds to SPIR-V
+</code></pre><p>For example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> Function<span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> Uniform<span class=p>&gt;</span>
+</code></pre></div><h3 id=runtime-array-type>Runtime array type</h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#OpTypeRuntimeArray>runtime array type</a>
 . Its syntax is</p><pre><code>runtime-array-type ::= `!spv.rtarray&lt;` element-type `&gt;`
-</code></pre><p>For example,</p><pre><code class=language-mlir data-lang=mlir>!spv.rtarray&lt;i32&gt;
-!spv.rtarray&lt;vector&lt;4 x f32&gt;&gt;
-</code></pre><h3 id=struct-type>Struct type</h3><p>This corresponds to SPIR-V
+</code></pre><p>For example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>rtarray<span class=p>&lt;</span><span class=k>i32</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>rtarray<span class=p>&lt;</span><span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=struct-type>Struct type</h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Structure>struct type</a>
 . Its syntax is</p><pre><code>struct-member-decoration ::= integer-literal? spirv-decoration*
 struct-type ::= `!spv.struct&lt;` spirv-type (`[` struct-member-decoration `]`)?
                      (`, ` spirv-type (`[` struct-member-decoration `]`)?
-</code></pre><p>For Example,</p><pre><code class=language-mlir data-lang=mlir>!spv.struct&lt;f32&gt;
-!spv.struct&lt;f32 [0]&gt;
-!spv.struct&lt;f32, !spv.image&lt;f32, 1D, NoDepth, NonArrayed, SingleSampled, SamplerUnknown, Unknown&gt;&gt;
-!spv.struct&lt;f32 [0], i32 [4]&gt;
-</code></pre><h2 id=function>Function</h2><p>In SPIR-V, a function construct consists of multiple instructions involving
+</code></pre><p>For Example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>struct<span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>struct<span class=p>&lt;</span><span class=k>f32</span> <span class=p>[</span><span class=m>0</span><span class=p>]</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>struct<span class=p>&lt;</span><span class=k>f32</span><span class=p>,</span> <span class=p>!</span>spv<span class=p>.</span>image<span class=p>&lt;</span><span class=k>f32</span><span class=p>,</span> <span class=m>1</span>D<span class=p>,</span> NoDepth<span class=p>,</span> NonArrayed<span class=p>,</span> SingleSampled<span class=p>,</span> SamplerUnknown<span class=p>,</span> Unknown<span class=p>&gt;</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>struct<span class=p>&lt;</span><span class=k>f32</span> <span class=p>[</span><span class=m>0</span><span class=p>]</span><span class=p>,</span> <span class=k>i32</span> <span class=p>[</span><span class=m>4</span><span class=p>]</span><span class=p>&gt;</span>
+</code></pre></div><h2 id=function>Function</h2><p>In SPIR-V, a function construct consists of multiple instructions involving
 <code>OpFunction</code>, <code>OpFunctionParameter</code>, <code>OpLabel</code>, <code>OpFunctionEnd</code>.</p><pre><code class=language-spirv data-lang=spirv>// int f(int v) { return v; }
 %1 = OpTypeInt 32 0
 %2 = OpTypeFunction %1 %1
@@ -205,10 +205,10 @@ struct-type ::= `!spv.struct&lt;` spirv-type (`[` struct-member-decoration `]`)?
 </code></pre><p>This construct is very clear yet quite verbose. It is intended for driver
 consumption. There is little benefit to literally replicate this construct in
 the SPIR-V dialect. Instead, we reuse the builtin <code>func</code> op to express functions
-more concisely:</p><pre><code class=language-mlir data-lang=mlir>func @f(%arg: i32) -&gt; i32 {
-  &quot;spv.ReturnValue&quot;(%arg) : (i32) -&gt; (i32)
-}
-</code></pre><p>A SPIR-V function can have at most one result. It cannot contain nested
+more concisely:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@f</span><span class=p>(</span><span class=nv>%arg</span><span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>i32</span> <span class=p>{</span>
+  <span class=s>&#34;spv.ReturnValue&#34;</span><span class=p>(</span><span class=nv>%arg</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span>
+<span class=p>}</span>
+</code></pre></div><p>A SPIR-V function can have at most one result. It cannot contain nested
 functions or non-SPIR-V operations. <code>spv.module</code> verifies these requirements.</p><p>A major difference between the SPIR-V dialect and the SPIR-V specification for
 functions is that the former are isolated and require explicit capturing, while
 the latter allow implicit capturing. In SPIR-V specification, functions can
@@ -237,10 +237,10 @@ cases, we can model them with MLIR attributes.</p><p>For example,</p><pre><code 
 ...
 %3 = OpVariable %i32 Function 42
 %4 = OpIAdd %i32 %c42 %c42
-</code></pre><p>can be represented in the dialect as</p><pre><code class=language-mlir data-lang=mlir>%0 = &quot;spv.constant&quot;() { value = 42 : i32 } : () -&gt; i32
-%1 = &quot;spv.Variable&quot;(%0) { storage_class = &quot;Function&quot; } : (i32) -&gt; !spv.ptr&lt;i32, Function&gt;
-%2 = &quot;spv.IAdd&quot;(%0, %0) : (i32, i32) -&gt; i32
-</code></pre><p>Operation documentation is written in each op's Op Definition Spec using
+</code></pre><p>can be represented in the dialect as</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;spv.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span> <span class=nl>value =</span> <span class=m>42</span> <span class=p>:</span> <span class=k>i32</span> <span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>i32</span>
+<span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;spv.Variable&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>{</span> <span class=nl>storage_class =</span> <span class=s>&#34;Function&#34;</span> <span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> Function<span class=p>&gt;</span>
+<span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;spv.IAdd&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>i32</span>
+</code></pre></div><p>Operation documentation is written in each op&rsquo;s Op Definition Spec using
 TableGen. A markdown version of the doc can be found at
 <a href=/docs/Dialects/SPIRVOps/>mlir.llvm.org</a>
 or generated using <code>mlir-tblgen -gen-doc</code>.</p><h3 id=ops-from-extended-instruction-sets>Ops from extended instruction sets</h3><p>Analogically extended instruction set is a mechanism to import SPIR-V
@@ -258,14 +258,14 @@ proper name prefix. For example, for</p><pre><code class=language-spirv data-lan
 
 %1 = OpExtInst %f32 %glsl 28 %cst
 %2 = OpExtInst %f32 %glsl 31 %cst
-</code></pre><p>we can have</p><pre><code class=language-mlir data-lang=mlir>%1 = &quot;spv.GLSL.Log&quot;(%cst) : (f32) -&gt; (f32)
-%2 = &quot;spv.GLSL.Sqrt&quot;(%cst) : (f32) -&gt; (f32)
-</code></pre><h2 id=control-flow>Control Flow</h2><p>SPIR-V binary format uses merge instructions (<code>OpSelectionMerge</code> and
+</code></pre><p>we can have</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;spv.GLSL.Log&#34;</span><span class=p>(</span><span class=nv>%cst</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span>
+<span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;spv.GLSL.Sqrt&#34;</span><span class=p>(</span><span class=nv>%cst</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span>
+</code></pre></div><h2 id=control-flow>Control Flow</h2><p>SPIR-V binary format uses merge instructions (<code>OpSelectionMerge</code> and
 <code>OpLoopMerge</code>) to declare structured control flow. They explicitly declare a
 header block before the control flow diverges and a merge block where control
 flow subsequently converges. These blocks delimit constructs that must nest, and
 can only be entered and exited in structured ways.</p><p>In the SPIR-V dialect, we use regions to mark the boundary of a structured
-control flow construct. With this approach, it's easier to discover all blocks
+control flow construct. With this approach, it&rsquo;s easier to discover all blocks
 belonging to a structured control flow construct. It is also more idiomatic to
 MLIR system.</p><p>We introduce a <code>spv.selection</code> and <code>spv.loop</code> op for structured selections and
 loops, respectively. The merge targets are the next ops following them. Inside
@@ -302,31 +302,31 @@ exit.</li></ul><pre><code>               +--------------+
   <span class=p>}</span>
   <span class=c1>// ...
 </span><span class=c1></span><span class=p>}</span>
-</code></pre></div><p>It will be represented as</p><pre><code class=language-mlir data-lang=mlir>func @selection(%cond: i1) -&gt; () {
-  %zero = spv.constant 0: i32
-  %one = spv.constant 1: i32
-  %two = spv.constant 2: i32
-  %x = spv.Variable init(%zero) : !spv.ptr&lt;i32, Function&gt;
+</code></pre></div><p>It will be represented as</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@selection</span><span class=p>(</span><span class=nv>%cond</span><span class=p>:</span> <span class=k>i1</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%zero</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>0</span><span class=p>:</span> <span class=k>i32</span>
+  <span class=nv>%one</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>1</span><span class=p>:</span> <span class=k>i32</span>
+  <span class=nv>%two</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>2</span><span class=p>:</span> <span class=k>i32</span>
+  <span class=nv>%x</span> <span class=p>=</span> spv<span class=p>.</span>Variable init<span class=p>(</span><span class=nv>%zero</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> Function<span class=p>&gt;</span>
 
-  spv.selection {
-    spv.BranchConditional %cond, ^then, ^else
+  spv<span class=p>.</span>selection <span class=p>{</span>
+    spv<span class=p>.</span>BranchConditional <span class=nv>%cond</span><span class=p>,</span> <span class=nl>^then</span><span class=p>,</span> <span class=nl>^else
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^then</span><span class=p>:</span>
+    spv<span class=p>.</span>Store <span class=s>&#34;Function&#34;</span> <span class=nv>%x</span><span class=p>,</span> <span class=nv>%one</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Branch <span class=nl>^merge
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^else</span><span class=p>:</span>
+    spv<span class=p>.</span>Store <span class=s>&#34;Function&#34;</span> <span class=nv>%x</span><span class=p>,</span> <span class=nv>%two</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Branch <span class=nl>^merge
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^merge</span><span class=p>:</span>
+    spv<span class=p>.</span>_merge
+  <span class=p>}</span>
 
-  ^then:
-    spv.Store &quot;Function&quot; %x, %one : i32
-    spv.Branch ^merge
+  <span class=c>// ...
+</span><span class=c></span><span class=p>}</span>
 
-  ^else:
-    spv.Store &quot;Function&quot; %x, %two : i32
-    spv.Branch ^merge
-
-  ^merge:
-    spv._merge
-  }
-
-  // ...
-}
-
-</code></pre><h3 id=loop>Loop</h3><p><code>spv.loop</code> defines a loop construct. It contains one region. The region should
+</code></pre></div><h3 id=loop>Loop</h3><p><code>spv.loop</code> defines a loop construct. It contains one region. The region should
 contain at least four blocks: one entry block, one loop header block, one loop
 continue block, one merge block.</p><ul><li>The entry block should be the first block and it should jump to the loop
 header block, which is the second block.</li><li>The merge block should be the last block. The merge block should only
@@ -356,45 +356,45 @@ branching to the loop header block.</li></ul><pre><code>    +-------------+
     | merge block |
     +-------------+
 </code></pre><p>The reason to have another entry block instead of directly using the loop header
-block as the entry block is to satisfy region's requirement: entry block of
+block as the entry block is to satisfy region&rsquo;s requirement: entry block of
 region may not have predecessors. We have a merge block so that branch ops can
 reference it as successors. The loop continue block here corresponds to
-&ldquo;continue construct&rdquo; using SPIR-V spec's term; it does not mean the &ldquo;continue
+&ldquo;continue construct&rdquo; using SPIR-V spec&rsquo;s term; it does not mean the &ldquo;continue
 block&rdquo; as defined in the SPIR-V spec, which is &ldquo;a block containing a branch to
 an OpLoopMerge instruction’s Continue Target.&rdquo;</p><p>For example, for the given function</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=nf>loop</span><span class=p>(</span><span class=kt>int</span> <span class=n>count</span><span class=p>)</span> <span class=p>{</span>
   <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>count</span><span class=p>;</span> <span class=o>+</span><span class=o>+</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
     <span class=c1>// ...
 </span><span class=c1></span>  <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><p>It will be represented as</p><pre><code class=language-mlir data-lang=mlir>func @loop(%count : i32) -&gt; () {
-  %zero = spv.constant 0: i32
-  %one = spv.constant 1: i32
-  %var = spv.Variable init(%zero) : !spv.ptr&lt;i32, Function&gt;
+</code></pre></div><p>It will be represented as</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@loop</span><span class=p>(</span><span class=nv>%count</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%zero</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>0</span><span class=p>:</span> <span class=k>i32</span>
+  <span class=nv>%one</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>1</span><span class=p>:</span> <span class=k>i32</span>
+  <span class=nv>%var</span> <span class=p>=</span> spv<span class=p>.</span>Variable init<span class=p>(</span><span class=nv>%zero</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> Function<span class=p>&gt;</span>
 
-  spv.loop {
-    spv.Branch ^header
-
-  ^header:
-    %val0 = spv.Load &quot;Function&quot; %var : i32
-    %cmp = spv.SLessThan %val0, %count : i32
-    spv.BranchConditional %cmp, ^body, ^merge
-
-  ^body:
-    // ...
-    spv.Branch ^continue
-
-  ^continue:
-    %val1 = spv.Load &quot;Function&quot; %var : i32
-    %add = spv.IAdd %val1, %one : i32
-    spv.Store &quot;Function&quot; %var, %add : i32
-    spv.Branch ^header
-
-  ^merge:
-    spv._merge
-  }
-  return
-}
-</code></pre><h3 id=block-argument-for-phi>Block argument for Phi</h3><p>There are no direct Phi operations in the SPIR-V dialect; SPIR-V <code>OpPhi</code>
+  spv<span class=p>.</span>loop <span class=p>{</span>
+    spv<span class=p>.</span>Branch <span class=nl>^header
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^header</span><span class=p>:</span>
+    <span class=nv>%val0</span> <span class=p>=</span> spv<span class=p>.</span>Load <span class=s>&#34;Function&#34;</span> <span class=nv>%var</span> <span class=p>:</span> <span class=k>i32</span>
+    <span class=nv>%cmp</span> <span class=p>=</span> spv<span class=p>.</span>SLessThan <span class=nv>%val0</span><span class=p>,</span> <span class=nv>%count</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>BranchConditional <span class=nv>%cmp</span><span class=p>,</span> <span class=nl>^body</span><span class=p>,</span> <span class=nl>^merge
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^body</span><span class=p>:</span>
+    <span class=c>// ...
+</span><span class=c></span>    spv<span class=p>.</span>Branch <span class=nl>^continue
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^continue</span><span class=p>:</span>
+    <span class=nv>%val1</span> <span class=p>=</span> spv<span class=p>.</span>Load <span class=s>&#34;Function&#34;</span> <span class=nv>%var</span> <span class=p>:</span> <span class=k>i32</span>
+    <span class=nv>%add</span> <span class=p>=</span> spv<span class=p>.</span>IAdd <span class=nv>%val1</span><span class=p>,</span> <span class=nv>%one</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Store <span class=s>&#34;Function&#34;</span> <span class=nv>%var</span><span class=p>,</span> <span class=nv>%add</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Branch <span class=nl>^header
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^merge</span><span class=p>:</span>
+    spv<span class=p>.</span>_merge
+  <span class=p>}</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><h3 id=block-argument-for-phi>Block argument for Phi</h3><p>There are no direct Phi operations in the SPIR-V dialect; SPIR-V <code>OpPhi</code>
 instructions are modelled as block arguments in the SPIR-V dialect. (See the
 <a href=/docs/Rationale/#block-arguments-vs-phi-nodes>Rationale</a>
 doc for &ldquo;Block Arguments vs Phi nodes&rdquo;.) Each block
@@ -415,31 +415,31 @@ example, for the following SPIR-V function <code>foo</code>:</p><pre><code class
 %merge = OpLabel
          OpReturn
          OpFunctionEnd
-</code></pre><p>It will be represented as:</p><pre><code class=language-mlir data-lang=mlir>func @foo() -&gt; () {
-  %var = spv.Variable : !spv.ptr&lt;i32, Function&gt;
+</code></pre><p>It will be represented as:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%var</span> <span class=p>=</span> spv<span class=p>.</span>Variable <span class=p>:</span> <span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> Function<span class=p>&gt;</span>
 
-  spv.selection {
-    %true = spv.constant true
-    spv.BranchConditional %true, ^true, ^false
+  spv<span class=p>.</span>selection <span class=p>{</span>
+    <span class=nv>%true</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> true
+    spv<span class=p>.</span>BranchConditional <span class=nv>%true</span><span class=p>,</span> <span class=nl>^true</span><span class=p>,</span> <span class=nl>^false
+</span><span class=nl>
+</span><span class=nl>  </span><span class=nl>^true</span><span class=p>:</span>
+    <span class=nv>%zero</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>0</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Branch <span class=nl>^phi</span><span class=p>(</span><span class=nv>%zero</span><span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
 
-  ^true:
-    %zero = spv.constant 0 : i32
-    spv.Branch ^phi(%zero: i32)
+  <span class=nl>^false</span><span class=p>:</span>
+    <span class=nv>%one</span> <span class=p>=</span> spv<span class=p>.</span><span class=kt>constant</span> <span class=m>1</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Branch <span class=nl>^phi</span><span class=p>(</span><span class=nv>%one</span><span class=p>:</span> <span class=k>i32</span><span class=p>)</span>
 
-  ^false:
-    %one = spv.constant 1 : i32
-    spv.Branch ^phi(%one: i32)
+  <span class=nl>^phi</span><span class=p>(</span><span class=nv>%arg</span><span class=p>:</span> <span class=k>i32</span><span class=p>)</span><span class=p>:</span>
+    spv<span class=p>.</span>Store <span class=s>&#34;Function&#34;</span> <span class=nv>%var</span><span class=p>,</span> <span class=nv>%arg</span> <span class=p>:</span> <span class=k>i32</span>
+    spv<span class=p>.</span>Return
 
-  ^phi(%arg: i32):
-    spv.Store &quot;Function&quot; %var, %arg : i32
-    spv.Return
-
-  ^merge:
-    spv._merge
-  }
-  spv.Return
-}
-</code></pre><h2 id=target-environment>Target environment</h2><p>SPIR-V aims to support multiple execution environments as specified by client
+  <span class=nl>^merge</span><span class=p>:</span>
+    spv<span class=p>.</span>_merge
+  <span class=p>}</span>
+  spv<span class=p>.</span>Return
+<span class=p>}</span>
+</code></pre></div><h2 id=target-environment>Target environment</h2><p>SPIR-V aims to support multiple execution environments as specified by client
 APIs. These execution environments affect the availability of certain SPIR-V
 features. For example, a
 <a href=https://renderdoc.org/vkspec_chunked/chap40.html#spirvenv>Vulkan 1.1</a>
@@ -509,7 +509,7 @@ project.</p><p>A few transformations are performed in the process of serializati
 the representational differences between SPIR-V dialect and binary format:</p><ul><li>Attributes on <code>spv.module</code> are emitted as their corresponding SPIR-V
 instructions.</li><li>Types are serialized into <code>OpType*</code> instructions in the SPIR-V binary module
 section for types, constants, and global variables.</li><li><code>spv.constant</code>s are unified and placed in the SPIR-V binary module section
-for types, constants, and global variables.</li><li>Attributes on ops, if not part of the op's binary encoding, are emitted as
+for types, constants, and global variables.</li><li>Attributes on ops, if not part of the op&rsquo;s binary encoding, are emitted as
 <code>OpDecorate*</code> instructions in the SPIR-V binary module section for
 decorations.</li><li><code>spv.selection</code>s and <code>spv.loop</code>s are emitted as basic blocks with <code>Op*Merge</code>
 instructions in the header block as required by the binary format.</li><li>Block arguments are materialized as <code>OpPhi</code> instructions at the beginning of
@@ -660,7 +660,7 @@ from.</p><p>Similarly, to define the op for <code>OpAtomicAnd</code>,</p><div cl
 is still expected to be updated to have more accurate traits, arguments, and
 results.</p><p>It is also expected that a custom assembly form is defined for the new op,
 which will require providing the parser and printer. The EBNF form of the
-custom assembly should be described in the op's description and the parser
+custom assembly should be described in the op&rsquo;s description and the parser
 and printer should be placed in
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/lib/Dialect/SPIRV/SPIRVOps.cpp><code>SPIRVOps.cpp</code></a>
 with the
@@ -678,8 +678,8 @@ in a function with the following signature:</p><div class=highlight><pre class=c
 </code></pre></div><p>See any such function in
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/lib/Dialect/SPIRV/SPIRVOps.cpp><code>SPIRVOps.cpp</code></a>
 as an example.</p><p>If no additional verification is needed, one need to add the following to
-the op's Op Definition Spec:</p><pre><code>let verifier = [{ return success(); }];
-</code></pre><p>To suppress the requirement of the above C++ verification function.</p><p>Tests for the op's custom assembly form and verification should be added to
+the op&rsquo;s Op Definition Spec:</p><pre><code>let verifier = [{ return success(); }];
+</code></pre><p>To suppress the requirement of the above C++ verification function.</p><p>Tests for the op&rsquo;s custom assembly form and verification should be added to
 the proper file in test/Dialect/SPIRV/.</p><p>The generated op will automatically gain the logic for (de)serialization.
 However, tests still need to be coupled with the change to make sure no
 surprises. Serialization tests live in test/Dialect/SPIRV/Serialization.</p><h3 id=add-a-new-enum>Add a new enum</h3><p>To add a new enum, invoke the <code>define_enum.sh</code> script wrapper in utils/spirv.

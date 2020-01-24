@@ -1,4 +1,4 @@
-<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Table-driven Operation Definition Specification (ODS) - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.62.2"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/OpDefinitions/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
+<!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Table-driven Operation Definition Specification (ODS) - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.63.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/OpDefinitions/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/llvm-project/mlir>Forums</a></li><li class=child><a href=https://discord.gg/JUQUPAZ>Chat</a></li></ul></li><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source</a></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Table-driven Operation Definition Specification (ODS)</h1><p>In addition to specializing the <code>mlir::Op</code> C++ template, MLIR also supports
 defining operations in a table-driven manner. This is achieved via
 <a href=https://llvm.org/docs/TableGen/index.html>TableGen</a>
@@ -23,7 +23,7 @@ about each op, including its constraints, custom assembly form, etc. This
 description is also used to generate helper functions and classes to allow
 building, verification, parsing, printing, analysis, and many more.</p><h2 id=benefits>Benefits</h2><p>Compared to the C++ template, this table-driven approach has several benefits
 including but not limited to:</p><ul><li><strong>Single source of truth</strong>: We strive to encode all facts regarding an
-operation into the record, so that readers don't need to jump among code
+operation into the record, so that readers don&rsquo;t need to jump among code
 snippets to fully understand an operation.</li><li><strong>Removing boilerplate</strong>: We can automatically generate
 operand/attribute/result getter methods, operation build methods, operation
 verify methods, and many more utilities from the record. This greatly reduces
@@ -65,30 +65,30 @@ constraints over operands or results. A notable subclass hierarchy is
 <code>Type</code>, which stands for constraints for common C++ types.</li><li>The <code>AttrConstraint</code> class hierarchy: They are used to specify the
 constraints over attributes. A notable subclass hierarchy is <code>Attr</code>, which
 stands for constraints for attributes whose values are of common types.</li></ul><p>An operation is defined by specializing the <code>Op</code> class with concrete contents
-for all the fields it requires. For example, <code>tf.AvgPool</code> is defined as</p><pre><code class=language-tablegen data-lang=tablegen>def TF_AvgPoolOp : TF_Op&lt;&quot;AvgPool&quot;, [NoSideEffect]&gt; {
-  let summary = &quot;Performs average pooling on the input.&quot;;
+for all the fields it requires. For example, <code>tf.AvgPool</code> is defined as</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>TF_AvgPoolOp</span> <span class=p>:</span> <span class=nv>TF_Op</span><span class=p>&lt;</span><span class=s>&#34;AvgPool&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;Performs average pooling on the input.&#34;</span><span class=p>;</span>
 
-  let description = [{
-Each entry in `output` is the mean of the corresponding size `ksize`
-window in `value`.
-  }];
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>Each entry in `output` is the mean of the corresponding size `ksize`
+</span><span class=s>window in `value`.
+</span><span class=s>  }]</span><span class=p>;</span>
 
-  let arguments = (ins
-    TF_FpTensor:$value,
+  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
+    <span class=nv>TF_FpTensor</span><span class=p>:</span><span class=nv>$value</span><span class=p>,</span>
 
-    Confined&lt;I64ArrayAttr, [ArrayMinCount&lt;4&gt;]&gt;:$ksize,
-    Confined&lt;I64ArrayAttr, [ArrayMinCount&lt;4&gt;]&gt;:$strides,
-    TF_AnyStrAttrOf&lt;[&quot;SAME&quot;, &quot;VALID&quot;]&gt;:$padding,
-    DefaultValuedAttr&lt;TF_ConvertDataFormatAttr, &quot;NHWC&quot;&gt;:$data_format
-  );
+    <span class=nv>Confined</span><span class=p>&lt;</span><span class=nv>I64ArrayAttr</span><span class=p>,</span> <span class=p>[</span><span class=nv>ArrayMinCount</span><span class=p>&lt;</span><span class=m>4</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$ksize</span><span class=p>,</span>
+    <span class=nv>Confined</span><span class=p>&lt;</span><span class=nv>I64ArrayAttr</span><span class=p>,</span> <span class=p>[</span><span class=nv>ArrayMinCount</span><span class=p>&lt;</span><span class=m>4</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$strides</span><span class=p>,</span>
+    <span class=nv>TF_AnyStrAttrOf</span><span class=p>&lt;</span><span class=p>[</span><span class=s>&#34;SAME&#34;</span><span class=p>,</span> <span class=s>&#34;VALID&#34;</span><span class=p>]</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$padding</span><span class=p>,</span>
+    <span class=nv>DefaultValuedAttr</span><span class=p>&lt;</span><span class=nv>TF_ConvertDataFormatAttr</span><span class=p>,</span> <span class=s>&#34;NHWC&#34;</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$data_format</span>
+  <span class=p>)</span><span class=p>;</span>
 
-  let results = (outs
-    TF_FpTensor:$output
-  );
+  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span>
+    <span class=nv>TF_FpTensor</span><span class=p>:</span><span class=nv>$output</span>
+  <span class=p>)</span><span class=p>;</span>
 
-  TF_DerivedOperandTypeAttr T = TF_DerivedOperandTypeAttr&lt;0&gt;;
-}
-</code></pre><p>In the following we describe all the fields needed. Please see the definition
+  <span class=nv>TF_DerivedOperandTypeAttr</span> <span class=nv>T</span> <span class=p>=</span> <span class=nv>TF_DerivedOperandTypeAttr</span><span class=p>&lt;</span><span class=m>0</span><span class=p>&gt;</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>In the following we describe all the fields needed. Please see the definition
 of the <code>Op</code> class for the complete list of fields supported.</p><h3 id=operation-name>Operation name</h3><p>The operation name is a unique identifier of the operation within MLIR, e.g.,
 <code>tf.Add</code> for addition operation in the TensorFlow dialect. This is the
 equivalent of the mnemonic in assembly language. It is used for parsing and
@@ -97,12 +97,12 @@ rewrites.</p><p>The full operation name is composed of the dialect name and the 
 the former provided via the dialect and the latter provided as the second
 template parameter to the <code>Op</code> class.</p><h3 id=operation-documentation>Operation documentation</h3><p>This includes both an one-line <code>summary</code> and a longer human-readable
 <code>description</code>. They will be used to drive automatic generation of dialect
-documentation. They need to be provided in the operation's definition body:</p><pre><code class=language-tablegen data-lang=tablegen>let summary = &quot;...&quot;;
+documentation. They need to be provided in the operation&rsquo;s definition body:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;...&#34;</span><span class=p>;</span>
 
-let description = [{
-...
-}];
-</code></pre><p><code>description</code> should be written in Markdown syntax.</p><p>Placing the documentation at the beginning is recommended since
+<span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>...
+</span><span class=s>}]</span><span class=p>;</span>
+</code></pre></div><p><code>description</code> should be written in Markdown syntax.</p><p>Placing the documentation at the beginning is recommended since
 it helps in understanding the operation.</p><blockquote><ul><li>Place documentation at the beginning of the operation definition</li><li>The summary should be short and concise. It should be a one-liner without
 trailing punctuation. Put expanded explanation in description.</li></ul></blockquote><h3 id=operation-arguments>Operation arguments</h3><p>There are two kinds of arguments: operands and attributes. Operands are runtime
 values produced by other ops; while attributes are compile-time known constant
@@ -111,13 +111,13 @@ values, including two categories:</p><ol><li>Natural attributes: these attribute
 but are instead derived from information of the operation. E.g., the output
 shape of type. This is mostly used for convenience interface generation or
 interaction with other frameworks/translation.</li></ol><p>Both operands and attributes are specified inside the <code>dag</code>-typed <code>arguments</code>,
-led by <code>ins</code>:</p><pre><code class=language-tablegen data-lang=tablegen>let arguments = (ins
-  &lt;type-constraint&gt;:$&lt;operand-name&gt;,
-  ...
-  &lt;attr-constraint&gt;:$&lt;attr-name&gt;,
-  ...
-);
-</code></pre><p>Here <code>&lt;type-constraint></code> is a TableGen <code>def</code> from the <code>TypeConstraint</code> class
+led by <code>ins</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
+  <span class=p>&lt;</span><span class=nv>type</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>operand</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+  <span class=p>&lt;</span><span class=nv>attr</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>attr</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>)</span><span class=p>;</span>
+</code></pre></div><p>Here <code>&lt;type-constraint></code> is a TableGen <code>def</code> from the <code>TypeConstraint</code> class
 hierarchy. Similarly, <code>&lt;attr-constraint></code> is a TableGen <code>def</code> from the
 <code>AttrConstraint</code> class hierarchy. See
 <a href=#constraints>Constraints</a>
@@ -127,7 +127,7 @@ can mix freely. The relative order of operands themselves matters. From each
 named argument a named getter will be generated that returns the argument with
 the return type (in the case of attributes the return type will be
 constructed from the storage type, while for operands it will be <code>Value</code>). Each
-attribute's raw value (e.g., as stored) can also be accessed via generated
+attribute&rsquo;s raw value (e.g., as stored) can also be accessed via generated
 <code>&lt;name>Attr</code> getters for use in transformation passes where the more user
 friendly return type is less suitable.</p><p>All the arguments should be named to 1) provide documentation, 2) drive
 auto-generation of getter methods, 3) provide a handle to reference for other
@@ -150,14 +150,14 @@ example, a 32-bit integer attribute whose minimum value must be 10 can be
 expressed as <code>Confined&lt;I32Attr, [IntMinValue&lt;10>]></code>.</p><p>Right now, the following primitive constraints are supported:</p><ul><li><code>IntMinValue&lt;N></code>: Specifying an integer attribute to be greater than or
 equal to <code>N</code></li><li><code>IntMaxValue&lt;N></code>: Specifying an integer attribute to be less than or equal
 to <code>N</code></li><li><code>ArrayMinCount&lt;N></code>: Specifying an array attribute to have at least <code>N</code>
-elements</li><li><code>IntArrayNthElemEq&lt;I, N></code>: Specifying an integer array attribute's <code>I</code>-th
-element to be equal to <code>N</code></li><li><code>IntArrayNthElemMinValue&lt;I, N></code>: Specifying an integer array attribute's
+elements</li><li><code>IntArrayNthElemEq&lt;I, N></code>: Specifying an integer array attribute&rsquo;s <code>I</code>-th
+element to be equal to <code>N</code></li><li><code>IntArrayNthElemMinValue&lt;I, N></code>: Specifying an integer array attribute&rsquo;s
 <code>I</code>-th element to be greater than or equal to <code>N</code></li></ul><p>TODO: Design and implement more primitive constraints</p><h3 id=operation-results>Operation results</h3><p>Similar to operands, results are specified inside the <code>dag</code>-typed <code>results</code>, led
-by <code>outs</code>:</p><pre><code class=language-tablegen data-lang=tablegen>let results = (outs
-  &lt;type-constraint&gt;:$&lt;result-name&gt;,
-  ...
-);
-</code></pre><h4 id=variadic-results>Variadic results</h4><p>Similar to variadic operands, <code>Variadic&lt;...></code> can also be used for results.
+by <code>outs</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span>
+  <span class=p>&lt;</span><span class=nv>type</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>result</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>)</span><span class=p>;</span>
+</code></pre></div><h4 id=variadic-results>Variadic results</h4><p>Similar to variadic operands, <code>Variadic&lt;...></code> can also be used for results.
 And similarly, <code>SameVariadicResultSize</code> for multiple variadic results in the
 same operation.</p><h3 id=operation-traits-and-constraints>Operation traits and constraints</h3><p>Traits are operation properties that affect syntax or semantics. MLIR C++
 models various traits in the <code>mlir::OpTrait</code> namespace.</p><p>Both operation traits,
@@ -176,11 +176,11 @@ from using pre-existing interfaces in the C++ API, the ODS framework also
 provides a simplified mechanism for defining such interfaces; that removes much
 of the boilerplate necessary.</p><p>Providing a definition of the <code>OpInterface</code> class will auto-generate the C++
 classes for the interface. An <code>OpInterface</code> includes a name, for the C++ class,
-a description, and a list of interface methods.</p><pre><code class=language-tablegen data-lang=tablegen>def MyInterface : OpInterface&lt;&quot;MyInterface&quot;&gt; {
-  let description = ...;
-  let methods = [...];
-}
-</code></pre><p>There are two types of methods that can be used with an interface,
+a description, and a list of interface methods.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MyInterface</span> <span class=p>:</span> <span class=nv>OpInterface</span><span class=p>&lt;</span><span class=s>&#34;MyInterface&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>methods</span> <span class=p>=</span> <span class=p>[</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>]</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>There are two types of methods that can be used with an interface,
 <code>InterfaceMethod</code> and <code>StaticInterfaceMethod</code>. They are both comprised of the
 same core components, with the distinction that <code>StaticInterfaceMethod</code> models a
 static method on the derived operation.</p><p>An <code>InterfaceMethod</code> is comprised of the following components:</p><ul><li>Description<ul><li>A string description of what this method does and its invariants.</li></ul></li><li>ReturnType<ul><li>A string corresponding to the C++ return type of the method.</li></ul></li><li>MethodName<ul><li>A string corresponding to the desired name of the method.</li></ul></li><li>Arguments (Optional)<ul><li>A dag of strings that correspond to a C++ type and variable name
@@ -193,78 +193,78 @@ other
 method.</li><li><code>ConcreteOp</code> is an implicitly defined typename that can be used to refer
 to the type of the derived operation currently being operated on.</li></ul></li></ul><p>ODS also allows generating the declarations for the <code>InterfaceMethod</code> of the op
 if one specifies the interface with <code>DeclareOpInterfaceMethods</code> (see example
-below).</p><p>Examples:</p><pre><code class=language-tablegen data-lang=tablegen>def MyInterface : OpInterface&lt;&quot;MyInterface&quot;&gt; {
-  let description = [{
-    My interface is very interesting. ...
-  }];
+below).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MyInterface</span> <span class=p>:</span> <span class=nv>OpInterface</span><span class=p>&lt;</span><span class=s>&#34;MyInterface&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>    My interface is very interesting. ...
+</span><span class=s>  }]</span><span class=p>;</span>
 
-  let methods = [
-    // A simple non-static method with no inputs.
-    InterfaceMethod&lt;&quot;'foo' is a non-static method with no inputs.&quot;,
-      &quot;unsigned&quot;, &quot;foo&quot;
-    &gt;,
+  <span class=k>let</span> <span class=nv>methods</span> <span class=p>=</span> <span class=p>[</span>
+    <span class=c>// A simple non-static method with no inputs.
+</span><span class=c></span>    <span class=nv>InterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;&#39;foo&#39; is a non-static method with no inputs.&#34;</span><span class=p>,</span>
+      <span class=s>&#34;unsigned&#34;</span><span class=p>,</span> <span class=s>&#34;foo&#34;</span>
+    <span class=p>&gt;</span><span class=p>,</span>
 
-    // A new non-static method accepting an input argument.
-    InterfaceMethod&lt;&quot;/*insert doc here*/&quot;,
-      &quot;Value &quot;, &quot;bar&quot;, (ins &quot;unsigned&quot;:$i)
-    &gt;,
+    <span class=c>// A new non-static method accepting an input argument.
+</span><span class=c></span>    <span class=nv>InterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;/*insert doc here*/&#34;</span><span class=p>,</span>
+      <span class=s>&#34;Value &#34;</span><span class=p>,</span> <span class=s>&#34;bar&#34;</span><span class=p>,</span> <span class=p>(</span><span class=nv>ins</span> <span class=s>&#34;unsigned&#34;</span><span class=p>:</span><span class=nv>$i</span><span class=p>)</span>
+    <span class=p>&gt;</span><span class=p>,</span>
 
-    // Query a static property of the derived operation.
-    StaticInterfaceMethod&lt;&quot;'fooStatic' is a static method with no inputs.&quot;,
-      &quot;unsigned&quot;, &quot;fooStatic&quot;
-    &gt;,
+    <span class=c>// Query a static property of the derived operation.
+</span><span class=c></span>    <span class=nv>StaticInterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;&#39;fooStatic&#39; is a static method with no inputs.&#34;</span><span class=p>,</span>
+      <span class=s>&#34;unsigned&#34;</span><span class=p>,</span> <span class=s>&#34;fooStatic&#34;</span>
+    <span class=p>&gt;</span><span class=p>,</span>
 
-    // Provide the definition of a static interface method.
-    // Note: `ConcreteOp` corresponds to the derived operation typename.
-    StaticInterfaceMethod&lt;&quot;/*insert doc here*/&quot;,
-      &quot;Operation *&quot;, &quot;create&quot;, (ins &quot;OpBuilder &amp;&quot;:$builder, &quot;Location&quot;:$loc), [{
-        return builder.create&lt;ConcreteOp&gt;(loc);
-    }]&gt;,
+    <span class=c>// Provide the definition of a static interface method.
+</span><span class=c></span>    <span class=c>// Note: `ConcreteOp` corresponds to the derived operation typename.
+</span><span class=c></span>    <span class=nv>StaticInterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;/*insert doc here*/&#34;</span><span class=p>,</span>
+      <span class=s>&#34;Operation *&#34;</span><span class=p>,</span> <span class=s>&#34;create&#34;</span><span class=p>,</span> <span class=p>(</span><span class=nv>ins</span> <span class=s>&#34;OpBuilder &amp;&#34;</span><span class=p>:</span><span class=nv>$builder</span><span class=p>,</span> <span class=s>&#34;Location&#34;</span><span class=p>:</span><span class=nv>$loc</span><span class=p>)</span><span class=p>,</span> <span class=s>[{
+</span><span class=s>        return builder.create&lt;ConcreteOp&gt;(loc);
+</span><span class=s>    }]</span><span class=p>&gt;</span><span class=p>,</span>
 
-    // Provide a definition of the non-static method.
-    // Note: `op` corresponds to the derived operation variable.
-    InterfaceMethod&lt;&quot;/*insert doc here*/&quot;,
-      &quot;unsigned&quot;, &quot;getNumInputsAndOutputs&quot;, (ins), [{
-        return op.getNumInputs() + op.getNumOutputs();
-    }]&gt;,
+    <span class=c>// Provide a definition of the non-static method.
+</span><span class=c></span>    <span class=c>// Note: `op` corresponds to the derived operation variable.
+</span><span class=c></span>    <span class=nv>InterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;/*insert doc here*/&#34;</span><span class=p>,</span>
+      <span class=s>&#34;unsigned&#34;</span><span class=p>,</span> <span class=s>&#34;getNumInputsAndOutputs&#34;</span><span class=p>,</span> <span class=p>(</span><span class=nv>ins</span><span class=p>)</span><span class=p>,</span> <span class=s>[{
+</span><span class=s>        return op.getNumInputs() + op.getNumOutputs();
+</span><span class=s>    }]</span><span class=p>&gt;</span><span class=p>,</span>
 
-    // Provide only a default definition of the method.
-    // Note: `ConcreteOp` corresponds to the derived operation typename.
-    InterfaceMethod&lt;&quot;/*insert doc here*/&quot;,
-      &quot;unsigned&quot;, &quot;getNumInputsAndOutputs&quot;, (ins), /*methodBody=*/[{}], [{
-        ConcreteOp op = cast&lt;ConcreteOp&gt;(getOperation());
-        return op.getNumInputs() + op.getNumOutputs();
-    }]&gt;,
-  ];
-}
+    <span class=c>// Provide only a default definition of the method.
+</span><span class=c></span>    <span class=c>// Note: `ConcreteOp` corresponds to the derived operation typename.
+</span><span class=c></span>    <span class=nv>InterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;/*insert doc here*/&#34;</span><span class=p>,</span>
+      <span class=s>&#34;unsigned&#34;</span><span class=p>,</span> <span class=s>&#34;getNumInputsAndOutputs&#34;</span><span class=p>,</span> <span class=p>(</span><span class=nv>ins</span><span class=p>)</span><span class=p>,</span> <span class=err>/</span><span class=p>*</span><span class=nv>methodBody</span><span class=p>=</span><span class=p>*</span><span class=err>/</span><span class=s>[{}]</span><span class=p>,</span> <span class=s>[{
+</span><span class=s>        ConcreteOp op = cast&lt;ConcreteOp&gt;(getOperation());
+</span><span class=s>        return op.getNumInputs() + op.getNumOutputs();
+</span><span class=s>    }]</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=p>]</span><span class=p>;</span>
+<span class=p>}</span>
 
-// Interfaces can optionally be wrapped inside DeclareOpInterfaceMethods. This
-// would result in autogenerating declarations for members `foo`, `bar` and
-// `fooStatic`. Methods with bodies are not declared inside the op
-// declaration but instead handled by the op interface trait directly.
-def OpWithInferTypeInterfaceOp : Op&lt;...
-    [DeclareOpInterfaceMethods&lt;MyInterface&gt;]&gt; { ... }
-</code></pre><p>A verification method can also be specified on the <code>OpInterface</code> by setting
+<span class=c>// Interfaces can optionally be wrapped inside DeclareOpInterfaceMethods. This
+</span><span class=c></span><span class=c>// would result in autogenerating declarations for members `foo`, `bar` and
+</span><span class=c></span><span class=c>// `fooStatic`. Methods with bodies are not declared inside the op
+</span><span class=c></span><span class=c>// declaration but instead handled by the op interface trait directly.
+</span><span class=c></span><span class=k>def</span> <span class=nv>OpWithInferTypeInterfaceOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=p>.</span><span class=p>.</span><span class=p>.</span>
+    <span class=p>[</span><span class=nv>DeclareOpInterfaceMethods</span><span class=p>&lt;</span><span class=nv>MyInterface</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>}</span>
+</code></pre></div><p>A verification method can also be specified on the <code>OpInterface</code> by setting
 <code>verify</code>. Setting <code>verify</code> results in the generated trait having a <code>verifyTrait</code>
 method that is applied to all operations implementing the trait.</p><h3 id=builder-methods>Builder methods</h3><p>For each operation, there are a few builders automatically generated based on
-the arguments and returns types. For example, given the following op definition:</p><pre><code class=language-tablegen data-lang=tablegen>def MyOp : ... {
-  let arguments = (ins
-    I32:$i32_operand,
-    F32:$f32_operand,
-    ...,
+the arguments and returns types. For example, given the following op definition:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MyOp</span> <span class=p>:</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
+    <span class=nv>I32</span><span class=p>:</span><span class=nv>$i32_operand</span><span class=p>,</span>
+    <span class=nv>F32</span><span class=p>:</span><span class=nv>$f32_operand</span><span class=p>,</span>
+    <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>,</span>
 
-    I32Attr:$i32_attr,
-    F32Attr:$f32_attr,
-    ...
-  );
+    <span class=nv>I32Attr</span><span class=p>:</span><span class=nv>$i32_attr</span><span class=p>,</span>
+    <span class=nv>F32Attr</span><span class=p>:</span><span class=nv>$f32_attr</span><span class=p>,</span>
+    <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+  <span class=p>)</span><span class=p>;</span>
 
-  let results = (outs
-    I32:$i32_result,
-    F32:$f32_result,
-    ...
-  );
-}
-</code></pre><p>The following builders are generated:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>// All result-types/operands/attributes have one aggregate parameter.
+  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span>
+    <span class=nv>I32</span><span class=p>:</span><span class=nv>$i32_result</span><span class=p>,</span>
+    <span class=nv>F32</span><span class=p>:</span><span class=nv>$f32_result</span><span class=p>,</span>
+    <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+  <span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>The following builders are generated:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>// All result-types/operands/attributes have one aggregate parameter.
 </span><span class=c1></span><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>odsBuilder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>odsState</span><span class=p>,</span>
                   <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Type</span><span class=o>&gt;</span> <span class=n>resultTypes</span><span class=p>,</span>
                   <span class=n>ValueRange</span> <span class=n>operands</span><span class=p>,</span>
@@ -302,7 +302,7 @@ the arguments and returns types. For example, given the following op definition:
 </span></code></pre></div><p>The first form provides basic uniformity so that we can create ops using the
 same form regardless of the exact op. This is particularly useful for
 implementing declarative pattern rewrites.</p><p>The second and third forms are good for use in manually written code given that
-they provide better guarantee via signatures.</p><p>The third form will be generated if any of the op's attribute has different
+they provide better guarantee via signatures.</p><p>The third form will be generated if any of the op&rsquo;s attribute has different
 <code>Attr.returnType</code> from <code>Attr.storageType</code> and we know how to build an attribute
 from an unwrapped value (i.e., <code>Attr.constBuilderCall</code> is defined.)
 Additionally, for the third form, if an attribute appearing later in the
@@ -313,7 +313,7 @@ placed at the end of the <code>arguments</code> list to leverage this feature. (
 behavior is essentially due to C++ function parameter default value placement
 restrictions.) Otherwise, the builder of the third form will still be generated
 but default values for the attributes not at the end of the <code>arguments</code> list
-will not be supplied in the builder's signature.</p><p>And there may potentially exist other builders depending on the specific op;
+will not be supplied in the builder&rsquo;s signature.</p><p>And there may potentially exist other builders depending on the specific op;
 please refer to the
 <a href=#run-mlir-tblgen-to-see-the-generated-content>generated C++ file</a>
 for the
@@ -322,37 +322,37 @@ convenience build methods with <code>OpBuilder</code>.</p><p><code>OpBuilder</co
 method body. They are separated because we need to generate op declaration and
 definition into separate files. The parameter list should <em>include</em> <code>Builder *builder, OperationState &state</code>. If the <code>body</code> is not provided, <em>only</em> the
 builder declaration will be generated; this provides a way to define complicated
-builders entirely in C++ files.</p><p>For example, for the following op:</p><pre><code class=language-tablegen data-lang=tablegen>def MyOp : Op&lt;&quot;my_op&quot;, []&gt; {
-  let arguments = (ins F32Attr:$attr);
+builders entirely in C++ files.</p><p>For example, for the following op:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MyOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;my_op&#34;</span><span class=p>,</span> <span class=p>[</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F32Attr</span><span class=p>:</span><span class=nv>$attr</span><span class=p>)</span><span class=p>;</span>
 
-  let results = (outs);
-}
-</code></pre><p>If we want to define a builder with a default value for the only attribute, we
-can add into <code>MyOp</code>:</p><pre><code class=language-tablegen data-lang=tablegen>def MyOp : ... {
-  ...
+  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span><span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>If we want to define a builder with a default value for the only attribute, we
+can add into <code>MyOp</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MyOp</span> <span class=p>:</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>{</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
-  let builders = [
-    OpBuilder&lt;&quot;Builder *builder, OperationState &amp;state, float val = 0.5f&quot;, [{
-      state.addAttribute(&quot;attr&quot;, builder-&gt;getF32FloatAttr(val));
-    }]&gt;
-  ];
-}
-</code></pre><p>The generated builder will look like:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>state</span><span class=p>,</span> <span class=kt>float</span> <span class=n>val</span> <span class=o>=</span> <span class=mf>0.5f</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>builders</span> <span class=p>=</span> <span class=p>[</span>
+    <span class=nv>OpBuilder</span><span class=p>&lt;</span><span class=s>&#34;Builder *builder, OperationState &amp;state, float val = 0.5f&#34;</span><span class=p>,</span> <span class=s>[{
+</span><span class=s>      state.addAttribute(&#34;attr&#34;, builder-&gt;getF32FloatAttr(val));
+</span><span class=s>    }]</span><span class=p>&gt;</span>
+  <span class=p>]</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>The generated builder will look like:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>state</span><span class=p>,</span> <span class=kt>float</span> <span class=n>val</span> <span class=o>=</span> <span class=mf>0.5f</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>state</span><span class=p>.</span><span class=n>addAttribute</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>attr</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>builder</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getF32FloatAttr</span><span class=p>(</span><span class=n>val</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=custom-parser-and-printer-methods>Custom parser and printer methods</h3><p>Functions to parse and print the operation's custom assembly form.</p><h3 id=custom-verifier-code>Custom verifier code</h3><p>Verification code will be automatically generated for
+</code></pre></div><h3 id=custom-parser-and-printer-methods>Custom parser and printer methods</h3><p>Functions to parse and print the operation&rsquo;s custom assembly form.</p><h3 id=custom-verifier-code>Custom verifier code</h3><p>Verification code will be automatically generated for
 <a href=#constraints>constraints</a>
 specified on various entities of the op. To
-perform <em>additional</em> verification, you can use</p><pre><code class=language-tablegen data-lang=tablegen>let verifier = [{
-  ...
-}];
-</code></pre><p>Code placed in <code>verifier</code> will be called after the auto-generated verification
+perform <em>additional</em> verification, you can use</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>verifier</span> <span class=p>=</span> <span class=s>[{
+</span><span class=s>  ...
+</span><span class=s>}]</span><span class=p>;</span>
+</code></pre></div><p>Code placed in <code>verifier</code> will be called after the auto-generated verification
 code.</p><h3 id=hascanonicalizer><code>hasCanonicalizer</code></h3><p>This boolean field indicate whether canonicalization patterns have been defined
 for this operation. If it is <code>1</code>, then <code>::getCanonicalizationPatterns()</code> should
 be defined.</p><h3 id=hasfolder><code>hasFolder</code></h3><p>This boolean field indicate whether general folding rules have been defined
 for this operation. If it is <code>1</code>, then <code>::fold()</code> should be defined.</p><h3 id=extra-declarations>Extra declarations</h3><p>One of the goals of table-driven op definition is to auto-generate as much logic
 and methods needed for each op as possible. With that said, there will always be
-long-tail cases that won't be covered. For such cases, you can use
+long-tail cases that won&rsquo;t be covered. For such cases, you can use
 <code>extraClassDeclaration</code>. Code in <code>extraClassDeclaration</code> will be copied
 literally to the generated C++ op class.</p><p>Note that <code>extraClassDeclaration</code> is a mechanism intended for long-tail cases
 by power users; for not-yet-implemented widely-applicable cases, improving the
@@ -370,11 +370,11 @@ defining <code>GET_OP_LIST</code>.</p><h4 id=class-name-and-namespaces>Class nam
 TableGen with dialect prefix removed. The first <code>_</code> serves as the delimiter.
 For example, for <code>def TF_AddOp</code>, the C++ class name would be <code>AddOp</code>.
 We remove the <code>TF</code> prefix because it is for scoping ops; other dialects
-may as well define their own <code>AddOp</code>s.</p><p>The namespaces of the generated C++ class will come from the dialect's
-<code>cppNamespace</code> field. For example, if a dialect's <code>cppNamespace</code> is <code>A::B</code>,
+may as well define their own <code>AddOp</code>s.</p><p>The namespaces of the generated C++ class will come from the dialect&rsquo;s
+<code>cppNamespace</code> field. For example, if a dialect&rsquo;s <code>cppNamespace</code> is <code>A::B</code>,
 then an op of that dialect will be placed in
 <code>namespace A { namespace B { ... } }</code>. If a dialect does not specify a
-<code>cppNamespace</code>, we then use the dialect's name as the namespace.</p><p>This means the qualified name of the generated C++ class does not necessarily
+<code>cppNamespace</code>, we then use the dialect&rsquo;s name as the namespace.</p><p>This means the qualified name of the generated C++ class does not necessarily
 match exactly with the operation name as explained in
 <a href=#operation-name>Operation name</a>
 . This is to allow flexible naming to satisfy
@@ -401,10 +401,10 @@ verification and graph operation matching are all based on satisfying
 constraints. So both the operation definition and rewrite rules specification
 significantly involve writing constraints. We have the <code>Constraint</code> class in
 <a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
-has the common base class for all constraints.</p><p>An operation's constraint can cover different range; it may</p><ul><li>Only concern a single attribute (e.g. being an 32-bit integer greater than 5),</li><li>Multiple operands and results (e.g., the 1st result's shape must be the same
+has the common base class for all constraints.</p><p>An operation&rsquo;s constraint can cover different range; it may</p><ul><li>Only concern a single attribute (e.g. being an 32-bit integer greater than 5),</li><li>Multiple operands and results (e.g., the 1st result&rsquo;s shape must be the same
 as the 1st operand), or</li><li>Intrinsic to the operation itself (e.g., having no side effect).</li></ul><p>We call them as single-entity constraint, multi-entity constraint, and traits,
 respectively.</p><h3 id=single-entity-constraint>Single-entity constraint</h3><p>Constraints scoped to a single operand, attribute, or result are specified at
-the entity's declaration place as described in
+the entity&rsquo;s declaration place as described in
 <a href=#operation-arguments>Operation arguments</a>
 and
 <a href=#operation-results>Operation results</a>
@@ -450,10 +450,10 @@ access common build methods.</li><li><code>$_op</code> will be replaced by the c
 information of the current operation.</li><li><code>$_self</code> will be replaced with the entity this predicate is attached to.
 E.g., <code>BoolAttr</code> is an attribute constraint that wraps a
 <code>CPred&lt;"$_self.isa&lt;BoolAttr>()"></code>. Then for <code>F32:$attr</code>,<code>$_self</code> will be
-replaced by <code>$attr</code>. For type constraints, it's a little bit special since
+replaced by <code>$attr</code>. For type constraints, it&rsquo;s a little bit special since
 we want the constraints on each type definition reads naturally and we want
 to attach type constraints directly to an operand/result, <code>$_self</code> will be
-replaced by the operand/result's type. E.g., for <code>F32</code> in <code>F32:$operand</code>, its
+replaced by the operand/result&rsquo;s type. E.g., for <code>F32</code> in <code>F32:$operand</code>, its
 <code>$_self</code> will be expanded as <code>getOperand(...).getType()</code>.</li></ul><p>TODO(b/130663252): Reconsider the leading symbol for special placeholders.
 Eventually we want to allow referencing operand/result $-names; such $-names
 can start with underscore.</p><p>For example, to write an attribute <code>attr</code> is an <code>IntegerAttr</code>, in C++ you can
@@ -462,14 +462,14 @@ just call <code>attr.isa&lt;IntegerAttr>()</code>. The code can be wrapped in a 
 replaced by the current attribute <code>attr</code> at expansion time.</p><p>For more complicated predicates, you can wrap it in a single <code>CPred</code>, or you
 can use predicate combiners to combine them. For example, to write the
 constraint that an attribute <code>attr</code> is a 32-bit or 64-bit integer, you can
-write it as</p><pre><code class=language-tablegen data-lang=tablegen>And&lt;[
-  CPred&lt;&quot;$_self.isa&lt;IntegerAttr&gt;()&quot;&gt;,
-  Or&lt;[
-    CPred&lt;&quot;$_self.cast&lt;IntegerAttr&gt;().getType().isInteger(32)&quot;&gt;,
-    CPred&lt;&quot;$_self.cast&lt;IntegerAttr&gt;().getType().isInteger(64)&quot;&gt;
-  ]&gt;
-]&gt;
-</code></pre><p>(Note that the above is just to show with a familiar example how you can use
+write it as</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=nv>And</span><span class=p>&lt;</span><span class=p>[</span>
+  <span class=nv>CPred</span><span class=p>&lt;</span><span class=s>&#34;$_self.isa&lt;IntegerAttr&gt;()&#34;</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=nv>Or</span><span class=p>&lt;</span><span class=p>[</span>
+    <span class=nv>CPred</span><span class=p>&lt;</span><span class=s>&#34;$_self.cast&lt;IntegerAttr&gt;().getType().isInteger(32)&#34;</span><span class=p>&gt;</span><span class=p>,</span>
+    <span class=nv>CPred</span><span class=p>&lt;</span><span class=s>&#34;$_self.cast&lt;IntegerAttr&gt;().getType().isInteger(64)&#34;</span><span class=p>&gt;</span>
+  <span class=p>]</span><span class=p>&gt;</span>
+<span class=p>]</span><span class=p>&gt;</span>
+</code></pre></div><p>(Note that the above is just to show with a familiar example how you can use
 <code>CPred</code> and predicate combiners to write complicated predicates. For integer
 attributes specifically,
 <a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
@@ -478,16 +478,16 @@ already defines <code>I32Attr</code> and
 combiners, you can also write it as a normal C++ function and use the <code>CPred</code>
 as a way to &ldquo;invoke&rdquo; the function. For example, to verify an attribute <code>attr</code>
 has some property, you can write a C++ function like</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=kt>bool</span> <span class=nf>HasSomeProperty</span><span class=p>(</span><span class=n>Attribute</span> <span class=n>attr</span><span class=p>)</span> <span class=p>{</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>}</span>
-</code></pre></div><p>and then define the op as:</p><pre><code class=language-tablegen data-lang=tablegen>def HasSomeProperty : AttrConstraint&lt;CPred&lt;&quot;HasSomeProperty($_self)&quot;&gt;,
-                                     &quot;has some property&quot;&gt;;
+</code></pre></div><p>and then define the op as:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>HasSomeProperty</span> <span class=p>:</span> <span class=nv>AttrConstraint</span><span class=p>&lt;</span><span class=nv>CPred</span><span class=p>&lt;</span><span class=s>&#34;HasSomeProperty($_self)&#34;</span><span class=p>&gt;</span><span class=p>,</span>
+                                     <span class=s>&#34;has some property&#34;</span><span class=p>&gt;</span><span class=p>;</span>
 
-def MyOp : Op&lt;...&gt; {
-  let arguments = (ins
-    ...
-    HasSomeProperty:$attr
-  );
-}
-</code></pre><p>As to whether we should define the predicate using a single <code>CPred</code> wrapping
+<span class=k>def</span> <span class=nv>MyOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
+    <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+    <span class=nv>HasSomeProperty</span><span class=p>:</span><span class=nv>$attr</span>
+  <span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>As to whether we should define the predicate using a single <code>CPred</code> wrapping
 the whole expression, multiple <code>CPred</code>s with predicate combiners, or a single
 <code>CPred</code> &ldquo;invoking&rdquo; a function, there are no clear-cut criteria. Defining using
 <code>CPred</code> and predicate combiners is preferable since it exposes more information
@@ -510,16 +510,16 @@ interaction between <code>*EnumAttr</code>s and their C++ consumers, the
 TableGen backend can generate a few common utilities: a
 C++ enum class, <code>llvm::DenseMapInfo</code> for the enum class, conversion functions
 from/to strings. This is controlled via the <code>-gen-enum-decls</code> and
-<code>-gen-enum-defs</code> command-line options of <code>mlir-tblgen</code>.</p><p>For example, given the following <code>EnumAttr</code>:</p><pre><code class=language-tablegen data-lang=tablegen>def Case15: I32EnumAttrCase&lt;&quot;Case15&quot;, 15&gt;;
-def Case20: I32EnumAttrCase&lt;&quot;Case20&quot;, 20&gt;;
+<code>-gen-enum-defs</code> command-line options of <code>mlir-tblgen</code>.</p><p>For example, given the following <code>EnumAttr</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>Case15</span><span class=p>:</span> <span class=nv>I32EnumAttrCase</span><span class=p>&lt;</span><span class=s>&#34;Case15&#34;</span><span class=p>,</span> <span class=m>15</span><span class=p>&gt;</span><span class=p>;</span>
+<span class=k>def</span> <span class=nv>Case20</span><span class=p>:</span> <span class=nv>I32EnumAttrCase</span><span class=p>&lt;</span><span class=s>&#34;Case20&#34;</span><span class=p>,</span> <span class=m>20</span><span class=p>&gt;</span><span class=p>;</span>
 
-def MyIntEnum: I32EnumAttr&lt;&quot;MyIntEnum&quot;, &quot;An example int enum&quot;,
-                           [Case15, Case20]&gt; {
-  let cppNamespace = &quot;Outer::Inner&quot;;
-  let stringToSymbolFnName = &quot;ConvertToEnum&quot;;
-  let symbolToStringFnName = &quot;ConvertToString&quot;;
-}
-</code></pre><p>The following will be generated via <code>mlir-tblgen -gen-enum-decls</code>:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>namespace</span> <span class=n>Outer</span> <span class=p>{</span>
+<span class=k>def</span> <span class=nv>MyIntEnum</span><span class=p>:</span> <span class=nv>I32EnumAttr</span><span class=p>&lt;</span><span class=s>&#34;MyIntEnum&#34;</span><span class=p>,</span> <span class=s>&#34;An example int enum&#34;</span><span class=p>,</span>
+                           <span class=p>[</span><span class=nv>Case15</span><span class=p>,</span> <span class=nv>Case20</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
+  <span class=k>let</span> <span class=nv>cppNamespace</span> <span class=p>=</span> <span class=s>&#34;Outer::Inner&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>stringToSymbolFnName</span> <span class=p>=</span> <span class=s>&#34;ConvertToEnum&#34;</span><span class=p>;</span>
+  <span class=k>let</span> <span class=nv>symbolToStringFnName</span> <span class=p>=</span> <span class=s>&#34;ConvertToString&#34;</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>The following will be generated via <code>mlir-tblgen -gen-enum-decls</code>:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>namespace</span> <span class=n>Outer</span> <span class=p>{</span>
 <span class=k>namespace</span> <span class=n>Inner</span> <span class=p>{</span>
 <span class=c1>// An example int enum
 </span><span class=c1></span><span class=k>enum</span> <span class=k>class</span> <span class=nc>MyIntEnum</span> <span class=o>:</span> <span class=kt>uint32_t</span> <span class=p>{</span>
@@ -584,14 +584,14 @@ def MyIntEnum: I32EnumAttr&lt;&quot;MyIntEnum&quot;, &quot;An example int enum&q
 
 <span class=p>}</span> <span class=c1>// namespace Inner
 </span><span class=c1></span><span class=p>}</span> <span class=c1>// namespace Outer
-</span></code></pre></div><p>Similarly for the following <code>BitEnumAttr</code> definition:</p><pre><code class=language-tablegen data-lang=tablegen>def None: BitEnumAttrCase&lt;&quot;None&quot;, 0x0000&gt;;
-def Bit1: BitEnumAttrCase&lt;&quot;Bit1&quot;, 0x0001&gt;;
-def Bit2: BitEnumAttrCase&lt;&quot;Bit2&quot;, 0x0002&gt;;
-def Bit3: BitEnumAttrCase&lt;&quot;Bit3&quot;, 0x0004&gt;;
+</span></code></pre></div><p>Similarly for the following <code>BitEnumAttr</code> definition:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>None</span><span class=p>:</span> <span class=nv>BitEnumAttrCase</span><span class=p>&lt;</span><span class=s>&#34;None&#34;</span><span class=p>,</span> <span class=nv>0x0000</span><span class=p>&gt;</span><span class=p>;</span>
+<span class=k>def</span> <span class=nv>Bit1</span><span class=p>:</span> <span class=nv>BitEnumAttrCase</span><span class=p>&lt;</span><span class=s>&#34;Bit1&#34;</span><span class=p>,</span> <span class=nv>0x0001</span><span class=p>&gt;</span><span class=p>;</span>
+<span class=k>def</span> <span class=nv>Bit2</span><span class=p>:</span> <span class=nv>BitEnumAttrCase</span><span class=p>&lt;</span><span class=s>&#34;Bit2&#34;</span><span class=p>,</span> <span class=nv>0x0002</span><span class=p>&gt;</span><span class=p>;</span>
+<span class=k>def</span> <span class=nv>Bit3</span><span class=p>:</span> <span class=nv>BitEnumAttrCase</span><span class=p>&lt;</span><span class=s>&#34;Bit3&#34;</span><span class=p>,</span> <span class=nv>0x0004</span><span class=p>&gt;</span><span class=p>;</span>
 
-def MyBitEnum: BitEnumAttr&lt;&quot;MyBitEnum&quot;, &quot;An example bit enum&quot;,
-                           [None, Bit1, Bit2, Bit3]&gt;;
-</code></pre><p>We can have:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>// An example bit enum
+<span class=k>def</span> <span class=nv>MyBitEnum</span><span class=p>:</span> <span class=nv>BitEnumAttr</span><span class=p>&lt;</span><span class=s>&#34;MyBitEnum&#34;</span><span class=p>,</span> <span class=s>&#34;An example bit enum&#34;</span><span class=p>,</span>
+                           <span class=p>[</span><span class=nv>None</span><span class=p>,</span> <span class=nv>Bit1</span><span class=p>,</span> <span class=nv>Bit2</span><span class=p>,</span> <span class=nv>Bit3</span><span class=p>]</span><span class=p>&gt;</span><span class=p>;</span>
+</code></pre></div><p>We can have:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>// An example bit enum
 </span><span class=c1></span><span class=k>enum</span> <span class=k>class</span> <span class=nc>MyBitEnum</span> <span class=o>:</span> <span class=kt>uint32_t</span> <span class=p>{</span>
   <span class=n>None</span> <span class=o>=</span> <span class=mi>0</span><span class=p>,</span>
   <span class=n>Bit1</span> <span class=o>=</span> <span class=mi>1</span><span class=p>,</span>
@@ -708,7 +708,7 @@ providing a typed representation and accessors.</li></ul></li><li><p>The op regi
 <a href=https://llvm.org/docs/TableGen/index.html>TableGen</a>
 and be used to
 generate C++ classes and utility functions
-(builder/verifier/parser/printer).</p><ul><li>TableGen is a modelling specification language used by LLVM's backends
+(builder/verifier/parser/printer).</p><ul><li>TableGen is a modelling specification language used by LLVM&rsquo;s backends
 and fits in well with trait-based modelling. This is an implementation
 decision and there are alternative ways of doing this. But the
 specification language is good for the requirements of modelling the
@@ -716,8 +716,8 @@ traits (as seen from usage in LLVM processor backend modelling) and easy
 to extend, so a practical choice. If another good option comes up, we
 will consider it.</li></ul></li><li><p>MLIR allows both defined and undefined ops.</p><ul><li>Defined ops should have fixed semantics and could have a corresponding
 reference implementation defined using, for example, EDSC.</li><li>Dialects are under full control of the dialect owner and normally live
-with the framework of the dialect.</li></ul></li><li><p>The op's traits (e.g., commutative) are modelled along with the op in the
-registry.</p></li><li><p>The op's operand/return type constraints are modelled along with the op in
+with the framework of the dialect.</li></ul></li><li><p>The op&rsquo;s traits (e.g., commutative) are modelled along with the op in the
+registry.</p></li><li><p>The op&rsquo;s operand/return type constraints are modelled along with the op in
 the registry (see
 <a href=/docs/ShapeInference/>Shape inference</a>
 discussion below),
@@ -731,15 +731,15 @@ of the parser generation.</li></ul></li><li><p>Matching patterns are specified s
 needs to be aware of. Instead there are many different dialects and the
 transformations/legalizations between these dialects form a graph of
 transformations.</li></ul></li><li><p>Reference implementation may be provided along with the op definition.</p><ul><li>The reference implementation may be in terms of either standard ops or
-other reference implementations.</li></ul><p>TODO: document expectation if the dependent op's definition changes.</p></li></ul><h3 id=a-proposal-for-auto-generating-printer-and-parser-methods>A proposal for auto-generating printer and parser methods</h3><p>NOTE: Auto-generating printing/parsing (as explained in the below) has <em>not</em>
+other reference implementations.</li></ul><p>TODO: document expectation if the dependent op&rsquo;s definition changes.</p></li></ul><h3 id=a-proposal-for-auto-generating-printer-and-parser-methods>A proposal for auto-generating printer and parser methods</h3><p>NOTE: Auto-generating printing/parsing (as explained in the below) has <em>not</em>
 been prototyped, and potentially just being able to specify custom printer/
 parser methods are sufficient. This should presumably be influenced by the
 design of the assembler/disassembler logic that LLVM backends get for free
 for machine instructions.</p><p>The custom assembly form of the operation is specified using a string with
 matching operation name, operands and attributes. With the ability
 to express additional information that needs to be parsed to build the
-operation:</p><pre><code class=language-tablegen data-lang=tablegen>tfl.add $lhs, $rhs {fused_activation_function: $fused_activation_function}: ${type(self)}
-</code></pre><ol><li>The output is never shown in the &ldquo;mnemonics&rdquo; string as that is fixed form
+operation:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=nv>tfl</span><span class=p>.</span><span class=nv>add</span> <span class=nv>$lhs</span><span class=p>,</span> <span class=nv>$rhs</span> <span class=p>{</span><span class=nv>fused_activation_function</span><span class=p>:</span> <span class=nv>$fused_activation_function</span><span class=p>}</span><span class=p>:</span> <span class=err>$</span><span class=p>{</span><span class=nv>type</span><span class=p>(</span><span class=nv>self</span><span class=p>)</span><span class=p>}</span>
+</code></pre></div><ol><li>The output is never shown in the &ldquo;mnemonics&rdquo; string as that is fixed form
 and cannot be altered.</li><li>Custom parsing of ops may include some punctuation (e.g., parenthesis).</li><li>The operands/results are added to the created operation in the order that
 they are shown in the input and output dags.</li><li>The <code>${type(self)}</code> operator is used to represent the type of the operator.
 The type of operands can also be queried.</li><li>Attributes names are matched to the placeholders in the mnemonic strings.
