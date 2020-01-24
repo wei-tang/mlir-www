@@ -150,13 +150,13 @@ Currently, only unit strides are supported.</p><p>Examples:</p><pre><code>  %0 =
   %4 = vector.insert_slices %3, [2, 2], [1, 1]
     : tuple&lt;vector&lt;2x2xf32&gt;, vector&lt;2x1xf32&gt;,
             vector&lt;2x2xf32&gt;, vector&lt;2x1xf32&gt;&gt; into vector&lt;4x3xf32&gt;
-</code></pre><h4 id=operands-9>Operands:</h4><ol><li><code>vectors</code>: tuple with any combination of vector of any type values values</li></ol><h4 id=attributes-9>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>sizes</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr><tr><td align=center><code>strides</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-9>Results:</h4><ol><li>«unnamed»: vector of any type values</li></ol><h3 id=vectorinsert_strided_slice-vectorinsertstridedsliceop>vector.insert_strided_slice (vector::InsertStridedSliceOp)</h3><p>strided_slice operation</p><h4 id=description-10>Description:</h4><p>Takes a k-D source vector, an n-D destination vector (n >= k), n-D <code>offsets</code>
-integer array attribute, a k-D <code>strides</code> integer array attribute and inserts
-the k-D source vector as a strided subvector at the proper offset into the
-n-D destination vector.</p><p>At the moment strides must contain only 1s.</p><p>Returns an n-D vector that is a copy of the n-D destination vector in which
+</code></pre><h4 id=operands-9>Operands:</h4><ol><li><code>vectors</code>: tuple with any combination of vector of any type values values</li></ol><h4 id=attributes-9>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>sizes</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr><tr><td align=center><code>strides</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-9>Results:</h4><ol><li>«unnamed»: vector of any type values</li></ol><h3 id=vectorinsert_strided_slice-vectorinsertstridedsliceop>vector.insert_strided_slice (vector::InsertStridedSliceOp)</h3><p>strided_slice operation</p><h4 id=description-10>Description:</h4><p>Takes a k-D source vector, an n-D destination vector (n >= k), n-sized
+<code>offsets</code> integer array attribute, a k-sized <code>strides</code> integer array attribute
+and inserts the k-D source vector as a strided subvector at the proper offset
+into the n-D destination vector.</p><p>At the moment strides must contain only 1s.</p><p>Returns an n-D vector that is a copy of the n-D destination vector in which
 the last k-D dimensions contain the k-D source vector elements strided at
 the proper location as specified by the offsets.</p><p>Examples:</p><pre><code>  %2 = vector.insert_strided_slice %0, %1
-      {offsets : [0, 0, 2], strides : [1, 1]}:
+      {offsets = [0, 0, 2], strides = [1, 1]}:
     vector&lt;2x4xf32&gt; into vector&lt;16x4x8xf32&gt;
 </code></pre><h4 id=operands-10>Operands:</h4><ol><li><code>source</code>: vector of any type values</li><li><code>dest</code>: vector of any type values</li></ol><h4 id=attributes-10>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>offsets</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr><tr><td align=center><code>strides</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-10>Results:</h4><ol><li>«unnamed»: vector of any type values</li></ol><h3 id=vectorouterproduct-vectorouterproductop>vector.outerproduct (vector::OuterProductOp)</h3><p>vector outerproduct with optional fused add</p><h4 id=description-11>Description:</h4><p>Takes 2 1-D vectors and returns the 2-D vector containing the outer product.</p><p>An optional extra 2-D vector argument may be specified in which case the
 operation returns the sum of the outer product and the extra vector. When
@@ -246,13 +246,13 @@ above, all mask values are in the range [0,s_1+t_1)</li></ul><p>Examples:</p><pr
 %2 = vector.shuffle %a, %b[3, 2, 1, 0]
            : vector&lt;2xf32&gt;, vector&lt;2xf32&gt;       ; yields vector&lt;4xf32&gt;
 
-</code></pre><h4 id=operands-14>Operands:</h4><ol><li><code>v1</code>: vector of any type values</li><li><code>v2</code>: vector of any type values</li></ol><h4 id=attributes-14>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>mask</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-14>Results:</h4><ol><li><code>vector</code>: vector of any type values</li></ol><h3 id=vectorstrided_slice-vectorstridedsliceop>vector.strided_slice (vector::StridedSliceOp)</h3><p>strided_slice operation</p><h4 id=description-15>Description:</h4><p>Takes an n-D vector, k-D <code>offsets</code> integer array attribute, a k-D <code>sizes</code>
-integer array attribute, a k-D <code>strides</code> integer array attribute and
-extracts the n-D subvector at the proper offset.</p><p>At the moment strides must contain only 1s.
+</code></pre><h4 id=operands-14>Operands:</h4><ol><li><code>v1</code>: vector of any type values</li><li><code>v2</code>: vector of any type values</li></ol><h4 id=attributes-14>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>mask</code></td><td align=center><code>ArrayAttr</code></td><td>64-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-14>Results:</h4><ol><li><code>vector</code>: vector of any type values</li></ol><h3 id=vectorstrided_slice-vectorstridedsliceop>vector.strided_slice (vector::StridedSliceOp)</h3><p>strided_slice operation</p><h4 id=description-15>Description:</h4><p>Takes an n-D vector, k-D <code>offsets</code> integer array attribute, a k-sized
+<code>sizes</code> integer array attribute, a k-sized <code>strides</code> integer array
+attribute and extracts the n-D subvector at the proper offset.</p><p>At the moment strides must contain only 1s.
 // TODO(ntv) support non-1 strides.</p><p>Returns an n-D vector where the first k-D dimensions match the <code>sizes</code>
 attribute. The returned subvector contains the elements starting at offset
 <code>offsets</code> and ending at <code>offsets + sizes</code>.</p><p>Examples:</p><pre><code>  %1 = vector.strided_slice %0
-      {offsets : [0, 2], sizes : [2, 4], strides : [1, 1]}:
+      {offsets = [0, 2], sizes = [2, 4], strides = [1, 1]}:
     vector&lt;4x8x16xf32&gt; to vector&lt;2x4x16xf32&gt;
 </code></pre><p>// TODO(ntv) Evolve to a range form syntax similar to:
 %1 = vector.strided_slice %0[0:2:1][2:4:1]
