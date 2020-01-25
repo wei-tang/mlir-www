@@ -1,0 +1,18 @@
+digraph "lib/Dialect/SPIRV" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_1a25ec519b6c1121408b67cc33ce3f15 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Dialect" fontname="Helvetica", fontsize="10", URL="dir_1a25ec519b6c1121408b67cc33ce3f15.html"]
+  subgraph clusterdir_58b67dd7741112f4b0604641b143e04b {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_58b67dd7741112f4b0604641b143e04b.html"];
+    dir_58b67dd7741112f4b0604641b143e04b [shape=plaintext label="SPIRV"];
+    dir_14bb1f447617008d51e9ce8fe3011816 [shape=box label="Serialization" color="black" fillcolor="white" style="filled" URL="dir_14bb1f447617008d51e9ce8fe3011816.html"];
+    dir_8371d5346b2fd1f0e31354760ec4869c [shape=box label="Transforms" color="black" fillcolor="white" style="filled" URL="dir_8371d5346b2fd1f0e31354760ec4869c.html"];
+  }
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_8371d5346b2fd1f0e31354760ec4869c->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="12", labeldistance=1.5 headhref="dir_000095_000000.html"];
+  dir_14bb1f447617008d51e9ce8fe3011816->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="28", labeldistance=1.5 headhref="dir_000094_000000.html"];
+}

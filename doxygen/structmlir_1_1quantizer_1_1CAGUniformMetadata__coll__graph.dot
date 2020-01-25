@@ -1,0 +1,29 @@
+digraph "mlir::quantizer::CAGUniformMetadata"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="mlir::quantizer::CAGUniform\lMetadata",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" explicitScaleZeroPoint" ,fontname="Helvetica"];
+  Node2 [label="mlir::quantizer::BasePropagated\lFact\< std::pair\< double, int64_t \> \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1BasePropagatedFact.html"];
+  Node3 -> Node2 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< std::pair\< double,\l int64_t \> \>" ,fontname="Helvetica"];
+  Node3 [label="mlir::quantizer::BasePropagated\lFact\< BinaryReducer \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1BasePropagatedFact.html",tooltip="A fact that can converge through forward propagation alone without the need to track ownership or ind..."];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" disabledCandidateTypes" ,fontname="Helvetica"];
+  Node4 [label="SmallBitVector",height=0.2,width=0.4,color="grey75"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" requiredRange" ,fontname="Helvetica"];
+  Node5 [label="mlir::quantizer::BasePropagated\lFact\< ExpandingMinMaxReducer \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1BasePropagatedFact.html"];
+  Node3 -> Node5 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< ExpandingMinMaxReducer \>" ,fontname="Helvetica"];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" selectedType" ,fontname="Helvetica"];
+  Node6 [label="mlir::quant::QuantizedType",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quant_1_1QuantizedType.html",tooltip="Base class for all quantized types known to this dialect. "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mlir::Type",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Type.html",tooltip="Instances of the Type class are immutable and uniqued. "];
+  Node8 -> Node7 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" impl" ,fontname="Helvetica"];
+  Node8 [label="mlir::TypeStorage",height=0.2,width=0.4,color="black",URL="$classmlir_1_1TypeStorage.html",tooltip="Base storage class appearing in a Type. "];
+  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mlir::StorageUniquer\l::BaseStorage",height=0.2,width=0.4,color="black",URL="$classmlir_1_1StorageUniquer_1_1BaseStorage.html",tooltip="This class acts as the base storage that all storage classes must derived from. "];
+  Node10 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" MaxStorageBits" ,fontname="Helvetica"];
+  Node10 [label="unsigned",height=0.2,width=0.4,color="grey75"];
+  Node11 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" SalienceRequired\nSalienceForced\nSalienceDefault" ,fontname="Helvetica"];
+  Node11 [label="int",height=0.2,width=0.4,color="grey75"];
+}

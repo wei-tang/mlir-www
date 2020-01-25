@@ -1,0 +1,15 @@
+digraph "include/mlir/Conversion/LinalgToLLVM" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_37f3372f1e76d74ffd54613af9306e43 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Conversion" fontname="Helvetica", fontsize="10", URL="dir_37f3372f1e76d74ffd54613af9306e43.html"]
+  dir_e7940185b840d0cce971234a88354deb [shape=box, label="LinalgToLLVM", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_e7940185b840d0cce971234a88354deb.html"];
+  }
+  dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [shape=box label="Transforms" URL="dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6.html"];
+  dir_fe472ab3e478f3f4a29274cb46049980 [shape=box label="StandardToLLVM" URL="dir_fe472ab3e478f3f4a29274cb46049980.html"];
+  dir_e7940185b840d0cce971234a88354deb->dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [headlabel="1", labeldistance=1.5 headhref="dir_000021_000013.html"];
+  dir_e7940185b840d0cce971234a88354deb->dir_fe472ab3e478f3f4a29274cb46049980 [headlabel="1", labeldistance=1.5 headhref="dir_000021_000024.html"];
+  dir_fe472ab3e478f3f4a29274cb46049980->dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [headlabel="1", labeldistance=1.5 headhref="dir_000024_000013.html"];
+}

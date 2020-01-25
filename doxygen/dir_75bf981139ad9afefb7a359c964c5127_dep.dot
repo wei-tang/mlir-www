@@ -1,0 +1,20 @@
+digraph "lib/Quantizer" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_97aefd0d527b934f1d99a682da8fe6a9 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="lib" fontname="Helvetica", fontsize="10", URL="dir_97aefd0d527b934f1d99a682da8fe6a9.html"]
+  subgraph clusterdir_75bf981139ad9afefb7a359c964c5127 {
+    graph [ bgcolor="#eeeeff", pencolor="black", label="" URL="dir_75bf981139ad9afefb7a359c964c5127.html"];
+    dir_75bf981139ad9afefb7a359c964c5127 [shape=plaintext label="Quantizer"];
+    dir_a8b94be70f6ebfd91b970abfa6f46bb4 [shape=box label="Configurations" color="black" fillcolor="white" style="filled" URL="dir_a8b94be70f6ebfd91b970abfa6f46bb4.html"];
+    dir_fc86354219221b1e6232f9a114ab0fc7 [shape=box label="Support" color="black" fillcolor="white" style="filled" URL="dir_fc86354219221b1e6232f9a114ab0fc7.html"];
+    dir_ba97eb3aab70d1e2c307a0131058f683 [shape=box label="Transforms" color="black" fillcolor="white" style="filled" URL="dir_ba97eb3aab70d1e2c307a0131058f683.html"];
+  }
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_fc86354219221b1e6232f9a114ab0fc7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="27", labeldistance=1.5 headhref="dir_000102_000000.html"];
+  dir_ba97eb3aab70d1e2c307a0131058f683->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="24", labeldistance=1.5 headhref="dir_000103_000000.html"];
+  dir_a8b94be70f6ebfd91b970abfa6f46bb4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000101_000000.html"];
+}

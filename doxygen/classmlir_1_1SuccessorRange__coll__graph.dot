@@ -1,0 +1,23 @@
+digraph "mlir::SuccessorRange"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node3 [label="mlir::SuccessorRange",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node4 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mlir::detail::indexed\l_accessor_range_base\l\< SuccessorRange, BlockOperand\l *, Block *, Block *, Block *\>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1detail_1_1indexed__accessor__range__base.html"];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" count" ,fontname="Helvetica"];
+  Node5 [label="ptrdiff_t",height=0.2,width=0.4,color="black",URL="$classptrdiff__t.html"];
+  Node6 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" base" ,fontname="Helvetica"];
+  Node6 [label="mlir::BlockOperand",height=0.2,width=0.4,color="black",URL="$classmlir_1_1BlockOperand.html",tooltip="Terminator operations can have Block operands to represent successors. "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mlir::IROperand\< BlockOperand,\l Block *\>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1IROperand.html"];
+  Node8 -> Node7 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< BlockOperand, Block *\>" ,fontname="Helvetica"];
+  Node8 [label="mlir::IROperand\< Derived\lT, IRValueTy \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1IROperand.html",tooltip="A reference to a value, suitable for use as an operand of an operation. "];
+  Node9 -> Node4 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< SuccessorRange, BlockOperand\l *, Block *, Block *, Block *\>" ,fontname="Helvetica"];
+  Node9 [label="mlir::detail::indexed\l_accessor_range_base\l\< DerivedT, BaseT, T,\l PointerT, ReferenceT \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1detail_1_1indexed__accessor__range__base.html",tooltip="The class represents the base of a range of indexed_accessor_iterators. "];
+  Node5 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" count" ,fontname="Helvetica"];
+  Node10 -> Node9 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" base" ,fontname="Helvetica"];
+  Node10 [label="BaseT",height=0.2,width=0.4,color="grey75"];
+}

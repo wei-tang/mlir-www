@@ -1,0 +1,12 @@
+digraph "include/mlir/Dialect/QuantOps" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d07a6fac82475a065a3b2953573f00a0 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Dialect" fontname="Helvetica", fontsize="10", URL="dir_d07a6fac82475a065a3b2953573f00a0.html"]
+  dir_55eb4f1247c7bdd06c353ac156eecfb5 [shape=box, label="QuantOps", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_55eb4f1247c7bdd06c353ac156eecfb5.html"];
+  }
+  dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
+  dir_55eb4f1247c7bdd06c353ac156eecfb5->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="14", labeldistance=1.5 headhref="dir_000009_000032.html"];
+}

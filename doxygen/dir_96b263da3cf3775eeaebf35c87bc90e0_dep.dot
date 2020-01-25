@@ -1,0 +1,14 @@
+digraph "include/mlir/Conversion/StandardToSPIRV" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_37f3372f1e76d74ffd54613af9306e43 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Conversion" fontname="Helvetica", fontsize="10", URL="dir_37f3372f1e76d74ffd54613af9306e43.html"]
+  dir_96b263da3cf3775eeaebf35c87bc90e0 [shape=box, label="StandardToSPIRV", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_96b263da3cf3775eeaebf35c87bc90e0.html"];
+  }
+  dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [shape=box label="Transforms" URL="dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6.html"];
+  dir_cab9f8330899b1cc9d753b1d9c5c5a3e [shape=box label="Pass" URL="dir_cab9f8330899b1cc9d753b1d9c5c5a3e.html"];
+  dir_96b263da3cf3775eeaebf35c87bc90e0->dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [headlabel="1", labeldistance=1.5 headhref="dir_000025_000013.html"];
+  dir_96b263da3cf3775eeaebf35c87bc90e0->dir_cab9f8330899b1cc9d753b1d9c5c5a3e [headlabel="1", labeldistance=1.5 headhref="dir_000025_000043.html"];
+}

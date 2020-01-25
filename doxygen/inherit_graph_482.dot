@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="mlir::quant::UniformQuantized\lPerAxisValueConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quant_1_1UniformQuantizedPerAxisValueConverter.html",tooltip="An utility class to quantize an attribute by the per-axis quantization parameters. "];
+}

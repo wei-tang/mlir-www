@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="mlir::edsc::GenericLoopNest\lRangeBuilder\< LoopTy \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1edsc_1_1GenericLoopNestRangeBuilder.html",tooltip="Helper template class for building loop.for and affine.loop nests from ranges. "];
+}

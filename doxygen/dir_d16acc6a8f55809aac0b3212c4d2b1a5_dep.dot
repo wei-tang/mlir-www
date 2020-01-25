@@ -1,0 +1,15 @@
+digraph "include/mlir/Dialect/SDBM" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d07a6fac82475a065a3b2953573f00a0 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Dialect" fontname="Helvetica", fontsize="10", URL="dir_d07a6fac82475a065a3b2953573f00a0.html"]
+  dir_d16acc6a8f55809aac0b3212c4d2b1a5 [shape=box, label="SDBM", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_d16acc6a8f55809aac0b3212c4d2b1a5.html"];
+  }
+  dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
+  dir_f61d47671007dfdb592580b61f960d39 [shape=box label="Support" URL="dir_f61d47671007dfdb592580b61f960d39.html"];
+  dir_84ef7c054b4edc3447cfba80cee80f65->dir_f61d47671007dfdb592580b61f960d39 [headlabel="13", labeldistance=1.5 headhref="dir_000032_000046.html"];
+  dir_d16acc6a8f55809aac0b3212c4d2b1a5->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="1", labeldistance=1.5 headhref="dir_000037_000032.html"];
+  dir_d16acc6a8f55809aac0b3212c4d2b1a5->dir_f61d47671007dfdb592580b61f960d39 [headlabel="3", labeldistance=1.5 headhref="dir_000037_000046.html"];
+}

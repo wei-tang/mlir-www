@@ -1,0 +1,13 @@
+digraph "mlir::ShapedType"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="mlir::ShapedType",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="mlir::Type",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Type.html",tooltip="Instances of the Type class are immutable and uniqued. "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mlir::BaseMemRefType",height=0.2,width=0.4,color="black",URL="$classmlir_1_1BaseMemRefType.html",tooltip="Base MemRef for Ranked and Unranked variants. "];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mlir::TensorType",height=0.2,width=0.4,color="black",URL="$classmlir_1_1TensorType.html",tooltip="Tensor types represent multi-dimensional arrays, and have two variants: RankedTensorType and Unranked..."];
+}

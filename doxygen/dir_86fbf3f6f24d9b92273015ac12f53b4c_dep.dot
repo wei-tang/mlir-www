@@ -1,0 +1,15 @@
+digraph "lib/Conversion/GPUToNVVM" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_fb3681dc9150b247305e64d29dbc20b7 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Conversion" fontname="Helvetica", fontsize="10", URL="dir_fb3681dc9150b247305e64d29dbc20b7.html"]
+  dir_86fbf3f6f24d9b92273015ac12f53b4c [shape=box, label="GPUToNVVM", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_86fbf3f6f24d9b92273015ac12f53b4c.html"];
+  }
+  dir_0978a13965a5f0ecc81035b21b109a2d [shape=box label="GPUCommon" URL="dir_0978a13965a5f0ecc81035b21b109a2d.html"];
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_0978a13965a5f0ecc81035b21b109a2d->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000058_000000.html"];
+  dir_86fbf3f6f24d9b92273015ac12f53b4c->dir_0978a13965a5f0ecc81035b21b109a2d [headlabel="2", labeldistance=1.5 headhref="dir_000060_000058.html"];
+  dir_86fbf3f6f24d9b92273015ac12f53b4c->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="7", labeldistance=1.5 headhref="dir_000060_000000.html"];
+}

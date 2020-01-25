@@ -1,0 +1,36 @@
+digraph "mlir::OpToFuncCallLowering&lt; SourceOp &gt;"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node5 [label="mlir::OpToFuncCallLowering\l\< SourceOp \>",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node6 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mlir::LLVMOpLowering",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LLVMOpLowering.html",tooltip="Base class for operation conversions targeting the LLVM IR dialect. "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mlir::ConversionPattern",height=0.2,width=0.4,color="black",URL="$classmlir_1_1ConversionPattern.html",tooltip="Base class for the conversion patterns that require type changes. "];
+  Node8 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="mlir::RewritePattern",height=0.2,width=0.4,color="black",URL="$classmlir_1_1RewritePattern.html",tooltip="RewritePattern is the common base class for all DAG to DAG replacements. "];
+  Node9 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="mlir::Pattern",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Pattern.html",tooltip="Instances of Pattern can be matched against SSA IR. "];
+  Node10 -> Node8 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" generatedOps" ,fontname="Helvetica"];
+  Node10 [label="llvm::SmallVector\<\l mlir::OperationName, 2 \>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1SmallVector.html"];
+  Node11 -> Node10 [dir="back",color="orange",fontsize="10",style="dashed",label=" \< mlir::OperationName, 2 \>" ,fontname="Helvetica"];
+  Node11 [label="llvm::SmallVector\<\l T, N \>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1SmallVector.html"];
+  Node12 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" lowering" ,fontname="Helvetica"];
+  Node12 [label="mlir::LLVMTypeConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LLVMTypeConverter.html",tooltip="Conversion from types in the Standard dialect to the LLVM IR dialect. "];
+  Node13 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="mlir::TypeConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1TypeConverter.html",tooltip="Base class for type conversion interface. "];
+  Node14 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" llvmDialect" ,fontname="Helvetica"];
+  Node14 [label="mlir::LLVM::LLVMDialect",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LLVM_1_1LLVMDialect.html"];
+  Node15 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="mlir::Dialect",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Dialect.html",tooltip="Dialects are groups of MLIR operations and behavior associated with the entire group. "];
+  Node16 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" decodeHook" ,fontname="Helvetica"];
+  Node16 [label="function\< bool(const\l OpaqueElementsAttr,\l ElementsAttr &)\>",height=0.2,width=0.4,color="grey75"];
+  Node17 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" extractElementHook" ,fontname="Helvetica"];
+  Node17 [label="function\< Attribute\l(const OpaqueElementsAttr,\l ArrayRef\< uint64_t \>)\>",height=0.2,width=0.4,color="grey75"];
+  Node18 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" constantFoldHook" ,fontname="Helvetica"];
+  Node18 [label="function\< LogicalResult\l(Operation *, ArrayRef\l\< Attribute \>, SmallVectorImpl\l\< Attribute \> &)\>",height=0.2,width=0.4,color="grey75"];
+  Node19 -> Node12 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" module" ,fontname="Helvetica"];
+  Node19 [label="Module *",height=0.2,width=0.4,color="grey75"];
+}

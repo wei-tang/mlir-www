@@ -1,0 +1,30 @@
+digraph "include/mlir/Pass/PassManager.h"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node9 [label="include/mlir/Pass/PassManager.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node9 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="lib/Conversion/LinalgToLLVM\l/LinalgToLLVM.cpp",height=0.2,width=0.4,color="black",URL="$LinalgToLLVM_8cpp.html"];
+  Node9 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="lib/Conversion/VectorToLLVM\l/ConvertVectorToLLVM.cpp",height=0.2,width=0.4,color="black",URL="$ConvertVectorToLLVM_8cpp.html"];
+  Node9 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="lib/Pass/PassDetail.h",height=0.2,width=0.4,color="black",URL="$PassDetail_8h.html"];
+  Node12 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="lib/Pass/IRPrinting.cpp",height=0.2,width=0.4,color="black",URL="$IRPrinting_8cpp.html"];
+  Node12 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="lib/Pass/Pass.cpp",height=0.2,width=0.4,color="black",URL="$Pass_8cpp.html"];
+  Node12 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="lib/Pass/PassStatistics.cpp",height=0.2,width=0.4,color="black",URL="$PassStatistics_8cpp.html"];
+  Node12 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="lib/Pass/PassTiming.cpp",height=0.2,width=0.4,color="black",URL="$PassTiming_8cpp.html"];
+  Node9 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="lib/Pass/PassManagerOptions.cpp",height=0.2,width=0.4,color="black",URL="$PassManagerOptions_8cpp.html"];
+  Node9 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="lib/Pass/PassRegistry.cpp",height=0.2,width=0.4,color="black",URL="$PassRegistry_8cpp.html"];
+  Node9 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="lib/Support/MlirOptMain.cpp",height=0.2,width=0.4,color="black",URL="$MlirOptMain_8cpp.html"];
+}

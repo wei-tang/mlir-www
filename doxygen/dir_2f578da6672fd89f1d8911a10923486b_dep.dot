@@ -1,0 +1,12 @@
+digraph "include/mlir/TableGen" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_5654f77406fb9ceec87e68ef828ceea2 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="mlir" fontname="Helvetica", fontsize="10", URL="dir_5654f77406fb9ceec87e68ef828ceea2.html"]
+  dir_2f578da6672fd89f1d8911a10923486b [shape=box, label="TableGen", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_2f578da6672fd89f1d8911a10923486b.html"];
+  }
+  dir_f61d47671007dfdb592580b61f960d39 [shape=box label="Support" URL="dir_f61d47671007dfdb592580b61f960d39.html"];
+  dir_2f578da6672fd89f1d8911a10923486b->dir_f61d47671007dfdb592580b61f960d39 [headlabel="13", labeldistance=1.5 headhref="dir_000042_000046.html"];
+}

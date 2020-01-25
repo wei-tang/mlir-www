@@ -1,0 +1,12 @@
+digraph "lib/Quantizer/Transforms" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_75bf981139ad9afefb7a359c964c5127 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Quantizer" fontname="Helvetica", fontsize="10", URL="dir_75bf981139ad9afefb7a359c964c5127.html"]
+  dir_ba97eb3aab70d1e2c307a0131058f683 [shape=box, label="Transforms", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_ba97eb3aab70d1e2c307a0131058f683.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_ba97eb3aab70d1e2c307a0131058f683->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="24", labeldistance=1.5 headhref="dir_000103_000000.html"];
+}

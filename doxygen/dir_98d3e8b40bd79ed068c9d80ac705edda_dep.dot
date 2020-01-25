@@ -1,0 +1,12 @@
+digraph "lib/Conversion/GPUToSPIRV" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_fb3681dc9150b247305e64d29dbc20b7 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Conversion" fontname="Helvetica", fontsize="10", URL="dir_fb3681dc9150b247305e64d29dbc20b7.html"]
+  dir_98d3e8b40bd79ed068c9d80ac705edda [shape=box, label="GPUToSPIRV", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_98d3e8b40bd79ed068c9d80ac705edda.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_98d3e8b40bd79ed068c9d80ac705edda->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="17", labeldistance=1.5 headhref="dir_000062_000000.html"];
+}

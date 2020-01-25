@@ -1,0 +1,12 @@
+digraph "lib/Dialect/GPU/IR" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_3f85108297f05fdb2e5b01bdfbaaf2c9 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="GPU" fontname="Helvetica", fontsize="10", URL="dir_3f85108297f05fdb2e5b01bdfbaaf2c9.html"]
+  dir_ed7ccaf3735f0765d5bb752bc88f0dda [shape=box, label="IR", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_ed7ccaf3735f0765d5bb752bc88f0dda.html"];
+  }
+  dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
+  dir_ed7ccaf3735f0765d5bb752bc88f0dda->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000074_000000.html"];
+}

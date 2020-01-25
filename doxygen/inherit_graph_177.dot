@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="llvm::PointerLikeTypeTraits\l\< mlir::OperationName \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1PointerLikeTypeTraits_3_01mlir_1_1OperationName_01_4.html",tooltip="The pointer inside of an identifier comes from a StringMap, so its alignment is always at least 4 and..."];
+}

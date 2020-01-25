@@ -1,0 +1,8 @@
+digraph "Graphical Class Hierarchy"
+{
+  bgcolor="transparent";
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="llvm::PointerLikeTypeTraits\l\< mlir::ModuleOp \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1PointerLikeTypeTraits_3_01mlir_1_1ModuleOp_01_4.html",tooltip="Allow stealing the low bits of ModuleOp. "];
+}

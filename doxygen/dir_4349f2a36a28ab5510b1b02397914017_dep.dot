@@ -1,0 +1,12 @@
+digraph "include/mlir/Quantizer/Configurations" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_4e16b8e51213534456c456254a51126e {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Quantizer" fontname="Helvetica", fontsize="10", URL="dir_4e16b8e51213534456c456254a51126e.html"]
+  dir_4349f2a36a28ab5510b1b02397914017 [shape=box, label="Configurations", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_4349f2a36a28ab5510b1b02397914017.html"];
+  }
+  dir_3367c9ebe84676154b54e0790f855aea [shape=box label="Support" URL="dir_3367c9ebe84676154b54e0790f855aea.html"];
+  dir_4349f2a36a28ab5510b1b02397914017->dir_3367c9ebe84676154b54e0790f855aea [headlabel="2", labeldistance=1.5 headhref="dir_000044_000045.html"];
+}
