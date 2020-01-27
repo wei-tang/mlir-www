@@ -3303,7 +3303,7 @@ template&lt;typename OpTy &gt; </div>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00365">mlir::Operation::getRegions()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Inliner_8cpp_source.html#l00202">canonicalizeSCC()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00367">mlir::fxpmath::createLowerUniformRealMathPass()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="LegalizeStandardForSPIRV_8cpp_source.html#l00153">populateStdLegalizationPatternsForSPIRVLowering()</a>, and <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00216">tryRewriteAffineMulEwSigned()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Inliner_8cpp_source.html#l00202">canonicalizeSCC()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00367">mlir::fxpmath::createLowerUniformRealMathPass()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="LegalizeStandardForSPIRV_8cpp_source.html#l00153">populateStdLegalizationPatternsForSPIRVLowering()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00955">populateVectorToLLVMConversionPatterns()</a>, and <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00216">tryRewriteAffineMulEwSigned()</a>.</p>
 
 </div>
 </div>
@@ -5048,7 +5048,7 @@ template&lt;typename TypeConverter  = LLVMTypeConverter&gt; </div>
 
 <p>Create a pass to convert vector operations to the LLVMIR dialect. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00991">991</a> of file <a class="el" href="ConvertVectorToLLVM_8cpp_source.html">ConvertVectorToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00999">999</a> of file <a class="el" href="ConvertVectorToLLVM_8cpp_source.html">ConvertVectorToLLVM.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="ConvertVectorToLLVM_8cpp.html#a9e018c6a718c64b6d641d944e2a78252">pass</a>.</p>
 
@@ -13134,7 +13134,7 @@ template&lt;typename IteratorT &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00955">955</a> of file <a class="el" href="ConvertVectorToLLVM_8cpp_source.html">ConvertVectorToLLVM.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="DialectConversion_8h_source.html#l00444">mlir::ConversionTarget::addDynamicallyLegalOp()</a>, <a class="el" href="DialectConversion_8h_source.html#l00511">mlir::ConversionTarget::addLegalDialect()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l01793">applyPartialConversion()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">failed()</a>, <a class="el" href="IR_2Dialect_8h_source.html#l00047">mlir::Dialect::getContext()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00063">mlir::LLVMTypeConverter::getDialect()</a>, <a class="el" href="PatternMatch_8h_source.html#l00438">mlir::OwningRewritePatternList::insert()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l01594">mlir::TypeConverter::isSignatureLegal()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02142">populateStdToLLVMConversionPatterns()</a>.</p>
+<p class="reference">References <a class="el" href="DialectConversion_8h_source.html#l00444">mlir::ConversionTarget::addDynamicallyLegalOp()</a>, <a class="el" href="DialectConversion_8h_source.html#l00511">mlir::ConversionTarget::addLegalDialect()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l01793">applyPartialConversion()</a>, <a class="el" href="GreedyPatternRewriteDriver_8cpp_source.html#l00218">applyPatternsGreedily()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">failed()</a>, <a class="el" href="IR_2Dialect_8h_source.html#l00047">mlir::Dialect::getContext()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00063">mlir::LLVMTypeConverter::getDialect()</a>, <a class="el" href="PatternMatch_8h_source.html#l00438">mlir::OwningRewritePatternList::insert()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l01594">mlir::TypeConverter::isSignatureLegal()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02142">populateStdToLLVMConversionPatterns()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00797">mlir::vector::populateVectorSlicesLoweringPatterns()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LinalgToLLVM_8cpp_source.html#l00560">populateLinalgToLLVMConversionPatterns()</a>.</p>
 
@@ -14901,7 +14901,7 @@ template&lt;typename ConcreteDialect &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 27 2020 16:21:55 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 27 2020 20:23:25 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
