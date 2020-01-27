@@ -110,7 +110,7 @@ class mlir::OpTrait::SymbolTable&lt; ConcreteType &gt;</h3>
 <p>A trait used to provide symbol table functionalities to a region operation. </p>
 <p>This operation must hold exactly 1 region. Once attached, all operations that are directly within the region, i.e not including those within child regions, that contain a '<a class="el" href="classmlir_1_1SymbolTable.html#a0c4e261ebcebe14f1076319bc46e2926" title="Return the name of the attribute used for symbol names. ">SymbolTable::getSymbolAttrName()</a>' <a class="el" href="classmlir_1_1StringAttr.html">StringAttr</a> will be verified to ensure that the names are uniqued. These operations must also adhere to the constraints defined by the <code><a class="el" href="classmlir_1_1OpTrait_1_1Symbol.html" title="A trait used to define a symbol that can be used on operations within a symbol table. ">Symbol</a></code> trait, even if they do not inherit from it. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00206">206</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00210">210</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a6df65fb59bddfdebd57475a4ccf6cea8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6df65fb59bddfdebd57475a4ccf6cea8">&#9670;&nbsp;</a></span>lookupSymbol() <span class="overload">[1/2]</span></h2>
@@ -141,7 +141,7 @@ template&lt;typename ConcreteType &gt; </div>
 <p>Look up a symbol with the specified name, returning null if no such name exists. </p>
 <p><a class="el" href="classmlir_1_1OpTrait_1_1Symbol.html" title="A trait used to define a symbol that can be used on operations within a symbol table. ">Symbol</a> names never include the @ on them. Note: This performs a linear scan of held symbols. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00215">215</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00219">219</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 
 <p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00219">mlir::SymbolTable::lookupSymbolIn()</a>.</p>
 
@@ -175,7 +175,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00218">218</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00222">222</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 
 </div>
 </div>
@@ -205,7 +205,7 @@ template&lt;typename ConcreteType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00208">208</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00212">212</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 
 <p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00277">mlir::OpTrait::impl::verifySymbolTable()</a>.</p>
 
@@ -217,7 +217,7 @@ template&lt;typename ConcreteType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 26 2020 20:23:36 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 27 2020 00:23:02 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

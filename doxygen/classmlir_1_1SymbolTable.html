@@ -126,6 +126,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a11af2eaf109f29be79b5908730b96604"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1SymbolTable.html#a11af2eaf109f29be79b5908730b96604">setSymbolVisibility</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *symbol, <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8">Visibility</a> vis)</td></tr>
 <tr class="memdesc:a11af2eaf109f29be79b5908730b96604"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the visibility of the given symbol operation.  <a href="#a11af2eaf109f29be79b5908730b96604">More...</a><br /></td></tr>
 <tr class="separator:a11af2eaf109f29be79b5908730b96604"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afff33b05aecee5f6d0e96d81c2abd337"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1SymbolTable.html#afff33b05aecee5f6d0e96d81c2abd337">getNearestSymbolTable</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *from)</td></tr>
+<tr class="memdesc:afff33b05aecee5f6d0e96d81c2abd337"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the nearest symbol table from a given operation <code>from</code>.  <a href="#afff33b05aecee5f6d0e96d81c2abd337">More...</a><br /></td></tr>
+<tr class="separator:afff33b05aecee5f6d0e96d81c2abd337"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ae6f28bc20298c2a978dc976dca3172"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1SymbolTable.html#a2ae6f28bc20298c2a978dc976dca3172">lookupSymbolIn</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, StringRef symbol)</td></tr>
 <tr class="memdesc:a2ae6f28bc20298c2a978dc976dca3172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the operation registered with the given symbol name with the regions of 'symbolTableOp'.  <a href="#a2ae6f28bc20298c2a978dc976dca3172">More...</a><br /></td></tr>
 <tr class="separator:a2ae6f28bc20298c2a978dc976dca3172"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,9 +218,9 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Build a symbol table with the symbols within the given operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00093">93</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00076">76</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00042">getNameIfSymbol()</a>, <a class="el" href="Operation_8h_source.html#l00362">mlir::Operation::getNumRegions()</a>, <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>, <a class="el" href="STLExtras_8h_source.html#l00337">mlir::has_single_element()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
+<p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>, <a class="el" href="Operation_8h_source.html#l00362">mlir::Operation::getNumRegions()</a>, <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>, <a class="el" href="STLExtras_8h_source.html#l00337">mlir::has_single_element()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
 
 </div>
 </div>
@@ -240,11 +243,46 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Erase the given symbol from the table. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00121">121</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00104">104</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00501">mlir::Operation::erase()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00042">getNameIfSymbol()</a>, and <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>.</p>
+<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00501">mlir::Operation::erase()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>, and <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00031">lookup()</a>.</p>
+
+</div>
+</div>
+<a id="afff33b05aecee5f6d0e96d81c2abd337"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afff33b05aecee5f6d0e96d81c2abd337">&#9670;&nbsp;</a></span>getNearestSymbolTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmlir_1_1Operation.html">Operation</a> * SymbolTable::getNearestSymbolTable </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramname"><em>from</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the nearest symbol table from a given operation <code>from</code>. </p>
+<p>Returns nullptr if no valid parent symbol table could be found. </p>
+
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00200">200</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00019">isPotentiallyUnknownSymbolTable()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00248">getOrInsertBuiltinVariable()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00262">lookupNearestSymbolFrom()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>.</p>
 
 </div>
 </div>
@@ -304,7 +342,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00044">44</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Function_8cpp_source.html#l00049">mlir::FuncOp::build()</a>, <a class="el" href="Serializer_8cpp_source.html#l00079">getLastStructuredControlFlowOpMergeBlock()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00836">getLinkageAttrName()</a>, <a class="el" href="Module_8cpp_source.html#l00104">mlir::ModuleOp::getName()</a>, <a class="el" href="SymbolTable_8h_source.html#l00236">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::getName()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00042">getNameIfSymbol()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00153">mlir::Builder::getSymbolRefAttr()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="Module_8cpp_source.html#l00035">mlir::ModuleOp::parse()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00163">mlir::impl::parseFunctionLikeOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00952">parseGlobalOp()</a>, <a class="el" href="SPIRVOps_8cpp_source.html#l01784">parseGlobalVariableOp()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00658">parseGPUFuncOp()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00828">parseGPUModuleOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01173">parseLLVMFuncOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01058">parseShuffleVectorOp()</a>, <a class="el" href="SPIRVOps_8cpp_source.html#l02926">parseSpecConstantOp()</a>, <a class="el" href="Module_8cpp_source.html#l00055">mlir::ModuleOp::print()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00849">print()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00273">mlir::impl::printFunctionAttributes()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00303">mlir::impl::printFunctionLikeOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00891">printGlobalOp()</a>, <a class="el" href="IRPrinting_8cpp_source.html#l00104">printIR()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00244">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::setName()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00178">setSymbolName()</a>, <a class="el" href="Module_8cpp_source.html#l00072">mlir::ModuleOp::verify()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00552">verify()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00773">verifyAttributions()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00307">mlir::OpTrait::impl::verifySymbol()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00277">mlir::OpTrait::impl::verifySymbolTable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Function_8cpp_source.html#l00049">mlir::FuncOp::build()</a>, <a class="el" href="Serializer_8cpp_source.html#l00079">getLastStructuredControlFlowOpMergeBlock()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00836">getLinkageAttrName()</a>, <a class="el" href="Module_8cpp_source.html#l00104">mlir::ModuleOp::getName()</a>, <a class="el" href="SymbolTable_8h_source.html#l00240">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::getName()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00153">mlir::Builder::getSymbolRefAttr()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="Module_8cpp_source.html#l00035">mlir::ModuleOp::parse()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00163">mlir::impl::parseFunctionLikeOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00952">parseGlobalOp()</a>, <a class="el" href="SPIRVOps_8cpp_source.html#l01784">parseGlobalVariableOp()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00658">parseGPUFuncOp()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00828">parseGPUModuleOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01173">parseLLVMFuncOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01058">parseShuffleVectorOp()</a>, <a class="el" href="SPIRVOps_8cpp_source.html#l02926">parseSpecConstantOp()</a>, <a class="el" href="Module_8cpp_source.html#l00055">mlir::ModuleOp::print()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00849">print()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00273">mlir::impl::printFunctionAttributes()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00303">mlir::impl::printFunctionLikeOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00891">printGlobalOp()</a>, <a class="el" href="IRPrinting_8cpp_source.html#l00104">printIR()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00248">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::setName()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00161">setSymbolName()</a>, <a class="el" href="Module_8cpp_source.html#l00072">mlir::ModuleOp::verify()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00552">verify()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00773">verifyAttributions()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00307">mlir::OpTrait::impl::verifySymbol()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00277">mlir::OpTrait::impl::verifySymbolTable()</a>.</p>
 
 </div>
 </div>
@@ -334,11 +372,11 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns the name of the given symbol operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00172">172</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00155">155</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00042">getNameIfSymbol()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00137">insert()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00120">insert()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>.</p>
 
 </div>
 </div>
@@ -373,7 +411,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00407">walkSymbolUses()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="KernelOutlining_8cpp_source.html#l00125">convertToLaunchFuncOp()</a>, and <a class="el" href="SymbolTable_8h_source.html#l00128">mlir::SymbolTable::UseRange::end()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="KernelOutlining_8cpp_source.html#l00125">convertToLaunchFuncOp()</a>, and <a class="el" href="SymbolTable_8h_source.html#l00132">mlir::SymbolTable::UseRange::end()</a>.</p>
 
 </div>
 </div>
@@ -487,11 +525,11 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns the visibility of the given symbol operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00184">184</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00167">167</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00291">mlir::Operation::getAttrOfType()</a>, <a class="el" href="Attributes_8cpp_source.html#l00343">mlir::StringAttr::getValue()</a>, <a class="el" href="SymbolTable_8h_source.html#l00050">getVisibilityAttrName()</a>, <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8a13c479c348969ab459513a4bfd559bb9">Nested</a>, <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8a47f9082fc380ca62d531096aa1d110f1">Private</a>, and <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8a3d067bedfe2f4677470dd6ccf64d05ed">Public</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00251">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::getVisibility()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00255">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::getVisibility()</a>.</p>
 
 </div>
 </div>
@@ -522,7 +560,7 @@ Static Public Member Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00050">50</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00184">getSymbolVisibility()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00197">setSymbolVisibility()</a>, <a class="el" href="Module_8cpp_source.html#l00072">mlir::ModuleOp::verify()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00307">mlir::OpTrait::impl::verifySymbol()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00167">getSymbolVisibility()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00180">setSymbolVisibility()</a>, <a class="el" href="Module_8cpp_source.html#l00072">mlir::ModuleOp::verify()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00307">mlir::OpTrait::impl::verifySymbol()</a>.</p>
 
 </div>
 </div>
@@ -556,9 +594,9 @@ Static Public Member Functions</h2></td></tr>
 <p>Insert a new symbol into the table and associated operation, and rename it as necessary to avoid collisions.</p>
 <p>Also insert at the specified location in the body of the associated operation.</p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00137">137</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00120">120</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, <a class="el" href="Block_8h_source.html#l00107">mlir::Block::getOperations()</a>, <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00172">getSymbolName()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00178">setSymbolName()</a>.</p>
+<p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, <a class="el" href="Block_8h_source.html#l00107">mlir::Block::getOperations()</a>, <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00155">getSymbolName()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00161">setSymbolName()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="KernelOutlining_8cpp_source.html#l00125">convertToLaunchFuncOp()</a>, and <a class="el" href="SymbolTable_8h_source.html#l00031">lookup()</a>.</p>
 
@@ -590,9 +628,9 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Returns true if the given operation defines a symbol. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00167">167</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00150">150</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00042">getNameIfSymbol()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
 
 </div>
 </div>
@@ -615,7 +653,7 @@ Static Public Member Functions</h2></td></tr>
 <p>Look up a symbol with the specified name, returning null if no such name exists. </p>
 <p>Names never include the @ on them. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00116">116</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00099">99</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="KernelOutlining_8cpp_source.html#l00125">convertToLaunchFuncOp()</a>, <a class="el" href="SymbolTable_8h_source.html#l00031">lookup()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l02435">verify()</a>.</p>
 
@@ -649,7 +687,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="SymbolTable_8h_source.html#l00031">31</a> of file <a class="el" href="SymbolTable_8h_source.html">SymbolTable.h</a>.</p>
 
-<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00121">erase()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00137">insert()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00116">lookup()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00104">erase()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00120">insert()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00099">lookup()</a>.</p>
 
 </div>
 </div>
@@ -693,7 +731,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00262">262</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNearestSymbolTable()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00219">lookupSymbolIn()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00200">getNearestSymbolTable()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00219">lookupSymbolIn()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, <a class="el" href="CallGraph_8cpp_source.html#l00144">mlir::CallGraph::resolveCallable()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l00892">verify()</a>.</p>
 
@@ -735,7 +773,7 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00267">267</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNearestSymbolTable()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00219">lookupSymbolIn()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00200">getNearestSymbolTable()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00219">lookupSymbolIn()</a>.</p>
 
 </div>
 </div>
@@ -779,9 +817,9 @@ template&lt;typename T &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00219">219</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00042">getNameIfSymbol()</a>, <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>, <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00262">lookupNearestSymbolFrom()</a>, <a class="el" href="SymbolTable_8h_source.html#l00215">mlir::OpTrait::SymbolTable&lt; ConcreteType &gt;::lookupSymbol()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00231">lookupSymbolIn()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l00745">parseUndefOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00262">lookupNearestSymbolFrom()</a>, <a class="el" href="SymbolTable_8h_source.html#l00219">mlir::OpTrait::SymbolTable&lt; ConcreteType &gt;::lookupSymbol()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00231">lookupSymbolIn()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l00745">parseUndefOp()</a>.</p>
 
 </div>
 </div>
@@ -872,7 +910,7 @@ template&lt;typename T &gt; </div>
 
 <p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00689">replaceAllSymbolUsesImpl()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00128">mlir::SymbolTable::UseRange::end()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00132">mlir::SymbolTable::UseRange::end()</a>.</p>
 
 </div>
 </div>
@@ -958,11 +996,11 @@ template&lt;typename T &gt; </div>
 
 <p>Sets the name of the given symbol operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00178">178</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00161">161</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00334">mlir::StringAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">getSymbolAttrName()</a>, and <a class="el" href="Operation_8h_source.html#l00301">mlir::Operation::setAttr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00137">insert()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00120">insert()</a>.</p>
 
 </div>
 </div>
@@ -1002,11 +1040,11 @@ template&lt;typename T &gt; </div>
 
 <p>Sets the visibility of the given symbol operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00197">197</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00180">180</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="MLIRContext_8cpp_source.html#l00426">mlir::Identifier::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00334">mlir::StringAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="SymbolTable_8h_source.html#l00050">getVisibilityAttrName()</a>, <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8a13c479c348969ab459513a4bfd559bb9">Nested</a>, <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8a47f9082fc380ca62d531096aa1d110f1">Private</a>, <a class="el" href="classmlir_1_1SymbolTable.html#a4f1a6f39b93a08abe4e80a5c15fe32b8a3d067bedfe2f4677470dd6ccf64d05ed">Public</a>, <a class="el" href="Operation_8h_source.html#l00308">mlir::Operation::removeAttr()</a>, and <a class="el" href="Operation_8h_source.html#l00301">mlir::Operation::setAttr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00256">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::setVisibility()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00260">mlir::OpTrait::Symbol&lt; ConcreteType &gt;::setVisibility()</a>.</p>
 
 </div>
 </div>
@@ -1052,7 +1090,7 @@ template&lt;typename T &gt; </div>
 
 <p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00601">symbolKnownUseEmptyImpl()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00128">mlir::SymbolTable::UseRange::end()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8h_source.html#l00132">mlir::SymbolTable::UseRange::end()</a>.</p>
 
 </div>
 </div>
@@ -1103,7 +1141,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jan 26 2020 20:23:35 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 27 2020 00:23:02 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
