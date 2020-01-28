@@ -101,19 +101,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ace5c1797bab35445908f6dadc22bae57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87b70ceeaf125e9860bae3e617cffeeb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a87b70ceeaf125e9860bae3e617cffeeb">cloneRegionBefore</a> (<a class="el" href="classmlir_1_1Region.html">Region</a> &amp;region, <a class="el" href="classmlir_1_1Block.html">Block</a> *before)</td></tr>
 <tr class="separator:a87b70ceeaf125e9860bae3e617cffeeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98e252512cc5b6b5131805401decb2c0"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a98e252512cc5b6b5131805401decb2c0">replaceOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> newValues, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> valuesToRemoveIfDead)</td></tr>
-<tr class="memdesc:a98e252512cc5b6b5131805401decb2c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method performs the final replacement for a pattern, where the results of the operation are updated to use the specified list of SSA values.  <a href="#a98e252512cc5b6b5131805401decb2c0">More...</a><br /></td></tr>
-<tr class="separator:a98e252512cc5b6b5131805401decb2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9660f8de01acadea649eb1ae0e9feee3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a9660f8de01acadea649eb1ae0e9feee3">replaceOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> newValues)</td></tr>
-<tr class="separator:a9660f8de01acadea649eb1ae0e9feee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b58bf2571cc9c7d0c37295f46a7104b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a1b58bf2571cc9c7d0c37295f46a7104b">replaceOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> newValues)</td></tr>
+<tr class="memdesc:a1b58bf2571cc9c7d0c37295f46a7104b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method performs the final replacement for a pattern, where the results of the operation are updated to use the specified list of SSA values.  <a href="#a1b58bf2571cc9c7d0c37295f46a7104b">More...</a><br /></td></tr>
+<tr class="separator:a1b58bf2571cc9c7d0c37295f46a7104b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85660268b96c97df52da09c2960661aa"><td class="memTemplParams" colspan="2">template&lt;typename OpTy , typename... Args&gt; </td></tr>
 <tr class="memitem:a85660268b96c97df52da09c2960661aa"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a85660268b96c97df52da09c2960661aa">replaceOpWithNewOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a85660268b96c97df52da09c2960661aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the result op with a new op that is created without verification.  <a href="#a85660268b96c97df52da09c2960661aa">More...</a><br /></td></tr>
 <tr class="separator:a85660268b96c97df52da09c2960661aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af58374d94c26eaa5f8481c217b2431a4"><td class="memTemplParams" colspan="2">template&lt;typename OpTy , typename... Args&gt; </td></tr>
-<tr class="memitem:af58374d94c26eaa5f8481c217b2431a4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#af58374d94c26eaa5f8481c217b2431a4">replaceOpWithNewOp</a> (<a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> valuesToRemoveIfDead, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:af58374d94c26eaa5f8481c217b2431a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the result op with a new op that is created without verification.  <a href="#af58374d94c26eaa5f8481c217b2431a4">More...</a><br /></td></tr>
-<tr class="separator:af58374d94c26eaa5f8481c217b2431a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad80a643fcca1e5e4c1132fc76d14ee7b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#ad80a643fcca1e5e4c1132fc76d14ee7b">eraseOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op)</td></tr>
 <tr class="memdesc:ad80a643fcca1e5e4c1132fc76d14ee7b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method erases an operation that is known to have no uses.  <a href="#ad80a643fcca1e5e4c1132fc76d14ee7b">More...</a><br /></td></tr>
 <tr class="separator:ad80a643fcca1e5e4c1132fc76d14ee7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -399,7 +393,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00391">391</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00373">373</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 </div>
 </div>
@@ -426,7 +420,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00069">69</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00070">70</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 </div>
 </div>
@@ -460,7 +454,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#aa5ec71d27d9b622e5ff8205c3546701c">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00378">378</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00360">360</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00373">parseLaunchOp()</a>.</p>
 
@@ -517,11 +511,11 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a8e1c61b0593c1477bceb5ba17b2846a1">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00159">159</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00153">153</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Region_8cpp_source.html#l00063">mlir::Region::cloneInto()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00905">mlir::ConversionPatternRewriter::cloneRegionBefore()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00903">mlir::ConversionPatternRewriter::cloneRegionBefore()</a>.</p>
 
 </div>
 </div>
@@ -557,7 +551,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00164">164</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00158">158</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 </div>
 </div>
@@ -587,7 +581,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00169">169</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00163">163</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Block_8cpp_source.html#l00036">mlir::Block::getParent()</a>.</p>
 
@@ -633,7 +627,7 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00265">265</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgToLLVM_8cpp_source.html#l00424">mlir::LinalgTypeConverter::convertType()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00040">emitUniformPerLayerDequantize()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00085">extractOne()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00393">getLibraryCallSymbolRef()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00219">getOrCreateUnrolledVectorSlice()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00058">insertOne()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00277">mlir::lowerAffineUpperBound()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, <a class="el" href="IndexIntrinsicsOpLowering_8h_source.html#l00051">mlir::GPUIndexIntrinsicOpLowering&lt; Op, XOp, YOp, ZOp &gt;::matchAndRewrite()</a>, <a class="el" href="Ops_8cpp_source.html#l02760">mlir::operator&lt;&lt;()</a>, <a class="el" href="LegalizeStandardForSPIRV_8cpp_source.html#l00061">resolveSourceIndices()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00144">tryRewriteAffineAddEwIsomorphicSigned()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00216">tryRewriteAffineMulEwSigned()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l02695">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgToLLVM_8cpp_source.html#l00422">mlir::LinalgTypeConverter::convertType()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00040">emitUniformPerLayerDequantize()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00085">extractOne()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00391">getLibraryCallSymbolRef()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00219">getOrCreateUnrolledVectorSlice()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00058">insertOne()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, <a class="el" href="IndexIntrinsicsOpLowering_8h_source.html#l00051">mlir::GPUIndexIntrinsicOpLowering&lt; Op, XOp, YOp, ZOp &gt;::matchAndRewrite()</a>, <a class="el" href="Ops_8cpp_source.html#l02753">mlir::operator&lt;&lt;()</a>, <a class="el" href="LegalizeStandardForSPIRV_8cpp_source.html#l00061">resolveSourceIndices()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00144">tryRewriteAffineAddEwIsomorphicSigned()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00216">tryRewriteAffineMulEwSigned()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l02695">verify()</a>.</p>
 
 </div>
 </div>
@@ -711,11 +705,11 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a56f841ea5c2326350a6d7182e9028a0e">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00097">97</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00091">91</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00501">mlir::Operation::erase()</a>, and <a class="el" href="UseDefLists_8h_source.html#l00152">mlir::IRMultiObjectWithUseList&lt; OperandType &gt;::use_empty()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Ops_8cpp_source.html#l01156">mlir::ConstantIndexOp::build()</a>, <a class="el" href="AffineOps_8cpp_source.html#l01400">canonicalizeLoopBounds()</a>, <a class="el" href="ConvertVectorToLoops_8cpp_source.html#l00071">clip()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00277">mlir::lowerAffineUpperBound()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00055">mlir::linalg::tileAndFuseLinalgOpAndSetMarker()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l02695">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Ops_8cpp_source.html#l01153">mlir::ConstantIndexOp::build()</a>, <a class="el" href="AffineOps_8cpp_source.html#l01400">canonicalizeLoopBounds()</a>, <a class="el" href="ConvertVectorToLoops_8cpp_source.html#l00071">clip()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00071">emitLoopRanges()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00053">mlir::linalg::tileAndFuseLinalgOpAndSetMarker()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l02695">verify()</a>.</p>
 
 </div>
 </div>
@@ -748,7 +742,7 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a490be68aa183cbad7ed69f98d0dcc341">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00374">374</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00356">356</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00373">parseLaunchOp()</a>.</p>
 
@@ -801,11 +795,11 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a47becd4896180e2132b82f7d9071d0a9">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00147">147</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00141">141</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00038">mlir::Region::getBlocks()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00897">mlir::ConversionPatternRewriter::inlineRegionBefore()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00277">mlir::lowerAffineUpperBound()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00895">mlir::ConversionPatternRewriter::inlineRegionBefore()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>.</p>
 
 </div>
 </div>
@@ -835,7 +829,7 @@ template&lt;typename OpTy , typename... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00151">151</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00145">145</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Block_8cpp_source.html#l00036">mlir::Block::getParent()</a>.</p>
 
@@ -919,7 +913,7 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a806a523a4db1d2b056855cc6cfd58c18">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00107">107</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00101">101</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="UseDefLists_8h_source.html#l00041">mlir::IRObjectWithUseList&lt; OperandType &gt;::dropAllUses()</a>, <a class="el" href="Block_8h_source.html#l00114">mlir::Block::end()</a>, <a class="el" href="Block_8cpp_source.html#l00064">mlir::Block::erase()</a>, <a class="el" href="Block_8h_source.html#l00068">mlir::Block::getArguments()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, <a class="el" href="Block_8h_source.html#l00107">mlir::Block::getOperations()</a>, <a class="el" href="Block_8h_source.html#l00232">mlir::Block::getPredecessors()</a>, and <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>.</p>
 
@@ -954,7 +948,7 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 <p>This is called on an operation that a pattern match is removing, right before the operation is deleted. </p>
 <p>At this point, the operation has zero uses. </p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00405">405</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00387">387</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 </div>
 </div>
@@ -985,12 +979,12 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 <p>Notify the pattern rewriter that the specified operation is about to be replaced with another set of operations. </p>
 <p>This is called before the uses of the operation have been changed. </p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00400">400</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00382">382</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 </div>
 </div>
-<a id="a98e252512cc5b6b5131805401decb2c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98e252512cc5b6b5131805401decb2c0">&#9670;&nbsp;</a></span>replaceOp() <span class="overload">[1/2]</span></h2>
+<a id="a1b58bf2571cc9c7d0c37295f46a7104b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b58bf2571cc9c7d0c37295f46a7104b">&#9670;&nbsp;</a></span>replaceOp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1000,60 +994,6 @@ template&lt;typename OpTy , typename... Args&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">void PatternRewriter::replaceOp </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
-          <td class="paramname"><em>op</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
-          <td class="paramname"><em>newValues</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
-          <td class="paramname"><em>valuesToRemoveIfDead</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>This method performs the final replacement for a pattern, where the results of the operation are updated to use the specified list of SSA values. </p>
-<p>In addition to replacing and removing the specified operation, clients can specify a list of other nodes that this replacement may make (perhaps transitively) dead. If any of those values are dead, this will remove them as well.</p>
-<p>In addition to replacing and removing the specified operation, clients can specify a list of other nodes that this replacement may make (perhaps transitively) dead. If any of those ops are dead, this will remove them as well. </p>
-
-<p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a203470357f4ebf04bb370ab3baa07526">mlir::ConversionPatternRewriter</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00079">79</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00501">mlir::Operation::erase()</a>, <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="Operation_8h_source.html#l00146">mlir::Operation::replaceAllUsesWith()</a>, and <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="ConvertVectorToLoops_8cpp_source.html#l00071">clip()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00091">emitDequantize()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00277">mlir::lowerAffineUpperBound()</a>, and <a class="el" href="Ops_8cpp_source.html#l00283">verify()</a>.</p>
-
-</div>
-</div>
-<a id="a9660f8de01acadea649eb1ae0e9feee3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9660f8de01acadea649eb1ae0e9feee3">&#9670;&nbsp;</a></span>replaceOp() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void mlir::PatternRewriter::replaceOp </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
           <td class="paramname"><em>op</em>, </td>
@@ -1072,19 +1012,25 @@ template&lt;typename OpTy , typename... Args&gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00327">327</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p>This method performs the final replacement for a pattern, where the results of the operation are updated to use the specified list of SSA values. </p>
 
-<p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
+<p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a12fa2633cd26e201bb171204cc1d313b">mlir::ConversionPatternRewriter</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00077">77</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00501">mlir::Operation::erase()</a>, <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="Operation_8h_source.html#l00146">mlir::Operation::replaceAllUsesWith()</a>, and <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="ConvertVectorToLoops_8cpp_source.html#l00071">clip()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00091">emitDequantize()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00071">emitLoopRanges()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>, and <a class="el" href="Ops_8cpp_source.html#l00283">verify()</a>.</p>
 
 </div>
 </div>
 <a id="a85660268b96c97df52da09c2960661aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85660268b96c97df52da09c2960661aa">&#9670;&nbsp;</a></span>replaceOpWithNewOp() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a85660268b96c97df52da09c2960661aa">&#9670;&nbsp;</a></span>replaceOpWithNewOp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1122,62 +1068,11 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 <p>Replaces the result op with a new op that is created without verification. </p>
 <p>The result values of the two ops must be the same types. </p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00334">334</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
-
-<p class="reference">References <a class="el" href="Operation_8h_source.html#l00107">mlir::Operation::getLoc()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="Ops_8cpp_source.html#l00845">applyCmpPredicate()</a>, <a class="el" href="AffineOps_8cpp_source.html#l00736">mlir::canonicalizeSetAndOperands()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00089">convertLinalgType()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00424">mlir::LinalgTypeConverter::convertType()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="ConvertStandardToSPIRV_8cpp_source.html#l00153">getElementPtr()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00277">mlir::lowerAffineUpperBound()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="Ops_8cpp_source.html#l02760">mlir::operator&lt;&lt;()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01786">print()</a>, <a class="el" href="LegalizeStandardForSPIRV_8cpp_source.html#l00061">resolveSourceIndices()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00144">tryRewriteAffineAddEwIsomorphicSigned()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00216">tryRewriteAffineMulEwSigned()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l00793">verify()</a>.</p>
-
-</div>
-</div>
-<a id="af58374d94c26eaa5f8481c217b2431a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af58374d94c26eaa5f8481c217b2431a4">&#9670;&nbsp;</a></span>replaceOpWithNewOp() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename OpTy , typename... Args&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void mlir::PatternRewriter::replaceOpWithNewOp </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
-          <td class="paramname"><em>valuesToRemoveIfDead</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
-          <td class="paramname"><em>op</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">Args &amp;&amp;...&#160;</td>
-          <td class="paramname"><em>args</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Replaces the result op with a new op that is created without verification. </p>
-<p>The result values of the two ops must be the same types. This allows specifying a list of ops that may be removed if dead. </p>
-
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00343">343</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00327">327</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00107">mlir::Operation::getLoc()</a>, and <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="Ops_8cpp_source.html#l00842">applyCmpPredicate()</a>, <a class="el" href="AffineOps_8cpp_source.html#l00736">mlir::canonicalizeSetAndOperands()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00087">convertLinalgType()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00422">mlir::LinalgTypeConverter::convertType()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00071">emitLoopRanges()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="ConvertStandardToSPIRV_8cpp_source.html#l00153">getElementPtr()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="Ops_8cpp_source.html#l02753">mlir::operator&lt;&lt;()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01786">print()</a>, <a class="el" href="LegalizeStandardForSPIRV_8cpp_source.html#l00061">resolveSourceIndices()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00144">tryRewriteAffineAddEwIsomorphicSigned()</a>, <a class="el" href="LowerUniformRealMath_8cpp_source.html#l00216">tryRewriteAffineMulEwSigned()</a>, and <a class="el" href="SPIRVOps_8cpp_source.html#l00793">verify()</a>.</p>
 
 </div>
 </div>
@@ -1219,11 +1114,11 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a7657805236edd9c1ae91ca83862c1b37">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00128">128</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8cpp_source.html#l00122">122</a> of file <a class="el" href="PatternMatch_8cpp_source.html">PatternMatch.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="Operation_8h_source.html#l00256">mlir::Operation::getResults()</a>, and <a class="el" href="Block_8cpp_source.html#l00256">mlir::Block::splitBlock()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00881">mlir::ConversionPatternRewriter::splitBlock()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00879">mlir::ConversionPatternRewriter::splitBlock()</a>.</p>
 
 </div>
 </div>
@@ -1256,7 +1151,7 @@ template&lt;typename OpTy , typename... Args&gt; </div>
 
 <p>Reimplemented in <a class="el" href="classmlir_1_1ConversionPatternRewriter.html#ae93d2750ab20628c2b4d5d00ce8a283e">mlir::ConversionPatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00369">369</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00351">351</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00373">parseLaunchOp()</a>.</p>
 
@@ -1301,9 +1196,9 @@ template&lt;typename CallableT &gt; </div>
 <p>This method is a utility wrapper around a root update of an operation. </p>
 <p>It wraps calls to <code>startRootUpdate</code> and <code>finalizeRootUpdate</code> around the given callable. </p>
 
-<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00384">384</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="PatternMatch_8h_source.html#l00366">366</a> of file <a class="el" href="PatternMatch_8h_source.html">PatternMatch.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01601">mlir::TypeConverter::convertSignatureArg()</a>, <a class="el" href="SPIRVLowering_8cpp_source.html#l00171">mlir::SPIRVTypeConverter::convertType()</a>, and <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01599">mlir::TypeConverter::convertSignatureArg()</a>, <a class="el" href="SPIRVLowering_8cpp_source.html#l00171">mlir::SPIRVTypeConverter::convertType()</a>, and <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>.</p>
 
 </div>
 </div>
@@ -1314,7 +1209,7 @@ template&lt;typename CallableT &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 27 2020 20:23:26 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 00:23:14 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

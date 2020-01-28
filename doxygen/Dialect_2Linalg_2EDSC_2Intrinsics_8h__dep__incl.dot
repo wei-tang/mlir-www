@@ -13,4 +13,7 @@ digraph "include/mlir/Dialect/Linalg/EDSC/Intrinsics.h"
   Node85 -> Node88 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node88 [label="lib/Dialect/Linalg\l/Transforms/Tiling.cpp",height=0.2,width=0.4,color="black",URL="$Tiling_8cpp.html"];
   Node84 -> Node86 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 -> Node87 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node84 -> Node89 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node89 [label="lib/Dialect/Linalg\l/Transforms/Promotion.cpp",height=0.2,width=0.4,color="black",URL="$Promotion_8cpp.html"];
 }

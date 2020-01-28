@@ -62,8 +62,6 @@ $(function() {
 Namespaces</h2></td></tr>
 <tr class="memitem:namespacemlir_1_1linalg_1_1detail"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1linalg_1_1detail.html">detail</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:namespacemlir_1_1linalg_1_1intrinsics"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1linalg_1_1intrinsics.html">intrinsics</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -242,11 +240,11 @@ Functions</h2></td></tr>
 <p>Returns the values obtained by applying <code>map</code> to the list of values. </p>
 <p>When non-null, the optional pointer <code>folder</code> is used to call into the <code>createAndFold</code> builder method. If <code>folder</code> is null, the regular <code>create</code> method is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00045">45</a> of file <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00043">43</a> of file <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00034">emitOrFoldComposedAffineApply()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00150">mlir::AffineMap::getNumDims()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00158">mlir::AffineMap::getNumResults()</a>, and <a class="el" href="AffineMap_8cpp_source.html#l00167">mlir::AffineMap::getResults()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00032">emitOrFoldComposedAffineApply()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00150">mlir::AffineMap::getNumDims()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00158">mlir::AffineMap::getNumResults()</a>, and <a class="el" href="AffineMap_8cpp_source.html#l00167">mlir::AffineMap::getResults()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00058">getViewSizes()</a>, <a class="el" href="Tiling_8cpp_source.html#l00065">makeTiledLoopRanges()</a>, <a class="el" href="Tiling_8cpp_source.html#l00234">makeTiledViews()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00058">permuteIvs()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgToLoops_8cpp_source.html#l00071">emitLoopRanges()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00058">getViewSizes()</a>, <a class="el" href="Tiling_8cpp_source.html#l00063">makeTiledLoopRanges()</a>, <a class="el" href="Tiling_8cpp_source.html#l00232">makeTiledViews()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00057">permuteIvs()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -285,7 +283,7 @@ template&lt;typename T , unsigned N&gt; </div>
 
 <p class="reference">References <a class="el" href="namespacemlir_1_1linalg.html#afe152ba29aa6243db6573c2257930553">promoteSubViewOperands()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8cpp_source.html#l00237">permuteGenericLinalgOp()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8cpp_source.html#l00235">permuteGenericLinalgOp()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -336,11 +334,11 @@ template&lt;typename T , unsigned N&gt; </div>
 <p>Fuses producer into consumer if the producer is structurally feasible and the fusion would not violate dependencies. </p>
 <p>When non-null, the optional pointer <code>folder</code> is used to call into the <code>createAndFold</code> builder method. If <code>folder</code> is null, the regular <code>create</code> method is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="Fusion_8cpp_source.html#l00270">270</a> of file <a class="el" href="Fusion_8cpp_source.html">Fusion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Fusion_8cpp_source.html#l00268">268</a> of file <a class="el" href="Fusion_8cpp_source.html">Fusion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Fusion_8cpp_source.html#l00146">fuse()</a>, <a class="el" href="DependenceAnalysis_8cpp_source.html#l00133">mlir::linalg::LinalgDependenceGraph::getDependencesInto()</a>, <a class="el" href="Fusion_8cpp_source.html#l00250">isFusableInto()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, and <a class="el" href="IR_2Builders_8h_source.html#l00240">mlir::OpBuilder::setInsertionPoint()</a>.</p>
+<p class="reference">References <a class="el" href="Fusion_8cpp_source.html#l00144">fuse()</a>, <a class="el" href="DependenceAnalysis_8cpp_source.html#l00133">mlir::linalg::LinalgDependenceGraph::getDependencesInto()</a>, <a class="el" href="Fusion_8cpp_source.html#l00248">isFusableInto()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, and <a class="el" href="IR_2Builders_8h_source.html#l00240">mlir::OpBuilder::setInsertionPoint()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00323">fuseLinalgOpsGreedily()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00055">tileAndFuseLinalgOpAndSetMarker()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00321">fuseLinalgOpsGreedily()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00053">tileAndFuseLinalgOpAndSetMarker()</a>.</p>
 
 </div>
 </div>
@@ -397,9 +395,9 @@ template&lt;typename T , unsigned N&gt; </div>
 <p>Returns all the operands of <code>linalgOp</code> that are not views. </p>
 <p>Asserts that these operands are value types to allow transformations like tiling to just use the values when cloning <code>linalgOp</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00066">66</a> of file <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00064">64</a> of file <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html">Utils.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00068">cloneWithLoopRanges()</a>, <a class="el" href="Promotion_8cpp_source.html#l00108">promoteSubViews()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00066">cloneWithLoopRanges()</a>, <a class="el" href="Promotion_8cpp_source.html#l00108">promoteSubViews()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -436,9 +434,9 @@ template&lt;typename ConcreteOp &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00058">58</a> of file <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html">Utils.h</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00045">applyMapToValues()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00043">applyMapToValues()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgToLoops_8cpp_source.html#l00071">emitLoopRanges()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -483,11 +481,11 @@ template&lt;typename ConcreteOp &gt; </div>
 <p>Checks whether fusing the specific <code>producer</code> of the <code>consumedView</code> is feasible. </p>
 <p>This checks <code>producer</code> is the last write of <code>consumedView</code> and that no interleaved dependence would be violated (RAW, WAR or WAW). </p>
 
-<p class="definition">Definition at line <a class="el" href="Fusion_8cpp_source.html#l00250">250</a> of file <a class="el" href="Fusion_8cpp_source.html">Fusion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Fusion_8cpp_source.html#l00248">248</a> of file <a class="el" href="Fusion_8cpp_source.html">Fusion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="DependenceAnalysis_8cpp_source.html#l00185">mlir::linalg::LinalgDependenceGraph::findCoveringDependences()</a>, and <a class="el" href="Fusion_8cpp_source.html#l00226">isProducerLastWriteOfView()</a>.</p>
+<p class="reference">References <a class="el" href="DependenceAnalysis_8cpp_source.html#l00185">mlir::linalg::LinalgDependenceGraph::findCoveringDependences()</a>, and <a class="el" href="Fusion_8cpp_source.html#l00224">isProducerLastWriteOfView()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00270">fuseProducerOf()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00268">fuseProducerOf()</a>.</p>
 
 </div>
 </div>
@@ -521,7 +519,7 @@ template&lt;typename OpTy &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="LinalgTransforms_8h_source.html#l00040">40</a> of file <a class="el" href="LinalgTransforms_8h_source.html">LinalgTransforms.h</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgTransforms_8cpp_source.html#l00092">mlir::linalg::detail::isProducedByOpOfTypeImpl()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00587">linalgOpToAffineLoops()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00579">linalgOpToLoops()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00237">permuteGenericLinalgOp()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00222">permuteGenericLinalgOpPrecondition()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00286">promoteSubviewsLinalgOp()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00273">promoteSubviewsLinalgOpPrecondition()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00055">tileAndFuseLinalgOpAndSetMarker()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00043">tileLinalgOpAndSetMarker()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00192">vectorizeLinalgOp()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00163">vectorizeLinalgOpPrecondition()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgTransforms_8cpp_source.html#l00090">mlir::linalg::detail::isProducedByOpOfTypeImpl()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00587">linalgOpToAffineLoops()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00579">linalgOpToLoops()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00235">permuteGenericLinalgOp()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00220">permuteGenericLinalgOpPrecondition()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00284">promoteSubviewsLinalgOp()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00271">promoteSubviewsLinalgOpPrecondition()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00053">tileAndFuseLinalgOpAndSetMarker()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00041">tileLinalgOpAndSetMarker()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00190">vectorizeLinalgOp()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00161">vectorizeLinalgOpPrecondition()</a>.</p>
 
 </div>
 </div>
@@ -566,11 +564,11 @@ template&lt;typename OpTy &gt; </div>
 <p>Checks whether the specific <code>producer</code> is the last write to exactly the whole <code>consumedView</code>. </p>
 <p>This checks structural dominance, that the dependence is a RAW without any interleaved write to any piece of <code>consumedView</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Fusion_8cpp_source.html#l00226">226</a> of file <a class="el" href="Fusion_8cpp_source.html">Fusion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Fusion_8cpp_source.html#l00224">224</a> of file <a class="el" href="Fusion_8cpp_source.html">Fusion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="DependenceAnalysis_8cpp_source.html#l00192">mlir::linalg::LinalgDependenceGraph::findCoveringWrites()</a>, and <a class="el" href="Fusion_8cpp_source.html#l00204">isStructurallyFusableProducer()</a>.</p>
+<p class="reference">References <a class="el" href="DependenceAnalysis_8cpp_source.html#l00192">mlir::linalg::LinalgDependenceGraph::findCoveringWrites()</a>, and <a class="el" href="Fusion_8cpp_source.html#l00202">isStructurallyFusableProducer()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00250">isFusableInto()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00092">mlir::linalg::detail::isProducedByOpOfTypeImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00248">isFusableInto()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00090">mlir::linalg::detail::isProducedByOpOfTypeImpl()</a>.</p>
 
 </div>
 </div>
@@ -670,7 +668,7 @@ template&lt;typename ConcreteOp &gt; </div>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l00129">mlir::StandardAttributes::AffineMap</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00915">concat()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00883">extractOrIdentityMap()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00252">mlir::getAffineDimExpr()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00895">makeAffineDimExprs()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00904">weightedConvInputIndex()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00068">cloneWithLoopRanges()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00072">emitLoopRanges()</a>, <a class="el" href="Fusion_8cpp_source.html#l00146">fuse()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l01054">getIndexingMaps()</a>, <a class="el" href="Fusion_8cpp_source.html#l00121">getViewDefiningLoopRange()</a>, <a class="el" href="Tiling_8cpp_source.html#l00234">makeTiledViews()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Fusion_8cpp_source.html#l00066">cloneWithLoopRanges()</a>, <a class="el" href="LinalgToLoops_8cpp_source.html#l00071">emitLoopRanges()</a>, <a class="el" href="Fusion_8cpp_source.html#l00144">fuse()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l01054">getIndexingMaps()</a>, <a class="el" href="Fusion_8cpp_source.html#l00119">getViewDefiningLoopRange()</a>, <a class="el" href="Tiling_8cpp_source.html#l00232">makeTiledViews()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -712,9 +710,9 @@ template&lt;typename ConcreteOp &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00237">237</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00235">235</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00159">applyPermutationToVector()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00028">DEBUG_TYPE</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00207">mlir::Builder::getAffineMapArrayAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00149">mlir::Builder::getArrayAttr()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00027">mlir::getIndexingMapsAttrName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00033">mlir::getIteratorTypesAttrName()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00101">mlir::AffineMap::getPermutationMap()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00289">mlir::inversePermutation()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00222">permuteGenericLinalgOpPrecondition()</a>, <a class="el" href="Operation_8h_source.html#l00301">mlir::Operation::setAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00159">applyPermutationToVector()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00027">DEBUG_TYPE</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00207">mlir::Builder::getAffineMapArrayAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00149">mlir::Builder::getArrayAttr()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00027">mlir::getIndexingMapsAttrName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00033">mlir::getIteratorTypesAttrName()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00101">mlir::AffineMap::getPermutationMap()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00289">mlir::inversePermutation()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00220">permuteGenericLinalgOpPrecondition()</a>, <a class="el" href="Operation_8h_source.html#l00301">mlir::Operation::setAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>.</p>
 
@@ -748,11 +746,11 @@ template&lt;typename ConcreteOp &gt; </div>
 
 <p>Emits a <code>generic</code> or <code>indexed_generic</code> operation with the <code>indexing_maps</code> and <code>iterator_types</code> permutated according to <code>permutation</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00222">222</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00220">220</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00237">permuteGenericLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00235">permuteGenericLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -803,7 +801,7 @@ template&lt;typename ConcreteOp &gt; </div>
 <p>Prepares the SubView promotion later performed by <code>promoteSubViews</code> (where most of the transformation happens). </p>
 <p>It arranges the new operands for <code>LinalgOp op</code> and deallocates the new buffer(s) It is the entry point for declarative transformation Returns the cloned <code>LinalgOp</code> with the new operands </p>
 
-<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00159">applyPermutationToVector()</a>, <a class="el" href="Promotion_8cpp_source.html#l00108">promoteSubViews()</a>, <a class="el" href="Promotion_8cpp_source.html#l00204">promoteSubViews()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00286">promoteSubviewsLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00159">applyPermutationToVector()</a>, <a class="el" href="Promotion_8cpp_source.html#l00108">promoteSubViews()</a>, <a class="el" href="Promotion_8cpp_source.html#l00206">promoteSubViews()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00284">promoteSubviewsLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -861,7 +859,7 @@ template&lt;typename ConcreteOp &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00108">108</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00066">getAssumedNonViewOperands()</a>, <a class="el" href="Promotion_8cpp_source.html#l00077">promoteFullTileBuffer()</a>, <a class="el" href="namespacemlir_1_1linalg.html#afe152ba29aa6243db6573c2257930553">promoteSubViewOperands()</a>, and <a class="el" href="Promotion_8cpp_source.html#l00204">promoteSubViews()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00064">getAssumedNonViewOperands()</a>, <a class="el" href="Promotion_8cpp_source.html#l00076">promoteFullTileBuffer()</a>, <a class="el" href="namespacemlir_1_1linalg.html#afe152ba29aa6243db6573c2257930553">promoteSubViewOperands()</a>, and <a class="el" href="Promotion_8cpp_source.html#l00206">promoteSubViews()</a>.</p>
 
 </div>
 </div>
@@ -891,9 +889,9 @@ template&lt;typename ConcreteOp &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00286">286</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00284">284</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgTransforms_8cpp_source.html#l00028">DEBUG_TYPE</a>, <a class="el" href="namespacemlir_1_1linalg.html#afe152ba29aa6243db6573c2257930553">promoteSubViewOperands()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00273">promoteSubviewsLinalgOpPrecondition()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgTransforms_8cpp_source.html#l00027">DEBUG_TYPE</a>, <a class="el" href="namespacemlir_1_1linalg.html#afe152ba29aa6243db6573c2257930553">promoteSubViewOperands()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00271">promoteSubviewsLinalgOpPrecondition()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>.</p>
 
@@ -917,11 +915,11 @@ template&lt;typename ConcreteOp &gt; </div>
 
 <p>Promote std.subviews feeding linalg operations. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00273">273</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00271">271</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00286">promoteSubviewsLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00284">promoteSubviewsLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -971,9 +969,9 @@ template&lt;typename ConcreteOp &gt; </div>
 
 <p>Tiles <code>op</code> by <code>sizes</code>, fuses the producers of <code>operandIndicesToFuse</code> and sets the attribute <code>kLinalgTransformMarker</code> to <code>linalgMarker</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00055">55</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00053">53</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00097">mlir::PatternRewriter::eraseOp()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Fusion_8cpp_source.html#l00270">fuseProducerOf()</a>, <a class="el" href="Operation_8h_source.html#l00121">mlir::Operation::getParentOfType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00123">tileLinalgOperation()</a>.</p>
+<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00091">mlir::PatternRewriter::eraseOp()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Fusion_8cpp_source.html#l00268">fuseProducerOf()</a>, <a class="el" href="Operation_8h_source.html#l00121">mlir::Operation::getParentOfType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00123">tileLinalgOperation()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>.</p>
 
@@ -1026,11 +1024,11 @@ template&lt;typename ConcreteOp &gt; </div>
 <p>Performs standalone tiling of a single LinalgOp by <code>tileSizes</code>. </p>
 <p>and permute the loop nest according to <code>permutation</code> The permutation is expressed as a list of integers that specify the new ordering of the loop nest. The length of <code>permutation</code> must be equal to the length of <code>tileSizes</code>. E.g. the permutation <code>(i,j,k) -&gt; (j,k,i)</code> will be expressed with <code>permutation = [1,2,0]</code>. All values in <code>permutation</code> must be integers, in the range 0..<code>tileSizes.size()</code> without duplications (i.e. <code>[1,1,2]</code> is an invalid permutation). An empty list states for the identity permutation. Returns a struct containing the tiled loops in the specified order and the cloned op if successful, llvm::None otherwise. When non-null, the optional pointer <code>folder</code> is used to call into the <code>createAndFold</code> builder method. If <code>folder</code> is null, the regular <code>create</code> method is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tiling_8cpp_source.html#l00313">313</a> of file <a class="el" href="Tiling_8cpp_source.html">Tiling.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tiling_8cpp_source.html#l00311">311</a> of file <a class="el" href="Tiling_8cpp_source.html">Tiling.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00045">applyMapToValues()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00159">applyPermutationToVector()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00313">mlir::concatAffineMaps()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00066">getAssumedNonViewOperands()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00052">mlir::edsc::ScopedContext::getBuilder()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="namespacemlir_1_1loop.html#a95142edbf4c3eba444c22b6508d9a573">mlir::loop::getForInductionVarOwner()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00058">mlir::edsc::ScopedContext::getLocation()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00114">mlir::AffineMap::getMultiDimIdentityMap()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00101">mlir::AffineMap::getPermutationMap()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00058">getViewSizes()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00289">mlir::inversePermutation()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00929">loopToOperandRangesMaps()</a>, <a class="el" href="EDSC_2Intrinsics_8h_source.html#l00064">mlir::edsc::makeHandlePointers()</a>, <a class="el" href="Tiling_8cpp_source.html#l00065">makeTiledLoopRanges()</a>, <a class="el" href="Tiling_8cpp_source.html#l00234">makeTiledViews()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00240">mlir::OpBuilder::setInsertionPoint()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00174">transformIndexedGenericOpIndices()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00043">applyMapToValues()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00159">applyPermutationToVector()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00313">mlir::concatAffineMaps()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8cpp_source.html#l00064">getAssumedNonViewOperands()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00052">mlir::edsc::ScopedContext::getBuilder()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="namespacemlir_1_1loop.html#a95142edbf4c3eba444c22b6508d9a573">mlir::loop::getForInductionVarOwner()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00058">mlir::edsc::ScopedContext::getLocation()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00114">mlir::AffineMap::getMultiDimIdentityMap()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00101">mlir::AffineMap::getPermutationMap()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00058">getViewSizes()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00289">mlir::inversePermutation()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00929">loopToOperandRangesMaps()</a>, <a class="el" href="EDSC_2Intrinsics_8h_source.html#l00064">mlir::edsc::makeHandlePointers()</a>, <a class="el" href="Tiling_8cpp_source.html#l00063">makeTiledLoopRanges()</a>, <a class="el" href="Tiling_8cpp_source.html#l00232">makeTiledViews()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00240">mlir::OpBuilder::setInsertionPoint()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00172">transformIndexedGenericOpIndices()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Tiling_8cpp_source.html#l00388">tileLinalgOp()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00123">tileLinalgOperation()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00424">tileLinalgOps()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Tiling_8cpp_source.html#l00386">tileLinalgOp()</a>, <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00123">tileLinalgOperation()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00422">tileLinalgOps()</a>.</p>
 
 </div>
 </div>
@@ -1081,9 +1079,9 @@ template&lt;typename ConcreteOp &gt; </div>
 <p>Performs standalone tiling of a single LinalgOp by constant <code>tileSizes</code>. </p>
 <p>and permute the loop nest according to <code>permutation</code> The permutation is expressed as a list of integers that specify the new ordering of the loop nest. The length of <code>permutation</code> must be equal to the length of <code>tileSizes</code>. E.g. the permutation <code>(i,j,k) -&gt; (j,k,i)</code> will be expressed with <code>permutation = [1,2,0]</code>. All values in <code>permutation</code> must be integers, in the range 0..<code>tileSizes.size()</code> without duplications (i.e. <code>[1,1,2]</code> is an invalid permutation). An empty list states for the identity permutation. Returns a struct containing the tiled loops in the specified order and the cloned op if successful, llvm::None otherwise. When non-null, the optional pointer <code>folder</code> is used to call into the <code>createAndFold</code> builder method. If <code>folder</code> is null, the regular <code>create</code> method is called. </p>
 
-<p class="definition">Definition at line <a class="el" href="Tiling_8cpp_source.html#l00388">388</a> of file <a class="el" href="Tiling_8cpp_source.html">Tiling.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Tiling_8cpp_source.html#l00386">386</a> of file <a class="el" href="Tiling_8cpp_source.html">Tiling.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="IR_2Builders_8h_source.html#l00240">mlir::OpBuilder::setInsertionPoint()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="IR_2Builders_8h_source.html#l00240">mlir::OpBuilder::setInsertionPoint()</a>, and <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
 </div>
 </div>
@@ -1134,7 +1132,7 @@ template&lt;typename ConcreteOp &gt; </div>
 <p>Tiles <code>op</code> by <code>sizes</code> permuting the loops according to <code>permutation</code> and sets the attribute <code>kLinalgTransformMarker</code> to <code>linalgMarker</code>. </p>
 <p>The permutation is expressed as a list of integers that specify the new ordering of the loop nest. The length of <code>permutation</code> must be equal to the length of <code>tileSizes</code>. E.g. the permutation <code>(i,j,k) -&gt; (j,k,i)</code> will be expressed with <code>permutation = [1,2,0]</code>. All values in <code>permutation</code> must be integers, in the range 0..<code>tileSizes.size()</code> without duplications (i.e. <code>[1,1,2]</code> is an invalid permutation). An empty list states for the identity permutation. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00043">43</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00041">41</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00123">tileLinalgOperation()</a>.</p>
 
@@ -1178,9 +1176,9 @@ template&lt;typename... Args&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html#l00123">123</a> of file <a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html">Utils.h</a>.</p>
 
-<p class="reference">References <a class="el" href="Tiling_8cpp_source.html#l00313">tileLinalgOp()</a>.</p>
+<p class="reference">References <a class="el" href="Tiling_8cpp_source.html#l00311">tileLinalgOp()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8cpp_source.html#l00055">tileAndFuseLinalgOpAndSetMarker()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00043">tileLinalgOpAndSetMarker()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8cpp_source.html#l00053">tileAndFuseLinalgOpAndSetMarker()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00041">tileLinalgOpAndSetMarker()</a>.</p>
 
 </div>
 </div>
@@ -1210,9 +1208,9 @@ template&lt;typename... Args&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00192">192</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00190">190</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgTransforms_8cpp_source.html#l00028">DEBUG_TYPE</a>, <a class="el" href="Operation_8h_source.html#l00107">mlir::Operation::getLoc()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00163">vectorizeLinalgOpPrecondition()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgTransforms_8cpp_source.html#l00027">DEBUG_TYPE</a>, <a class="el" href="Operation_8h_source.html#l00107">mlir::Operation::getLoc()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00161">vectorizeLinalgOpPrecondition()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>.</p>
 
@@ -1236,18 +1234,18 @@ template&lt;typename... Args&gt; </div>
 
 <p>Rewrite a linalg.generic into a suitable vector.contraction op. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00163">163</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTransforms_8cpp_source.html#l00161">161</a> of file <a class="el" href="LinalgTransforms_8cpp_source.html">LinalgTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00187">mlir::ShapedType::hasStaticShape()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00148">isMatmul()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00187">mlir::ShapedType::hasStaticShape()</a>, <a class="el" href="LinalgTransforms_8cpp_source.html#l00146">isMatmul()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00192">vectorizeLinalgOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgTransforms_8h_source.html#l00040">isProducedByOpOfType()</a>, and <a class="el" href="LinalgTransforms_8cpp_source.html#l00190">vectorizeLinalgOp()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 27 2020 20:23:26 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 00:23:14 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

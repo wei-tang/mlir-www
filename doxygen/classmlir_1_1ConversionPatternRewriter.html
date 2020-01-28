@@ -90,9 +90,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ace7d2d9f195d1ef23f826d36204f2a38"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ConversionPatternRewriter.html#ace7d2d9f195d1ef23f826d36204f2a38">getRemappedValue</a> (<a class="el" href="classmlir_1_1Value.html">Value</a> key)</td></tr>
 <tr class="memdesc:ace7d2d9f195d1ef23f826d36204f2a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the converted value that replaces 'key'.  <a href="#ace7d2d9f195d1ef23f826d36204f2a38">More...</a><br /></td></tr>
 <tr class="separator:ace7d2d9f195d1ef23f826d36204f2a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a203470357f4ebf04bb370ab3baa07526"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a203470357f4ebf04bb370ab3baa07526">replaceOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> newValues, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> valuesToRemoveIfDead) override</td></tr>
-<tr class="memdesc:a203470357f4ebf04bb370ab3baa07526"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmlir_1_1PatternRewriter.html" title="This class coordinates the application of a pattern to the current function, providing a way to creat...">PatternRewriter</a> hook for replacing the results of an operation.  <a href="#a203470357f4ebf04bb370ab3baa07526">More...</a><br /></td></tr>
-<tr class="separator:a203470357f4ebf04bb370ab3baa07526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12fa2633cd26e201bb171204cc1d313b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a12fa2633cd26e201bb171204cc1d313b">replaceOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> newValues) override</td></tr>
+<tr class="memdesc:a12fa2633cd26e201bb171204cc1d313b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmlir_1_1PatternRewriter.html" title="This class coordinates the application of a pattern to the current function, providing a way to creat...">PatternRewriter</a> hook for replacing the results of an operation.  <a href="#a12fa2633cd26e201bb171204cc1d313b">More...</a><br /></td></tr>
+<tr class="separator:a12fa2633cd26e201bb171204cc1d313b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56f841ea5c2326350a6d7182e9028a0e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ConversionPatternRewriter.html#a56f841ea5c2326350a6d7182e9028a0e">eraseOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op) override</td></tr>
 <tr class="memdesc:a56f841ea5c2326350a6d7182e9028a0e"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classmlir_1_1PatternRewriter.html" title="This class coordinates the application of a pattern to the current function, providing a way to creat...">PatternRewriter</a> hook for erasing a dead operation.  <a href="#a56f841ea5c2326350a6d7182e9028a0e">More...</a><br /></td></tr>
 <tr class="separator:a56f841ea5c2326350a6d7182e9028a0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,16 +138,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ace5c1797bab35445908f6dadc22bae57 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87b70ceeaf125e9860bae3e617cffeeb inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a87b70ceeaf125e9860bae3e617cffeeb">cloneRegionBefore</a> (<a class="el" href="classmlir_1_1Region.html">Region</a> &amp;region, <a class="el" href="classmlir_1_1Block.html">Block</a> *before)</td></tr>
 <tr class="separator:a87b70ceeaf125e9860bae3e617cffeeb inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9660f8de01acadea649eb1ae0e9feee3 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a9660f8de01acadea649eb1ae0e9feee3">replaceOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> newValues)</td></tr>
-<tr class="separator:a9660f8de01acadea649eb1ae0e9feee3 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85660268b96c97df52da09c2960661aa inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memTemplParams" colspan="2">template&lt;typename OpTy , typename... Args&gt; </td></tr>
 <tr class="memitem:a85660268b96c97df52da09c2960661aa inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#a85660268b96c97df52da09c2960661aa">replaceOpWithNewOp</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, Args &amp;&amp;... args)</td></tr>
 <tr class="memdesc:a85660268b96c97df52da09c2960661aa inherit pub_methods_classmlir_1_1PatternRewriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the result op with a new op that is created without verification.  <a href="classmlir_1_1PatternRewriter.html#a85660268b96c97df52da09c2960661aa">More...</a><br /></td></tr>
 <tr class="separator:a85660268b96c97df52da09c2960661aa inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af58374d94c26eaa5f8481c217b2431a4 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memTemplParams" colspan="2">template&lt;typename OpTy , typename... Args&gt; </td></tr>
-<tr class="memitem:af58374d94c26eaa5f8481c217b2431a4 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#af58374d94c26eaa5f8481c217b2431a4">replaceOpWithNewOp</a> (<a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> valuesToRemoveIfDead, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, Args &amp;&amp;... args)</td></tr>
-<tr class="memdesc:af58374d94c26eaa5f8481c217b2431a4 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">Replaces the result op with a new op that is created without verification.  <a href="classmlir_1_1PatternRewriter.html#af58374d94c26eaa5f8481c217b2431a4">More...</a><br /></td></tr>
-<tr class="separator:af58374d94c26eaa5f8481c217b2431a4 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae214b3817dadcc5f3732aeeed9a9e803 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memTemplParams" colspan="2">template&lt;typename CallableT &gt; </td></tr>
 <tr class="memitem:ae214b3817dadcc5f3732aeeed9a9e803 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classmlir_1_1PatternRewriter.html#ae214b3817dadcc5f3732aeeed9a9e803">updateRootInPlace</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *root, CallableT &amp;&amp;callable)</td></tr>
 <tr class="memdesc:ae214b3817dadcc5f3732aeeed9a9e803 inherit pub_methods_classmlir_1_1PatternRewriter"><td class="mdescLeft">&#160;</td><td class="mdescRight">This method is a utility wrapper around a root update of an operation.  <a href="classmlir_1_1PatternRewriter.html#ae214b3817dadcc5f3732aeeed9a9e803">More...</a><br /></td></tr>
@@ -415,7 +409,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00834">834</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00832">832</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -442,7 +436,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00838">838</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00836">836</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -476,9 +470,9 @@ Additional Inherited Members</h2></td></tr>
 <p>Apply a signature conversion to the entry block of the given region. </p>
 <p>This replaces the entry block with a new block containing the updated signature. The new entry block to the region is returned for convenience. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00859">859</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00857">857</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01601">mlir::TypeConverter::convertSignatureArg()</a>, <a class="el" href="SPIRVLowering_8cpp_source.html#l00171">mlir::SPIRVTypeConverter::convertType()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01599">mlir::TypeConverter::convertSignatureArg()</a>, <a class="el" href="SPIRVLowering_8cpp_source.html#l00171">mlir::SPIRVTypeConverter::convertType()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
 
 </div>
 </div>
@@ -510,7 +504,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#ac9ec804ab1d995d8a94e4c97a0d8e399">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00945">945</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00943">943</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -565,9 +559,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#a40ed880a417ff8007b922e0eeda2379b">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00905">905</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00903">903</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00159">mlir::PatternRewriter::cloneRegionBefore()</a>, <a class="el" href="IR_2Region_8h_source.html#l00049">mlir::Region::empty()</a>, <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, <a class="el" href="Region_8cpp_source.html#l00031">mlir::Region::getLoc()</a>, and <a class="el" href="BlockAndValueMapping_8h_source.html#l00061">mlir::BlockAndValueMapping::lookup()</a>.</p>
+<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00153">mlir::PatternRewriter::cloneRegionBefore()</a>, <a class="el" href="IR_2Region_8h_source.html#l00049">mlir::Region::empty()</a>, <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, <a class="el" href="Region_8cpp_source.html#l00031">mlir::Region::getLoc()</a>, and <a class="el" href="BlockAndValueMapping_8h_source.html#l00061">mlir::BlockAndValueMapping::lookup()</a>.</p>
 
 </div>
 </div>
@@ -600,9 +594,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#ad80a643fcca1e5e4c1132fc76d14ee7b">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00851">851</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00849">849</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, and <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
+<p class="reference">References <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, and <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
 
@@ -636,7 +630,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#a9eecb4b39a74b59ffb6010be761c7947">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00935">935</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00933">933</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -657,9 +651,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Return a reference to the internal implementation. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00958">958</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00956">956</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00968">mlir::ConversionPattern::matchAndRewrite()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00966">mlir::ConversionPattern::matchAndRewrite()</a>.</p>
 
 </div>
 </div>
@@ -682,7 +676,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Return the converted value that replaces 'key'. </p>
 <p>Return 'key' if there is no such a converted value. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00876">876</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00874">874</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -730,9 +724,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#aaf154638442b95484d62b1f39159b5a5">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00897">897</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00895">895</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00147">mlir::PatternRewriter::inlineRegionBefore()</a>.</p>
+<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00141">mlir::PatternRewriter::inlineRegionBefore()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
 
@@ -767,11 +761,11 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="classmlir_1_1PatternRewriter.html#a90f899fa7d7a6efbefd8929382d13924">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00919">919</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00917">917</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, and <a class="el" href="IR_2Builders_8cpp_source.html#l00302">mlir::OpBuilder::insert()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00968">mlir::ConversionPattern::matchAndRewrite()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l00966">mlir::ConversionPattern::matchAndRewrite()</a>.</p>
 
 </div>
 </div>
@@ -819,12 +813,12 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#a48c84ba3f100b6af049117db561ca244">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00889">889</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00887">887</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a203470357f4ebf04bb370ab3baa07526"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a203470357f4ebf04bb370ab3baa07526">&#9670;&nbsp;</a></span>replaceOp()</h2>
+<a id="a12fa2633cd26e201bb171204cc1d313b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12fa2633cd26e201bb171204cc1d313b">&#9670;&nbsp;</a></span>replaceOp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -842,13 +836,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
-          <td class="paramname"><em>newValues</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
-          <td class="paramname"><em>valuesToRemoveIfDead</em>&#160;</td>
+          <td class="paramname"><em>newValues</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -865,13 +853,13 @@ Additional Inherited Members</h2></td></tr>
 
 <p><a class="el" href="classmlir_1_1PatternRewriter.html" title="This class coordinates the application of a pattern to the current function, providing a way to creat...">PatternRewriter</a> hook for replacing the results of an operation. </p>
 
-<p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#a98e252512cc5b6b5131805401decb2c0">mlir::PatternRewriter</a>.</p>
+<p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#a1b58bf2571cc9c7d0c37295f46a7104b">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00841">841</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00839">839</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgToLLVM_8cpp_source.html#l00089">convertLinalgType()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, <a class="el" href="IndexIntrinsicsOpLowering_8h_source.html#l00051">mlir::GPUIndexIntrinsicOpLowering&lt; Op, XOp, YOp, ZOp &gt;::matchAndRewrite()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l00968">mlir::ConversionPattern::matchAndRewrite()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgToLLVM_8cpp_source.html#l00087">convertLinalgType()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00113">getI64SubArray()</a>, <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, <a class="el" href="IndexIntrinsicsOpLowering_8h_source.html#l00051">mlir::GPUIndexIntrinsicOpLowering&lt; Op, XOp, YOp, ZOp &gt;::matchAndRewrite()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l00966">mlir::ConversionPattern::matchAndRewrite()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00446">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
 
 </div>
 </div>
@@ -903,7 +891,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Replace all the uses of the block argument <code>from</code> with value <code>to</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00864">864</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00862">862</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Value_8cpp_source.html#l00071">mlir::Value::getDefiningOp()</a>, and <a class="el" href="Value_8h_source.html#l00151">mlir::Value::getUses()</a>.</p>
 
@@ -949,9 +937,9 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#afe52554116a8e2e96428aa17807c7da8">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00881">881</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00879">879</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00128">mlir::PatternRewriter::splitBlock()</a>.</p>
+<p class="reference">References <a class="el" href="PatternMatch_8cpp_source.html#l00122">mlir::PatternRewriter::splitBlock()</a>.</p>
 
 </div>
 </div>
@@ -984,7 +972,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1PatternRewriter.html#ace9fb81f77aa27c812817fa8e2e97739">mlir::PatternRewriter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00927">927</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l00925">925</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -995,7 +983,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 27 2020 20:23:25 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 00:23:13 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

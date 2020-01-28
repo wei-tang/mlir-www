@@ -56,10 +56,10 @@ $(function() {
 <div class="title">Promotion.cpp File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="LinalgOps_8h_source.html">mlir/Dialect/Linalg/IR/LinalgOps.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="Dialect_2Linalg_2EDSC_2Intrinsics_8h_source.html">mlir/Dialect/Linalg/EDSC/Intrinsics.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="LinalgOps_8h_source.html">mlir/Dialect/Linalg/IR/LinalgOps.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LinalgTypes_8h_source.html">mlir/Dialect/Linalg/IR/LinalgTypes.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Dialect_2Linalg_2Passes_8h_source.html">mlir/Dialect/Linalg/Passes.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="Dialect_2Linalg_2Utils_2Intrinsics_8h_source.html">mlir/Dialect/Linalg/Utils/Intrinsics.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Dialect_2Linalg_2Utils_2Utils_8h_source.html">mlir/Dialect/Linalg/Utils/Utils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LoopOps_8h_source.html">mlir/Dialect/LoopOps/LoopOps.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Helpers_8h_source.html">mlir/EDSC/Helpers.h</a>&quot;</code><br />
@@ -119,7 +119,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00041">41</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00040">40</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
 
 </div>
 </div>
@@ -164,11 +164,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00049">49</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00048">48</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="MLIRContext_8cpp_source.html#l00511">mlir::IntegerType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="Value_8h_source.html#l00104">mlir::Value::getContext()</a>, <a class="el" href="Value_8cpp_source.html#l00071">mlir::Value::getDefiningOp()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00103">mlir::Type::getIntOrFloatBitWidth()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00077">promoteFullTileBuffer()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00076">promoteFullTileBuffer()</a>.</p>
 
 </div>
 </div>
@@ -244,7 +244,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00241">mlir::createLinalgPromotionPass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00243">mlir::createLinalgPromotionPass()</a>.</p>
 
 </div>
 </div>
@@ -300,9 +300,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00077">77</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00076">76</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Promotion_8cpp_source.html#l00049">allocBuffer()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>.</p>
+<p class="reference">References <a class="el" href="Promotion_8cpp_source.html#l00048">allocBuffer()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00108">mlir::linalg::promoteSubViews()</a>.</p>
 
@@ -342,7 +342,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00204">204</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Promotion_8cpp_source.html#l00206">206</a> of file <a class="el" href="Promotion_8cpp_source.html">Promotion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpDefinition_8h_source.html#l00119">mlir::OpState::getContext()</a>, <a class="el" href="namespacemlir_1_1linalg.html#afe152ba29aa6243db6573c2257930553">mlir::linalg::promoteSubViewOperands()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00214">mlir::OpState::walk()</a>.</p>
 
@@ -371,14 +371,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00241">mlir::createLinalgPromotionPass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Promotion_8cpp_source.html#l00243">mlir::createLinalgPromotionPass()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 27 2020 20:23:24 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 00:23:13 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
