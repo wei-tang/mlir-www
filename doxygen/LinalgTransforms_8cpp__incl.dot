@@ -32,15 +32,15 @@ digraph "lib/Dialect/Linalg/Transforms/LinalgTransforms.cpp"
   Node9 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node27 [label="llvm/ADT/DenseMapInfo.h",height=0.2,width=0.4,color="grey75"];
   Node50 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node53 [label="mlir/Dialect/Utils\l/StructuredOpsUtils.h",height=0.2,width=0.4,color="black",URL="$StructuredOpsUtils_8h.html"];
+  Node53 [label="mlir/Dialect/Utils\l/StructuredOpsUtils.h",height=0.2,width=0.4,color="red",URL="$StructuredOpsUtils_8h.html"];
   Node53 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node31 [label="mlir/IR/Attributes.h",height=0.2,width=0.4,color="red",URL="$Attributes_8h.html"];
   Node53 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node12 [label="mlir/Support/LLVM.h",height=0.2,width=0.4,color="red",URL="$LLVM_8h.html"];
+  Node12 [label="mlir/Support/LLVM.h",height=0.2,width=0.4,color="black",URL="$LLVM_8h.html"];
+  Node12 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="llvm/ADT/None.h",height=0.2,width=0.4,color="grey75"];
   Node12 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node14 [label="llvm/Support/Casting.h",height=0.2,width=0.4,color="grey75"];
-  Node53 -> Node44 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node44 [label="llvm/ADT/StringRef.h",height=0.2,width=0.4,color="grey75"];
   Node50 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node50 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node54 [label="mlir/IR/StandardTypes.h",height=0.2,width=0.4,color="black",URL="$StandardTypes_8h.html"];
@@ -138,6 +138,7 @@ digraph "lib/Dialect/Linalg/Transforms/LinalgTransforms.cpp"
   Node102 [label="mlir/EDSC/Intrinsics.h",height=0.2,width=0.4,color="black",URL="$EDSC_2Intrinsics_8h.html"];
   Node102 -> Node98 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node102 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node102 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node0 -> Node103 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node103 [label="mlir/IR/AffineExpr.h",height=0.2,width=0.4,color="black",URL="$AffineExpr_8h.html"];
   Node103 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -150,6 +151,7 @@ digraph "lib/Dialect/Linalg/Transforms/LinalgTransforms.cpp"
   Node104 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node0 -> Node84 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node0 -> Node85 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node0 -> Node105 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node105 [label="llvm/Support/Debug.h",height=0.2,width=0.4,color="grey75"];
   Node0 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

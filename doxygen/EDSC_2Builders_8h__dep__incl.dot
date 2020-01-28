@@ -44,6 +44,7 @@ digraph "include/mlir/EDSC/Builders.h"
   Node81 -> Node82 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node82 [label="lib/Conversion/LinalgToLLVM\l/LinalgToLLVM.cpp",height=0.2,width=0.4,color="black",URL="$LinalgToLLVM_8cpp.html"];
   Node81 -> Node69 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 -> Node78 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node81 -> Node83 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node83 [label="lib/EDSC/Intrinsics.cpp",height=0.2,width=0.4,color="black",URL="$Intrinsics_8cpp.html"];
   Node67 -> Node82 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

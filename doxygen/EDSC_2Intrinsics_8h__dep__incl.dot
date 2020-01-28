@@ -39,6 +39,7 @@ digraph "include/mlir/EDSC/Intrinsics.h"
   Node68 -> Node82 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node82 [label="lib/Conversion/LinalgToLLVM\l/LinalgToLLVM.cpp",height=0.2,width=0.4,color="black",URL="$LinalgToLLVM_8cpp.html"];
   Node68 -> Node70 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node68 -> Node79 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node68 -> Node83 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node83 [label="lib/EDSC/Intrinsics.cpp",height=0.2,width=0.4,color="black",URL="$Intrinsics_8cpp.html"];
 }
