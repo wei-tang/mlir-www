@@ -83,38 +83,173 @@ Functions</h2></td></tr>
 <tr class="memitem:a973673d4bdde8c22bba17644c386c4f4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a973673d4bdde8c22bba17644c386c4f4">walkSymbolRefs</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>(<a class="el" href="classmlir_1_1SymbolTable_1_1SymbolUse.html">SymbolTable::SymbolUse</a>, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int &gt;)&gt; callback)</td></tr>
 <tr class="memdesc:a973673d4bdde8c22bba17644c386c4f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walk all of the symbol references within the given operation, invoking the provided callback for each found use.  <a href="#a973673d4bdde8c22bba17644c386c4f4">More...</a><br /></td></tr>
 <tr class="separator:a973673d4bdde8c22bba17644c386c4f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a930d6824b9e609cd6608d956d51578c6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a930d6824b9e609cd6608d956d51578c6">walkSymbolUses</a> (<a class="el" href="classllvm_1_1MutableArrayRef.html">MutableArrayRef</a>&lt; <a class="el" href="classmlir_1_1Region.html">Region</a> &gt; regions, <a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>(<a class="el" href="classmlir_1_1SymbolTable_1_1SymbolUse.html">SymbolTable::SymbolUse</a>, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int &gt;)&gt; callback)</td></tr>
+<tr class="memdesc:a930d6824b9e609cd6608d956d51578c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walk all of the uses, for any symbol, that are nested within the given regions, invoking the provided callback for each.  <a href="#a930d6824b9e609cd6608d956d51578c6">More...</a><br /></td></tr>
+<tr class="separator:a930d6824b9e609cd6608d956d51578c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8ff642057932d51da66e26bcb43ab9d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#ab8ff642057932d51da66e26bcb43ab9d">walkSymbolUses</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *from, <a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>(<a class="el" href="classmlir_1_1SymbolTable_1_1SymbolUse.html">SymbolTable::SymbolUse</a>, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int &gt;)&gt; callback)</td></tr>
-<tr class="memdesc:ab8ff642057932d51da66e26bcb43ab9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walk all of the uses, for any symbol, that are nested within the given operation 'from', invoking the provided callback for each.  <a href="#ab8ff642057932d51da66e26bcb43ab9d">More...</a><br /></td></tr>
+<tr class="memdesc:ab8ff642057932d51da66e26bcb43ab9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walk all of the uses, for any symbol, that are nested within the given operaion 'from', invoking the provided callback for each.  <a href="#ab8ff642057932d51da66e26bcb43ab9d">More...</a><br /></td></tr>
 <tr class="separator:ab8ff642057932d51da66e26bcb43ab9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a098799074eaa0b28076ec53e28b4bddf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a098799074eaa0b28076ec53e28b4bddf">walkSymbolScopes</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *symbol, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *limit, <a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;(<a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a>, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *)&gt; callback)</td></tr>
-<tr class="memdesc:a098799074eaa0b28076ec53e28b4bddf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walks all of the symbol scopes from 'symbol' to (inclusive) 'limit' invoking the provided callback at each one with a properly scoped reference to 'symbol'.  <a href="#a098799074eaa0b28076ec53e28b4bddf">More...</a><br /></td></tr>
-<tr class="separator:a098799074eaa0b28076ec53e28b4bddf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34fd86c8445864c51e182338152590e3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a34fd86c8445864c51e182338152590e3">walkSymbolScopes</a> (StringRef symbol, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *limit, <a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;(<a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a>, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *)&gt; callback)</td></tr>
-<tr class="memdesc:a34fd86c8445864c51e182338152590e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Walk the symbol scopes defined by 'limit' invoking the provided callback.  <a href="#a34fd86c8445864c51e182338152590e3">More...</a><br /></td></tr>
-<tr class="separator:a34fd86c8445864c51e182338152590e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5268132f7c6f618635ccbe58689d6e36"><td class="memItemLeft" align="right" valign="top">static SmallVector&lt; SymbolScope, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a5268132f7c6f618635ccbe58689d6e36">collectSymbolScopes</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *symbol, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *limit)</td></tr>
+<tr class="memdesc:a5268132f7c6f618635ccbe58689d6e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collect all of the symbol scopes from 'symbol' to (inclusive) 'limit'.  <a href="#a5268132f7c6f618635ccbe58689d6e36">More...</a><br /></td></tr>
+<tr class="separator:a5268132f7c6f618635ccbe58689d6e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0ba01cd57671f1e54ab062d2ac8afab"><td class="memItemLeft" align="right" valign="top">static SmallVector&lt; SymbolScope, 2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#aa0ba01cd57671f1e54ab062d2ac8afab">collectSymbolScopes</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *symbol, <a class="el" href="classmlir_1_1Region.html">Region</a> *limit)</td></tr>
+<tr class="separator:aa0ba01cd57671f1e54ab062d2ac8afab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59cb01c22ca1d0a3a766b83d5b7fbf9e"><td class="memTemplParams" colspan="2">template&lt;typename IRUnit &gt; </td></tr>
+<tr class="memitem:a59cb01c22ca1d0a3a766b83d5b7fbf9e"><td class="memTemplItemLeft" align="right" valign="top">static SmallVector&lt; SymbolScope, 1 &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a59cb01c22ca1d0a3a766b83d5b7fbf9e">collectSymbolScopes</a> (StringRef symbol, IRUnit *limit)</td></tr>
+<tr class="separator:a59cb01c22ca1d0a3a766b83d5b7fbf9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a740700cdbfe328dd127bf3eadaa20446"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a740700cdbfe328dd127bf3eadaa20446">isReferencePrefixOf</a> (<a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> subRef, <a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> ref)</td></tr>
 <tr class="memdesc:a740700cdbfe328dd127bf3eadaa20446"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the given reference 'SubRef' is a sub reference of the reference 'ref', i.e.  <a href="#a740700cdbfe328dd127bf3eadaa20446">More...</a><br /></td></tr>
 <tr class="separator:a740700cdbfe328dd127bf3eadaa20446"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45f420134a402b87b81fc418d121bdb8"><td class="memTemplParams" colspan="2">template&lt;typename SymbolT &gt; </td></tr>
-<tr class="memitem:a45f420134a402b87b81fc418d121bdb8"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1SymbolTable_1_1UseRange.html">SymbolTable::UseRange</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a45f420134a402b87b81fc418d121bdb8">getSymbolUsesImpl</a> (SymbolT symbol, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *limit)</td></tr>
-<tr class="memdesc:a45f420134a402b87b81fc418d121bdb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::getSymbolUses below.  <a href="#a45f420134a402b87b81fc418d121bdb8">More...</a><br /></td></tr>
-<tr class="separator:a45f420134a402b87b81fc418d121bdb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ebed5451bd54e707984536eafe29fe2"><td class="memTemplParams" colspan="2">template&lt;typename SymbolT &gt; </td></tr>
-<tr class="memitem:a2ebed5451bd54e707984536eafe29fe2"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a2ebed5451bd54e707984536eafe29fe2">symbolKnownUseEmptyImpl</a> (SymbolT symbol, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *limit)</td></tr>
-<tr class="memdesc:a2ebed5451bd54e707984536eafe29fe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::symbolKnownUseEmpty below.  <a href="#a2ebed5451bd54e707984536eafe29fe2">More...</a><br /></td></tr>
-<tr class="separator:a2ebed5451bd54e707984536eafe29fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abca81ca32c0b3362e54b84dab5402d67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Attribute.html">Attribute</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#abca81ca32c0b3362e54b84dab5402d67">rebuildAttrAfterRAUW</a> (<a class="el" href="classmlir_1_1Attribute.html">Attribute</a> container, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; std::pair&lt; <a class="el" href="classllvm_1_1SmallVector.html">SmallVector</a>&lt; int, 1 &gt;, <a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> &gt;&gt; accesses, unsigned depth)</td></tr>
+<tr class="memitem:ab20958692c78ce1c95e1ccad8fbc997f"><td class="memTemplParams" colspan="2">template&lt;typename FromT &gt; </td></tr>
+<tr class="memitem:ab20958692c78ce1c95e1ccad8fbc997f"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1SymbolTable_1_1UseRange.html">SymbolTable::UseRange</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#ab20958692c78ce1c95e1ccad8fbc997f">getSymbolUsesImpl</a> (FromT from)</td></tr>
+<tr class="memdesc:ab20958692c78ce1c95e1ccad8fbc997f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::getSymbolUses below.  <a href="#ab20958692c78ce1c95e1ccad8fbc997f">More...</a><br /></td></tr>
+<tr class="separator:ab20958692c78ce1c95e1ccad8fbc997f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49673b1b172fc10aa6da461335fd48d8"><td class="memTemplParams" colspan="2">template&lt;typename SymbolT , typename IRUnitT &gt; </td></tr>
+<tr class="memitem:a49673b1b172fc10aa6da461335fd48d8"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1SymbolTable_1_1UseRange.html">SymbolTable::UseRange</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a49673b1b172fc10aa6da461335fd48d8">getSymbolUsesImpl</a> (SymbolT symbol, IRUnitT *limit)</td></tr>
+<tr class="memdesc:a49673b1b172fc10aa6da461335fd48d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::getSymbolUses below.  <a href="#a49673b1b172fc10aa6da461335fd48d8">More...</a><br /></td></tr>
+<tr class="separator:a49673b1b172fc10aa6da461335fd48d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4dc05ce3c01a51f7d77a920d24942992"><td class="memTemplParams" colspan="2">template&lt;typename SymbolT , typename IRUnitT &gt; </td></tr>
+<tr class="memitem:a4dc05ce3c01a51f7d77a920d24942992"><td class="memTemplItemLeft" align="right" valign="top">static bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a4dc05ce3c01a51f7d77a920d24942992">symbolKnownUseEmptyImpl</a> (SymbolT symbol, IRUnitT *limit)</td></tr>
+<tr class="memdesc:a4dc05ce3c01a51f7d77a920d24942992"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::symbolKnownUseEmpty below.  <a href="#a4dc05ce3c01a51f7d77a920d24942992">More...</a><br /></td></tr>
+<tr class="separator:a4dc05ce3c01a51f7d77a920d24942992"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abca81ca32c0b3362e54b84dab5402d67"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Attribute.html">Attribute</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#abca81ca32c0b3362e54b84dab5402d67">rebuildAttrAfterRAUW</a> (<a class="el" href="classmlir_1_1Attribute.html">Attribute</a> container, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; std::pair&lt; SmallVector&lt; int, 1 &gt;, <a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> &gt;&gt; accesses, unsigned depth)</td></tr>
 <tr class="memdesc:abca81ca32c0b3362e54b84dab5402d67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rebuild the given attribute container after replacing all references to a symbol with the updated attribute in 'accesses'.  <a href="#abca81ca32c0b3362e54b84dab5402d67">More...</a><br /></td></tr>
 <tr class="separator:abca81ca32c0b3362e54b84dab5402d67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92ae8f85e419d06cab6f6c777619be81"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a92ae8f85e419d06cab6f6c777619be81">generateNewRefAttr</a> (<a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> oldAttr, <a class="el" href="classmlir_1_1FlatSymbolRefAttr.html">FlatSymbolRefAttr</a> newLeafAttr)</td></tr>
 <tr class="memdesc:a92ae8f85e419d06cab6f6c777619be81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generates a new symbol reference attribute with a new leaf reference.  <a href="#a92ae8f85e419d06cab6f6c777619be81">More...</a><br /></td></tr>
 <tr class="separator:a92ae8f85e419d06cab6f6c777619be81"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ecac94fcfd365efcbfc0b5cc9673534"><td class="memTemplParams" colspan="2">template&lt;typename SymbolT &gt; </td></tr>
-<tr class="memitem:a0ecac94fcfd365efcbfc0b5cc9673534"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#a0ecac94fcfd365efcbfc0b5cc9673534">replaceAllSymbolUsesImpl</a> (SymbolT symbol, StringRef newSymbol, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *limit)</td></tr>
-<tr class="memdesc:a0ecac94fcfd365efcbfc0b5cc9673534"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::replaceAllSymbolUses below.  <a href="#a0ecac94fcfd365efcbfc0b5cc9673534">More...</a><br /></td></tr>
-<tr class="separator:a0ecac94fcfd365efcbfc0b5cc9673534"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af89a05f0a14ea4ab609d7ac49d4c6783"><td class="memTemplParams" colspan="2">template&lt;typename SymbolT , typename IRUnitT &gt; </td></tr>
+<tr class="memitem:af89a05f0a14ea4ab609d7ac49d4c6783"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="SymbolTable_8cpp.html#af89a05f0a14ea4ab609d7ac49d4c6783">replaceAllSymbolUsesImpl</a> (SymbolT symbol, StringRef newSymbol, IRUnitT *limit)</td></tr>
+<tr class="memdesc:af89a05f0a14ea4ab609d7ac49d4c6783"><td class="mdescLeft">&#160;</td><td class="mdescRight">The implementation of SymbolTable::replaceAllSymbolUses below.  <a href="#af89a05f0a14ea4ab609d7ac49d4c6783">More...</a><br /></td></tr>
+<tr class="separator:af89a05f0a14ea4ab609d7ac49d4c6783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a5268132f7c6f618635ccbe58689d6e36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5268132f7c6f618635ccbe58689d6e36">&#9670;&nbsp;</a></span>collectSymbolScopes() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static SmallVector&lt;SymbolScope, 2&gt; collectSymbolScopes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramname"><em>symbol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramname"><em>limit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Collect all of the symbol scopes from 'symbol' to (inclusive) 'limit'. </p>
+
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00508">508</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00036">collectValidReferencesFor()</a>, <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00200">mlir::SymbolTable::getNearestSymbolTable()</a>, <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00155">mlir::SymbolTable::getSymbolName()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00568">collectSymbolScopes()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00636">getSymbolUsesImpl()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00768">replaceAllSymbolUsesImpl()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00675">symbolKnownUseEmptyImpl()</a>.</p>
+
+</div>
+</div>
+<a id="aa0ba01cd57671f1e54ab062d2ac8afab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0ba01cd57671f1e54ab062d2ac8afab">&#9670;&nbsp;</a></span>collectSymbolScopes() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static SmallVector&lt;SymbolScope, 2&gt; collectSymbolScopes </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramname"><em>symbol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Region.html">Region</a> *&#160;</td>
+          <td class="paramname"><em>limit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00568">568</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00508">collectSymbolScopes()</a>, and <a class="el" href="Region_8cpp_source.html#l00041">mlir::Region::getParentOp()</a>.</p>
+
+</div>
+</div>
+<a id="a59cb01c22ca1d0a3a766b83d5b7fbf9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59cb01c22ca1d0a3a766b83d5b7fbf9e">&#9670;&nbsp;</a></span>collectSymbolScopes() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename IRUnit &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static SmallVector&lt;SymbolScope, 1&gt; collectSymbolScopes </td>
+          <td>(</td>
+          <td class="paramtype">StringRef&#160;</td>
+          <td class="paramname"><em>symbol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IRUnit *&#160;</td>
+          <td class="paramname"><em>limit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00579">579</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>.</p>
+
+</div>
+</div>
 <a id="a5a119b282a51500d79f60878beb077d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5a119b282a51500d79f60878beb077d1">&#9670;&nbsp;</a></span>collectValidReferencesFor()</h2>
 
@@ -168,7 +303,7 @@ Functions</h2></td></tr>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, <a class="el" href="Attributes_8h_source.html#l00498">mlir::FlatSymbolRefAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00025">getNameIfSymbol()</a>, <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, <a class="el" href="Operation_8h_source.html#l00136">mlir::Operation::isAncestor()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00508">collectSymbolScopes()</a>.</p>
 
 </div>
 </div>
@@ -208,11 +343,11 @@ Functions</h2></td></tr>
 
 <p>Generates a new symbol reference attribute with a new leaf reference. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00677">677</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00755">755</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00259">mlir::SymbolRefAttr::getNestedReferences()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00252">mlir::SymbolRefAttr::getRootReference()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00689">replaceAllSymbolUsesImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00768">replaceAllSymbolUsesImpl()</a>.</p>
 
 </div>
 </div>
@@ -250,13 +385,49 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a45f420134a402b87b81fc418d121bdb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45f420134a402b87b81fc418d121bdb8">&#9670;&nbsp;</a></span>getSymbolUsesImpl()</h2>
+<a id="ab20958692c78ce1c95e1ccad8fbc997f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab20958692c78ce1c95e1ccad8fbc997f">&#9670;&nbsp;</a></span>getSymbolUsesImpl() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename SymbolT &gt; </div>
+template&lt;typename FromT &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt;<a class="el" href="classmlir_1_1SymbolTable_1_1UseRange.html">SymbolTable::UseRange</a>&gt; getSymbolUsesImpl </td>
+          <td>(</td>
+          <td class="paramtype">FromT&#160;</td>
+          <td class="paramname"><em>from</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The implementation of SymbolTable::getSymbolUses below. </p>
+
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00607">607</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00418">walkSymbolUses()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00624">mlir::SymbolTable::getSymbolUses()</a>.</p>
+
+</div>
+</div>
+<a id="a49673b1b172fc10aa6da461335fd48d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49673b1b172fc10aa6da461335fd48d8">&#9670;&nbsp;</a></span>getSymbolUsesImpl() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SymbolT , typename IRUnitT &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -270,7 +441,7 @@ template&lt;typename SymbolT &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramtype">IRUnitT *&#160;</td>
           <td class="paramname"><em>limit</em>&#160;</td>
         </tr>
         <tr>
@@ -288,11 +459,9 @@ template&lt;typename SymbolT &gt; </div>
 
 <p>The implementation of SymbolTable::getSymbolUses below. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00564">564</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00636">636</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="SymbolTable_8h_source.html#l00115">mlir::SymbolTable::SymbolUse::getSymbolRef()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00523">isReferencePrefixOf()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00407">walkSymbolUses()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00587">mlir::SymbolTable::getSymbolUses()</a>.</p>
+<p class="reference">References <a class="el" href="SymbolTable_8cpp_source.html#l00508">collectSymbolScopes()</a>, and <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
 
 </div>
 </div>
@@ -326,7 +495,7 @@ template&lt;typename SymbolT &gt; </div>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00252">mlir::Operation::getDialect()</a>, and <a class="el" href="Operation_8h_source.html#l00362">mlir::Operation::getNumRegions()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00200">mlir::SymbolTable::getNearestSymbolTable()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00407">walkSymbolUses()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00200">mlir::SymbolTable::getNearestSymbolTable()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00418">walkSymbolUses()</a>.</p>
 
 </div>
 </div>
@@ -367,11 +536,11 @@ template&lt;typename SymbolT &gt; </div>
 <p>Returns true if the given reference 'SubRef' is a sub reference of the reference 'ref', i.e. </p>
 <p>'ref' is a further qualified reference. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00523">523</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00586">586</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00259">mlir::SymbolRefAttr::getNestedReferences()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00252">mlir::SymbolRefAttr::getRootReference()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00564">getSymbolUsesImpl()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00689">replaceAllSymbolUsesImpl()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00601">symbolKnownUseEmptyImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00768">replaceAllSymbolUsesImpl()</a>.</p>
 
 </div>
 </div>
@@ -393,7 +562,7 @@ template&lt;typename SymbolT &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; std::pair&lt; <a class="el" href="classllvm_1_1SmallVector.html">SmallVector</a>&lt; int, 1 &gt;, <a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> &gt;&gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; std::pair&lt; SmallVector&lt; int, 1 &gt;, <a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a> &gt;&gt;&#160;</td>
           <td class="paramname"><em>accesses</em>, </td>
         </tr>
         <tr>
@@ -417,21 +586,21 @@ template&lt;typename SymbolT &gt; </div>
 
 <p>Rebuild the given attribute container after replacing all references to a symbol with the updated attribute in 'accesses'. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00632">632</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00710">710</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l01354">mlir::Attribute::cast()</a>, <a class="el" href="Attributes_8h_source.html#l01348">mlir::Attribute::dyn_cast()</a>, <a class="el" href="Attributes_8cpp_source.html#l00065">mlir::ArrayAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00088">mlir::DictionaryAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00046">mlir::Attribute::getContext()</a>, and <a class="el" href="STLExtras_8h_source.html#l00328">mlir::make_second_range()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00689">replaceAllSymbolUsesImpl()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00768">replaceAllSymbolUsesImpl()</a>.</p>
 
 </div>
 </div>
-<a id="a0ecac94fcfd365efcbfc0b5cc9673534"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ecac94fcfd365efcbfc0b5cc9673534">&#9670;&nbsp;</a></span>replaceAllSymbolUsesImpl()</h2>
+<a id="af89a05f0a14ea4ab609d7ac49d4c6783"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af89a05f0a14ea4ab609d7ac49d4c6783">&#9670;&nbsp;</a></span>replaceAllSymbolUsesImpl()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename SymbolT &gt; </div>
+template&lt;typename SymbolT , typename IRUnitT &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -451,7 +620,7 @@ template&lt;typename SymbolT &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramtype">IRUnitT *&#160;</td>
           <td class="paramname"><em>limit</em>&#160;</td>
         </tr>
         <tr>
@@ -469,21 +638,21 @@ template&lt;typename SymbolT &gt; </div>
 
 <p>The implementation of SymbolTable::replaceAllSymbolUses below. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00689">689</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00768">768</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00677">generateNewRefAttr()</a>, <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, <a class="el" href="Attributes_8h_source.html#l00498">mlir::FlatSymbolRefAttr::get()</a>, <a class="el" href="Operation_8h_source.html#l00280">mlir::Operation::getAttrList()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="Attributes_8h_source.html#l01390">mlir::NamedAttributeList::getDictionary()</a>, <a class="el" href="Attributes_8cpp_source.html#l00259">mlir::SymbolRefAttr::getNestedReferences()</a>, <a class="el" href="Attributes_8cpp_source.html#l00252">mlir::SymbolRefAttr::getRootReference()</a>, <a class="el" href="SymbolTable_8h_source.html#l00115">mlir::SymbolTable::SymbolUse::getSymbolRef()</a>, <a class="el" href="SymbolTable_8h_source.html#l00112">mlir::SymbolTable::SymbolUse::getUser()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00523">isReferencePrefixOf()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00632">rebuildAttrAfterRAUW()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00407">walkSymbolUses()</a>.</p>
+<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00508">collectSymbolScopes()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00755">generateNewRefAttr()</a>, <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, <a class="el" href="Attributes_8h_source.html#l00498">mlir::FlatSymbolRefAttr::get()</a>, <a class="el" href="Operation_8h_source.html#l00280">mlir::Operation::getAttrList()</a>, <a class="el" href="Attributes_8h_source.html#l01390">mlir::NamedAttributeList::getDictionary()</a>, <a class="el" href="Attributes_8cpp_source.html#l00259">mlir::SymbolRefAttr::getNestedReferences()</a>, <a class="el" href="Attributes_8cpp_source.html#l00252">mlir::SymbolRefAttr::getRootReference()</a>, <a class="el" href="SymbolTable_8h_source.html#l00120">mlir::SymbolTable::SymbolUse::getSymbolRef()</a>, <a class="el" href="SymbolTable_8h_source.html#l00117">mlir::SymbolTable::SymbolUse::getUser()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00586">isReferencePrefixOf()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00710">rebuildAttrAfterRAUW()</a>, <a class="el" href="Operation_8h_source.html#l00285">mlir::Operation::setAttrs()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00777">mlir::SymbolTable::replaceAllSymbolUses()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00849">mlir::SymbolTable::replaceAllSymbolUses()</a>.</p>
 
 </div>
 </div>
-<a id="a2ebed5451bd54e707984536eafe29fe2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2ebed5451bd54e707984536eafe29fe2">&#9670;&nbsp;</a></span>symbolKnownUseEmptyImpl()</h2>
+<a id="a4dc05ce3c01a51f7d77a920d24942992"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4dc05ce3c01a51f7d77a920d24942992">&#9670;&nbsp;</a></span>symbolKnownUseEmptyImpl()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename SymbolT &gt; </div>
+template&lt;typename SymbolT , typename IRUnitT &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -497,7 +666,7 @@ template&lt;typename SymbolT &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramtype">IRUnitT *&#160;</td>
           <td class="paramname"><em>limit</em>&#160;</td>
         </tr>
         <tr>
@@ -515,11 +684,11 @@ template&lt;typename SymbolT &gt; </div>
 
 <p>The implementation of SymbolTable::symbolKnownUseEmpty below. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00601">601</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00675">675</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="SymbolTable_8h_source.html#l00115">mlir::SymbolTable::SymbolUse::getSymbolRef()</a>, <a class="el" href="Visitors_8h_source.html#l00043">mlir::WalkResult::interrupt()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00523">isReferencePrefixOf()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00453">walkSymbolScopes()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00407">walkSymbolUses()</a>.</p>
+<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00508">collectSymbolScopes()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00620">mlir::SymbolTable::symbolKnownUseEmpty()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00692">mlir::SymbolTable::symbolKnownUseEmpty()</a>.</p>
 
 </div>
 </div>
@@ -562,16 +731,16 @@ template&lt;typename SymbolT &gt; </div>
 <p>{use = [{other_attr, }]}</p>
 <p>May have the following access chain: </p><pre class="fragment">[0, 0, 1]</pre> <p>Check for a nested container attribute, these will also need to be walked. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00348">348</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00360">360</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="Attributes_8h_source.html#l01354">mlir::Attribute::cast()</a>, <a class="el" href="Attributes_8h_source.html#l01348">mlir::Attribute::dyn_cast()</a>, <a class="el" href="Operation_8h_source.html#l00280">mlir::Operation::getAttrList()</a>, <a class="el" href="Attributes_8h_source.html#l01390">mlir::NamedAttributeList::getDictionary()</a>, <a class="el" href="Attributes_8cpp_source.html#l00069">mlir::ArrayAttr::getValue()</a>, <a class="el" href="Visitors_8h_source.html#l00043">mlir::WalkResult::interrupt()</a>, <a class="el" href="STLExtras_8h_source.html#l00328">mlir::make_second_range()</a>, and <a class="el" href="Visitors_8h_source.html#l00047">mlir::WalkResult::wasInterrupted()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00407">walkSymbolUses()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00418">walkSymbolUses()</a>.</p>
 
 </div>
 </div>
-<a id="a098799074eaa0b28076ec53e28b4bddf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a098799074eaa0b28076ec53e28b4bddf">&#9670;&nbsp;</a></span>walkSymbolScopes() <span class="overload">[1/2]</span></h2>
+<a id="a930d6824b9e609cd6608d956d51578c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a930d6824b9e609cd6608d956d51578c6">&#9670;&nbsp;</a></span>walkSymbolUses() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -580,21 +749,15 @@ template&lt;typename SymbolT &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt;<a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>&gt; walkSymbolScopes </td>
+          <td class="memname">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt;<a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>&gt; walkSymbolUses </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
-          <td class="paramname"><em>symbol</em>, </td>
+          <td class="paramtype"><a class="el" href="classllvm_1_1MutableArrayRef.html">MutableArrayRef</a>&lt; <a class="el" href="classmlir_1_1Region.html">Region</a> &gt;&#160;</td>
+          <td class="paramname"><em>regions</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
-          <td class="paramname"><em>limit</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;(<a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a>, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *)&gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>(<a class="el" href="classmlir_1_1SymbolTable_1_1SymbolUse.html">SymbolTable::SymbolUse</a>, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int &gt;)&gt;&#160;</td>
           <td class="paramname"><em>callback</em>&#160;</td>
         </tr>
         <tr>
@@ -610,67 +773,19 @@ template&lt;typename SymbolT &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Walks all of the symbol scopes from 'symbol' to (inclusive) 'limit' invoking the provided callback at each one with a properly scoped reference to 'symbol'. </p>
-<p>The callback takes as parameters the symbol reference at the current scope as well as the top-level operation representing the top of that scope. </p>
+<p>Walk all of the uses, for any symbol, that are nested within the given regions, invoking the provided callback for each. </p>
+<p>This does not traverse into any nested symbol tables. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00453">453</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00418">418</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00036">collectValidReferencesFor()</a>, <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00200">mlir::SymbolTable::getNearestSymbolTable()</a>, <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00155">mlir::SymbolTable::getSymbolName()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="Operation_8h_source.html#l00365">mlir::Operation::getRegions()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, <a class="el" href="Visitors_8h_source.html#l00043">mlir::WalkResult::interrupt()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00019">isPotentiallyUnknownSymbolTable()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00360">walkSymbolRefs()</a>, and <a class="el" href="Visitors_8h_source.html#l00047">mlir::WalkResult::wasInterrupted()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00564">getSymbolUsesImpl()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00689">replaceAllSymbolUsesImpl()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00601">symbolKnownUseEmptyImpl()</a>.</p>
-
-</div>
-</div>
-<a id="a34fd86c8445864c51e182338152590e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34fd86c8445864c51e182338152590e3">&#9670;&nbsp;</a></span>walkSymbolScopes() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt;<a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a>&gt; walkSymbolScopes </td>
-          <td>(</td>
-          <td class="paramtype">StringRef&#160;</td>
-          <td class="paramname"><em>symbol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
-          <td class="paramname"><em>limit</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="namespacemlir.html#a0bff6226b7c81b6134b8c1130403a172">function_ref</a>&lt; <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1WalkResult.html">WalkResult</a> &gt;(<a class="el" href="classmlir_1_1SymbolRefAttr.html">SymbolRefAttr</a>, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *)&gt;&#160;</td>
-          <td class="paramname"><em>callback</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Walk the symbol scopes defined by 'limit' invoking the provided callback. </p>
-
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00515">515</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00241">mlir::SymbolRefAttr::get()</a>, and <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00607">getSymbolUsesImpl()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00446">walkSymbolUses()</a>.</p>
 
 </div>
 </div>
 <a id="ab8ff642057932d51da66e26bcb43ab9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8ff642057932d51da66e26bcb43ab9d">&#9670;&nbsp;</a></span>walkSymbolUses()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8ff642057932d51da66e26bcb43ab9d">&#9670;&nbsp;</a></span>walkSymbolUses() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -703,21 +818,19 @@ template&lt;typename SymbolT &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Walk all of the uses, for any symbol, that are nested within the given operation 'from', invoking the provided callback for each. </p>
-<p>This does not traverse into any nested symbol tables, and will also only return uses on 'from' if it does not also define a symbol table. </p>
+<p>Walk all of the uses, for any symbol, that are nested within the given operaion 'from', invoking the provided callback for each. </p>
+<p>This does not traverse into any nested symbol tables. </p>
 
-<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00407">407</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="SymbolTable_8cpp_source.html#l00446">446</a> of file <a class="el" href="SymbolTable_8cpp_source.html">SymbolTable.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="Operation_8h_source.html#l00362">mlir::Operation::getNumRegions()</a>, <a class="el" href="Operation_8h_source.html#l00365">mlir::Operation::getRegions()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, <a class="el" href="Visitors_8h_source.html#l00043">mlir::WalkResult::interrupt()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00019">isPotentiallyUnknownSymbolTable()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00348">walkSymbolRefs()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="SymbolTable_8cpp_source.html#l00549">mlir::SymbolTable::getSymbolUses()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00564">getSymbolUsesImpl()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00689">replaceAllSymbolUsesImpl()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00601">symbolKnownUseEmptyImpl()</a>.</p>
+<p class="reference">References <a class="el" href="Visitors_8h_source.html#l00044">mlir::WalkResult::advance()</a>, <a class="el" href="Operation_8h_source.html#l00365">mlir::Operation::getRegions()</a>, <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>, <a class="el" href="Visitors_8h_source.html#l00043">mlir::WalkResult::interrupt()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00019">isPotentiallyUnknownSymbolTable()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00360">walkSymbolRefs()</a>, and <a class="el" href="SymbolTable_8cpp_source.html#l00418">walkSymbolUses()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 28 2020 04:22:23 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 08:22:38 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
