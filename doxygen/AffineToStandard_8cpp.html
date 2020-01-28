@@ -80,11 +80,14 @@ Include dependency graph for AffineToStandard.cpp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a37240435dfd4d21321a46d19132d651a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classllvm_1_1SmallVector.html">SmallVector</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a>, 8 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AffineToStandard_8cpp.html#a37240435dfd4d21321a46d19132d651a">expandAffineMap</a> (<a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1AffineMap.html">AffineMap</a> affineMap, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt; operands)</td></tr>
-<tr class="separator:a37240435dfd4d21321a46d19132d651a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca9b5b3754bbb99de1f4dcbf5b70e9cd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AffineToStandard_8cpp.html#aca9b5b3754bbb99de1f4dcbf5b70e9cd">buildMinMaxReductionSeq</a> (<a class="el" href="classmlir_1_1Location.html">Location</a> loc, CmpIPredicate predicate, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt; values, <a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder)</td></tr>
-<tr class="separator:aca9b5b3754bbb99de1f4dcbf5b70e9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a676e41bbab871cb7b6b5f845a3b6c634"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classllvm_1_1SmallVector.html">SmallVector</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a>, 8 &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AffineToStandard_8cpp.html#a676e41bbab871cb7b6b5f845a3b6c634">expandAffineMap</a> (<a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1AffineMap.html">AffineMap</a> affineMap, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> operands)</td></tr>
+<tr class="memdesc:a676e41bbab871cb7b6b5f845a3b6c634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a sequence of operations that implement the <code>affineMap</code> applied to the given <code>operands</code> (as it it were an AffineApplyOp).  <a href="#a676e41bbab871cb7b6b5f845a3b6c634">More...</a><br /></td></tr>
+<tr class="separator:a676e41bbab871cb7b6b5f845a3b6c634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a9431da3c5e2999deea27d69f4abac"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AffineToStandard_8cpp.html#a65a9431da3c5e2999deea27d69f4abac">buildMinMaxReductionSeq</a> (<a class="el" href="classmlir_1_1Location.html">Location</a> loc, CmpIPredicate predicate, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> values, <a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder)</td></tr>
+<tr class="memdesc:a65a9431da3c5e2999deea27d69f4abac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a range of values, emit the code that reduces them with "min" or "max" depending on the provided comparison predicate.  <a href="#a65a9431da3c5e2999deea27d69f4abac">More...</a><br /></td></tr>
+<tr class="separator:a65a9431da3c5e2999deea27d69f4abac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e3bd007871d92e8ea23c65ff883af58"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="AffineToStandard_8cpp.html#a5e3bd007871d92e8ea23c65ff883af58">lowerAffineMapMin</a> (<a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1AffineMap.html">AffineMap</a> map, <a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a> operands)</td></tr>
+<tr class="memdesc:a5e3bd007871d92e8ea23c65ff883af58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emit instructions that correspond to computing the minimum value amoung the values of a (potentially) multi-output affine map applied to <code>operands</code>.  <a href="#a5e3bd007871d92e8ea23c65ff883af58">More...</a><br /></td></tr>
 <tr class="separator:a5e3bd007871d92e8ea23c65ff883af58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -93,8 +96,8 @@ Variables</h2></td></tr>
 <tr class="separator:ae9ecd35f8113654cef063cb45f9d2a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aca9b5b3754bbb99de1f4dcbf5b70e9cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca9b5b3754bbb99de1f4dcbf5b70e9cd">&#9670;&nbsp;</a></span>buildMinMaxReductionSeq()</h2>
+<a id="a65a9431da3c5e2999deea27d69f4abac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a9431da3c5e2999deea27d69f4abac">&#9670;&nbsp;</a></span>buildMinMaxReductionSeq()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,7 +120,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
           <td class="paramname"><em>values</em>, </td>
         </tr>
         <tr>
@@ -139,16 +142,21 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AffineToStandard_8cpp_source.html#l00246">246</a> of file <a class="el" href="AffineToStandard_8cpp_source.html">AffineToStandard.cpp</a>.</p>
+<p>Given a range of values, emit the code that reduces them with "min" or "max" depending on the provided comparison predicate. </p>
+<p>The predicate defines which comparison to perform, "lt" for "min", "gt" for "max" and is used for the <code>cmpi</code> operation followed by the <code>select</code> operation:</p>
+<p>cond = cmpi "predicate" v0, v1 result = select cond, v0, v1</p>
+<p>Multiple values are scanned in a linear sequence. This creates a data dependences that wouldn't exist in a tree reduction, but is easier to recognize as a reduction by the subsequent passes. </p>
 
-<p class="reference">References <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AffineToStandard_8cpp_source.html#l00247">247</a> of file <a class="el" href="AffineToStandard_8cpp_source.html">AffineToStandard.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00264">mlir::lowerAffineLowerBound()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00276">lowerAffineMapMin()</a>.</p>
+<p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00229">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::begin()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>, and <a class="el" href="STLExtras_8h_source.html#l00230">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::end()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00264">mlir::lowerAffineLowerBound()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00275">lowerAffineMapMin()</a>.</p>
 
 </div>
 </div>
-<a id="a37240435dfd4d21321a46d19132d651a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37240435dfd4d21321a46d19132d651a">&#9670;&nbsp;</a></span>expandAffineMap()</h2>
+<a id="a676e41bbab871cb7b6b5f845a3b6c634"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a676e41bbab871cb7b6b5f845a3b6c634">&#9670;&nbsp;</a></span>expandAffineMap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +185,7 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1ValueRange.html">ValueRange</a>&#160;</td>
           <td class="paramname"><em>operands</em>&#160;</td>
         </tr>
         <tr>
@@ -193,11 +201,13 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Create a sequence of operations that implement the <code>affineMap</code> applied to the given <code>operands</code> (as it it were an AffineApplyOp). </p>
+
 <p class="definition">Definition at line <a class="el" href="AffineToStandard_8cpp_source.html#l00219">219</a> of file <a class="el" href="AffineToStandard_8cpp_source.html">AffineToStandard.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="AffineToStandard_8cpp_source.html#l00211">mlir::expandAffineExpr()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00150">mlir::AffineMap::getNumDims()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00167">mlir::AffineMap::getResults()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, and <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
+<p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00249">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::drop_front()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00211">mlir::expandAffineExpr()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00150">mlir::AffineMap::getNumDims()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00167">mlir::AffineMap::getResults()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, and <a class="el" href="STLExtras_8h_source.html#l00260">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::take_front()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00264">mlir::lowerAffineLowerBound()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00276">lowerAffineMapMin()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00264">mlir::lowerAffineLowerBound()</a>, <a class="el" href="AffineToStandard_8cpp_source.html#l00275">lowerAffineMapMin()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00285">mlir::lowerAffineUpperBound()</a>.</p>
 
 </div>
 </div>
@@ -247,11 +257,13 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="AffineToStandard_8cpp_source.html#l00276">276</a> of file <a class="el" href="AffineToStandard_8cpp_source.html">AffineToStandard.cpp</a>.</p>
+<p>Emit instructions that correspond to computing the minimum value amoung the values of a (potentially) multi-output affine map applied to <code>operands</code>. </p>
 
-<p class="reference">References <a class="el" href="AffineToStandard_8cpp_source.html#l00246">buildMinMaxReductionSeq()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00219">expandAffineMap()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="AffineToStandard_8cpp_source.html#l00275">275</a> of file <a class="el" href="AffineToStandard_8cpp_source.html">AffineToStandard.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00287">mlir::lowerAffineUpperBound()</a>.</p>
+<p class="reference">References <a class="el" href="AffineToStandard_8cpp_source.html#l00247">buildMinMaxReductionSeq()</a>, and <a class="el" href="AffineToStandard_8cpp_source.html#l00219">expandAffineMap()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00285">mlir::lowerAffineUpperBound()</a>.</p>
 
 </div>
 </div>
@@ -276,14 +288,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00574">mlir::createLowerAffinePass()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="AffineToStandard_8cpp_source.html#l00572">mlir::createLowerAffinePass()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 28 2020 08:22:38 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 12:22:08 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
