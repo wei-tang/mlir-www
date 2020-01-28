@@ -4,9 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::Attribute",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Attribute.html",tooltip="Attributes are known-constant values of operations and functions. "];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="mlir::ElementsAttr",height=0.2,width=0.4,color="black",URL="$classmlir_1_1ElementsAttr.html",tooltip="A base attribute that represents a reference to a static shaped tensor or vector constant. "];
-  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="mlir::LocationAttr",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LocationAttr.html",tooltip="Location objects represent source locations information in MLIR. "];
+  Node0 [label="mlir::AsmState",height=0.2,width=0.4,color="black",URL="$classmlir_1_1AsmState.html",tooltip="This class provides management for the lifetime of the state used when printing the IR..."];
 }

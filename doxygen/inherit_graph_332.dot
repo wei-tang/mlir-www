@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::DialectAsmPrinter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1DialectAsmPrinter.html",tooltip="This is a pure-virtual base class that exposes the asmprinter hooks necessary to implement a custom p..."];
+  Node0 [label="mlir::DialectAsmParser",height=0.2,width=0.4,color="black",URL="$classmlir_1_1DialectAsmParser.html",tooltip="The DialectAsmParser has methods for interacting with the asm parser: parsing things from it..."];
 }

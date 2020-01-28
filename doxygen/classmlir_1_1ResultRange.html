@@ -78,9 +78,9 @@ Collaboration diagram for mlir::ResultRange:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a4306a2d778e168fd615184ba53b85619"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ResultRange.html#a4306a2d778e168fd615184ba53b85619">type_iterator</a> = <a class="el" href="classmlir_1_1ValueTypeIterator.html">ValueTypeIterator</a>&lt; iterator &gt;</td></tr>
-<tr class="memdesc:a4306a2d778e168fd615184ba53b85619"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the types of the values within this range.  <a href="#a4306a2d778e168fd615184ba53b85619">More...</a><br /></td></tr>
-<tr class="separator:a4306a2d778e168fd615184ba53b85619"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9211fdc84e6227d48ff93f85e494f59e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ResultRange.html#a9211fdc84e6227d48ff93f85e494f59e">type_iterator</a> = <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Type.html">Type</a> &gt;::iterator</td></tr>
+<tr class="memdesc:a9211fdc84e6227d48ff93f85e494f59e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the types of the values within this range.  <a href="#a9211fdc84e6227d48ff93f85e494f59e">More...</a><br /></td></tr>
+<tr class="separator:a9211fdc84e6227d48ff93f85e494f59e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_classmlir_1_1detail_1_1indexed__accessor__range__base"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classmlir_1_1detail_1_1indexed__accessor__range__base')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classmlir_1_1detail_1_1indexed__accessor__range__base.html">mlir::detail::indexed_accessor_range_base&lt; ResultRange, std::pair&lt; Operation *, ptrdiff_t &gt;, OpResult, OpResult, OpResult &gt;</a></td></tr>
 <tr class="memitem:ae4cdaf1200ec0916b48145e95dcd9d47 inherit pub_types_classmlir_1_1detail_1_1indexed__accessor__range__base"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1detail_1_1indexed__accessor__range__base.html#ae4cdaf1200ec0916b48145e95dcd9d47">RangeBaseT</a> = <a class="el" href="classmlir_1_1detail_1_1indexed__accessor__range__base.html">indexed_accessor_range_base</a>&lt; <a class="el" href="classmlir_1_1ResultRange.html">ResultRange</a>, std::pair&lt; <a class="el" href="classmlir_1_1Operation.html">Operation</a> *, <a class="el" href="classptrdiff__t.html">ptrdiff_t</a> &gt;, <a class="el" href="classmlir_1_1OpResult.html">OpResult</a>, <a class="el" href="classmlir_1_1OpResult.html">OpResult</a>, <a class="el" href="classmlir_1_1OpResult.html">OpResult</a> &gt;</td></tr>
 <tr class="separator:ae4cdaf1200ec0916b48145e95dcd9d47 inherit pub_types_classmlir_1_1detail_1_1indexed__accessor__range__base"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -89,8 +89,8 @@ Public Types</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae7bb64fa93c76cc33317d07ee282ce54"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ResultRange.html#ae7bb64fa93c76cc33317d07ee282ce54">ResultRange</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op)</td></tr>
 <tr class="separator:ae7bb64fa93c76cc33317d07ee282ce54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5fad3cf348dcbff74150d92b984dabaa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classllvm_1_1iterator__range.html">iterator_range</a>&lt; <a class="el" href="classmlir_1_1ResultRange.html#a4306a2d778e168fd615184ba53b85619">type_iterator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ResultRange.html#a5fad3cf348dcbff74150d92b984dabaa">getTypes</a> () const</td></tr>
-<tr class="separator:a5fad3cf348dcbff74150d92b984dabaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2799dfec54dfc6ef287e912449ad12ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Type.html">Type</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1ResultRange.html#a2799dfec54dfc6ef287e912449ad12ff">getTypes</a> () const</td></tr>
+<tr class="separator:a2799dfec54dfc6ef287e912449ad12ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classmlir_1_1indexed__accessor__range"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classmlir_1_1indexed__accessor__range')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classmlir_1_1indexed__accessor__range.html">mlir::indexed_accessor_range&lt; ResultRange, Operation *, OpResult, OpResult, OpResult &gt;</a></td></tr>
 <tr class="memitem:ae48c28f280f81a1d132970052f843229 inherit pub_methods_classmlir_1_1indexed__accessor__range"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1indexed__accessor__range.html#ae48c28f280f81a1d132970052f843229">indexed_accessor_range</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> * <a class="el" href="classmlir_1_1detail_1_1indexed__accessor__range__base.html#a0408d5ee2c723d26cfc53f27ae1494c4">base</a>, <a class="el" href="classptrdiff__t.html">ptrdiff_t</a> startIndex, <a class="el" href="classptrdiff__t.html">ptrdiff_t</a> <a class="el" href="classmlir_1_1detail_1_1indexed__accessor__range__base.html#a925d91b6e229030f040afcb906c68ffd">count</a>)</td></tr>
 <tr class="separator:ae48c28f280f81a1d132970052f843229 inherit pub_methods_classmlir_1_1indexed__accessor__range"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -164,14 +164,14 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="OperationSupport_8h_source.html#l00589">589</a> of file <a class="el" href="OperationSupport_8h_source.html">OperationSupport.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a4306a2d778e168fd615184ba53b85619"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4306a2d778e168fd615184ba53b85619">&#9670;&nbsp;</a></span>type_iterator</h2>
+<a id="a9211fdc84e6227d48ff93f85e494f59e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9211fdc84e6227d48ff93f85e494f59e">&#9670;&nbsp;</a></span>type_iterator</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classmlir_1_1ResultRange.html#a4306a2d778e168fd615184ba53b85619">mlir::ResultRange::type_iterator</a> =  <a class="el" href="classmlir_1_1ValueTypeIterator.html">ValueTypeIterator</a>&lt;iterator&gt;</td>
+          <td class="memname">using <a class="el" href="classmlir_1_1ResultRange.html#a9211fdc84e6227d48ff93f85e494f59e">mlir::ResultRange::type_iterator</a> =  <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt;<a class="el" href="classmlir_1_1Type.html">Type</a>&gt;::iterator</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -201,37 +201,27 @@ Additional Inherited Members</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="OperationSupport_8cpp_source.html#l00152">152</a> of file <a class="el" href="OperationSupport_8cpp_source.html">OperationSupport.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>.</p>
-
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5fad3cf348dcbff74150d92b984dabaa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5fad3cf348dcbff74150d92b984dabaa">&#9670;&nbsp;</a></span>getTypes()</h2>
+<a id="a2799dfec54dfc6ef287e912449ad12ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2799dfec54dfc6ef287e912449ad12ff">&#9670;&nbsp;</a></span>getTypes()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classllvm_1_1iterator__range.html">iterator_range</a>&lt;<a class="el" href="classmlir_1_1ResultRange.html#a4306a2d778e168fd615184ba53b85619">type_iterator</a>&gt; mlir::ResultRange::getTypes </td>
+          <td class="memname"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Type.html">Type</a> &gt; ResultRange::getTypes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="OperationSupport_8h_source.html#l00599">599</a> of file <a class="el" href="OperationSupport_8h_source.html">OperationSupport.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="OperationSupport_8cpp_source.html#l00155">155</a> of file <a class="el" href="OperationSupport_8cpp_source.html">OperationSupport.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Operation_8h_source.html#l00266">mlir::Operation::getResultTypes()</a>.</p>
+<p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00307">mlir::indexed_accessor_range&lt; ResultRange, Operation *, OpResult, OpResult, OpResult &gt;::getBase()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, and <a class="el" href="Operation_8cpp_source.html#l00554">mlir::Operation::getResultTypes()</a>.</p>
 
 </div>
 </div>
@@ -242,7 +232,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 28 2020 00:23:14 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jan 28 2020 04:22:24 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

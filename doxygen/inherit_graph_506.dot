@@ -4,9 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::ScopedDiagnosticHandler",height=0.2,width=0.4,color="black",URL="$classmlir_1_1ScopedDiagnosticHandler.html",tooltip="This diagnostic handler is a simple RAII class that registers and erases a diagnostic handler on a gi..."];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="mlir::SourceMgrDiagnostic\lHandler",height=0.2,width=0.4,color="black",URL="$classmlir_1_1SourceMgrDiagnosticHandler.html",tooltip="This class is a utility diagnostic handler for use with llvm::SourceMgr. "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="mlir::SourceMgrDiagnostic\lVerifierHandler",height=0.2,width=0.4,color="black",URL="$classmlir_1_1SourceMgrDiagnosticVerifierHandler.html",tooltip="This class is a utility diagnostic handler for use with llvm::SourceMgr that verifies that emitted di..."];
+  Node0 [label="mlir::RewritePatternMatcher",height=0.2,width=0.4,color="black",URL="$classmlir_1_1RewritePatternMatcher.html",tooltip="This class manages optimization and execution of a group of rewrite patterns, providing an API for fi..."];
 }

@@ -4,7 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node420 [label="ObjectCache",height=0.2,width=0.4,color="grey75"];
-  Node420 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node0 [label="mlir::SimpleObjectCache",height=0.2,width=0.4,color="black",URL="$classmlir_1_1SimpleObjectCache.html",tooltip="A simple object cache following Lang&#39;s LLJITWithObjectCache example. "];
+  Node0 [label="mlir::ShapedTypeComponents",height=0.2,width=0.4,color="black",URL="$classmlir_1_1ShapedTypeComponents.html",tooltip="ShapedTypeComponents that represents the components of a ShapedType. "];
 }

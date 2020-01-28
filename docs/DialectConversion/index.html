@@ -54,6 +54,11 @@ marking specific operations as illegal in an otherwise legal dialect.</li></ul><
 </span><span class=c1></span>    <span class=c1>/// callback.
 </span><span class=c1></span>    <span class=n>addDynamicallyLegalOp</span><span class=o>&lt;</span><span class=n>ReturnOp</span><span class=o>&gt;</span><span class=p>(</span><span class=p>[</span><span class=p>]</span><span class=p>(</span><span class=n>ReturnOp</span> <span class=n>op</span><span class=p>)</span> <span class=p>{</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>}</span><span class=p>)</span><span class=p>;</span>
 
+    <span class=c1>/// Treat unknown operations, i.e. those without a legalization action
+</span><span class=c1></span>    <span class=c1>/// directly set, as dynamically legal.
+</span><span class=c1></span>    <span class=n>markUnknownOpDynamicallyLegal</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+    <span class=n>markUnknownOpDynamicallyLegal</span><span class=p>(</span><span class=p>[</span><span class=p>]</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>)</span> <span class=p>{</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>}</span><span class=p>)</span><span class=p>;</span>
+
     <span class=c1>//--------------------------------------------------------------------------
 </span><span class=c1></span>    <span class=c1>// Marking an operation as illegal.
 </span><span class=c1></span>

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::DialectHooksRegistration\l\< ConcreteHooks \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1DialectHooksRegistration.html",tooltip="DialectHooksRegistration provides a global initializer that registers a dialect hooks setter routine..."];
+  Node0 [label="mlir::DialectHooks",height=0.2,width=0.4,color="black",URL="$classmlir_1_1DialectHooks.html",tooltip="Dialect hooks allow external components to register their functions to be called for specific tasks s..."];
 }

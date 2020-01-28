@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::detail::RecursivePattern\lMatcher\< OpType, OperandMatchers \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1detail_1_1RecursivePatternMatcher.html",tooltip="RecursivePatternMatcher that composes. "];
+  Node0 [label="mlir::detail::PreservedAnalyses",height=0.2,width=0.4,color="black",URL="$classmlir_1_1detail_1_1PreservedAnalyses.html",tooltip="A utility class to represent the analyses that are known to be preserved. "];
 }

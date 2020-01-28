@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::IntInfty",height=0.2,width=0.4,color="black",URL="$classmlir_1_1IntInfty.html",tooltip="A utility class for SDBM to represent an integer with potentially infinite positive value..."];
+  Node0 [label="mlir::IntegerValueSet",height=0.2,width=0.4,color="black",URL="$classmlir_1_1IntegerValueSet.html",tooltip="An IntegerValueSet is an integer set plus its operands. "];
 }

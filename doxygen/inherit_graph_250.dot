@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::AnalysisManager",height=0.2,width=0.4,color="black",URL="$classmlir_1_1AnalysisManager.html",tooltip="This class represents an analysis manager for a particular operation instance. "];
+  Node0 [label="mlir::AffineValueMap",height=0.2,width=0.4,color="black",URL="$classmlir_1_1AffineValueMap.html",tooltip="An AffineValueMap is an affine map plus its ML value operands and results for analysis purposes..."];
 }

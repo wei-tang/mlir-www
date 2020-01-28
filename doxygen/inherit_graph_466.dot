@@ -4,5 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::PassInstrumentation",height=0.2,width=0.4,color="black",URL="$classmlir_1_1PassInstrumentation.html",tooltip="PassInstrumentation provides several entry points into the pass manager infrastructure. "];
+  Node213 [label="Statistic",height=0.2,width=0.4,color="grey75"];
+  Node213 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="mlir::Pass::Statistic",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Pass_1_1Statistic.html",tooltip="This class represents a single pass statistic. "];
 }

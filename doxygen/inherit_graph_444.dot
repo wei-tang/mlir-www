@@ -4,7 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::OpTrait::TraitBase\l\< ConcreteType, ResultsAreFloat\lLike \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1TraitBase.html"];
+  Node0 [label="mlir::OpTrait::TraitBase\l\< ConcreteType, ResultsAreBool\lLike \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1TraitBase.html"];
   Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="mlir::OpTrait::ResultsAre\lFloatLike\< ConcreteType \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1ResultsAreFloatLike.html",tooltip="This class verifies that any results of the specified op have a floating point type, a vector thereof, or a tensor thereof. "];
+  Node1 [label="mlir::OpTrait::ResultsAre\lBoolLike\< ConcreteType \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1ResultsAreBoolLike.html",tooltip="This class verifies that any results of the specified op have a boolean type, a vector thereof..."];
 }
