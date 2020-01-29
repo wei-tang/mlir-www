@@ -58,6 +58,7 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="LinalgOps_8h_source.html">mlir/Dialect/Linalg/IR/LinalgOps.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="LinalgTypes_8h_source.html">mlir/Dialect/Linalg/IR/LinalgTypes.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Ops_8h_source.html">mlir/Dialect/StandardOps/Ops.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="AffineExpr_8h_source.html">mlir/IR/AffineExpr.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="AffineMap_8h_source.html">mlir/IR/AffineMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="IR_2Builders_8h_source.html">mlir/IR/Builders.h</a>&quot;</code><br />
@@ -102,6 +103,12 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:addf9398c781bbc412fd4abae46ac35ff"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinalgOps_8cpp.html#addf9398c781bbc412fd4abae46ac35ff">canFold</a> (MemRefCastOp castOp)</td></tr>
+<tr class="memdesc:addf9398c781bbc412fd4abae46ac35ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines whether it is possible to fold it away in the parent Linalg op:  <a href="#addf9398c781bbc412fd4abae46ac35ff">More...</a><br /></td></tr>
+<tr class="separator:addf9398c781bbc412fd4abae46ac35ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a486d2430d719ea5c6c8d5d604cb15289"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LinalgOps_8cpp.html#a486d2430d719ea5c6c8d5d604cb15289">foldMemRefCast</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op)</td></tr>
+<tr class="memdesc:a486d2430d719ea5c6c8d5d604cb15289"><td class="mdescLeft">&#160;</td><td class="mdescRight">This is a common class used for patterns of the form </p><div class="fragment"><div class="line">someop(memrefcast) -&gt; someop</div></div><!-- fragment --><p> It folds the source of any memref_cast into the root operation directly.  <a href="#a486d2430d719ea5c6c8d5d604cb15289">More...</a><br /></td></tr>
+<tr class="separator:a486d2430d719ea5c6c8d5d604cb15289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13b067ea11a6f73ce1e7ca4f856bdaa8"><td class="memTemplParams" colspan="2">template&lt;typename GenericOpType &gt; </td></tr>
 <tr class="memitem:a13b067ea11a6f73ce1e7ca4f856bdaa8"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="LinalgOps_8cpp.html#a13b067ea11a6f73ce1e7ca4f856bdaa8">printGenericOp</a> (<a class="el" href="classmlir_1_1OpAsmPrinter.html">OpAsmPrinter</a> &amp;p, GenericOpType op)</td></tr>
 <tr class="separator:a13b067ea11a6f73ce1e7ca4f856bdaa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,7 +230,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00877">877</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00961">961</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -239,7 +246,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00877">877</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00961">961</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -278,11 +285,46 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l01019">1019</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l01103">1103</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="STLExtras_8h_source.html#l00043">mlir::interleave()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00041">mlir::Type::isIntOrIndexOrFloat()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01040">mlir::linalg::generateLibraryCallName()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01124">mlir::linalg::generateLibraryCallName()</a>.</p>
+
+</div>
+</div>
+<a id="addf9398c781bbc412fd4abae46ac35ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addf9398c781bbc412fd4abae46ac35ff">&#9670;&nbsp;</a></span>canFold()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool canFold </td>
+          <td>(</td>
+          <td class="paramtype">MemRefCastOp&#160;</td>
+          <td class="paramname"><em>castOp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determines whether it is possible to fold it away in the parent Linalg op: </p>
+<div class="fragment"><div class="line">%1 = memref_cast %0 : memref&lt;8x16xf32&gt; to memref&lt;?x?xf32&gt;</div><div class="line">%2 = linalg.slice %1 ... : memref&lt;?x?xf32&gt; ...</div><div class="line">// or</div><div class="line">%1 = memref_cast %0 : memref&lt;8x16xf32, affine_map&lt;(i, j)-&gt;(16 * i + j)&gt;&gt;</div><div class="line">       to memref&lt;?x?xf32&gt;</div><div class="line">linalg.generic(%1 ...) : memref&lt;?x?xf32&gt; ...</div></div><!-- fragment --><p>into</p>
+<div class="fragment"><div class="line">%2 = linalg.slice %0 ... : memref&lt;8x16xf32&gt; ...</div><div class="line">// or</div><div class="line">linalg.generic(%0 ... : memref&lt;8x16xf32, affine_map&lt;(i, j)-&gt;(16 * i + j)&gt;&gt;</div></div><!-- fragment --> 
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00054">54</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00382">mlir::MemRefType::getAffineMaps()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00380">mlir::MemRefType::getShape()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="StandardTypes_8h_source.html#l00248">mlir::ShapedType::isDynamic()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00666">mlir::makeStridedLinearLayoutMap()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00106">foldMemRefCast()</a>.</p>
 
 </div>
 </div>
@@ -323,11 +365,11 @@ Functions</h2></td></tr>
 <p>Compute the MemRefType obtained by applying the <code>reassociation</code> (which is expected to be valid) to <code>type</code>. </p>
 <p>If <code>type</code> is Contiguous MemRefType, this always produce a contiguous MemRefType. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00387">387</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00471">471</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00707">mlir::canonicalizeStridedLayout()</a>, <a class="el" href="AffineExpr_8h_source.html#l00233">mlir::AffineExpr::dyn_cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00449">getAffineMaps()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00380">mlir::MemRefType::getShape()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00329">isReassociationValid()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00361">isReshapableDimBand()</a>, <a class="el" href="StandardTypes_8h_source.html#l00186">mlir::ShapedType::kDynamicSize</a>, <a class="el" href="StandardTypes_8h_source.html#l00187">mlir::ShapedType::kDynamicStrideOrOffset</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00666">mlir::makeStridedLinearLayoutMap()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+<p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00707">mlir::canonicalizeStridedLayout()</a>, <a class="el" href="AffineExpr_8h_source.html#l00233">mlir::AffineExpr::dyn_cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00533">getAffineMaps()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00380">mlir::MemRefType::getShape()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00413">isReassociationValid()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00445">isReshapableDimBand()</a>, <a class="el" href="StandardTypes_8h_source.html#l00186">mlir::ShapedType::kDynamicSize</a>, <a class="el" href="StandardTypes_8h_source.html#l00187">mlir::ShapedType::kDynamicStrideOrOffset</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00666">mlir::makeStridedLinearLayoutMap()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00469">getSymbolLessAffineMaps()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00524">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00553">getSymbolLessAffineMaps()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00608">verify()</a>.</p>
 
 </div>
 </div>
@@ -365,9 +407,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00915">915</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00999">999</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00929">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01013">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
 
 </div>
 </div>
@@ -411,11 +453,45 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00883">883</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00967">967</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l00129">mlir::StandardAttributes::AffineMap</a>, and <a class="el" href="AffineMap_8cpp_source.html#l00114">mlir::AffineMap::getMultiDimIdentityMap()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00929">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01013">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
+
+</div>
+</div>
+<a id="a486d2430d719ea5c6c8d5d604cb15289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a486d2430d719ea5c6c8d5d604cb15289">&#9670;&nbsp;</a></span>foldMemRefCast()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a> foldMemRefCast </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramname"><em>op</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This is a common class used for patterns of the form </p><div class="fragment"><div class="line">someop(memrefcast) -&gt; someop</div></div><!-- fragment --><p> It folds the source of any memref_cast into the root operation directly. </p>
+
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00106">106</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00054">canFold()</a>, <a class="el" href="Operation_8h_source.html#l00227">mlir::Operation::getOpOperands()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01138">getIndexingMaps()</a>.</p>
 
 </div>
 </div>
@@ -446,11 +522,11 @@ Functions</h2></td></tr>
 <p>Helper functions assert Attribute of the proper type in attr and returns the corresponding vector. </p>
 <p>TODO(rridle,ntv) this should be evolved into a generic <code>getRangeOfType&lt;AffineMap&gt;(ArrayAttr attrs)</code> that does not copy. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00449">449</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00533">533</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l01354">mlir::Attribute::cast()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="UniformKernelUtils_8h_source.html#l00161">mlir::fxpmath::detail::castElementType()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00387">computeReshapeCollapsedType()</a>, <a class="el" href="IR_2TypeDetail_8h_source.html#l00207">mlir::detail::MemRefTypeStorage::operator==()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00524">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="UniformKernelUtils_8h_source.html#l00161">mlir::fxpmath::detail::castElementType()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00471">computeReshapeCollapsedType()</a>, <a class="el" href="IR_2TypeDetail_8h_source.html#l00207">mlir::detail::MemRefTypeStorage::operator==()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00608">verify()</a>.</p>
 
 </div>
 </div>
@@ -478,9 +554,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l01054">1054</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l01138">1138</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00055">mlir::AffineMapAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00065">mlir::ArrayAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00929">mlir::linalg::loopToOperandRangesMaps()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00106">foldMemRefCast()</a>, <a class="el" href="Attributes_8cpp_source.html#l00055">mlir::AffineMapAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00065">mlir::ArrayAttr::get()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l01013">mlir::linalg::loopToOperandRangesMaps()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00273">getDimMap()</a>.</p>
 
@@ -504,7 +580,7 @@ template&lt;typename AffineExprTy &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00455">455</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00539">539</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00233">mlir::AffineExpr::dyn_cast()</a>.</p>
 
@@ -534,9 +610,9 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00469">469</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00553">553</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00387">computeReshapeCollapsedType()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00207">mlir::Builder::getAffineMapArrayAttr()</a>, and <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00471">computeReshapeCollapsedType()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00207">mlir::Builder::getAffineMapArrayAttr()</a>, and <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>.</p>
 
 </div>
 </div>
@@ -577,11 +653,11 @@ template&lt;typename AffineExprTy &gt; </div>
 <p>Return true if the reassociation specification is valid, false otherwise. </p>
 <p>When false, the <code>invalidIndex</code> integer pointer is optionally filled with the index of the offending reassociation map. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00329">329</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00413">413</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00387">computeReshapeCollapsedType()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00524">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00471">computeReshapeCollapsedType()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00608">verify()</a>.</p>
 
 </div>
 </div>
@@ -633,11 +709,11 @@ template&lt;typename AffineExprTy &gt; </div>
 
 <p>Detect whether memref dims [dim, dim + extent) can be reshaped without copies. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00361">361</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00445">445</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00248">mlir::ShapedType::isDynamic()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00387">computeReshapeCollapsedType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00471">computeReshapeCollapsedType()</a>.</p>
 
 </div>
 </div>
@@ -681,11 +757,11 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00895">895</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00979">979</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="AffineExpr_8cpp_source.html#l00252">mlir::getAffineDimExpr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00929">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01013">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
 
 </div>
 </div>
@@ -723,7 +799,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00071">71</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00155">155</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00088">mlir::DictionaryAttr::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00055">mlir::getFunAttrName()</a>, <a class="el" href="Attributes_8cpp_source.html#l00143">mlir::DictionaryAttr::getValue()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a344c67cb0f626519e5ca2bcfffebc327">mlir::OpAsmParser::parseOptionalArrowTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a4b5b6c1ce803dcfb604a78f0cd5e3921">mlir::OpAsmParser::parseOptionalRegion()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="LinalgOps_8cpp.html#af127c1012b0516111684a56c419cac25">verifyBlockArgs()</a>.</p>
 
@@ -763,7 +839,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00784">784</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00868">868</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92a3f5a1b4ee2e68aebee8e1fa43e0eed27">mlir::OpAsmParser::Paren</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, and <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>.</p>
 
@@ -803,7 +879,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00309">309</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00393">393</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -843,7 +919,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00509">509</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00593">593</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -883,7 +959,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00596">596</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00680">680</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92aceb46ca115d05c51aa5a16a8867c3304">mlir::OpAsmParser::Square</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -923,7 +999,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00677">677</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00761">761</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00055">mlir::AffineMapAttr::get()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a2a48f27fe4b6a4daab072cd9034eb914">mlir::OpAsmParser::parseAffineMap()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -963,7 +1039,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00707">707</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00791">791</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, and <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>.</p>
 
@@ -1003,9 +1079,9 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00065">65</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00149">149</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00044">printGenericOp()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00128">printGenericOp()</a>.</p>
 
 </div>
 </div>
@@ -1043,9 +1119,9 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00067">67</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00151">151</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00044">printGenericOp()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00128">printGenericOp()</a>.</p>
 
 </div>
 </div>
@@ -1083,7 +1159,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00302">302</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00386">386</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1123,7 +1199,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00502">502</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00586">586</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1163,7 +1239,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00585">585</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00669">669</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00240">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::empty()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1203,7 +1279,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00670">670</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00754">754</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1243,7 +1319,7 @@ template&lt;typename AffineExprTy &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00698">698</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00782">782</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1285,11 +1361,11 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00044">44</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00128">128</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00088">mlir::DictionaryAttr::get()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00065">print()</a>, and <a class="el" href="AsmPrinter_8cpp_source.html#l01317">printDenseFloatElement()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00149">print()</a>, and <a class="el" href="AsmPrinter_8cpp_source.html#l01317">printDenseFloatElement()</a>.</p>
 
 </div>
 </div>
@@ -1327,7 +1403,7 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00777">777</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00861">861</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00065">mlir::Operation::getAbstractOperation()</a>, <a class="el" href="Operation_8h_source.html#l00277">mlir::Operation::getAttrs()</a>, <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, <a class="el" href="Operation_8h_source.html#l00238">mlir::Operation::getOperandTypes()</a>, <a class="el" href="Operation_8cpp_source.html#l00052">mlir::OperationName::getStringRef()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1357,9 +1433,9 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00295">295</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00379">379</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00231">verifyGenericOp()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00315">verifyGenericOp()</a>.</p>
 
 </div>
 </div>
@@ -1387,9 +1463,9 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00296">296</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00380">380</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00231">verifyGenericOp()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00315">verifyGenericOp()</a>.</p>
 
 </div>
 </div>
@@ -1417,9 +1493,9 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00524">524</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00608">608</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00387">computeReshapeCollapsedType()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00449">getAffineMaps()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00329">isReassociationValid()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00666">mlir::makeStridedLinearLayoutMap()</a>, <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00471">computeReshapeCollapsedType()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00533">getAffineMaps()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l00413">isReassociationValid()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00666">mlir::makeStridedLinearLayoutMap()</a>, <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1447,7 +1523,7 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00619">619</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00703">703</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00380">mlir::MemRefType::getShape()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="Attributes_8cpp_source.html#l00059">mlir::AffineMapAttr::getValue()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00666">mlir::makeStridedLinearLayoutMap()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -1477,9 +1553,9 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00738">738</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00822">822</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00718">verifyYield()</a>.</p>
+<p class="reference">References <a class="el" href="LinalgOps_8cpp_source.html#l00802">verifyYield()</a>.</p>
 
 </div>
 </div>
@@ -1507,7 +1583,7 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00795">795</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00879">879</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="structmlir_1_1LogicalResult.html#a367e2bef1a5e5122bc9d0484479a353a">mlir::LogicalResult::value</a>.</p>
 
@@ -1537,7 +1613,7 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00803">803</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00887">887</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -1567,9 +1643,9 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00847">847</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00931">931</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00837">verifyStrideOrDilation()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00921">verifyStrideOrDilation()</a>.</p>
 
 </div>
 </div>
@@ -1609,7 +1685,7 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00071">parseGenericOp()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00231">verifyGenericOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00155">parseGenericOp()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00315">verifyGenericOp()</a>.</p>
 
 </div>
 </div>
@@ -1641,7 +1717,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00108">108</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00192">192</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Block_8h_source.html#l00099">mlir::Block::getArgument()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -1675,7 +1751,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00127">127</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00211">211</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Block_8h_source.html#l00099">mlir::Block::getArgument()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00030">mlir::Type::isIndex()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="LinalgOps_8cpp.html#a289ec5a52418d30298ae1848ed63375c">verifyFuncArgs()</a>.</p>
 
@@ -1717,7 +1793,7 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00127">verifyBlockArgs()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00160">verifyFuncArgsGeneric()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00211">verifyBlockArgs()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00244">verifyFuncArgsGeneric()</a>.</p>
 
 </div>
 </div>
@@ -1749,7 +1825,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00178">178</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00262">262</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00119">mlir::ShapedType::getElementType()</a>, <a class="el" href="Types_8h_source.html#l00201">mlir::FunctionType::getInput()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -1783,7 +1859,7 @@ template&lt;&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00202">202</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00286">286</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00119">mlir::ShapedType::getElementType()</a>, <a class="el" href="Types_8h_source.html#l00201">mlir::FunctionType::getInput()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00030">mlir::Type::isIndex()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -1817,11 +1893,11 @@ template&lt;typename GenericOpType &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00160">160</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00244">244</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00119">mlir::ShapedType::getElementType()</a>, <a class="el" href="Types_8h_source.html#l00208">mlir::FunctionType::getResult()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="LinalgOps_8cpp.html#a289ec5a52418d30298ae1848ed63375c">verifyFuncArgs()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00231">verifyGenericOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00315">verifyGenericOp()</a>.</p>
 
 </div>
 </div>
@@ -1851,11 +1927,11 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00231">231</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00315">315</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="AffineMap_8cpp_source.html#l00313">mlir::concatAffineMaps()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00289">mlir::inversePermutation()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="LinalgOps_8cpp.html#af127c1012b0516111684a56c419cac25">verifyBlockArgs()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00160">verifyFuncArgsGeneric()</a>.</p>
+<p class="reference">References <a class="el" href="AffineMap_8cpp_source.html#l00313">mlir::concatAffineMaps()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00289">mlir::inversePermutation()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="LinalgOps_8cpp.html#af127c1012b0516111684a56c419cac25">verifyBlockArgs()</a>, and <a class="el" href="LinalgOps_8cpp_source.html#l00244">verifyFuncArgsGeneric()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00295">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00379">verify()</a>.</p>
 
 </div>
 </div>
@@ -1899,11 +1975,11 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00837">837</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00921">921</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00847">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00931">verify()</a>.</p>
 
 </div>
 </div>
@@ -1943,11 +2019,11 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00718">718</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00802">802</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00738">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00822">verify()</a>.</p>
 
 </div>
 </div>
@@ -1991,16 +2067,16 @@ template&lt;typename GenericOpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00904">904</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgOps_8cpp_source.html#l00988">988</a> of file <a class="el" href="LinalgOps_8cpp_source.html">LinalgOps.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l00929">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgOps_8cpp_source.html#l01013">mlir::linalg::loopToOperandRangesMaps()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 12:24:12 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jan 29 2020 16:23:28 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
