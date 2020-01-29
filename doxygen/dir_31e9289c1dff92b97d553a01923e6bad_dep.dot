@@ -1,0 +1,12 @@
+digraph "include/mlir/Dialect/OpenMP" {
+  bgcolor=transparent;
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_d07a6fac82475a065a3b2953573f00a0 {
+    graph [ bgcolor="#ddddee", pencolor="black", label="Dialect" fontname="Helvetica", fontsize="10", URL="dir_d07a6fac82475a065a3b2953573f00a0.html"]
+  dir_31e9289c1dff92b97d553a01923e6bad [shape=box, label="OpenMP", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_31e9289c1dff92b97d553a01923e6bad.html"];
+  }
+  dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
+  dir_31e9289c1dff92b97d553a01923e6bad->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="2", labeldistance=1.5 headhref="dir_000037_000032.html"];
+}

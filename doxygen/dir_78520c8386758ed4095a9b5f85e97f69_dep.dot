@@ -8,5 +8,5 @@ digraph "include/mlir/Quantizer/Transforms" {
   dir_78520c8386758ed4095a9b5f85e97f69 [shape=box, label="Transforms", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_78520c8386758ed4095a9b5f85e97f69.html"];
   }
   dir_cab9f8330899b1cc9d753b1d9c5c5a3e [shape=box label="Pass" URL="dir_cab9f8330899b1cc9d753b1d9c5c5a3e.html"];
-  dir_78520c8386758ed4095a9b5f85e97f69->dir_cab9f8330899b1cc9d753b1d9c5c5a3e [headlabel="1", labeldistance=1.5 headhref="dir_000012_000043.html"];
+  dir_78520c8386758ed4095a9b5f85e97f69->dir_cab9f8330899b1cc9d753b1d9c5c5a3e [headlabel="1", labeldistance=1.5 headhref="dir_000012_000044.html"];
 }

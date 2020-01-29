@@ -4,11 +4,11 @@ digraph "mlir::Dialect"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node14 [label="mlir::Dialect",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
-  Node15 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" decodeHook" ,fontname="Helvetica"];
-  Node15 [label="function\< bool(const\l OpaqueElementsAttr,\l ElementsAttr &)\>",height=0.2,width=0.4,color="grey75"];
-  Node16 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" extractElementHook" ,fontname="Helvetica"];
-  Node16 [label="function\< Attribute\l(const OpaqueElementsAttr,\l ArrayRef\< uint64_t \>)\>",height=0.2,width=0.4,color="grey75"];
-  Node17 -> Node14 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" constantFoldHook" ,fontname="Helvetica"];
-  Node17 [label="function\< LogicalResult\l(Operation *, ArrayRef\l\< Attribute \>, SmallVectorImpl\l\< Attribute \> &)\>",height=0.2,width=0.4,color="grey75"];
+  Node15 [label="mlir::Dialect",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node16 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" decodeHook" ,fontname="Helvetica"];
+  Node16 [label="function\< bool(const\l OpaqueElementsAttr,\l ElementsAttr &)\>",height=0.2,width=0.4,color="grey75"];
+  Node17 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" extractElementHook" ,fontname="Helvetica"];
+  Node17 [label="function\< Attribute\l(const OpaqueElementsAttr,\l ArrayRef\< uint64_t \>)\>",height=0.2,width=0.4,color="grey75"];
+  Node18 -> Node15 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" constantFoldHook" ,fontname="Helvetica"];
+  Node18 [label="function\< LogicalResult\l(Operation *, ArrayRef\l\< Attribute \>, SmallVectorImpl\l\< Attribute \> &)\>",height=0.2,width=0.4,color="grey75"];
 }

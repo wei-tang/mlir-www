@@ -8,5 +8,5 @@ digraph "include/mlir/Quantizer/Configurations" {
   dir_4349f2a36a28ab5510b1b02397914017 [shape=box, label="Configurations", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_4349f2a36a28ab5510b1b02397914017.html"];
   }
   dir_3367c9ebe84676154b54e0790f855aea [shape=box label="Support" URL="dir_3367c9ebe84676154b54e0790f855aea.html"];
-  dir_4349f2a36a28ab5510b1b02397914017->dir_3367c9ebe84676154b54e0790f855aea [headlabel="2", labeldistance=1.5 headhref="dir_000044_000045.html"];
+  dir_4349f2a36a28ab5510b1b02397914017->dir_3367c9ebe84676154b54e0790f855aea [headlabel="2", labeldistance=1.5 headhref="dir_000045_000046.html"];
 }

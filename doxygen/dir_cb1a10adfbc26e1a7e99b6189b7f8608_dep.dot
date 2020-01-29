@@ -10,6 +10,6 @@ digraph "include/mlir/Conversion/GPUToSPIRV" {
   dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [shape=box label="Transforms" URL="dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6.html"];
   dir_f61d47671007dfdb592580b61f960d39 [shape=box label="Support" URL="dir_f61d47671007dfdb592580b61f960d39.html"];
   dir_cb1a10adfbc26e1a7e99b6189b7f8608->dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [headlabel="1", labeldistance=1.5 headhref="dir_000020_000013.html"];
-  dir_cb1a10adfbc26e1a7e99b6189b7f8608->dir_f61d47671007dfdb592580b61f960d39 [headlabel="1", labeldistance=1.5 headhref="dir_000020_000046.html"];
-  dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6->dir_f61d47671007dfdb592580b61f960d39 [headlabel="9", labeldistance=1.5 headhref="dir_000013_000046.html"];
+  dir_cb1a10adfbc26e1a7e99b6189b7f8608->dir_f61d47671007dfdb592580b61f960d39 [headlabel="1", labeldistance=1.5 headhref="dir_000020_000047.html"];
+  dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6->dir_f61d47671007dfdb592580b61f960d39 [headlabel="9", labeldistance=1.5 headhref="dir_000013_000047.html"];
 }

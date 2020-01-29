@@ -10,7 +10,7 @@ digraph "include/mlir/Dialect/Linalg/Utils" {
   dir_fd2222fcf24f7ed771422dd17aa3e9ca [shape=box label="StandardOps" URL="dir_fd2222fcf24f7ed771422dd17aa3e9ca.html"];
   dir_697d1abfea855495af56c72cdc9bd6ac [shape=box label="LoopOps" URL="dir_697d1abfea855495af56c72cdc9bd6ac.html"];
   dir_7d479de6bd48aed5be2b9b0bfd61f4ed [shape=box label="IR" URL="dir_7d479de6bd48aed5be2b9b0bfd61f4ed.html"];
-  dir_13321debcaacdcb69201ab3fc5c493de->dir_fd2222fcf24f7ed771422dd17aa3e9ca [headlabel="1", labeldistance=1.5 headhref="dir_000014_000038.html"];
+  dir_13321debcaacdcb69201ab3fc5c493de->dir_fd2222fcf24f7ed771422dd17aa3e9ca [headlabel="1", labeldistance=1.5 headhref="dir_000014_000039.html"];
   dir_13321debcaacdcb69201ab3fc5c493de->dir_697d1abfea855495af56c72cdc9bd6ac [headlabel="1", labeldistance=1.5 headhref="dir_000014_000036.html"];
   dir_13321debcaacdcb69201ab3fc5c493de->dir_7d479de6bd48aed5be2b9b0bfd61f4ed [headlabel="1", labeldistance=1.5 headhref="dir_000014_000033.html"];
 }
