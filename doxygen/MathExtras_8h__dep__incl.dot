@@ -17,7 +17,7 @@ digraph "include/mlir/Support/MathExtras.h"
   Node5 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node11 [label="lib/Dialect/VectorOps\l/VectorOps.cpp",height=0.2,width=0.4,color="black",URL="$VectorOps_8cpp.html"];
   Node5 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node12 [label="lib/Dialect/VectorOps\l/VectorTransforms.cpp",height=0.2,width=0.4,color="black",URL="$VectorTransforms_8cpp.html"];
+  Node12 [label="lib/Dialect/VectorOps\l/VectorUtils.cpp",height=0.2,width=0.4,color="black",URL="$VectorUtils_8cpp.html"];
   Node5 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node13 [label="lib/IR/AffineExpr.cpp",height=0.2,width=0.4,color="black",URL="$AffineExpr_8cpp.html"];
   Node5 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

@@ -115,7 +115,7 @@ Functions</h2></td></tr>
 <tr class="memitem:aa8c76f66345aba4e6cabb250bf7699c1"><td class="memItemLeft" align="right" valign="top">AffineForOp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#aa8c76f66345aba4e6cabb250bf7699c1">mlir::insertBackwardComputationSlice</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *srcOpInst, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *dstOpInst, unsigned dstLoopDepth, <a class="el" href="structmlir_1_1ComputationSliceState.html">ComputationSliceState</a> *sliceState)</td></tr>
 <tr class="memdesc:aa8c76f66345aba4e6cabb250bf7699c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a clone of the computation contained in the loop nest surrounding 'srcOpInst', slices the iteration space of src loop based on slice bounds in 'sliceState', and inserts the computation slice at the beginning of the operation block of the loop at 'dstLoopDepth' in the loop nest surrounding 'dstOpInst'.  <a href="namespacemlir.html#aa8c76f66345aba4e6cabb250bf7699c1">More...</a><br /></td></tr>
 <tr class="separator:aa8c76f66345aba4e6cabb250bf7699c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bd0c019a961c60a1fd09225b7dcd3be"><td class="memItemLeft" align="right" valign="top">Optional&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#a5bd0c019a961c60a1fd09225b7dcd3be">mlir::getMemRefSizeInBytes</a> (<a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a> memRefType)</td></tr>
+<tr class="memitem:a5bd0c019a961c60a1fd09225b7dcd3be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; uint64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#a5bd0c019a961c60a1fd09225b7dcd3be">mlir::getMemRefSizeInBytes</a> (<a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a> memRefType)</td></tr>
 <tr class="memdesc:a5bd0c019a961c60a1fd09225b7dcd3be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of memref data in bytes if it's statically shaped, None otherwise.  <a href="namespacemlir.html#a5bd0c019a961c60a1fd09225b7dcd3be">More...</a><br /></td></tr>
 <tr class="separator:a5bd0c019a961c60a1fd09225b7dcd3be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afdb92b40e131a0a6bd17fc39f1f3e371"><td class="memTemplParams" colspan="2">template&lt;typename LoadOrStoreOpPointer &gt; </td></tr>
@@ -125,7 +125,7 @@ Functions</h2></td></tr>
 <tr class="memitem:af9ce1eb0663c1448ebc1bbeccc2b6bcf"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#af9ce1eb0663c1448ebc1bbeccc2b6bcf">mlir::getNumCommonSurroundingLoops</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> &amp;A, <a class="el" href="classmlir_1_1Operation.html">Operation</a> &amp;B)</td></tr>
 <tr class="memdesc:af9ce1eb0663c1448ebc1bbeccc2b6bcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of surrounding loops common to both A and B.  <a href="namespacemlir.html#af9ce1eb0663c1448ebc1bbeccc2b6bcf">More...</a><br /></td></tr>
 <tr class="separator:af9ce1eb0663c1448ebc1bbeccc2b6bcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1670cd81ab396ba425cd0063d516b9a9"><td class="memItemLeft" align="right" valign="top">Optional&lt; int64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#a1670cd81ab396ba425cd0063d516b9a9">mlir::getMemoryFootprintBytes</a> (AffineForOp forOp, int memorySpace=-1)</td></tr>
+<tr class="memitem:a1670cd81ab396ba425cd0063d516b9a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; int64_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#a1670cd81ab396ba425cd0063d516b9a9">mlir::getMemoryFootprintBytes</a> (AffineForOp forOp, int memorySpace=-1)</td></tr>
 <tr class="memdesc:a1670cd81ab396ba425cd0063d516b9a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the memory footprint of all data touched in the specified memory space in bytes; if the memory space is unspecified, considers all memory spaces.  <a href="namespacemlir.html#a1670cd81ab396ba425cd0063d516b9a9">More...</a><br /></td></tr>
 <tr class="separator:a1670cd81ab396ba425cd0063d516b9a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d9c4fc904589c35cd742b2f96393ee2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#a0d9c4fc904589c35cd742b2f96393ee2">mlir::isLoopParallel</a> (AffineForOp forOp)</td></tr>
@@ -135,7 +135,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 20:23:28 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 00:23:10 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

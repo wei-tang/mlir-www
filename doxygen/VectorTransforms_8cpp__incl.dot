@@ -58,6 +58,8 @@ digraph "lib/Dialect/VectorOps/VectorTransforms.cpp"
   Node22 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node43 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node38 [label="llvm/ADT/PointerUnion.h",height=0.2,width=0.4,color="grey75"];
+  Node43 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="llvm/Support/TrailingObjects.h",height=0.2,width=0.4,color="grey75"];
   Node2 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node50 [label="mlir/IR/StandardTypes.h",height=0.2,width=0.4,color="black",URL="$StandardTypes_8h.html"];
@@ -141,15 +143,12 @@ digraph "lib/Dialect/VectorOps/VectorTransforms.cpp"
   Node77 [label="mlir/Support/Functional.h",height=0.2,width=0.4,color="red",URL="$Functional_8h.html"];
   Node77 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node77 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node0 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node79 [label="mlir/Support/MathExtras.h",height=0.2,width=0.4,color="red",URL="$MathExtras_8h.html"];
-  Node79 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node0 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node23 [label="mlir/Support/STLExtras.h",height=0.2,width=0.4,color="red",URL="$STLExtras_8h.html"];
   Node23 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node0 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node81 [label="llvm/Support/CommandLine.h",height=0.2,width=0.4,color="grey75"];
-  Node0 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node82 [label="llvm/Support/Debug.h",height=0.2,width=0.4,color="grey75"];
+  Node0 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="llvm/Support/CommandLine.h",height=0.2,width=0.4,color="grey75"];
+  Node0 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="llvm/Support/Debug.h",height=0.2,width=0.4,color="grey75"];
   Node0 -> Node60 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

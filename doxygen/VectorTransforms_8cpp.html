@@ -74,7 +74,6 @@ $(function() {
 <code>#include &quot;<a class="el" href="PatternMatch_8h_source.html">mlir/IR/PatternMatch.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Types_8h_source.html">mlir/IR/Types.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Functional_8h_source.html">mlir/Support/Functional.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="MathExtras_8h_source.html">mlir/Support/MathExtras.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="STLExtras_8h_source.html">mlir/Support/STLExtras.h</a>&quot;</code><br />
 <code>#include &quot;llvm/Support/CommandLine.h&quot;</code><br />
 <code>#include &quot;llvm/Support/Debug.h&quot;</code><br />
@@ -111,9 +110,6 @@ Functions</h2></td></tr>
 <tr class="memitem:ae99be2a8f0f23829afa1b954fc8d0cb6"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VectorTransforms_8cpp.html#ae99be2a8f0f23829afa1b954fc8d0cb6">linearize</a> (<a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int64_t &gt; offsets, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int64_t &gt; basis)</td></tr>
 <tr class="memdesc:ae99be2a8f0f23829afa1b954fc8d0cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes and returns the linearized index of 'offsets' w.r.t. 'basis'.  <a href="#ae99be2a8f0f23829afa1b954fc8d0cb6">More...</a><br /></td></tr>
 <tr class="separator:ae99be2a8f0f23829afa1b954fc8d0cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f91de126553eed5bfb66d7cc851deec"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classllvm_1_1SmallVector.html">SmallVector</a>&lt; int64_t, 8 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VectorTransforms_8cpp.html#a1f91de126553eed5bfb66d7cc851deec">delinearize</a> (int64_t linearIndex, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int64_t &gt; basis)</td></tr>
-<tr class="memdesc:a1f91de126553eed5bfb66d7cc851deec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given a shape with sizes greater than 0 along all dimensions, returns the delinearized components of linearIndex along shape.  <a href="#a1f91de126553eed5bfb66d7cc851deec">More...</a><br /></td></tr>
-<tr class="separator:a1f91de126553eed5bfb66d7cc851deec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacb45ef75843e7d2d4079ad8e042f840"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VectorTransforms_8cpp.html#aacb45ef75843e7d2d4079ad8e042f840">cloneOpWithOperandsAndTypes</a> (<a class="el" href="classmlir_1_1PatternRewriter.html">PatternRewriter</a> &amp;builder, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt; operands, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Type.html">Type</a> &gt; resultTypes)</td></tr>
 <tr class="separator:aacb45ef75843e7d2d4079ad8e042f840"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fa1310a41b062ea886c6b092d84c865"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="VectorTransforms_8cpp.html#a1fa1310a41b062ea886c6b092d84c865">getMappedElements</a> (const <a class="el" href="namespacemlir.html#ad7f731697783a754f6f0e3821d1264b2">DenseMap</a>&lt; int64_t, int64_t &gt; &amp;indexMap, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int64_t &gt; inputElements, <a class="el" href="classllvm_1_1SmallVectorImpl.html">SmallVectorImpl</a>&lt; int64_t &gt; &amp;resultElements)</td></tr>
@@ -148,7 +144,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00039">39</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00038">38</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
 </div>
 </div>
@@ -205,11 +201,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00099">99</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00082">82</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="IR_2Builders_8cpp_source.html#l00329">mlir::OpBuilder::createOperation()</a>, <a class="el" href="Operation_8h_source.html#l00277">mlir::Operation::getAttrs()</a>, <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, and <a class="el" href="Operation_8cpp_source.html#l00052">mlir::OperationName::getStringRef()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00284">unrollSingleResultStructuredOp()</a>.</p>
 
 </div>
 </div>
@@ -237,9 +233,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00063">63</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00062">62</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00126">generateExtractSlicesOpResultType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00109">generateExtractSlicesOpResultType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00150">initUnrolledVectorState()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00284">unrollSingleResultStructuredOp()</a>.</p>
 
 </div>
 </div>
@@ -270,51 +266,7 @@ Functions</h2></td></tr>
 <p>Given a shape with sizes greater than 0 along all dimensions, returns the distance, in number of elements, between a slice in a dimension and the next slice in the same dimension. </p>
 <p>e.g. shape[3, 4, 5] -&gt; linearization_basis[20, 5, 1] </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00049">49</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00126">generateExtractSlicesOpResultType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
-
-</div>
-</div>
-<a id="a1f91de126553eed5bfb66d7cc851deec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f91de126553eed5bfb66d7cc851deec">&#9670;&nbsp;</a></span>delinearize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static <a class="el" href="classllvm_1_1SmallVector.html">SmallVector</a>&lt;int64_t, 8&gt; delinearize </td>
-          <td>(</td>
-          <td class="paramtype">int64_t&#160;</td>
-          <td class="paramname"><em>linearIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; int64_t &gt;&#160;</td>
-          <td class="paramname"><em>basis</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Given a shape with sizes greater than 0 along all dimensions, returns the delinearized components of linearIndex along shape. </p>
-
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00083">83</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00126">generateExtractSlicesOpResultType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00493">generateTransferOpSlices()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00048">48</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
 </div>
 </div>
@@ -364,11 +316,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00126">126</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00109">109</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorTransforms_8cpp_source.html#l00063">computeMaxLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00049">computeStrides()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00083">delinearize()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00643">mlir::TupleType::get()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="VectorAnalysis_8cpp_source.html#l00033">mlir::shapeRatio()</a>, and <a class="el" href="Functional_8h_source.html#l00051">mlir::functional::zipMap()</a>.</p>
+<p class="reference">References <a class="el" href="VectorUtils_8cpp_source.html#l00061">mlir::computeElementOffsetsFromVectorSliceOffsets()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00062">computeMaxLinearIndex()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00067">mlir::computeSliceSizes()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00033">mlir::computeStrides()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00048">mlir::delinearize()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00643">mlir::TupleType::get()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, and <a class="el" href="VectorUtils_8cpp_source.html#l00077">mlir::shapeRatio()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00150">initUnrolledVectorState()</a>.</p>
 
 </div>
 </div>
@@ -436,9 +388,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00493">493</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00466">466</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="MathExtras_8h_source.html#l00023">mlir::ceilDiv()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00049">computeStrides()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00083">delinearize()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="PatternMatch_8cpp_source.html#l00091">mlir::PatternRewriter::eraseOp()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00277">mlir::getAffineConstantExpr()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00252">mlir::getAffineDimExpr()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="StandardTypes_8h_source.html#l00511">mlir::TupleType::getType()</a>, <a class="el" href="Value_8h_source.html#l00167">mlir::Value::getUsers()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00213">mlir::Builder::getZeroAttr()</a>, <a class="el" href="Value_8cpp_source.html#l00136">mlir::Value::hasOneUse()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, <a class="el" href="PatternMatch_8cpp_source.html#l00077">mlir::PatternRewriter::replaceOp()</a>, <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>, <a class="el" href="VectorAnalysis_8cpp_source.html#l00033">mlir::shapeRatio()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00664">mlir::TupleType::size()</a>, and <a class="el" href="Functional_8h_source.html#l00051">mlir::functional::zipMap()</a>.</p>
+<p class="reference">References <a class="el" href="VectorUtils_8cpp_source.html#l00061">mlir::computeElementOffsetsFromVectorSliceOffsets()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00067">mlir::computeSliceSizes()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00033">mlir::computeStrides()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00048">mlir::delinearize()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="PatternMatch_8cpp_source.html#l00091">mlir::PatternRewriter::eraseOp()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00590">mlir::AffineMap::get()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00277">mlir::getAffineConstantExpr()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00252">mlir::getAffineDimExpr()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Value_8h_source.html#l00167">mlir::Value::getUsers()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00213">mlir::Builder::getZeroAttr()</a>, <a class="el" href="Value_8cpp_source.html#l00136">mlir::Value::hasOneUse()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, <a class="el" href="PatternMatch_8cpp_source.html#l00077">mlir::PatternRewriter::replaceOp()</a>, <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00077">mlir::shapeRatio()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00664">mlir::TupleType::size()</a>.</p>
 
 </div>
 </div>
@@ -482,9 +434,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00110">110</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00093">93</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00219">getOrCreateUnrolledVectorSlice()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00206">getUnrolledVectorLinearIndex()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00194">getOrCreateUnrolledVectorSlice()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00181">getUnrolledVectorLinearIndex()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00150">initUnrolledVectorState()</a>.</p>
 
 </div>
 </div>
@@ -558,11 +510,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00219">219</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00194">194</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00110">getMappedElements()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00206">getUnrolledVectorLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00170">UnrolledVectorState::slicesTuple</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00166">UnrolledVectorState::unrolledShape</a>.</p>
+<p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00093">getMappedElements()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00181">getUnrolledVectorLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00145">UnrolledVectorState::slicesTuple</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00141">UnrolledVectorState::unrolledShape</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00284">unrollSingleResultStructuredOp()</a>.</p>
 
 </div>
 </div>
@@ -606,11 +558,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00206">206</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00181">181</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorTransforms_8cpp_source.html#l00168">UnrolledVectorState::basis</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00110">getMappedElements()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00073">linearize()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00166">UnrolledVectorState::unrolledShape</a>.</p>
+<p class="reference">References <a class="el" href="VectorTransforms_8cpp_source.html#l00143">UnrolledVectorState::basis</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00093">getMappedElements()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00072">linearize()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00141">UnrolledVectorState::unrolledShape</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00219">getOrCreateUnrolledVectorSlice()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00194">getOrCreateUnrolledVectorSlice()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00284">unrollSingleResultStructuredOp()</a>.</p>
 
 </div>
 </div>
@@ -666,9 +618,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00401">401</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00374">374</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00466">mlir::vector::unrollSingleResultOpMatchingType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00439">mlir::vector::unrollSingleResultOpMatchingType()</a>.</p>
 
 </div>
 </div>
@@ -724,11 +676,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00436">436</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00409">409</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Types_8h_source.html#l00261">mlir::Type::dyn_cast_or_null()</a>, <a class="el" href="Operation_8h_source.html#l00207">mlir::Operation::getNumOperands()</a>, <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="Operation_8h_source.html#l00238">mlir::Operation::getOperandTypes()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, and <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00466">mlir::vector::unrollSingleResultOpMatchingType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00439">mlir::vector::unrollSingleResultOpMatchingType()</a>.</p>
 
 </div>
 </div>
@@ -790,11 +742,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00175">175</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00150">150</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorTransforms_8cpp_source.html#l00168">UnrolledVectorState::basis</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00063">computeMaxLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00049">computeStrides()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00126">generateExtractSlicesOpResultType()</a>, <a class="el" href="Value_8cpp_source.html#l00077">mlir::Value::getLoc()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00110">getMappedElements()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00169">UnrolledVectorState::numInstances</a>, <a class="el" href="VectorAnalysis_8cpp_source.html#l00033">mlir::shapeRatio()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00170">UnrolledVectorState::slicesTuple</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00166">UnrolledVectorState::unrolledShape</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00167">UnrolledVectorState::unrollFactors</a>.</p>
+<p class="reference">References <a class="el" href="VectorTransforms_8cpp_source.html#l00143">UnrolledVectorState::basis</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00062">computeMaxLinearIndex()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00033">mlir::computeStrides()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00109">generateExtractSlicesOpResultType()</a>, <a class="el" href="Value_8cpp_source.html#l00077">mlir::Value::getLoc()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00093">getMappedElements()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00144">UnrolledVectorState::numInstances</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00077">mlir::shapeRatio()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00145">UnrolledVectorState::slicesTuple</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00141">UnrolledVectorState::unrolledShape</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00142">UnrolledVectorState::unrollFactors</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00284">unrollSingleResultStructuredOp()</a>.</p>
 
 </div>
 </div>
@@ -834,9 +786,9 @@ Functions</h2></td></tr>
 
 <p>Computes and returns the linearized index of 'offsets' w.r.t. 'basis'. </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00073">73</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00072">72</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00206">getUnrolledVectorLinearIndex()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00181">getUnrolledVectorLinearIndex()</a>.</p>
 
 </div>
 </div>
@@ -898,18 +850,18 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00309">309</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00284">284</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00099">cloneOpWithOperandsAndTypes()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00063">computeMaxLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00049">computeStrides()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00083">delinearize()</a>, <a class="el" href="Types_8h_source.html#l00261">mlir::Type::dyn_cast_or_null()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00174">mlir::Builder::getI64ArrayAttr()</a>, <a class="el" href="Operation_8h_source.html#l00107">mlir::Operation::getLoc()</a>, <a class="el" href="Operation_8h_source.html#l00207">mlir::Operation::getNumOperands()</a>, <a class="el" href="Operation_8h_source.html#l00209">mlir::Operation::getOperand()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00219">getOrCreateUnrolledVectorSlice()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00067">mlir::Builder::getTupleType()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00206">getUnrolledVectorLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00175">initUnrolledVectorState()</a>, <a class="el" href="VectorAnalysis_8cpp_source.html#l00033">mlir::shapeRatio()</a>, and <a class="el" href="Functional_8h_source.html#l00051">mlir::functional::zipMap()</a>.</p>
+<p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00082">cloneOpWithOperandsAndTypes()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00061">mlir::computeElementOffsetsFromVectorSliceOffsets()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00062">computeMaxLinearIndex()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00033">mlir::computeStrides()</a>, <a class="el" href="PatternMatch_8h_source.html#l00265">mlir::PatternRewriter::create()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00048">mlir::delinearize()</a>, <a class="el" href="Types_8h_source.html#l00261">mlir::Type::dyn_cast_or_null()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00174">mlir::Builder::getI64ArrayAttr()</a>, <a class="el" href="Operation_8h_source.html#l00107">mlir::Operation::getLoc()</a>, <a class="el" href="Operation_8h_source.html#l00207">mlir::Operation::getNumOperands()</a>, <a class="el" href="Operation_8h_source.html#l00209">mlir::Operation::getOperand()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00194">getOrCreateUnrolledVectorSlice()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00067">mlir::Builder::getTupleType()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00181">getUnrolledVectorLinearIndex()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00150">initUnrolledVectorState()</a>, and <a class="el" href="VectorUtils_8cpp_source.html#l00077">mlir::shapeRatio()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00466">mlir::vector::unrollSingleResultOpMatchingType()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorTransforms_8cpp_source.html#l00439">mlir::vector::unrollSingleResultOpMatchingType()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 20:23:28 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 00:23:10 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

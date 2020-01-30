@@ -10,8 +10,8 @@ digraph "include/mlir/IR/Identifier.h"
   Node8 [label="include/mlir/IR/Dialect.h",height=0.2,width=0.4,color="red",URL="$IR_2Dialect_8h.html"];
   Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node9 [label="include/mlir/Dialect\l/AffineOps/AffineOps.h",height=0.2,width=0.4,color="red",URL="$AffineOps_8h.html"];
-  Node9 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node43 [label="lib/Dialect/VectorOps\l/VectorTransforms.cpp",height=0.2,width=0.4,color="black",URL="$VectorTransforms_8cpp.html"];
+  Node9 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="lib/Dialect/VectorOps\l/VectorTransforms.cpp",height=0.2,width=0.4,color="black",URL="$VectorTransforms_8cpp.html"];
   Node8 -> Node56 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node56 [label="include/mlir/Dialect\l/FxpMathOps/FxpMathOps.h",height=0.2,width=0.4,color="red",URL="$FxpMathOps_8h.html"];
   Node8 -> Node61 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -64,12 +64,12 @@ digraph "include/mlir/IR/Identifier.h"
   Node134 [label="include/mlir/Dialect\l/SPIRV/SPIRVDialect.h",height=0.2,width=0.4,color="red",URL="$SPIRVDialect_8h.html"];
   Node8 -> Node145 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node145 [label="include/mlir/Dialect\l/StandardOps/Ops.h",height=0.2,width=0.4,color="red",URL="$Ops_8h.html"];
-  Node145 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node145 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node8 -> Node156 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node156 [label="include/mlir/Dialect\l/VectorOps/VectorOps.h",height=0.2,width=0.4,color="red",URL="$VectorOps_8h.html"];
   Node156 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node18 [label="lib/Conversion/VectorToLoops\l/ConvertVectorToLoops.cpp",height=0.2,width=0.4,color="black",URL="$ConvertVectorToLoops_8cpp.html"];
-  Node156 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node156 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node8 -> Node158 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node158 [label="include/mlir/IR/DialectHooks.h",height=0.2,width=0.4,color="black",URL="$DialectHooks_8h.html"];
   Node158 -> Node159 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -107,7 +107,7 @@ digraph "include/mlir/IR/Identifier.h"
   Node7 -> Node187 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node7 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node7 -> Node92 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node7 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node42 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node7 -> Node245 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node6 -> Node121 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node6 -> Node250 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

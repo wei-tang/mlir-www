@@ -111,11 +111,11 @@ Functions</h2></td></tr>
 
 <p>Returns an integer array attribute containing the given values using the integer type required for subscripts in the vector dialect. </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00056">56</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00057">57</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00174">mlir::Builder::getI64ArrayAttr()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00027">mlir::getIndexingMapsAttrName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00033">mlir::getIteratorTypesAttrName()</a>, and <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8h_source.html#l00030">mlir::vector::VectorOpsDialect::getDialectNamespace()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00389">inferExtractOpResultType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01225">inferStridedSliceOpResultType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00625">parseBroadcastOp()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01786">print()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l00441">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8h_source.html#l00030">mlir::vector::VectorOpsDialect::getDialectNamespace()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00390">inferExtractOpResultType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01204">inferStridedSliceOpResultType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00604">parseBroadcastOp()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01765">print()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l00442">verify()</a>.</p>
 
 </div>
 </div>
@@ -137,7 +137,7 @@ Functions</h2></td></tr>
 
 <p>Returns the integer type required for subscripts in the vector dialect. </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00052">52</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00053">53</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="IR_2Builders_8cpp_source.html#l00058">mlir::Builder::getIntegerType()</a>.</p>
 
@@ -174,7 +174,7 @@ Functions</h2></td></tr>
 <p>Collect a set of vector slices transformation patterns: ExtractSlicesOpLowering, InsertSlicesOpLowering Useful for clients that want to express all vector "slices" ops in terms of more elementary vector "slice" ops. </p>
 <p>If all "produced" tuple values are "consumed" (the most common use for "slices" ops), this lowering removes all tuple related operations as well (through DCE and folding). If tuple values "leak" coming in, however, some tuple related ops will remain. </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00797">797</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00742">742</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>.</p>
 
@@ -210,7 +210,7 @@ Functions</h2></td></tr>
 
 <p>Collect a set of vector-to-vector canonicalization patterns. </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01827">1827</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01806">1806</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>.</p>
 
@@ -246,7 +246,7 @@ Functions</h2></td></tr>
 
 <p>Collect a set of vector-to-vector transformation patterns. </p>
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00791">791</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00736">736</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>.</p>
 
@@ -286,16 +286,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00466">466</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorTransforms_8cpp_source.html#l00439">439</a> of file <a class="el" href="VectorTransforms_8cpp_source.html">VectorTransforms.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00401">getVectorContractionOpUnrollState()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00436">getVectorElementwiseOpUnrollState()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00309">unrollSingleResultStructuredOp()</a>.</p>
+<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00374">getVectorContractionOpUnrollState()</a>, <a class="el" href="VectorTransforms_8cpp_source.html#l00409">getVectorElementwiseOpUnrollState()</a>, and <a class="el" href="VectorTransforms_8cpp_source.html#l00284">unrollSingleResultStructuredOp()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 20:23:30 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 00:23:13 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

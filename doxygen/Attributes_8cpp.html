@@ -82,6 +82,10 @@ Functions</h2></td></tr>
 <tr class="memitem:af1a770146ea15e836604c9f1b169171d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Attributes_8cpp.html#af1a770146ea15e836604c9f1b169171d">verifyFloatTypeInvariants</a> (<a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1Location.html">Location</a> &gt; loc, <a class="el" href="classmlir_1_1Type.html">Type</a> type)</td></tr>
 <tr class="memdesc:af1a770146ea15e836604c9f1b169171d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify construction invariants.  <a href="#af1a770146ea15e836604c9f1b169171d">More...</a><br /></td></tr>
 <tr class="separator:af1a770146ea15e836604c9f1b169171d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9dea9e62860c90f198321addfbd2aea"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Attributes_8cpp.html#ad9dea9e62860c90f198321addfbd2aea">verifyIntegerTypeInvariants</a> (<a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1Location.html">Location</a> &gt; loc, <a class="el" href="classmlir_1_1Type.html">Type</a> type)</td></tr>
+<tr class="separator:ad9dea9e62860c90f198321addfbd2aea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5cf1f6fc4a8669d0204589f838423aa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Attributes_8cpp.html#ad5cf1f6fc4a8669d0204589f838423aa">verifyConstructionInvariants</a> (<a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1Location.html">Location</a> &gt; loc, <a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *ctx, <a class="el" href="classmlir_1_1Type.html">Type</a> type, int64_t value)</td></tr>
+<tr class="separator:ad5cf1f6fc4a8669d0204589f838423aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23bd659ab2df5b08754bfb5b0d12cd76"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Attributes_8cpp.html#a23bd659ab2df5b08754bfb5b0d12cd76">getDenseElementBitwidth</a> (<a class="el" href="classmlir_1_1Type.html">Type</a> eltType)</td></tr>
 <tr class="separator:a23bd659ab2df5b08754bfb5b0d12cd76"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fb30788597a2c90b260d15e369f82e6"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Attributes_8cpp.html#a7fb30788597a2c90b260d15e369f82e6">getDenseElementStorageWidth</a> (size_t origWidth)</td></tr>
@@ -189,9 +193,9 @@ Functions</h2></td></tr>
 
 <p>Return the value of the specified bit. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00465">465</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00492">492</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00544">mlir::DenseElementsAttr::BoolElementIterator::operator*()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00486">readBits()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00571">mlir::DenseElementsAttr::BoolElementIterator::operator*()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00513">readBits()</a>.</p>
 
 </div>
 </div>
@@ -219,11 +223,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00444">444</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00471">471</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00103">mlir::Type::getIntOrFloatBitWidth()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00025">mlir::Type::isBF16()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00572">mlir::DenseElementsAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00649">mlir::DenseElementsAttr::getRaw()</a>, <a class="el" href="Attributes_8cpp_source.html#l00676">isValidIntOrFloat()</a>, <a class="el" href="Attributes_8cpp_source.html#l00809">mappingHelper()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00544">mlir::DenseElementsAttr::BoolElementIterator::operator*()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00599">mlir::DenseElementsAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00676">mlir::DenseElementsAttr::getRaw()</a>, <a class="el" href="Attributes_8cpp_source.html#l00703">isValidIntOrFloat()</a>, <a class="el" href="Attributes_8cpp_source.html#l00836">mappingHelper()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00571">mlir::DenseElementsAttr::BoolElementIterator::operator*()</a>.</p>
 
 </div>
 </div>
@@ -254,9 +258,9 @@ Functions</h2></td></tr>
 <p>Get the bitwidth of a dense element type within the buffer. </p>
 <p>DenseElementsAttr requires bitwidths greater than 1 to be aligned by 8. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00452">452</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00479">479</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00572">mlir::DenseElementsAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00649">mlir::DenseElementsAttr::getRaw()</a>, <a class="el" href="Attributes_8cpp_source.html#l00809">mappingHelper()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00556">mlir::DenseElementsAttr::IntElementIterator::operator*()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00599">mlir::DenseElementsAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00676">mlir::DenseElementsAttr::getRaw()</a>, <a class="el" href="Attributes_8cpp_source.html#l00836">mappingHelper()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00583">mlir::DenseElementsAttr::IntElementIterator::operator*()</a>.</p>
 
 </div>
 </div>
@@ -299,11 +303,11 @@ template&lt;typename Values &gt; </div>
 <p>Returns if 'values' corresponds to a splat, i.e. </p>
 <p>one element, or has the same element count as 'type'. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00503">503</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00530">530</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00127">mlir::ShapedType::getNumElements()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00572">mlir::DenseElementsAttr::get()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00649">mlir::DenseElementsAttr::getRaw()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00599">mlir::DenseElementsAttr::get()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00676">mlir::DenseElementsAttr::getRaw()</a>.</p>
 
 </div>
 </div>
@@ -350,11 +354,11 @@ template&lt;typename Values &gt; </div>
 <p>Check the information for a c++ data type, check if this type is valid for the current attribute. </p>
 <p>This method is used to verify specific type invariants that the templatized 'getValues' method cannot. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00676">676</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00703">703</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00444">getDenseElementBitwidth()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00119">mlir::ShapedType::getElementType()</a>, and <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>.</p>
+<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00471">getDenseElementBitwidth()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00119">mlir::ShapedType::getElementType()</a>, and <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00691">mlir::DenseElementsAttr::getRawIntOrFloat()</a>, <a class="el" href="Attributes_8h_source.html#l00855">mlir::DenseElementsAttr::getValues()</a>, <a class="el" href="Attributes_8cpp_source.html#l00704">mlir::DenseElementsAttr::isValidIntOrFloat()</a>, and <a class="el" href="Attributes_8h_source.html#l00948">mlir::DenseElementsAttr::raw_int_end()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00718">mlir::DenseElementsAttr::getRawIntOrFloat()</a>, <a class="el" href="Attributes_8h_source.html#l00862">mlir::DenseElementsAttr::getValues()</a>, <a class="el" href="Attributes_8cpp_source.html#l00731">mlir::DenseElementsAttr::isValidIntOrFloat()</a>, and <a class="el" href="Attributes_8h_source.html#l00955">mlir::DenseElementsAttr::raw_int_end()</a>.</p>
 
 </div>
 </div>
@@ -412,11 +416,11 @@ template&lt;typename Fn , typename Attr &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00809">809</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00836">836</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00248">mlir::RankedTensorType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00444">getDenseElementBitwidth()</a>, <a class="el" href="Attributes_8cpp_source.html#l00452">getDenseElementStorageWidth()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00127">mlir::ShapedType::getNumElements()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00170">mlir::ShapedType::getShape()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00470">writeBits()</a>.</p>
+<p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00248">mlir::RankedTensorType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00471">getDenseElementBitwidth()</a>, <a class="el" href="Attributes_8cpp_source.html#l00479">getDenseElementStorageWidth()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00127">mlir::ShapedType::getNumElements()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00170">mlir::ShapedType::getShape()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00497">writeBits()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00848">mlir::DenseFPElementsAttr::mapValues()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00867">mlir::DenseIntElementsAttr::mapValues()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00875">mlir::DenseFPElementsAttr::mapValues()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00894">mlir::DenseIntElementsAttr::mapValues()</a>.</p>
 
 </div>
 </div>
@@ -462,11 +466,11 @@ template&lt;typename Fn , typename Attr &gt; </div>
 
 <p>Reads the next <code>bitWidth</code> bits from the bit position <code>bitPos</code> in array <code>rawData</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00486">486</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00513">513</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00465">getBit()</a>.</p>
+<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00492">getBit()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00556">mlir::DenseElementsAttr::IntElementIterator::operator*()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00583">mlir::DenseElementsAttr::IntElementIterator::operator*()</a>.</p>
 
 </div>
 </div>
@@ -512,9 +516,55 @@ template&lt;typename Fn , typename Attr &gt; </div>
 
 <p>Set a bit to a specific value. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00457">457</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00484">484</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00612">mlir::DenseElementsAttr::get()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00470">writeBits()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00639">mlir::DenseElementsAttr::get()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00497">writeBits()</a>.</p>
+
+</div>
+</div>
+<a id="ad5cf1f6fc4a8669d0204589f838423aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5cf1f6fc4a8669d0204589f838423aa">&#9670;&nbsp;</a></span>verifyConstructionInvariants()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a> verifyConstructionInvariants </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1Location.html">Location</a> &gt;&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *&#160;</td>
+          <td class="paramname"><em>ctx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Type.html">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00291">291</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00284">verifyIntegerTypeInvariants()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="StorageUniquerSupport_8h_source.html#l00054">mlir::detail::StorageUserBase&lt; ConcreteT, BaseT, StorageT, UniquerT &gt;::get()</a>, <a class="el" href="StorageUniquerSupport_8h_source.html#l00065">mlir::detail::StorageUserBase&lt; ConcreteT, BaseT, StorageT, UniquerT &gt;::getChecked()</a>, <a class="el" href="QuantTypes_8h_source.html#l00216">mlir::quant::AnyQuantizedType::kindof()</a>, <a class="el" href="Attributes_8h_source.html#l00327">mlir::FloatAttr::kindof()</a>, and <a class="el" href="Attributes_8h_source.html#l00359">mlir::IntegerAttr::kindof()</a>.</p>
 
 </div>
 </div>
@@ -562,6 +612,48 @@ template&lt;typename Fn , typename Attr &gt; </div>
 
 </div>
 </div>
+<a id="ad9dea9e62860c90f198321addfbd2aea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9dea9e62860c90f198321addfbd2aea">&#9670;&nbsp;</a></span>verifyIntegerTypeInvariants()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a> verifyIntegerTypeInvariants </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classllvm_1_1Optional.html">Optional</a>&lt; <a class="el" href="classmlir_1_1Location.html">Location</a> &gt;&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Type.html">Type</a>&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00284">284</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Diagnostics_8h_source.html#l00481">mlir::emitOptionalError()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00291">verifyConstructionInvariants()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00297">mlir::IntegerAttr::verifyConstructionInvariants()</a>.</p>
+
+</div>
+</div>
 <a id="a4f956323571af39e8936640e9c21ea6f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4f956323571af39e8936640e9c21ea6f">&#9670;&nbsp;</a></span>writeBits()</h2>
 
@@ -604,18 +696,18 @@ template&lt;typename Fn , typename Attr &gt; </div>
 
 <p>Writes value to the bit position <code>bitPos</code> in array <code>rawData</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00470">470</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00497">497</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00457">setBit()</a>.</p>
+<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00484">setBit()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00572">mlir::DenseElementsAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00649">mlir::DenseElementsAttr::getRaw()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00809">mappingHelper()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Attributes_8cpp_source.html#l00599">mlir::DenseElementsAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00676">mlir::DenseElementsAttr::getRaw()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00836">mappingHelper()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 20:23:28 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 00:23:10 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

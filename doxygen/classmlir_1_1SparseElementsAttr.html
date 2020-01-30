@@ -145,7 +145,7 @@ Additional Inherited Members</h2></td></tr>
 <p>This class uses COO (coordinate list) encoding to represent the sparse elements in an element attribute. Specifically, the sparse vector/tensor stores the indices and values as two separate dense elements attributes of tensor type (even if the sparse attribute is of vector type, in order to support empty lists). The dense elements attribute indices is a 2-D tensor of 64-bit integer elements with shape [N, ndims], which specifies the indices of the elements in the sparse tensor that contains nonzero values. The dense elements attribute values is a 1-D tensor with shape [N], and it supplies the corresponding values for the indices.</p>
 <p>For example, <code>sparse&lt;tensor&lt;3x4xi32&gt;, [[0, 0], [1, 2]], [1, 5]&gt;</code> represents tensor [[1, 0, 0, 0], [0, 0, 5, 0], [0, 0, 0, 0]]. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01101">1101</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01108">1108</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="a1998d8dfe365c563a298d337f5950eab"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1998d8dfe365c563a298d337f5950eab">&#9670;&nbsp;</a></span>iterator</h2>
@@ -161,7 +161,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01110">1110</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01117">1117</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
 
 </div>
 </div>
@@ -208,7 +208,7 @@ template&lt;typename T &gt; </div>
 
 <p>'type' must be a vector or tensor with static shape. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00917">917</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00944">944</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Types_8cpp_source.html#l00027">mlir::Type::getContext()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00187">mlir::ShapedType::hasStaticShape()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, and <a class="el" href="Attributes_8h_source.html#l00145">mlir::StandardAttributes::SparseElements</a>.</p>
 
@@ -231,7 +231,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00929">929</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00956">956</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="QuantizeUtils_8cpp_source.html#l00070">convertSparseElementsAttr()</a>.</p>
 
@@ -256,7 +256,7 @@ template&lt;typename T &gt; </div>
 <p>Return the value of the element at the given index. </p>
 <p>The 'index' is expected to refer to a valid element. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00938">938</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00965">965</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00551">mlir::BoolAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00175">mlir::FloatAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, and <a class="el" href="Attributes_8cpp_source.html#l00031">mlir::AttributeStorage::getType()</a>.</p>
 
@@ -277,7 +277,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00933">933</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8cpp_source.html#l00960">960</a> of file <a class="el" href="Attributes_8cpp_source.html">Attributes.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="QuantizeUtils_8cpp_source.html#l00070">convertSparseElementsAttr()</a>.</p>
 
@@ -311,7 +311,7 @@ template&lt;typename T &gt; </div>
 <p>Return the values of this attribute in the form of the given type 'T'. </p>
 <p>'T' may be any of <a class="el" href="classmlir_1_1Attribute.html" title="Attributes are known-constant values of operations and functions. ">Attribute</a>, APInt, APFloat, c++ integer/float types, etc. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01122">1122</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01129">1129</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
 
 </div>
 </div>
@@ -341,7 +341,7 @@ template&lt;typename T &gt; </div>
 
 <p>Method for support type inquiry through isa, cast and dyn_cast. </p>
 
-<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01144">1144</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Attributes_8h_source.html#l01151">1151</a> of file <a class="el" href="Attributes_8h_source.html">Attributes.h</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l00145">mlir::StandardAttributes::SparseElements</a>.</p>
 
@@ -354,7 +354,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 20:23:29 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 00:23:12 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

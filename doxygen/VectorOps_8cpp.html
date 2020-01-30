@@ -59,6 +59,7 @@ $(function() {
 <div class="textblock"><code>#include &quot;<a class="el" href="VectorOps_8h_source.html">mlir/Dialect/VectorOps/VectorOps.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Ops_8h_source.html">mlir/Dialect/StandardOps/Ops.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="StructuredOpsUtils_8h_source.html">mlir/Dialect/Utils/StructuredOpsUtils.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="VectorUtils_8h_source.html">mlir/Dialect/VectorOps/VectorUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="AffineExpr_8h_source.html">mlir/IR/AffineExpr.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="AffineMap_8h_source.html">mlir/IR/AffineMap.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="IR_2Builders_8h_source.html">mlir/IR/Builders.h</a>&quot;</code><br />
@@ -271,7 +272,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01835">1835</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01814">1814</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -336,9 +337,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00273">273</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00274">274</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00241">mlir::AffineExpr::cast()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00252">mlir::getAffineDimExpr()</a>, <a class="el" href="IR_2Dialect_8h_source.html#l00047">mlir::Dialect::getContext()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l01138">getIndexingMaps()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00064">mlir::getParallelIteratorTypeName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00069">mlir::getReductionIteratorTypeName()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00265">getResultIndex()</a>, <a class="el" href="Attributes_8cpp_source.html#l00059">mlir::AffineMapAttr::getValue()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
+<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00241">mlir::AffineExpr::cast()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="AffineExpr_8cpp_source.html#l00252">mlir::getAffineDimExpr()</a>, <a class="el" href="IR_2Dialect_8h_source.html#l00047">mlir::Dialect::getContext()</a>, <a class="el" href="LinalgOps_8cpp_source.html#l01138">getIndexingMaps()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00064">mlir::getParallelIteratorTypeName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00069">mlir::getReductionIteratorTypeName()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00266">getResultIndex()</a>, <a class="el" href="Attributes_8cpp_source.html#l00059">mlir::AffineMapAttr::getValue()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
 
 </div>
 </div>
@@ -376,11 +377,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00265">265</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00266">266</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="AffineMap_8cpp_source.html#l00158">mlir::AffineMap::getNumResults()</a>, and <a class="el" href="AffineMap_8cpp_source.html#l00171">mlir::AffineMap::getResult()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00273">getDimMap()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00274">getDimMap()</a>.</p>
 
 </div>
 </div>
@@ -418,11 +419,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00389">389</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00390">390</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, and <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, and <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00412">parseExtractOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00413">parseExtractOp()</a>.</p>
 
 </div>
 </div>
@@ -472,11 +473,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01225">1225</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01204">1204</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="Attributes_8cpp_source.html#l00069">mlir::ArrayAttr::getValue()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, and <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="Attributes_8cpp_source.html#l00069">mlir::ArrayAttr::getValue()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, and <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01276">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01255">verify()</a>.</p>
 
 </div>
 </div>
@@ -504,11 +505,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01594">1594</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01573">1573</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00380">mlir::MemRefType::getShape()</a>, and <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01604">print()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l01610">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01583">print()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l01589">verify()</a>.</p>
 
 </div>
 </div>
@@ -572,11 +573,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00936">936</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00915">915</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01011">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00990">verify()</a>.</p>
 
 </div>
 </div>
@@ -640,11 +641,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00956">956</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00935">935</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01011">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00990">verify()</a>.</p>
 
 </div>
 </div>
@@ -696,11 +697,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00921">921</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00900">900</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01276">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01255">verify()</a>.</p>
 
 </div>
 </div>
@@ -776,11 +777,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00979">979</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00958">958</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01011">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00990">verify()</a>.</p>
 
 </div>
 </div>
@@ -836,11 +837,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00509">509</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00510">510</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="MathExtras_8h_source.html#l00023">mlir::ceilDiv()</a>, <a class="el" href="Operation_8cpp_source.html#l00300">mlir::Operation::emitError()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="StandardTypes_8h_source.html#l00511">mlir::TupleType::getType()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00648">mlir::TupleType::getTypes()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00664">mlir::TupleType::size()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="Functional_8h_source.html#l00051">mlir::functional::zipMap()</a>.</p>
+<p class="reference">References <a class="el" href="VectorUtils_8cpp_source.html#l00061">mlir::computeElementOffsetsFromVectorSliceOffsets()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00067">mlir::computeSliceSizes()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00033">mlir::computeStrides()</a>, <a class="el" href="VectorUtils_8cpp_source.html#l00048">mlir::delinearize()</a>, <a class="el" href="Operation_8cpp_source.html#l00300">mlir::Operation::emitError()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="StandardTypes_8h_source.html#l00511">mlir::TupleType::getType()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00648">mlir::TupleType::getTypes()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00664">mlir::TupleType::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00568">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00547">verify()</a>.</p>
 
 </div>
 </div>
@@ -878,11 +879,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01001">1001</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00980">980</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="MLIRContext_8cpp_source.html#l00511">mlir::IntegerType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00065">mlir::ArrayAttr::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, and <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01011">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00990">verify()</a>.</p>
 
 </div>
 </div>
@@ -920,9 +921,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00625">625</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00604">604</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
 </div>
 </div>
@@ -960,7 +961,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01700">1700</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01679">1679</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1000,7 +1001,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00075">75</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00076">76</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00056">mlir::Builder::getI1Type()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Attributes_8cpp_source.html#l00143">mlir::DictionaryAttr::getValue()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#aa24c2037cb83360163d7b7a209f986f4">mlir::OpAsmParser::parseTrailingOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1040,7 +1041,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01748">1748</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01727">1727</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1080,7 +1081,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00360">360</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00361">361</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a3d502ec356adb46c5694fd914a62d2a6">mlir::OpAsmParser::parseLSquare()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a27db6626e206e455bdc8c345850ca01d">mlir::OpAsmParser::parseRSquare()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1120,9 +1121,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00412">412</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00413">413</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8h_source.html#l01348">mlir::Attribute::dyn_cast()</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00389">inferExtractOpResultType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
+<p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8h_source.html#l01355">mlir::Attribute::dyn_cast()</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00390">inferExtractOpResultType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
 </div>
 </div>
@@ -1160,7 +1161,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00476">476</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00477">477</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1200,7 +1201,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00734">734</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00713">713</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a3d502ec356adb46c5694fd914a62d2a6">mlir::OpAsmParser::parseLSquare()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a27db6626e206e455bdc8c345850ca01d">mlir::OpAsmParser::parseRSquare()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1240,7 +1241,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00780">780</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00759">759</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1280,7 +1281,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00832">832</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00811">811</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1320,7 +1321,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00904">904</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00883">883</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1360,7 +1361,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01058">1058</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01037">1037</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1400,7 +1401,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01778">1778</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01757">1757</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, and <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>.</p>
 
@@ -1440,7 +1441,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01122">1122</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01101">1101</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00095">mlir::Builder::getI32VectorAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92aceb46ca115d05c51aa5a16a8867c3304">mlir::OpAsmParser::Square</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1480,9 +1481,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00690">690</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00669">669</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8h_source.html#l01348">mlir::Attribute::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
+<p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8h_source.html#l01355">mlir::Attribute::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
 </div>
 </div>
@@ -1520,7 +1521,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01261">1261</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01240">1240</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="OpImplementation_8h_source.html#l00597">mlir::OpAsmParser::parseKeywordType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1560,7 +1561,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01474">1474</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01453">1453</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92aceb46ca115d05c51aa5a16a8867c3304">mlir::OpAsmParser::Square</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1600,7 +1601,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01550">1550</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01529">1529</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92aceb46ca115d05c51aa5a16a8867c3304">mlir::OpAsmParser::Square</a>.</p>
 
@@ -1640,7 +1641,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01648">1648</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01627">1627</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="Attributes_8cpp_source.html#l00282">mlir::IntegerAttr::getInt()</a>, <a class="el" href="StandardTypes_8h_source.html#l00511">mlir::TupleType::getType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00664">mlir::TupleType::size()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1680,7 +1681,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01621">1621</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01600">1600</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00643">mlir::TupleType::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1720,11 +1721,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00578">578</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00557">557</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00282">mlir::IntegerAttr::getInt()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00864">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00843">verify()</a>.</p>
 
 </div>
 </div>
@@ -1762,7 +1763,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00117">117</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00118">118</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00088">mlir::DictionaryAttr::get()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1802,7 +1803,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00353">353</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00354">354</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1842,7 +1843,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00406">406</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00407">407</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1882,7 +1883,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00497">497</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00498">498</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1922,7 +1923,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00596">596</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00575">575</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -1960,7 +1961,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00649">649</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00628">628</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2000,7 +2001,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00727">727</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00706">706</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2040,7 +2041,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00773">773</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00752">752</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2080,7 +2081,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00853">853</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00832">832</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2120,7 +2121,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00898">898</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00877">877</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2160,7 +2161,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01051">1051</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01030">1030</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -2198,7 +2199,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01105">1105</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01084">1084</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2238,7 +2239,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01255">1255</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01234">1234</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2278,7 +2279,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01467">1467</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01446">1446</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2318,7 +2319,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01543">1543</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01522">1522</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2358,9 +2359,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01604">1604</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01583">1583</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l01594">inferVectorTypeCastResultType()</a>.</p>
+<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l01573">inferVectorTypeCastResultType()</a>.</p>
 
 </div>
 </div>
@@ -2398,7 +2399,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01634">1634</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01613">1613</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00081">mlir::interleaveComma()</a>, <a class="el" href="OpImplementation_8h_source.html#l00043">mlir::OpAsmPrinter::printOperands()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2438,7 +2439,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01669">1669</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01648">1648</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2478,7 +2479,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01712">1712</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01691">1691</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -2516,7 +2517,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01761">1761</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01740">1740</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 </div>
 </div>
@@ -2554,9 +2555,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01786">1786</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01765">1765</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>, and <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>.</p>
+<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>, and <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>.</p>
 
 </div>
 </div>
@@ -2584,9 +2585,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00191">191</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00192">192</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00027">mlir::getIndexingMapsAttrName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00033">mlir::getIteratorTypesAttrName()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00138">verifyDimMap()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l00149">verifyOutputShape()</a>.</p>
+<p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00027">mlir::getIndexingMapsAttrName()</a>, <a class="el" href="StructuredOpsUtils_8h_source.html#l00033">mlir::getIteratorTypesAttrName()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00139">verifyDimMap()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l00150">verifyOutputShape()</a>.</p>
 
 </div>
 </div>
@@ -2614,7 +2615,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00378">378</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00379">379</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -2644,9 +2645,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00441">441</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00442">442</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="structmlir_1_1LogicalResult.html#a367e2bef1a5e5122bc9d0484479a353a">mlir::LogicalResult::value</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="structmlir_1_1LogicalResult.html#a367e2bef1a5e5122bc9d0484479a353a">mlir::LogicalResult::value</a>.</p>
 
 </div>
 </div>
@@ -2674,9 +2675,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00568">568</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00547">547</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l00509">isValidExtractOrInsertSlicesType()</a>.</p>
+<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l00510">isValidExtractOrInsertSlicesType()</a>.</p>
 
 </div>
 </div>
@@ -2704,7 +2705,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00601">601</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00580">580</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -2734,7 +2735,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00656">656</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00635">635</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -2764,9 +2765,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00754">754</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00733">733</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -2794,7 +2795,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00798">798</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00777">777</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -2824,9 +2825,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00864">864</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00843">843</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00509">isValidExtractOrInsertSlicesType()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l00578">populateFromInt64AttrArray()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00510">isValidExtractOrInsertSlicesType()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l00557">populateFromInt64AttrArray()</a>.</p>
 
 </div>
 </div>
@@ -2854,9 +2855,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01011">1011</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00990">990</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00936">isIntegerArrayAttrConfinedToRange()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00956">isIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00979">isSumOfIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01001">makeI64ArrayAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00915">isIntegerArrayAttrConfinedToRange()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00935">isIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00958">isSumOfIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00980">makeI64ArrayAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -2884,7 +2885,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01082">1082</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01061">1061</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -2914,9 +2915,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01157">1157</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01136">1136</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l00578">populateFromInt64AttrArray()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l00557">populateFromInt64AttrArray()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -2944,9 +2945,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01276">1276</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01255">1255</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00056">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01225">inferStridedSliceOpResultType()</a>, <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00936">isIntegerArrayAttrConfinedToRange()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00956">isIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00921">isIntegerArrayAttrSmallerThanShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00979">isSumOfIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00578">populateFromInt64AttrArray()</a>, <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00057">mlir::vector::getVectorSubscriptAttr()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01204">inferStridedSliceOpResultType()</a>, <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00915">isIntegerArrayAttrConfinedToRange()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00935">isIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00900">isIntegerArrayAttrSmallerThanShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00958">isSumOfIntegerArrayAttrConfinedToShape()</a>, <a class="el" href="VectorOps_8cpp_source.html#l00557">populateFromInt64AttrArray()</a>, <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -2974,9 +2975,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01503">1503</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01482">1482</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8h_source.html#l00280">mlir::VectorType::isValidElementType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01386">verifyPermutationMap()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l01414">verifyTransferOp()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="StandardTypes_8h_source.html#l00280">mlir::VectorType::isValidElementType()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01365">verifyPermutationMap()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l01393">verifyTransferOp()</a>.</p>
 
 </div>
 </div>
@@ -3004,9 +3005,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01573">1573</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01552">1552</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01386">verifyPermutationMap()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l01414">verifyTransferOp()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="VectorOps_8cpp_source.html#l01365">verifyPermutationMap()</a>, and <a class="el" href="VectorOps_8cpp_source.html#l01393">verifyTransferOp()</a>.</p>
 
 </div>
 </div>
@@ -3034,9 +3035,9 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01610">1610</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01589">1589</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l01594">inferVectorTypeCastResultType()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="VectorOps_8cpp_source.html#l01573">inferVectorTypeCastResultType()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -3064,7 +3065,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01642">1642</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01621">1621</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -3094,7 +3095,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01676">1676</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01655">1655</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="StandardTypes_8h_source.html#l00511">mlir::TupleType::getType()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00664">mlir::TupleType::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -3124,7 +3125,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01717">1717</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01696">1696</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -3154,7 +3155,7 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01765">1765</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01744">1744</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -3200,11 +3201,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00138">138</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00139">139</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Functional_8h_source.html#l00028">mlir::functional::map()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00191">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00192">verify()</a>.</p>
 
 </div>
 </div>
@@ -3266,11 +3267,11 @@ template&lt;typename OpType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00149">149</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l00150">150</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00191">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l00192">verify()</a>.</p>
 
 </div>
 </div>
@@ -3310,11 +3311,11 @@ template&lt;typename EmitFun &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01386">1386</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01365">1365</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00233">mlir::AffineExpr::dyn_cast()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00162">mlir::AffineMap::getNumInputs()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00167">mlir::AffineMap::getResults()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01503">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01482">verify()</a>.</p>
 
 </div>
 </div>
@@ -3364,18 +3365,18 @@ template&lt;typename EmitFun &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01414">1414</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="VectorOps_8cpp_source.html#l01393">1393</a> of file <a class="el" href="VectorOps_8cpp_source.html">VectorOps.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00633">mlir::Operation::emitOpError()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00162">mlir::AffineMap::getNumInputs()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00158">mlir::AffineMap::getNumResults()</a>, <a class="el" href="AffineMap_8cpp_source.html#l00154">mlir::AffineMap::getNumSymbols()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00228">mlir::VectorType::getShape()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01503">verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="VectorOps_8cpp_source.html#l01482">verify()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 29 2020 20:23:28 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 00:23:10 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

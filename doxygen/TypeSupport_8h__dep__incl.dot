@@ -91,8 +91,8 @@ digraph "include/mlir/IR/TypeSupport.h"
   Node105 -> Node110 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node110 [label="lib/Conversion/VectorToLoops\l/ConvertVectorToLoops.cpp",height=0.2,width=0.4,color="black",URL="$ConvertVectorToLoops_8cpp.html"];
   Node105 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node105 -> Node131 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node131 [label="lib/Dialect/VectorOps\l/VectorTransforms.cpp",height=0.2,width=0.4,color="black",URL="$VectorTransforms_8cpp.html"];
+  Node105 -> Node130 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node130 [label="lib/Dialect/VectorOps\l/VectorTransforms.cpp",height=0.2,width=0.4,color="black",URL="$VectorTransforms_8cpp.html"];
   Node57 -> Node263 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node263 [label="include/mlir/IR/Standard\lTypes.h",height=0.2,width=0.4,color="red",URL="$StandardTypes_8h.html"];
   Node263 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -134,7 +134,7 @@ digraph "include/mlir/IR/TypeSupport.h"
   Node57 -> Node110 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node57 -> Node265 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node57 -> Node81 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node57 -> Node131 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 -> Node130 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node57 -> Node217 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node57 -> Node183 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node183 [label="lib/IR/Attributes.cpp",height=0.2,width=0.4,color="black",URL="$Attributes_8cpp.html"];
