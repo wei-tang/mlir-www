@@ -130,6 +130,10 @@ Functions</h2></td></tr>
 <tr class="separator:a9a3960c4faaea5ef09e83843aef1cee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11b11ca7c9cd5baf547a74a4bf66a326"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="GPUDialect_8cpp.html#a11b11ca7c9cd5baf547a74a4bf66a326">verifyAttributions</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1BlockArgument.html">BlockArgument</a> &gt; attributions, unsigned memorySpace)</td></tr>
 <tr class="separator:a11b11ca7c9cd5baf547a74a4bf66a326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54f9b3aa446ab06ecac238779255992d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="GPUDialect_8cpp.html#a54f9b3aa446ab06ecac238779255992d">parseReturnOp</a> (<a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;<a class="el" href="classllvm_1_1cl_1_1parser.html">parser</a>, <a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;result)</td></tr>
+<tr class="separator:a54f9b3aa446ab06ecac238779255992d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdd0f80077426849d0698c255e51060e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="GPUDialect_8cpp.html#acdd0f80077426849d0698c255e51060e">verify</a> (gpu::ReturnOp returnOp)</td></tr>
+<tr class="separator:acdd0f80077426849d0698c255e51060e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af41f1c68b0eaf6215043419094d42422"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="GPUDialect_8cpp.html#af41f1c68b0eaf6215043419094d42422">parseGPUModuleOp</a> (<a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;<a class="el" href="classllvm_1_1cl_1_1parser.html">parser</a>, <a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;result)</td></tr>
 <tr class="separator:af41f1c68b0eaf6215043419094d42422"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab84b53353228c5365660d08a5581caae"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="GPUDialect_8cpp.html#ab84b53353228c5365660d08a5581caae">print</a> (<a class="el" href="classmlir_1_1OpAsmPrinter.html">OpAsmPrinter</a> &amp;p, GPUModuleOp op)</td></tr>
@@ -148,7 +152,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00861">861</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00905">905</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 </div>
 </div>
@@ -217,11 +221,11 @@ Functions</h2></td></tr>
 <p>memory-attribution ::= (<code>workgroup</code> <code>(</code> ssa-id-and-type-list <code>)</code>)? (<code>private</code> <code>(</code> ssa-id-and-type-list <code>)</code>)?</p>
 <p>Note that this function parses only one of the two similar parts, with the keyword provided as argument. </p>
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00625">625</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00626">626</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b26cad7c97e59089e5f9dc9071fc616">mlir::OpAsmParser::parseLParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8fe74377881c0c201a15229e134d77cc">mlir::OpAsmParser::parseOptionalComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a6b47b9e0776ef0dbbf0c40c3b637ec1e">mlir::OpAsmParser::parseOptionalRParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a88754d0c85dc15bda7a9625ab21dcbc8">mlir::OpAsmParser::parseRegionArgument()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ab7fa6593d120ffde9121ad40f85d5ae7">mlir::OpAsmParser::parseRParen()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00658">parseGPUFuncOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00659">parseGPUFuncOp()</a>.</p>
 
 </div>
 </div>
@@ -262,9 +266,9 @@ Functions</h2></td></tr>
 <p>Parses a GPU function. </p>
 <p>&lt;operation&gt; ::= <code>gpu.func</code> symbol-ref-id <code>(</code> argument-list <code>)</code> (<code>-&gt;</code> function-result-list)? memory-attribution <code>kernel</code>? function-attributes? region </p>
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00658">658</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00659">659</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="FunctionImplementation_8cpp_source.html#l00142">mlir::impl::addArgAndResultAttrs()</a>, <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00062">mlir::Builder::getFunctionType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="GPUDialect_8h_source.html#l00047">mlir::gpu::GPUDialect::getKernelFuncAttrName()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00081">mlir::Builder::getUnitAttr()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00625">parseAttributions()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00127">mlir::impl::parseFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a22c731added282af79f35a455e8b140e">mlir::OpAsmParser::parseOptionalAttrDictWithKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ace2dd9f27ad3f6d8248116c353af1078">mlir::OpAsmParser::parseRegion()</a>, <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
+<p class="reference">References <a class="el" href="FunctionImplementation_8cpp_source.html#l00142">mlir::impl::addArgAndResultAttrs()</a>, <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00062">mlir::Builder::getFunctionType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="GPUDialect_8h_source.html#l00047">mlir::gpu::GPUDialect::getKernelFuncAttrName()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00081">mlir::Builder::getUnitAttr()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00626">parseAttributions()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00127">mlir::impl::parseFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a22c731added282af79f35a455e8b140e">mlir::OpAsmParser::parseOptionalAttrDictWithKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ace2dd9f27ad3f6d8248116c353af1078">mlir::OpAsmParser::parseRegion()</a>, <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
 
 </div>
 </div>
@@ -302,7 +306,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00828">828</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00872">872</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="OperationSupport_8h_source.html#l00263">mlir::OperationState::location</a>, <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a22c731added282af79f35a455e8b140e">mlir::OpAsmParser::parseOptionalAttrDictWithKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ace2dd9f27ad3f6d8248116c353af1078">mlir::OpAsmParser::parseRegion()</a>, <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -342,9 +346,49 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00373">373</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00374">374</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="PatternMatch_8h_source.html#l00360">mlir::PatternRewriter::cancelRootUpdate()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00356">mlir::OpBuilder::clone()</a>, <a class="el" href="Block_8cpp_source.html#l00170">mlir::Block::eraseArgument()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="PatternMatch_8h_source.html#l00356">mlir::PatternRewriter::finalizeRootUpdate()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="Value_8cpp_source.html#l00071">mlir::Value::getDefiningOp()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="GPUDialect_8h_source.html#l00050">mlir::gpu::GPUDialect::getKernelModuleAttrName()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00153">mlir::Builder::getSymbolRefAttr()</a>, <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#afa1a1ed6d00c7bd6ab264484110ccc7a">mlir::OpAsmParser::parseEqual()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b26cad7c97e59089e5f9dc9071fc616">mlir::OpAsmParser::parseLParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8fe74377881c0c201a15229e134d77cc">mlir::OpAsmParser::parseOptionalComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ace2dd9f27ad3f6d8248116c353af1078">mlir::OpAsmParser::parseRegion()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a88754d0c85dc15bda7a9625ab21dcbc8">mlir::OpAsmParser::parseRegionArgument()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ab7fa6593d120ffde9121ad40f85d5ae7">mlir::OpAsmParser::parseRParen()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00344">parseSizeAssignment()</a>, <a class="el" href="Value_8cpp_source.html#l00114">mlir::Value::replaceAllUsesWith()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00259">mlir::OpBuilder::setInsertionPointToStart()</a>, <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>, <a class="el" href="PatternMatch_8h_source.html#l00351">mlir::PatternRewriter::startRootUpdate()</a>, <a class="el" href="GPUDialect_8h_source.html#l00076">mlir::gpu::KernelDim3::x</a>, <a class="el" href="GPUDialect_8h_source.html#l00077">mlir::gpu::KernelDim3::y</a>, and <a class="el" href="GPUDialect_8h_source.html#l00078">mlir::gpu::KernelDim3::z</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="PatternMatch_8h_source.html#l00360">mlir::PatternRewriter::cancelRootUpdate()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00356">mlir::OpBuilder::clone()</a>, <a class="el" href="Block_8cpp_source.html#l00170">mlir::Block::eraseArgument()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="PatternMatch_8h_source.html#l00356">mlir::PatternRewriter::finalizeRootUpdate()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="Value_8cpp_source.html#l00071">mlir::Value::getDefiningOp()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00054">mlir::Builder::getIndexType()</a>, <a class="el" href="GPUDialect_8h_source.html#l00050">mlir::gpu::GPUDialect::getKernelModuleAttrName()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00153">mlir::Builder::getSymbolRefAttr()</a>, <a class="el" href="PatternMatch_8h_source.html#l00419">mlir::OwningRewritePatternList::insert()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a94fd19ea651787f7c026423255f019db">mlir::OpAsmParser::parseColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#afa1a1ed6d00c7bd6ab264484110ccc7a">mlir::OpAsmParser::parseEqual()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b26cad7c97e59089e5f9dc9071fc616">mlir::OpAsmParser::parseLParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8fe74377881c0c201a15229e134d77cc">mlir::OpAsmParser::parseOptionalComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ace2dd9f27ad3f6d8248116c353af1078">mlir::OpAsmParser::parseRegion()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a88754d0c85dc15bda7a9625ab21dcbc8">mlir::OpAsmParser::parseRegionArgument()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ab7fa6593d120ffde9121ad40f85d5ae7">mlir::OpAsmParser::parseRParen()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00345">parseSizeAssignment()</a>, <a class="el" href="Value_8cpp_source.html#l00114">mlir::Value::replaceAllUsesWith()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00259">mlir::OpBuilder::setInsertionPointToStart()</a>, <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>, <a class="el" href="PatternMatch_8h_source.html#l00351">mlir::PatternRewriter::startRootUpdate()</a>, <a class="el" href="GPUDialect_8h_source.html#l00076">mlir::gpu::KernelDim3::x</a>, <a class="el" href="GPUDialect_8h_source.html#l00077">mlir::gpu::KernelDim3::y</a>, and <a class="el" href="GPUDialect_8h_source.html#l00078">mlir::gpu::KernelDim3::z</a>.</p>
+
+</div>
+</div>
+<a id="a54f9b3aa446ab06ecac238779255992d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54f9b3aa446ab06ecac238779255992d">&#9670;&nbsp;</a></span>parseReturnOp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a> parseReturnOp </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;&#160;</td>
+          <td class="paramname"><em>parser</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00826">826</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af22e44d184732f25885a2d4512d11648">mlir::OpAsmParser::parseOptionalColonTypeList()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -434,11 +478,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00344">344</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00345">345</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92a3f5a1b4ee2e68aebee8e1fa43e0eed27">mlir::OpAsmParser::Paren</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#afa1a1ed6d00c7bd6ab264484110ccc7a">mlir::OpAsmParser::parseEqual()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b26cad7c97e59089e5f9dc9071fc616">mlir::OpAsmParser::parseLParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a88754d0c85dc15bda7a9625ab21dcbc8">mlir::OpAsmParser::parseRegionArgument()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ace53a5c76f0b931edba5bd73c1a555ad">mlir::OpAsmParser::parseRegionArgumentList()</a>, and <a class="el" href="classmlir_1_1OpAsmParser.html#ab7fa6593d120ffde9121ad40f85d5ae7">mlir::OpAsmParser::parseRParen()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00373">parseLaunchOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00374">parseLaunchOp()</a>.</p>
 
 </div>
 </div>
@@ -476,7 +520,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00849">849</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00893">893</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a579c48a7df61e02937fa79818e7d1a83">mlir::OpAsmPrinter::printOptionalAttrDictWithKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>.</p>
 
@@ -522,11 +566,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00720">720</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00721">721</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, and <a class="el" href="STLExtras_8h_source.html#l00081">mlir::interleaveComma()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00732">printGPUFuncOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00733">printGPUFuncOp()</a>.</p>
 
 </div>
 </div>
@@ -566,9 +610,9 @@ Functions</h2></td></tr>
 
 <p>Prints a GPU Func op. </p>
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00732">732</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00733">733</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00028">mlir::impl::getArgAttrName()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="GPUDialect_8h_source.html#l00047">mlir::gpu::GPUDialect::getKernelFuncAttrName()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="Types_8cpp_source.html#l00047">mlir::FunctionType::getResults()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00720">printAttributions()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00273">mlir::impl::printFunctionAttributes()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00230">mlir::impl::printFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00028">mlir::impl::getArgAttrName()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="GPUDialect_8h_source.html#l00047">mlir::gpu::GPUDialect::getKernelFuncAttrName()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="Types_8cpp_source.html#l00047">mlir::FunctionType::getResults()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00033">mlir::gpu::GPUDialect::isKernel()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00721">printAttributions()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00273">mlir::impl::printFunctionAttributes()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00230">mlir::impl::printFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -606,9 +650,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00303">303</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00304">304</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00249">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::drop_front()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Block_8h_source.html#l00099">mlir::Block::getArgument()</a>, <a class="el" href="STLExtras_8h_source.html#l00081">mlir::interleaveComma()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00295">printSizeAssignment()</a>, <a class="el" href="STLExtras_8h_source.html#l00243">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::slice()</a>, and <a class="el" href="STLExtras_8h_source.html#l00260">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::take_front()</a>.</p>
+<p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00249">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::drop_front()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Block_8h_source.html#l00099">mlir::Block::getArgument()</a>, <a class="el" href="STLExtras_8h_source.html#l00081">mlir::interleaveComma()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, <a class="el" href="GPUDialect_8cpp_source.html#l00296">printSizeAssignment()</a>, <a class="el" href="STLExtras_8h_source.html#l00243">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::slice()</a>, and <a class="el" href="STLExtras_8h_source.html#l00260">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::take_front()</a>.</p>
 
 </div>
 </div>
@@ -696,16 +740,16 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00295">295</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00296">296</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="GPUDialect_8h_source.html#l00076">mlir::gpu::KernelDim3::x</a>, <a class="el" href="GPUDialect_8h_source.html#l00077">mlir::gpu::KernelDim3::y</a>, and <a class="el" href="GPUDialect_8h_source.html#l00078">mlir::gpu::KernelDim3::z</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00303">printLaunchOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="GPUDialect_8cpp_source.html#l00304">printLaunchOp()</a>.</p>
 
 </div>
 </div>
 <a id="ab9a7e24e25561cb044388a03f25510b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9a7e24e25561cb044388a03f25510b3">&#9670;&nbsp;</a></span>verify() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9a7e24e25561cb044388a03f25510b3">&#9670;&nbsp;</a></span>verify() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -730,12 +774,12 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00261">261</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Diagnostics_8h_source.html#l00354">mlir::InFlightDiagnostic::attachNote()</a>, <a class="el" href="Operation_8cpp_source.html#l00633">mlir::Operation::emitOpError()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="Diagnostics_8h_source.html#l00343">mlir::InFlightDiagnostic::append()</a>, <a class="el" href="Diagnostics_8h_source.html#l00354">mlir::InFlightDiagnostic::attachNote()</a>, <a class="el" href="Operation_8cpp_source.html#l00633">mlir::Operation::emitOpError()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
 <a id="a89e9313e2f7ef778946c3a2da5b60227"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89e9313e2f7ef778946c3a2da5b60227">&#9670;&nbsp;</a></span>verify() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a89e9313e2f7ef778946c3a2da5b60227">&#9670;&nbsp;</a></span>verify() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -758,9 +802,39 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00552">552</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00553">553</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Block_8cpp_source.html#l00153">mlir::Block::addArguments()</a>, <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8h_source.html#l00304">mlir::OperationState::addAttributes()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="Block_8h_source.html#l00072">mlir::Block::args_begin()</a>, <a class="el" href="Operation_8cpp_source.html#l00734">mlir::OpState::emitOpError()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00303">mlir::MemRefType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="IR_2Region_8h_source.html#l00038">mlir::Region::getBlocks()</a>, <a class="el" href="GPUDialect_8h_source.html#l00039">mlir::gpu::GPUDialect::getContainerModuleAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="GPUDialect_8h_source.html#l00063">mlir::gpu::GPUDialect::getWorkgroupAddressSpace()</a>, <a class="el" href="Block_8cpp_source.html#l00191">mlir::Block::insertArgument()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+
+</div>
+</div>
+<a id="acdd0f80077426849d0698c255e51060e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd0f80077426849d0698c255e51060e">&#9670;&nbsp;</a></span>verify() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a> verify </td>
+          <td>(</td>
+          <td class="paramtype">gpu::ReturnOp&#160;</td>
+          <td class="paramname"><em>returnOp</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00838">838</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00077">mlir::Builder::getNamedAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="OperationSupport_8h_source.html#l00263">mlir::OperationState::location</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -834,9 +908,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00773">773</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="GPUDialect_8cpp_source.html#l00778">778</a> of file <a class="el" href="GPUDialect_8cpp_source.html">GPUDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Operation_8cpp_source.html#l00633">mlir::Operation::emitOpError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00077">mlir::Builder::getNamedAttr()</a>, <a class="el" href="GPUDialect_8h_source.html#l00067">mlir::gpu::GPUDialect::getPrivateAddressSpace()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="GPUDialect_8h_source.html#l00063">mlir::gpu::GPUDialect::getWorkgroupAddressSpace()</a>, <a class="el" href="OperationSupport_8h_source.html#l00263">mlir::OperationState::location</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00633">mlir::Operation::emitOpError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="GPUDialect_8h_source.html#l00067">mlir::gpu::GPUDialect::getPrivateAddressSpace()</a>, <a class="el" href="GPUDialect_8h_source.html#l00063">mlir::gpu::GPUDialect::getWorkgroupAddressSpace()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -905,7 +979,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 30 2020 08:22:24 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 12:23:45 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

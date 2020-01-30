@@ -134,7 +134,7 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8h_source.html#l00071">71</a> of file <a class="el" href="ModuleTranslation_8h_source.html">ModuleTranslation.h</a>.</p>
 
-<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01871">mlir::LLVM::satisfiesLLVMModule()</a>.</p>
+<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l02096">mlir::LLVM::satisfiesLLVMModule()</a>.</p>
 
 </div>
 </div>
@@ -163,7 +163,7 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8h_source.html#l00075">75</a> of file <a class="el" href="ModuleTranslation_8h_source.html">ModuleTranslation.h</a>.</p>
 
-<p class="reference">References <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00601">lookupValues()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00610">prepareLLVMModule()</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
+<p class="reference">References <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00629">lookupValues()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00638">prepareLLVMModule()</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
 
 </div>
 </div>
@@ -207,9 +207,9 @@ Protected Attributes</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">270</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="ModuleTranslation_8h_source.html#l00108">blockMapping</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="Operation_8cpp_source.html#l00300">mlir::Operation::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00106">functionMapping</a>, <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="Attributes_8cpp_source.html#l00280">mlir::IntegerAttr::getValue()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00601">lookupValues()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">valueMapping</a>.</p>
+<p class="reference">References <a class="el" href="ModuleTranslation_8h_source.html#l00108">blockMapping</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="Operation_8cpp_source.html#l00300">mlir::Operation::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00106">functionMapping</a>, <a class="el" href="Operation_8h_source.html#l00291">mlir::Operation::getAttrOfType()</a>, <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="Attributes_8cpp_source.html#l00280">mlir::IntegerAttr::getValue()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00629">lookupValues()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">valueMapping</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00376">convertLinkageType()</a>, <a class="el" href="ConvertToROCDLIR_8cpp_source.html#l00044">createDeviceFunctionCall()</a>, <a class="el" href="ConvertToNVVMIR_8cpp_source.html#l00038">getShflBflyIntrinsicId()</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00075">~ModuleTranslation()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00404">convertLinkageType()</a>, <a class="el" href="ConvertToROCDLIR_8cpp_source.html#l00044">createDeviceFunctionCall()</a>, <a class="el" href="ConvertToNVVMIR_8cpp_source.html#l00038">getShflBflyIntrinsicId()</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00075">~ModuleTranslation()</a>.</p>
 
 </div>
 </div>
@@ -243,7 +243,7 @@ Protected Attributes</h2></td></tr>
 
 <p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00054">mlir::Region::front()</a>, and <a class="el" href="Operation_8h_source.html#l00371">mlir::Operation::getRegion()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00376">convertLinkageType()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00502">topologicalSort()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00404">convertLinkageType()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00530">topologicalSort()</a>.</p>
 
 </div>
 </div>
@@ -274,7 +274,7 @@ Protected Attributes</h2></td></tr>
 <p>A helper to look up remapped operands in the value remapping table. </p>
 <p>A helper to look up remapped operands in the value remapping table.`. </p>
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00601">601</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00629">629</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">valueMapping</a>.</p>
 
@@ -306,7 +306,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00610">610</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00638">638</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, and <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>.</p>
 
@@ -342,7 +342,7 @@ template&lt;typename T  = ModuleTranslation&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8h_source.html#l00045">45</a> of file <a class="el" href="ModuleTranslation_8h_source.html">ModuleTranslation.h</a>.</p>
 
-<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00610">prepareLLVMModule()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01871">mlir::LLVM::satisfiesLLVMModule()</a>.</p>
+<p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00638">prepareLLVMModule()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l02096">mlir::LLVM::satisfiesLLVMModule()</a>.</p>
 
 </div>
 </div>
@@ -369,7 +369,7 @@ template&lt;typename T  = ModuleTranslation&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8h_source.html#l00108">108</a> of file <a class="el" href="ModuleTranslation_8h_source.html">ModuleTranslation.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00449">getPHISourceValue()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00502">topologicalSort()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00477">getPHISourceValue()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00530">topologicalSort()</a>.</p>
 
 </div>
 </div>
@@ -395,7 +395,7 @@ template&lt;typename T  = ModuleTranslation&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8h_source.html#l00106">106</a> of file <a class="el" href="ModuleTranslation_8h_source.html">ModuleTranslation.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00070">getInnermostElementType()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00502">topologicalSort()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00070">getInnermostElementType()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00530">topologicalSort()</a>.</p>
 
 </div>
 </div>
@@ -421,7 +421,7 @@ template&lt;typename T  = ModuleTranslation&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="ModuleTranslation_8h_source.html#l00107">107</a> of file <a class="el" href="ModuleTranslation_8h_source.html">ModuleTranslation.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00376">convertLinkageType()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00449">getPHISourceValue()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00601">lookupValues()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00502">topologicalSort()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00404">convertLinkageType()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">convertOperation()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00477">getPHISourceValue()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00629">lookupValues()</a>, and <a class="el" href="ModuleTranslation_8cpp_source.html#l00530">topologicalSort()</a>.</p>
 
 </div>
 </div>
@@ -432,7 +432,7 @@ template&lt;typename T  = ModuleTranslation&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 30 2020 08:22:26 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 12:23:47 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
