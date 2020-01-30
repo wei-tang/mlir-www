@@ -257,7 +257,14 @@ tensor of floats. It has no standard attributes.</p><h3 id=negf-operation>&lsquo
 </code></pre></div><p>The <code>negf</code> operation computes the negation of a given value. It takes one
 operand and returns one result of the same type. This type may be a float
 scalar type, a vector whose element type is float, or a tensor of floats. It
-has no standard attributes.</p><h3 id=tanh-operation>&lsquo;tanh&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `tanh` ssa-use `:` type
+has no standard attributes.</p><h3 id=sqrt-operation>&lsquo;sqrt&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `sqrt` ssa-use `:` type
+</code></pre><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Scalar square root value.
+</span><span class=c></span><span class=nv>%a</span> <span class=p>=</span> sqrt <span class=nv>%b</span> <span class=p>:</span> <span class=k>f64</span>
+<span class=c>// SIMD vector element-wise square root value.
+</span><span class=c></span><span class=nv>%f</span> <span class=p>=</span> sqrt <span class=nv>%g</span> <span class=p>:</span> <span class=kt>vector</span><span class=p>&lt;</span><span class=m>4x</span><span class=k>f32</span><span class=p>&gt;</span>
+<span class=c>// Tensor element-wise square root value.
+</span><span class=c></span><span class=nv>%x</span> <span class=p>=</span> sqrt <span class=nv>%y</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>4x?x</span><span class=k>f32</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=tanh-operation>&lsquo;tanh&rsquo; operation</h3><p>Syntax:</p><pre><code>operation ::= ssa-id `=` `tanh` ssa-use `:` type
 </code></pre><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Scalar hyperbolic tangent value.
 </span><span class=c></span><span class=nv>%a</span> <span class=p>=</span> tanh <span class=nv>%b</span> <span class=p>:</span> <span class=k>f64</span>
 

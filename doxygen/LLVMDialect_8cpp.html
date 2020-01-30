@@ -102,6 +102,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:afb782581cf750aa6704b9e7d926bc461"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#afb782581cf750aa6704b9e7d926bc461">REGISTER_ENUM_TYPE</a>(Ty)</td></tr>
+<tr class="separator:afb782581cf750aa6704b9e7d926bc461"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb4eeb99d83d4a53327f3c7a9574ad6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#aeb4eeb99d83d4a53327f3c7a9574ad6f">GET_OP_LIST</a></td></tr>
 <tr class="separator:aeb4eeb99d83d4a53327f3c7a9574ad6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52c883a38e577b8b12282ff70c95a16d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a52c883a38e577b8b12282ff70c95a16d">GET_OP_CLASSES</a></td></tr>
@@ -205,16 +207,13 @@ Functions</h2></td></tr>
 <tr class="memitem:a7d2ffee94e75a6e06ddf4a9f6ec95715"><td class="memItemLeft" align="right" valign="top">static StringRef&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a7d2ffee94e75a6e06ddf4a9f6ec95715">getLinkageAttrName</a> ()</td></tr>
 <tr class="memdesc:a7d2ffee94e75a6e06ddf4a9f6ec95715"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name used for the linkage attribute.  <a href="#a7d2ffee94e75a6e06ddf4a9f6ec95715">More...</a><br /></td></tr>
 <tr class="separator:a7d2ffee94e75a6e06ddf4a9f6ec95715"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a413f38fdb75a26866e42fbc8e2e8bf22"><td class="memItemLeft" align="right" valign="top">static StringRef&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a413f38fdb75a26866e42fbc8e2e8bf22">linkageToStr</a> (LLVM::Linkage linkage)</td></tr>
-<tr class="separator:a413f38fdb75a26866e42fbc8e2e8bf22"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e4de122617bb3ca931ea999d97689f2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a9e4de122617bb3ca931ea999d97689f2">printLinkage</a> (<a class="el" href="classmlir_1_1OpAsmPrinter.html">OpAsmPrinter</a> &amp;p, LLVM::Linkage linkage)</td></tr>
-<tr class="separator:a9e4de122617bb3ca931ea999d97689f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0cac19460fff0da8c9c66eb3f146242e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a0cac19460fff0da8c9c66eb3f146242e">printGlobalOp</a> (<a class="el" href="classmlir_1_1OpAsmPrinter.html">OpAsmPrinter</a> &amp;p, GlobalOp op)</td></tr>
 <tr class="separator:a0cac19460fff0da8c9c66eb3f146242e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a035c8ff6238c022e4737deb71efa64e7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a035c8ff6238c022e4737deb71efa64e7">parseOptionalKeywordAlternative</a> (<a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;<a class="el" href="classllvm_1_1cl_1_1parser.html">parser</a>, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; StringRef &gt; keywords)</td></tr>
 <tr class="separator:a035c8ff6238c022e4737deb71efa64e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83fe45702ac5ba21f6d8774fbf449ec7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a83fe45702ac5ba21f6d8774fbf449ec7">parseOptionalLinkageKeyword</a> (<a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;<a class="el" href="classllvm_1_1cl_1_1parser.html">parser</a>, <a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;result)</td></tr>
-<tr class="separator:a83fe45702ac5ba21f6d8774fbf449ec7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ee34afcae155492f23f0b2f92bdc94"><td class="memTemplParams" colspan="2">template&lt;typename EnumTy &gt; </td></tr>
+<tr class="memitem:a64ee34afcae155492f23f0b2f92bdc94"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a64ee34afcae155492f23f0b2f92bdc94">parseOptionalLLVMKeyword</a> (<a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;<a class="el" href="classllvm_1_1cl_1_1parser.html">parser</a>, <a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;result, StringRef name)</td></tr>
+<tr class="separator:a64ee34afcae155492f23f0b2f92bdc94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28ced9e9b8890a5a16dc91ffe8e01086"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a28ced9e9b8890a5a16dc91ffe8e01086">parseGlobalOp</a> (<a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;<a class="el" href="classllvm_1_1cl_1_1parser.html">parser</a>, <a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;result)</td></tr>
 <tr class="separator:a28ced9e9b8890a5a16dc91ffe8e01086"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a638b7e866d014bbc0e6d3acb141d5e8c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="LLVMDialect_8cpp.html#a638b7e866d014bbc0e6d3acb141d5e8c">verify</a> (GlobalOp op)</td></tr>
@@ -274,7 +273,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01812">1812</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01784">1784</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 </div>
 </div>
@@ -289,6 +288,26 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb782581cf750aa6704b9e7d926bc461"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb782581cf750aa6704b9e7d926bc461">&#9670;&nbsp;</a></span>REGISTER_ENUM_TYPE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define REGISTER_ENUM_TYPE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">Ty</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line"><span class="keyword">template</span> &lt;&gt; <span class="keyword">struct </span>EnumTraits&lt;Ty&gt; {                                          \</div><div class="line">    static StringRef stringify(Ty value) { <span class="keywordflow">return</span> stringify##Ty(value); }      \</div><div class="line">    static <span class="keywordtype">unsigned</span> getMaxEnumVal() { <span class="keywordflow">return</span> getMaxEnumValFor##Ty(); }         \</div><div class="line">  }</div></div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01120">1120</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 </div>
 </div>
@@ -345,11 +364,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01353">1353</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01326">1326</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02000">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02059">mlir::LLVM::LLVMType::getVoidTy()</a>, and <a class="el" href="FunctionImplementation_8h_source.html#l00029">mlir::impl::VariadicFlag::isVariadic()</a>.</p>
+<p class="reference">References <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01972">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02031">mlir::LLVM::LLVMType::getVoidTy()</a>, and <a class="el" href="FunctionImplementation_8h_source.html#l00029">mlir::impl::VariadicFlag::isVariadic()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01398">parseLLVMFuncOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01371">parseLLVMFuncOp()</a>.</p>
 
 </div>
 </div>
@@ -443,7 +462,7 @@ Variables</h2></td></tr>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00103">mlir::Builder::getI32IntegerAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, and <a class="el" href="IR_2Builders_8cpp_source.html#l00081">mlir::Builder::getUnitAttr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01398">parseLLVMFuncOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01159">parseOptionalLinkageKeyword()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01283">parseShuffleVectorOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01116">printGlobalOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01442">printLLVMFuncOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01149">parseGlobalOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01371">parseLLVMFuncOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01256">parseShuffleVectorOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01082">printGlobalOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01416">printLLVMFuncOp()</a>.</p>
 
 </div>
 </div>
@@ -492,36 +511,6 @@ Variables</h2></td></tr>
 <p class="reference">References <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, and <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l00225">parseLoadOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l00253">parseStoreOp()</a>.</p>
-
-</div>
-</div>
-<a id="a413f38fdb75a26866e42fbc8e2e8bf22"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a413f38fdb75a26866e42fbc8e2e8bf22">&#9670;&nbsp;</a></span>linkageToStr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static StringRef linkageToStr </td>
-          <td>(</td>
-          <td class="paramtype">LLVM::Linkage&#160;</td>
-          <td class="paramname"><em>linkage</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01083">1083</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01112">printLinkage()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01510">verify()</a>.</p>
 
 </div>
 </div>
@@ -645,11 +634,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01580">1580</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01552">1552</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01643">parseAtomicRMWOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01615">parseAtomicRMWOp()</a>.</p>
 
 </div>
 </div>
@@ -687,9 +676,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01703">1703</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01675">1675</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00101">mlir::LLVM::LLVMType::getInt1Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01931">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02012">mlir::LLVM::LLVMType::getStructTy()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01606">parseAtomicOrdering()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00101">mlir::LLVM::LLVMType::getInt1Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01903">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01984">mlir::LLVM::LLVMType::getStructTy()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01578">parseAtomicOrdering()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -733,11 +722,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01606">1606</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01578">1578</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01703">parseAtomicCmpXchgOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01643">parseAtomicRMWOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01675">parseAtomicCmpXchgOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01615">parseAtomicRMWOp()</a>.</p>
 
 </div>
 </div>
@@ -775,9 +764,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01643">1643</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01615">1615</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01931">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01580">parseAtomicBinOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01606">parseAtomicOrdering()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01903">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01552">parseAtomicBinOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01578">parseAtomicOrdering()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -857,7 +846,7 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l00529">529</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00304">mlir::OperationState::addAttributes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02000">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01911">mlir::LLVM::LLVMType::getVectorElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02059">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01853">llvmDialect</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92a3f5a1b4ee2e68aebee8e1fa43e0eed27">mlir::OpAsmParser::Paren</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00304">mlir::OperationState::addAttributes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01972">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01883">mlir::LLVM::LLVMType::getVectorElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02031">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01825">llvmDialect</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92a3f5a1b4ee2e68aebee8e1fa43e0eed27">mlir::OpAsmParser::Paren</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -899,7 +888,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l00055">55</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00101">mlir::LLVM::LLVMType::getInt1Ty()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="Attributes_8cpp_source.html#l00370">mlir::StringAttr::getValue()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02053">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00101">mlir::LLVM::LLVMType::getInt1Ty()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="Attributes_8cpp_source.html#l00370">mlir::StringAttr::getValue()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02025">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -939,7 +928,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l00901">901</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00049">mlir::OperationState::addSuccessor()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00101">mlir::LLVM::LLVMType::getInt1Ty()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01853">llvmDialect</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b3c28975dee14289c711345ba31bdda">mlir::OpAsmParser::parseSuccessorAndUseList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00049">mlir::OperationState::addSuccessor()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00101">mlir::LLVM::LLVMType::getInt1Ty()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01825">llvmDialect</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b3c28975dee14289c711345ba31bdda">mlir::OpAsmParser::parseSuccessorAndUseList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1137,9 +1126,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01177">1177</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01149">1149</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8h_source.html#l01358">mlir::Attribute::dyn_cast_or_null()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01994">mlir::LLVM::LLVMType::getArrayTy()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00104">mlir::LLVM::LLVMType::getInt8Ty()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00081">mlir::Builder::getUnitAttr()</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b26cad7c97e59089e5f9dc9071fc616">mlir::OpAsmParser::parseLParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af22e44d184732f25885a2d4512d11648">mlir::OpAsmParser::parseOptionalColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01159">parseOptionalLinkageKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a4b5b6c1ce803dcfb604a78f0cd5e3921">mlir::OpAsmParser::parseOptionalRegion()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a6b47b9e0776ef0dbbf0c40c3b637ec1e">mlir::OpAsmParser::parseOptionalRParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ab7fa6593d120ffde9121ad40f85d5ae7">mlir::OpAsmParser::parseRParen()</a>, <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Attributes_8h_source.html#l01358">mlir::Attribute::dyn_cast_or_null()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01966">mlir::LLVM::LLVMType::getArrayTy()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00104">mlir::LLVM::LLVMType::getInt8Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00081">mlir::Builder::getUnitAttr()</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b26cad7c97e59089e5f9dc9071fc616">mlir::OpAsmParser::parseLParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af22e44d184732f25885a2d4512d11648">mlir::OpAsmParser::parseOptionalColonTypeList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a4b5b6c1ce803dcfb604a78f0cd5e3921">mlir::OpAsmParser::parseOptionalRegion()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a6b47b9e0776ef0dbbf0c40c3b637ec1e">mlir::OpAsmParser::parseOptionalRParen()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ab7fa6593d120ffde9121ad40f85d5ae7">mlir::OpAsmParser::parseRParen()</a>, <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>, <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1261,7 +1250,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l00328">328</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00049">mlir::OperationState::addSuccessor()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02000">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="Types_8h_source.html#l00208">mlir::FunctionType::getResult()</a>, <a class="el" href="Types_8cpp_source.html#l00047">mlir::FunctionType::getResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02059">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01853">llvmDialect</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92a3f5a1b4ee2e68aebee8e1fa43e0eed27">mlir::OpAsmParser::Paren</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b3c28975dee14289c711345ba31bdda">mlir::OpAsmParser::parseSuccessorAndUseList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8cpp_source.html#l00049">mlir::OperationState::addSuccessor()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01972">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a781e419cb942473f4525713e0dcf96c7">mlir::OpAsmParser::getNameLoc()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="Types_8h_source.html#l00208">mlir::FunctionType::getResult()</a>, <a class="el" href="Types_8cpp_source.html#l00047">mlir::FunctionType::getResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02031">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01825">llvmDialect</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#acabba33fbd8180d7ad2c752821696f92a3f5a1b4ee2e68aebee8e1fa43e0eed27">mlir::OpAsmParser::Paren</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a784fc805f55396ce67ba4ddd4382a26d">mlir::OpAsmParser::parseColon()</a>, <a class="el" href="OpImplementation_8h_source.html#l00285">mlir::OpAsmParser::parseKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#af904bf0873e8641211c3a735eca3bfd8">mlir::OpAsmParser::parseOperandList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9b3c28975dee14289c711345ba31bdda">mlir::OpAsmParser::parseSuccessorAndUseList()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="OpImplementation_8h_source.html#l00472">mlir::OpAsmParser::resolveOperands()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1341,9 +1330,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01398">1398</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01371">1371</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="FunctionImplementation_8cpp_source.html#l00142">mlir::impl::addArgAndResultAttrs()</a>, <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01353">buildLLVMFunctionType()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00127">mlir::impl::parseFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a22c731added282af79f35a455e8b140e">mlir::OpAsmParser::parseOptionalAttrDictWithKeyword()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01159">parseOptionalLinkageKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a4b5b6c1ce803dcfb604a78f0cd5e3921">mlir::OpAsmParser::parseOptionalRegion()</a>, and <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>.</p>
+<p class="reference">References <a class="el" href="FunctionImplementation_8cpp_source.html#l00142">mlir::impl::addArgAndResultAttrs()</a>, <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01326">buildLLVMFunctionType()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00127">mlir::impl::parseFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a22c731added282af79f35a455e8b140e">mlir::OpAsmParser::parseOptionalAttrDictWithKeyword()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a4b5b6c1ce803dcfb604a78f0cd5e3921">mlir::OpAsmParser::parseOptionalRegion()</a>, and <a class="el" href="OpImplementation_8h_source.html#l00398">mlir::OpAsmParser::parseSymbolName()</a>.</p>
 
 </div>
 </div>
@@ -1421,7 +1410,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01557">1557</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01529">1529</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="OpImplementation_8h_source.html#l00604">mlir::OpAsmParser::addTypeToList()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, and <a class="el" href="OperationSupport_8h_source.html#l00267">mlir::OperationState::types</a>.</p>
 
@@ -1461,25 +1450,27 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01144">1144</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01108">1108</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ae7fc4ba19ce80f39d68ea88010875230">mlir::OpAsmParser::parseOptionalKeyword()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00039">mlir::succeeded()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01159">parseOptionalLinkageKeyword()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01130">parseOptionalLLVMKeyword()</a>.</p>
 
 </div>
 </div>
-<a id="a83fe45702ac5ba21f6d8774fbf449ec7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83fe45702ac5ba21f6d8774fbf449ec7">&#9670;&nbsp;</a></span>parseOptionalLinkageKeyword()</h2>
+<a id="a64ee34afcae155492f23f0b2f92bdc94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ee34afcae155492f23f0b2f92bdc94">&#9670;&nbsp;</a></span>parseOptionalLLVMKeyword()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename EnumTy &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a> parseOptionalLinkageKeyword </td>
+          <td class="memname">static <a class="el" href="classmlir_1_1ParseResult.html">ParseResult</a> parseOptionalLLVMKeyword </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classmlir_1_1OpAsmParser.html">OpAsmParser</a> &amp;&#160;</td>
           <td class="paramname"><em>parser</em>, </td>
@@ -1488,7 +1479,13 @@ template&lt;typename CmpPredicateType &gt; </div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="structmlir_1_1OperationState.html">OperationState</a> &amp;&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">StringRef&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1503,11 +1500,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01159">1159</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01130">1130</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01144">parseOptionalKeywordAlternative()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01177">parseGlobalOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01398">parseLLVMFuncOp()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a06b1d7cb826bcceb3ce2fe325faff660">mlir::OpAsmParser::getBuilder()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01108">parseOptionalKeywordAlternative()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1625,9 +1620,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01283">1283</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01256">1256</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00028">mlir::impl::getArgAttrName()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01920">mlir::LLVM::LLVMType::getFunctionNumParams()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01917">mlir::LLVM::LLVMType::getFunctionParamType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01897">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02053">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00294">mlir::OperationState::addAttribute()</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00056">mlir::OperationState::addRegion()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac3a2f1a3a2d17f965d1d88ec6e61d47e">mlir::OpAsmParser::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Attributes_8cpp_source.html#l00376">mlir::TypeAttr::get()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00028">mlir::impl::getArgAttrName()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9d85fe0f32cb6b6b737a30d1b7781228">mlir::OpAsmParser::getCurrentLocation()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01892">mlir::LLVM::LLVMType::getFunctionNumParams()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01889">mlir::LLVM::LLVMType::getFunctionParamType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00091">mlir::Builder::getI64IntegerAttr()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00145">mlir::Builder::getStringAttr()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01869">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02025">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="OperationSupport_8h_source.html#l00265">mlir::OperationState::operands</a>, <a class="el" href="OpImplementation_8h_source.html#l00339">mlir::OpAsmParser::parseAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8351a971b77eaf6084069ee613635c21">mlir::OpAsmParser::parseComma()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a831b824383364f6f9e2de455a5b3ad13">mlir::OpAsmParser::parseOperand()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a9bc5bd7e86d93b3cfe696fdbef0dd5c4">mlir::OpAsmParser::parseType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a14acb0e25d0d6adcc98b99467b479bcc">mlir::OpAsmParser::resolveOperand()</a>, <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1707,7 +1702,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l00970">970</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00219">mlir::SymbolTable::lookupSymbolIn()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02096">mlir::LLVM::satisfiesLLVMModule()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="OperationSupport_8h_source.html#l00268">mlir::OperationState::attributes</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, <a class="el" href="SymbolTable_8cpp_source.html#l00219">mlir::SymbolTable::lookupSymbolIn()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#a8699060de12635946dc29a848e0d2ecb">mlir::OpAsmParser::parseColonType()</a>, <a class="el" href="classmlir_1_1OpAsmParser.html#ac802ed95d542e751b37ce7ece6835c17">mlir::OpAsmParser::parseOptionalAttrDict()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02068">mlir::LLVM::satisfiesLLVMModule()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -1825,7 +1820,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01692">1692</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01664">1664</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -1865,7 +1860,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01633">1633</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01605">1605</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2225,9 +2220,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01116">1116</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01082">1082</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00049">mlir::Region::empty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01112">printLinkage()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>.</p>
+<p class="reference">References <a class="el" href="IR_2Region_8h_source.html#l00049">mlir::Region::empty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="SymbolTable_8h_source.html#l00044">mlir::SymbolTable::getSymbolAttrName()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a693e157c72502460919366e54d2d8080">mlir::OpAsmPrinter::printAttribute()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, and <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>.</p>
 
 </div>
 </div>
@@ -2431,48 +2426,6 @@ template&lt;typename CmpPredicateType &gt; </div>
 
 </div>
 </div>
-<a id="a9e4de122617bb3ca931ea999d97689f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9e4de122617bb3ca931ea999d97689f2">&#9670;&nbsp;</a></span>printLinkage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void printLinkage </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1OpAsmPrinter.html">OpAsmPrinter</a> &amp;&#160;</td>
-          <td class="paramname"><em>p</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">LLVM::Linkage&#160;</td>
-          <td class="paramname"><em>linkage</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01112">1112</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01083">linkageToStr()</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l01116">printGlobalOp()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01442">printLLVMFuncOp()</a>.</p>
-
-</div>
-</div>
 <a id="a53cf897fe5b2c2c73934efafd937390c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a53cf897fe5b2c2c73934efafd937390c">&#9670;&nbsp;</a></span>printLLVMFuncOp()</h2>
 
@@ -2507,9 +2460,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01442">1442</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01416">1416</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01920">mlir::LLVM::LLVMType::getFunctionNumParams()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01917">mlir::LLVM::LLVMType::getFunctionParamType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01923">mlir::LLVM::LLVMType::getFunctionResultType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01897">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00273">mlir::impl::printFunctionAttributes()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00230">mlir::impl::printFunctionSignature()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01112">printLinkage()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01892">mlir::LLVM::LLVMType::getFunctionNumParams()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01889">mlir::LLVM::LLVMType::getFunctionParamType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01895">mlir::LLVM::LLVMType::getFunctionResultType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01061">getLinkageAttrName()</a>, <a class="el" href="FunctionSupport_8h_source.html#l00025">mlir::impl::getTypeAttrName()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01869">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00273">mlir::impl::printFunctionAttributes()</a>, <a class="el" href="FunctionImplementation_8cpp_source.html#l00230">mlir::impl::printFunctionSignature()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#a31b9a89aad496ab199f005614280413f">mlir::OpAsmPrinter::printRegion()</a>, <a class="el" href="classmlir_1_1OpAsmPrinter.html#af5ff82887d3ae0ff4fdf8b3c93b83ca1">mlir::OpAsmPrinter::printSymbolName()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -2587,7 +2540,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01550">1550</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01522">1522</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2707,7 +2660,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01273">1273</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01246">1246</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="classmlir_1_1OpAsmPrinter.html#a681280bde1406e824e1d4626fe257e1b">mlir::OpAsmPrinter::printOptionalAttrDict()</a>.</p>
 
@@ -2817,9 +2770,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l02025">2025</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01997">1997</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l02031">mlir::LLVM::LLVMType::createStructTy()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l02043">mlir::LLVM::LLVMType::setStructTyBody()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LLVMDialect_8cpp_source.html#l02003">mlir::LLVM::LLVMType::createStructTy()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l02015">mlir::LLVM::LLVMType::setStructTyBody()</a>.</p>
 
 </div>
 </div>
@@ -2943,9 +2896,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01226">1226</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01199">1199</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00304">mlir::OperationState::addAttributes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01902">mlir::LLVM::LLVMType::getArrayElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01905">mlir::LLVM::LLVMType::getArrayNumElements()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01897">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02053">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02096">mlir::LLVM::satisfiesLLVMModule()</a>, <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00304">mlir::OperationState::addAttributes()</a>, <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01874">mlir::LLVM::LLVMType::getArrayElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01877">mlir::LLVM::LLVMType::getArrayNumElements()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01869">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02025">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l02068">mlir::LLVM::satisfiesLLVMModule()</a>, <a class="el" href="Attributes_8h_source.html#l00212">mlir::ArrayAttr::size()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -2973,9 +2926,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01510">1510</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01482">1482</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Block_8h_source.html#l00099">mlir::Block::getArgument()</a>, <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01083">linkageToStr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="Block_8h_source.html#l00123">mlir::Block::front()</a>, <a class="el" href="Block_8h_source.html#l00099">mlir::Block::getArgument()</a>, <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -3003,7 +2956,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01565">1565</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01537">1537</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -3033,7 +2986,7 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01660">1660</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01632">1632</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
@@ -3063,9 +3016,9 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01728">1728</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01700">1700</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="LLVMDialect_8h_source.html#l00061">mlir::LLVM::LLVMType::isDoubleTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00060">mlir::LLVM::LLVMType::isFloatTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00059">mlir::LLVM::LLVMType::isHalfTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00062">mlir::LLVM::LLVMType::isIntegerTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01940">mlir::LLVM::LLVMType::isPointerTy()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+<p class="reference">References <a class="el" href="LLVMDialect_8h_source.html#l00061">mlir::LLVM::LLVMType::isDoubleTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00060">mlir::LLVM::LLVMType::isFloatTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00059">mlir::LLVM::LLVMType::isHalfTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00062">mlir::LLVM::LLVMType::isIntegerTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01912">mlir::LLVM::LLVMType::isPointerTy()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -3090,16 +3043,16 @@ template&lt;typename CmpPredicateType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01853">1853</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LLVMDialect_8cpp_source.html#l01825">1825</a> of file <a class="el" href="LLVMDialect_8cpp_source.html">LLVMDialect.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00063">mlir::LLVMTypeConverter::getDialect()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00203">mlir::LLVM::LLVMDialect::getDialectNamespace()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02151">mlir::LLVMTypeConverter::packFunctionResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00529">parseCallOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00901">parseCondBrOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00328">parseInvokeOp()</a>, and <a class="el" href="NVVMDialect_8cpp_source.html#l00090">parseNVVMVoteBallotOp()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00063">mlir::LLVMTypeConverter::getDialect()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00203">mlir::LLVM::LLVMDialect::getDialectNamespace()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02155">mlir::LLVMTypeConverter::packFunctionResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00529">parseCallOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00901">parseCondBrOp()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l00328">parseInvokeOp()</a>, and <a class="el" href="NVVMDialect_8cpp_source.html#l00090">parseNVVMVoteBallotOp()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 30 2020 12:23:45 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jan 30 2020 16:23:15 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
