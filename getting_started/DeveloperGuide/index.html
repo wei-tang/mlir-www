@@ -7,7 +7,8 @@ guide.
 We also adhere to the following (which deviate from or are not specified in the
 LLVM style guide):</p><ul><li>Adopts
 <a href=https://llvm.org/docs/Proposals/VariableNames.html>camelBack</a>
-;</li><li>Except for IR units (Region, Block, and Operation), non-nullable output
+;</li><li>Uses Doxygen-style (<code>///</code>) comments for top-level and class member
+definitions, regardless of them being visible as public APIs.</li><li>Except for IR units (Region, Block, and Operation), non-nullable output
 arguments are passed by non-const reference in general.</li><li>IR constructs are not designed for
 <a href=/docs/UsageOfConst/>const correctness</a>
 .</li><li>Do <em>not</em> use recursive algorithms if the recursion can&rsquo;t be bounded
