@@ -8,5 +8,5 @@ digraph "include/mlir/Dialect/QuantOps" {
   dir_55eb4f1247c7bdd06c353ac156eecfb5 [shape=box, label="QuantOps", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_55eb4f1247c7bdd06c353ac156eecfb5.html"];
   }
   dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
-  dir_55eb4f1247c7bdd06c353ac156eecfb5->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="14", labeldistance=1.5 headhref="dir_000009_000032.html"];
+  dir_55eb4f1247c7bdd06c353ac156eecfb5->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="14", labeldistance=1.5 headhref="dir_000009_000033.html"];
 }

@@ -438,6 +438,7 @@ $(function() {
 , <a class="el" href="LowerGpuOpsToROCDLOps_8cpp.html#a12262015577b904ec54928c2296014b5">LowerGpuOpsToROCDLOps.cpp</a>
 , <a class="el" href="ConvertGPUToSPIRVPass_8cpp.html#a1e2a7b72c76bcb0a2c631ed3b1cebff7">ConvertGPUToSPIRVPass.cpp</a>
 , <a class="el" href="LinalgToLLVM_8cpp.html#a329a1ab26fba1535e8c1bb5ad4f75cc1">LinalgToLLVM.cpp</a>
+, <a class="el" href="LinalgToSPIRVPass_8cpp.html#a41a689e9b4e3e8cabb8f23bf695ffab0">LinalgToSPIRVPass.cpp</a>
 , <a class="el" href="ConvertLoopToStandard_8cpp.html#aac2dd4d4d0bed37fb70f441d0a8487bd">ConvertLoopToStandard.cpp</a>
 , <a class="el" href="ConvertStandardToLLVM_8cpp.html#ac2d683efb4adeb1de3a8886d87436687">ConvertStandardToLLVM.cpp</a>
 , <a class="el" href="ConvertStandardToSPIRVPass_8cpp.html#a8f61aeac37ef79fa4b70448e31d6343e">ConvertStandardToSPIRVPass.cpp</a>
@@ -455,6 +456,7 @@ $(function() {
 , <a class="el" href="InferQuantizedTypesPass_8cpp.html#ab2f9723fa5d6a7803baff566b619a1f2">InferQuantizedTypesPass.cpp</a>
 , <a class="el" href="RemoveInstrumentationPass_8cpp.html#ac8240e415a275a7f5f88661cc01f368a">RemoveInstrumentationPass.cpp</a>
 , <a class="el" href="AffineDataCopyGeneration_8cpp.html#a8ed4f1676584ff3d3c46a622046e76b4">AffineDataCopyGeneration.cpp</a>
+, <a class="el" href="ViewRegionGraph_8cpp.html#a871bf430b13897ef8a9359f8d3b673cb">ViewRegionGraph.cpp</a>
 , <a class="el" href="AffineLoopInvariantCodeMotion_8cpp.html#ac6c3921a9e0966117407de00c41ae899">AffineLoopInvariantCodeMotion.cpp</a>
 , <a class="el" href="Canonicalizer_8cpp.html#aee74fef1a689f2d04928b24394a52a35">Canonicalizer.cpp</a>
 , <a class="el" href="CSE_8cpp.html#a82d08b1fea198256a354bfcbf81cc98f">CSE.cpp</a>
@@ -471,7 +473,6 @@ $(function() {
 , <a class="el" href="SymbolDCE_8cpp.html#a843db92ac7484d1c871ed4b65eb8fa7f">SymbolDCE.cpp</a>
 , <a class="el" href="Vectorize_8cpp.html#a8dce754dbf1fbce2a5498585d5133051">Vectorize.cpp</a>
 , <a class="el" href="ViewOpGraph_8cpp.html#a9890735f43ba3e121e3fa1ee05d3ddbc">ViewOpGraph.cpp</a>
-, <a class="el" href="ViewRegionGraph_8cpp.html#a871bf430b13897ef8a9359f8d3b673cb">ViewRegionGraph.cpp</a>
 </li>
 <li>PASS_NAME
 : <a class="el" href="LoopsToGPUPass_8cpp.html#acf9235cddac26ff3f81e8c56849bcaac">LoopsToGPUPass.cpp</a>
@@ -507,40 +508,43 @@ $(function() {
 </li>
 <li>print()
 : <a class="el" href="Ops_8cpp.html#a4925c855a49644f4ddd89f37967b49bf">Ops.cpp</a>
-, <a class="el" href="VectorOps_8cpp.html#a91b481aa8471ea2d1d549dfbdc247360">VectorOps.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#ada58f51a54bf4d61d5b74cd5bd3f606f">SPIRVOps.cpp</a>
-, <a class="el" href="VectorOps_8cpp.html#acab9591d61773314e4c5fba7733a2dc6">VectorOps.cpp</a>
-, <a class="el" href="SPIRVDialect_8cpp.html#a7d2b71e2115a5e0838344a0e26e38d7c">SPIRVDialect.cpp</a>
-, <a class="el" href="LoopOps_8cpp.html#a63e233d99402c62122c2d1998eb72843">LoopOps.cpp</a>
-, <a class="el" href="LinalgOps_8cpp.html#a670803960f98d2360d01d4fccea24adf">LinalgOps.cpp</a>
-, <a class="el" href="GPUDialect_8cpp.html#ab84b53353228c5365660d08a5581caae">GPUDialect.cpp</a>
 , <a class="el" href="VectorOps_8cpp.html#accdb0e1cae94b54b9e34748e401b344a">VectorOps.cpp</a>
-, <a class="el" href="Ops_8cpp.html#af2778599d9606685347a7d029e58c59b">Ops.cpp</a>
-, <a class="el" href="VectorOps_8cpp.html#ae7afbac93481efc36d868dddcd3ca33b">VectorOps.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#ad420f79d6cf6e9e2691559aecf4972c8">SPIRVOps.cpp</a>
-, <a class="el" href="Ops_8cpp.html#ad4b9c096670def3ee048af7895548510">Ops.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#aba24319ef0488cdaabb0be68fecaf1d6">SPIRVOps.cpp</a>
-, <a class="el" href="AffineOps_8cpp.html#a7a4c0c8d777ec2f19a412cb98fc33b7e">AffineOps.cpp</a>
-, <a class="el" href="Ops_8cpp.html#a7c7c11c993012843137d5a69675cd51f">Ops.cpp</a>
-, <a class="el" href="AffineOps_8cpp.html#adb9a7f1b2c930c0fbeea7d2050974a4c">AffineOps.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#a412be05ac42262f74c28f711f09c01a8">SPIRVOps.cpp</a>
-, <a class="el" href="AffineOps_8cpp.html#a91d5521c5a067502bd7950ff8fd508bd">AffineOps.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#a38109712ed1db7f16d3d845583bb97e9">SPIRVOps.cpp</a>
-, <a class="el" href="AffineOps_8cpp.html#a7c9fd11d16f6701fd29996b9e7beda5c">AffineOps.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#a48c1e9840f4339e40c0b6b271f088cc5">SPIRVOps.cpp</a>
-, <a class="el" href="Ops_8cpp.html#a02c008679571d1eb68a843bddd3dbde2">Ops.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#ade0aad2a65f71782604164c5e3727d57">SPIRVOps.cpp</a>
-, <a class="el" href="LinalgOps_8cpp.html#a36212df8e265840c1be2f893ede267f5">LinalgOps.cpp</a>
-, <a class="el" href="Ops_8cpp.html#ad2a7f00b45616c9195ab441609bcec50">Ops.cpp</a>
-, <a class="el" href="SPIRVDialect_8cpp.html#a25f0c03b58b573e9bdaca57c7cd4604d">SPIRVDialect.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#a95c01d20e339beeb2d209acf784b3064">SPIRVOps.cpp</a>
+, <a class="el" href="VectorOps_8cpp.html#ad00736679cf3924eb787ceb3b7f2e86b">VectorOps.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#a11c003d6abd41d7cf20d79a2d164bf31">SPIRVOps.cpp</a>
+, <a class="el" href="SPIRVDialect_8cpp.html#a7d2b71e2115a5e0838344a0e26e38d7c">SPIRVDialect.cpp</a>
+, <a class="el" href="VectorOps_8cpp.html#a91b481aa8471ea2d1d549dfbdc247360">VectorOps.cpp</a>
 , <a class="el" href="LoopOps_8cpp.html#a818b36b17e9e569aecee2328248a66e7">LoopOps.cpp</a>
-, <a class="el" href="LinalgOps_8cpp.html#ac71b0e9f050c49cea77d1b0341f2b017">LinalgOps.cpp</a>
-, <a class="el" href="LinalgTypes_8cpp.html#afd5ce699be26f832781bcdac457602b2">LinalgTypes.cpp</a>
+, <a class="el" href="SPIRVDialect_8cpp.html#a25f0c03b58b573e9bdaca57c7cd4604d">SPIRVDialect.cpp</a>
+, <a class="el" href="LoopOps_8cpp.html#a63e233d99402c62122c2d1998eb72843">LoopOps.cpp</a>
+, <a class="el" href="LinalgOps_8cpp.html#ad5eea61141fb515ca1ae36109f85358f">LinalgOps.cpp</a>
+, <a class="el" href="AffineOps_8cpp.html#a7c9fd11d16f6701fd29996b9e7beda5c">AffineOps.cpp</a>
+, <a class="el" href="VectorOps_8cpp.html#a9ae20bef1bb5896d9fd1888f0e9ac4e3">VectorOps.cpp</a>
+, <a class="el" href="Ops_8cpp.html#a2bf0dd77d5834216a5d5366e910d6d04">Ops.cpp</a>
+, <a class="el" href="VectorOps_8cpp.html#acab9591d61773314e4c5fba7733a2dc6">VectorOps.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#a121c5b2bc143da2f98ac5094e0a97cbc">SPIRVOps.cpp</a>
 , <a class="el" href="Ops_8cpp.html#aacbaf21aa6a51d6ea564a36c70b9f6cb">Ops.cpp</a>
-, <a class="el" href="LoopOps_8cpp.html#a38e0a4f88666dede4accc29c7cc05936">LoopOps.cpp</a>
+, <a class="el" href="AffineOps_8cpp.html#a7a4c0c8d777ec2f19a412cb98fc33b7e">AffineOps.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#a412be05ac42262f74c28f711f09c01a8">SPIRVOps.cpp</a>
+, <a class="el" href="Ops_8cpp.html#ab3554167868542abe263b6018001da3c">Ops.cpp</a>
+, <a class="el" href="GPUDialect_8cpp.html#ab84b53353228c5365660d08a5581caae">GPUDialect.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#ade0aad2a65f71782604164c5e3727d57">SPIRVOps.cpp</a>
+, <a class="el" href="SPIRVDialect_8cpp.html#a6501243a236602288ccc952c280447b8">SPIRVDialect.cpp</a>
+, <a class="el" href="LoopOps_8cpp.html#ad28835fb6332cc55b61919c252f51e1a">LoopOps.cpp</a>
+, <a class="el" href="LinalgOps_8cpp.html#a36212df8e265840c1be2f893ede267f5">LinalgOps.cpp</a>
+, <a class="el" href="Ops_8cpp.html#a16da69f439117c5cf52d9b6274dbc67d">Ops.cpp</a>
+, <a class="el" href="LinalgOps_8cpp.html#a670803960f98d2360d01d4fccea24adf">LinalgOps.cpp</a>
+, <a class="el" href="LinalgTypes_8cpp.html#afd5ce699be26f832781bcdac457602b2">LinalgTypes.cpp</a>
+, <a class="el" href="Ops_8cpp.html#a90f5cb6e1e7ef337fc33cc874fce31d4">Ops.cpp</a>
+, <a class="el" href="LoopOps_8cpp.html#a03e390ca59c1de66d3b70b12a7021140">LoopOps.cpp</a>
 , <a class="el" href="Ops_8cpp.html#a194b230a98e2a01cdc6430df6e6e392a">Ops.cpp</a>
-, <a class="el" href="SPIRVOps_8cpp.html#a151ba3c3f36523114357bafbbb4f58df">SPIRVOps.cpp</a>
+, <a class="el" href="SPIRVDialect_8cpp.html#a1a9234f4913283431caaae18edd802b3">SPIRVDialect.cpp</a>
+, <a class="el" href="Ops_8cpp.html#a7c7c11c993012843137d5a69675cd51f">Ops.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#aec3aef2978fecf1d59465782da969158">SPIRVOps.cpp</a>
 , <a class="el" href="Ops_8cpp.html#a310d8f0c88eaa1c01a09450905b62348">Ops.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#a48c1e9840f4339e40c0b6b271f088cc5">SPIRVOps.cpp</a>
+, <a class="el" href="Ops_8cpp.html#ad2a7f00b45616c9195ab441609bcec50">Ops.cpp</a>
+, <a class="el" href="SPIRVOps_8cpp.html#a56a003b0b83df075fa51e6cbeef35a4a">SPIRVOps.cpp</a>
 </li>
 <li>printAllocaOp()
 : <a class="el" href="LLVMDialect_8cpp.html#a632f7352a9d770b76176f427f1dc0803">LLVMDialect.cpp</a>
@@ -762,7 +766,7 @@ $(function() {
 : <a class="el" href="Predicate_8cpp.html#a663a6e7015dfb40548fbbfecf500661b">Predicate.cpp</a>
 </li>
 <li>propagateLiveness()
-: <a class="el" href="RegionUtils_8cpp.html#a79656b4fb6429401a8b6ad31162155b6">RegionUtils.cpp</a>
+: <a class="el" href="RegionUtils_8cpp.html#a078fca00767a2477879564a495bbadf1">RegionUtils.cpp</a>
 </li>
 <li>ptrtoint
 : <a class="el" href="LinalgToLLVM_8cpp.html#a14d109824c544cb5b11d0c6e9466df29">LinalgToLLVM.cpp</a>
@@ -771,7 +775,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 12:23:48 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 16:22:31 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

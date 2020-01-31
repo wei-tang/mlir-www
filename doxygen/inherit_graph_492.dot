@@ -4,5 +4,13 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::quantizer::CAGSlice",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGSlice.html",tooltip="A slice of a CAG (which may be the whole graph). "];
+  Node0 [label="mlir::quantizer::CAGNode",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGNode.html",tooltip="A node in the Constraint Analysis Graph. "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="mlir::quantizer::CAGAnchorNode",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGAnchorNode.html",tooltip="Anchor nodes represent points in the source IR where we may choose to introduce a type transition..."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mlir::quantizer::CAGOperand\lAnchor",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGOperandAnchor.html",tooltip="An anchor tied to a specific operand. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mlir::quantizer::CAGResult\lAnchor",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGResultAnchor.html",tooltip="An anchor tied to a specific result. "];
+  Node0 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mlir::quantizer::CAGConstraintNode",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGConstraintNode.html",tooltip="Base class for constraint nodes. "];
 }

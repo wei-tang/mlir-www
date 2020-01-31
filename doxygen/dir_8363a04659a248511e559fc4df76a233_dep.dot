@@ -8,5 +8,5 @@ digraph "include/mlir/Dialect/LLVMIR" {
   dir_8363a04659a248511e559fc4df76a233 [shape=box, label="LLVMIR", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_8363a04659a248511e559fc4df76a233.html"];
   }
   dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
-  dir_8363a04659a248511e559fc4df76a233->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="10", labeldistance=1.5 headhref="dir_000035_000032.html"];
+  dir_8363a04659a248511e559fc4df76a233->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="10", labeldistance=1.5 headhref="dir_000036_000033.html"];
 }

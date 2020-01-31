@@ -8,5 +8,5 @@ digraph "include/mlir/Dialect/Linalg/Analysis" {
   dir_dce007540a1e680de4630c175744dfb2 [shape=box, label="Analysis", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_dce007540a1e680de4630c175744dfb2.html"];
   }
   dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
-  dir_dce007540a1e680de4630c175744dfb2->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="2", labeldistance=1.5 headhref="dir_000029_000032.html"];
+  dir_dce007540a1e680de4630c175744dfb2->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="2", labeldistance=1.5 headhref="dir_000030_000033.html"];
 }

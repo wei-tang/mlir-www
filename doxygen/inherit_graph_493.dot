@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::quantizer::CAGUniform\lMetadata",height=0.2,width=0.4,color="black",URL="$structmlir_1_1quantizer_1_1CAGUniformMetadata.html"];
+  Node0 [label="mlir::quantizer::CAGSlice",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1CAGSlice.html",tooltip="A slice of a CAG (which may be the whole graph). "];
 }

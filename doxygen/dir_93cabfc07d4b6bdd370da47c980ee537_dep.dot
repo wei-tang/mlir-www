@@ -8,5 +8,5 @@ digraph "include/mlir/Dialect/GPU" {
   dir_93cabfc07d4b6bdd370da47c980ee537 [shape=box, label="GPU", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_93cabfc07d4b6bdd370da47c980ee537.html"];
   }
   dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
-  dir_93cabfc07d4b6bdd370da47c980ee537->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="5", labeldistance=1.5 headhref="dir_000007_000032.html"];
+  dir_93cabfc07d4b6bdd370da47c980ee537->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="5", labeldistance=1.5 headhref="dir_000007_000033.html"];
 }

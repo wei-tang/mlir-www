@@ -86,6 +86,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab23eadedee1361ed1acc44d6f6cd3666"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3819ff9ef4e4524f36031fc587c29f4f"><td class="memItemLeft" align="right" valign="top">unsigned&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1OpTrait_1_1linalg_1_1StructuredOpTraits.html#a3819ff9ef4e4524f36031fc587c29f4f">getNumLoops</a> ()</td></tr>
 <tr class="separator:a3819ff9ef4e4524f36031fc587c29f4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20af8387a19a9ed27809bcc2bf848590"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1OpTrait_1_1linalg_1_1StructuredOpTraits.html#a20af8387a19a9ed27809bcc2bf848590">hasSingleReductionLoop</a> ()</td></tr>
+<tr class="separator:a20af8387a19a9ed27809bcc2bf848590"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5ef9c9d56057b25524e89f6a78c35a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1OpTrait_1_1linalg_1_1StructuredOpTraits.html#ad5ef9c9d56057b25524e89f6a78c35a6">getInput</a> (unsigned i)</td></tr>
 <tr class="memdesc:ad5ef9c9d56057b25524e89f6a78c35a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <code>i</code>-th input value.  <a href="#ad5ef9c9d56057b25524e89f6a78c35a6">More...</a><br /></td></tr>
 <tr class="separator:ad5ef9c9d56057b25524e89f6a78c35a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,7 +193,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the index of <code>value</code> in the list of inputs if found, llvm::None otherwise. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00109">109</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00115">115</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
 
@@ -225,7 +227,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the index of <code>value</code> in the list of output buffers if found, llvm::None otherwise. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00148">148</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00154">154</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
 
@@ -259,7 +261,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the <code>i</code>-th input value. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00103">103</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00109">109</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00209">mlir::Operation::getOperand()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -292,7 +294,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the range over inputs. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00120">120</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00126">126</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00229">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::begin()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -325,7 +327,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the range over inputs (irrespective of type) and output buffers. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00190">190</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00196">196</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00229">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::begin()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -359,7 +361,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the <code>i</code>-th input buffer type. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00116">116</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00122">122</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 </div>
 </div>
@@ -390,7 +392,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Query the subset of input operands that are of ranked tensor type. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00125">125</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00131">131</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 </div>
 </div>
@@ -421,7 +423,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the number of inputs, irrespective of their buffer or tensor type, and output buffers. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00185">185</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00191">191</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -454,7 +456,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the number of inputs and outputs, irrespective of their buffer or tensor type. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00182">182</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00188">188</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 </div>
 </div>
@@ -610,7 +612,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the <code>i</code>-th output, asserts that this is a buffer operand and not a tensor result. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00141">141</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00147">147</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8h_source.html#l00209">mlir::Operation::getOperand()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -643,7 +645,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the range over outputs. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00171">171</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00177">177</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00229">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::begin()</a>, <a class="el" href="Operation_8h_source.html#l00222">mlir::Operation::getOperands()</a>, and <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -677,7 +679,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the <code>i</code>-th output buffer type. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00155">155</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00161">161</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 </div>
 </div>
@@ -709,7 +711,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Return the <code>i</code>-th output shaped type, irrespective of buffer of tensor type. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00160">160</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00166">166</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 </div>
 </div>
@@ -740,7 +742,7 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Query the subset of results that are of ranked tensor type. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00164">164</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00170">170</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>.</p>
 
@@ -779,7 +781,7 @@ template&lt;typename ConcreteType &gt; </div>
 <li>return the <code>i - <a class="el" href="classmlir_1_1OpTrait_1_1linalg_1_1StructuredOpTraits.html#a362634c2c441b376dd0b7783c78a3444" title="Return the number of inputs, irrespective of their buffer or tensor type, and output buffers...">getNumInputsAndOutputBuffers()</a></code> result type. </li>
 </ol>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00199">199</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00205">205</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 </div>
 </div>
@@ -810,9 +812,40 @@ template&lt;typename ConcreteType &gt; </div>
 
 <p>Query whether the op has only buffer inputs and no returns. </p>
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00212">212</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00218">218</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00548">mlir::Operation::getNumResults()</a>, <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>, <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>, and <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>.</p>
+
+</div>
+</div>
+<a id="a20af8387a19a9ed27809bcc2bf848590"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20af8387a19a9ed27809bcc2bf848590">&#9670;&nbsp;</a></span>hasSingleReductionLoop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ConcreteType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classmlir_1_1OpTrait_1_1linalg_1_1StructuredOpTraits.html">mlir::OpTrait::linalg::StructuredOpTraits</a>&lt; ConcreteType &gt;::hasSingleReductionLoop </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00096">96</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+
+<p class="reference">References <a class="el" href="StructuredOpsUtils_8h_source.html#l00087">mlir::getNumIterators()</a>, <a class="el" href="OpDefinition_8h_source.html#l00393">mlir::OpTrait::TraitBase&lt; ConcreteType, NInputs&lt; N &gt;::Impl &gt;::getOperation()</a>, and <a class="el" href="StructuredOpsUtils_8h_source.html#l00069">mlir::getReductionIteratorTypeName()</a>.</p>
 
 </div>
 </div>
@@ -842,7 +875,7 @@ template&lt;typename ConcreteType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00221">221</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="LinalgTraits_8h_source.html#l00227">227</a> of file <a class="el" href="LinalgTraits_8h_source.html">LinalgTraits.h</a>.</p>
 
 <p class="reference">References <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, and <a class="el" href="Operation_8cpp_source.html#l00775">mlir::OpTrait::impl::verifyAtLeastNOperands()</a>.</p>
 
@@ -854,7 +887,7 @@ template&lt;typename ConcreteType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 12:23:48 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 16:22:31 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

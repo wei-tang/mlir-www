@@ -4,5 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::LoopNestStats",height=0.2,width=0.4,color="black",URL="$structmlir_1_1LoopNestStats.html",tooltip="LoopNestStats aggregates various per-loop statistics (eg. "];
+  Node0 [label="mlir::LogicalResult",height=0.2,width=0.4,color="black",URL="$structmlir_1_1LogicalResult.html"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="mlir::ParseResult",height=0.2,width=0.4,color="black",URL="$classmlir_1_1ParseResult.html",tooltip="This class represents success/failure for operation parsing. "];
 }

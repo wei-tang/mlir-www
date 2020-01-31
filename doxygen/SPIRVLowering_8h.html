@@ -104,6 +104,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a637f175b949e4c63881f1ae7a1c32e00"><td class="memItemLeft" align="right" valign="top">Value&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a637f175b949e4c63881f1ae7a1c32e00">mlir::spirv::getBuiltinVariableValue</a> (Operation *op, BuiltIn builtin, OpBuilder &amp;builder)</td></tr>
 <tr class="memdesc:a637f175b949e4c63881f1ae7a1c32e00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for the given <code>builtin</code> variable.  <a href="namespacemlir_1_1spirv.html#a637f175b949e4c63881f1ae7a1c32e00">More...</a><br /></td></tr>
 <tr class="separator:a637f175b949e4c63881f1ae7a1c32e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3428d39d51545d075e0ecba842d7bf07"><td class="memItemLeft" align="right" valign="top">spirv::AccessChainOp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a3428d39d51545d075e0ecba842d7bf07">mlir::spirv::getElementPtr</a> (<a class="el" href="classmlir_1_1SPIRVTypeConverter.html">SPIRVTypeConverter</a> &amp;typeConverter, <a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a> baseType, <a class="el" href="classmlir_1_1Value.html">Value</a> basePtr, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt; indices, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder)</td></tr>
+<tr class="memdesc:a3428d39d51545d075e0ecba842d7bf07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the index computation to get to the element at <code>indices</code> of the memory pointed to by <code>basePtr</code>, using the layout map of <code>baseType</code>.  <a href="namespacemlir_1_1spirv.html#a3428d39d51545d075e0ecba842d7bf07">More...</a><br /></td></tr>
+<tr class="separator:a3428d39d51545d075e0ecba842d7bf07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5338da7476d907ed53fc8a98b587b476"><td class="memItemLeft" align="right" valign="top">LogicalResult&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a5338da7476d907ed53fc8a98b587b476">mlir::spirv::setABIAttrs</a> (FuncOp funcOp, EntryPointABIAttr entryPointInfo, ArrayRef&lt; InterfaceVarABIAttr &gt; argABIInfo)</td></tr>
 <tr class="memdesc:a5338da7476d907ed53fc8a98b587b476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the InterfaceVarABIAttr and EntryPointABIAttr for a function and its arguments.  <a href="namespacemlir_1_1spirv.html#a5338da7476d907ed53fc8a98b587b476">More...</a><br /></td></tr>
 <tr class="separator:a5338da7476d907ed53fc8a98b587b476"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,7 +114,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 12:23:45 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 16:22:28 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

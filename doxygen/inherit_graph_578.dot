@@ -4,5 +4,9 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="PHKind",height=0.2,width=0.4,color="grey75"];
+  Node0 [label="parser",height=0.2,width=0.4,color="black",URL="$classllvm_1_1cl_1_1parser.html"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="mlir::GenNameParser",height=0.2,width=0.4,color="black",URL="$structmlir_1_1GenNameParser.html",tooltip="Adds command line option for each registered generator. "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mlir::TranslationParser",height=0.2,width=0.4,color="black",URL="$structmlir_1_1TranslationParser.html",tooltip="Custom parser for TranslateFunction. "];
 }

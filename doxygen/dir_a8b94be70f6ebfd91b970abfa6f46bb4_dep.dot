@@ -8,5 +8,5 @@ digraph "lib/Quantizer/Configurations" {
   dir_a8b94be70f6ebfd91b970abfa6f46bb4 [shape=box, label="Configurations", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_a8b94be70f6ebfd91b970abfa6f46bb4.html"];
   }
   dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
-  dir_a8b94be70f6ebfd91b970abfa6f46bb4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000104_000000.html"];
+  dir_a8b94be70f6ebfd91b970abfa6f46bb4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="11", labeldistance=1.5 headhref="dir_000106_000000.html"];
 }

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::OptionalParseResult",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OptionalParseResult.html",tooltip="This class implements Optional functionality for ParseResult. "];
+  Node0 [label="mlir::OpPrintingFlags",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpPrintingFlags.html",tooltip="Set of flags used to control the behavior of the various IR print methods (e.g. "];
 }

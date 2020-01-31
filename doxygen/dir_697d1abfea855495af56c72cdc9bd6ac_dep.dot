@@ -9,7 +9,7 @@ digraph "include/mlir/Dialect/LoopOps" {
   }
   dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
   dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [shape=box label="Transforms" URL="dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6.html"];
-  dir_697d1abfea855495af56c72cdc9bd6ac->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="4", labeldistance=1.5 headhref="dir_000036_000032.html"];
-  dir_697d1abfea855495af56c72cdc9bd6ac->dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [headlabel="1", labeldistance=1.5 headhref="dir_000036_000013.html"];
-  dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="14", labeldistance=1.5 headhref="dir_000013_000032.html"];
+  dir_697d1abfea855495af56c72cdc9bd6ac->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="4", labeldistance=1.5 headhref="dir_000037_000033.html"];
+  dir_697d1abfea855495af56c72cdc9bd6ac->dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6 [headlabel="1", labeldistance=1.5 headhref="dir_000037_000013.html"];
+  dir_ca4d1f3bc4cd42ba07a57ca86d19a1d6->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="14", labeldistance=1.5 headhref="dir_000013_000033.html"];
 }

@@ -11,13 +11,15 @@ digraph "include/mlir/Dialect/Linalg/Utils/Utils.h"
   Node81 -> Node83 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node83 [label="lib/Dialect/Linalg\l/Transforms/LinalgTransforms.cpp",height=0.2,width=0.4,color="black",URL="$LinalgTransforms_8cpp.html"];
   Node80 -> Node84 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node84 [label="lib/Dialect/Linalg\l/Transforms/Fusion.cpp",height=0.2,width=0.4,color="black",URL="$Fusion_8cpp.html"];
+  Node84 [label="lib/Conversion/LinalgToSPIRV\l/LinalgToSPIRV.cpp",height=0.2,width=0.4,color="black",URL="$LinalgToSPIRV_8cpp.html"];
+  Node80 -> Node85 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node85 [label="lib/Dialect/Linalg\l/Transforms/Fusion.cpp",height=0.2,width=0.4,color="black",URL="$Fusion_8cpp.html"];
   Node80 -> Node82 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node80 -> Node83 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node80 -> Node85 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node85 [label="lib/Dialect/Linalg\l/Transforms/Promotion.cpp",height=0.2,width=0.4,color="black",URL="$Promotion_8cpp.html"];
   Node80 -> Node86 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node86 [label="lib/Dialect/Linalg\l/Transforms/Tiling.cpp",height=0.2,width=0.4,color="black",URL="$Tiling_8cpp.html"];
+  Node86 [label="lib/Dialect/Linalg\l/Transforms/Promotion.cpp",height=0.2,width=0.4,color="black",URL="$Promotion_8cpp.html"];
   Node80 -> Node87 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node87 [label="lib/Dialect/Linalg\l/Utils/Utils.cpp",height=0.2,width=0.4,color="black",URL="$Dialect_2Linalg_2Utils_2Utils_8cpp.html"];
+  Node87 [label="lib/Dialect/Linalg\l/Transforms/Tiling.cpp",height=0.2,width=0.4,color="black",URL="$Tiling_8cpp.html"];
+  Node80 -> Node88 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node88 [label="lib/Dialect/Linalg\l/Utils/Utils.cpp",height=0.2,width=0.4,color="black",URL="$Dialect_2Linalg_2Utils_2Utils_8cpp.html"];
 }

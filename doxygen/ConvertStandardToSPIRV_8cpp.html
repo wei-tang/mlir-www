@@ -89,9 +89,6 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3ab2e02d478640810e38563f1d00116f"><td class="memItemLeft" align="right" valign="top">static spirv::AccessChainOp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ConvertStandardToSPIRV_8cpp.html#a3ab2e02d478640810e38563f1d00116f">getElementPtr</a> (<a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder, <a class="el" href="classmlir_1_1SPIRVTypeConverter.html">SPIRVTypeConverter</a> &amp;typeConverter, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a> origBaseType, <a class="el" href="classmlir_1_1Value.html">Value</a> basePtr, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt; indices)</td></tr>
-<tr class="memdesc:a3ab2e02d478640810e38563f1d00116f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the index computation to get to the element pointed to by <code>indices</code> using the layout map of <code>baseType</code>.  <a href="#a3ab2e02d478640810e38563f1d00116f">More...</a><br /></td></tr>
-<tr class="separator:a3ab2e02d478640810e38563f1d00116f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1de38d84e16c5c7e869995fb1c3605b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir.html#ad1de38d84e16c5c7e869995fb1c3605b">mlir::populateStandardToSPIRVPatterns</a> (<a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *context, <a class="el" href="classmlir_1_1SPIRVTypeConverter.html">SPIRVTypeConverter</a> &amp;typeConverter, <a class="el" href="classmlir_1_1OwningRewritePatternList.html">OwningRewritePatternList</a> &amp;patterns)</td></tr>
 <tr class="memdesc:ad1de38d84e16c5c7e869995fb1c3605b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends to a pattern list additional patterns for translating StandardOps to SPIR-V ops.  <a href="namespacemlir.html#ad1de38d84e16c5c7e869995fb1c3605b">More...</a><br /></td></tr>
 <tr class="separator:ad1de38d84e16c5c7e869995fb1c3605b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -123,8 +120,6 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">case</span> cmpPredicate:                                                           \</div><div class="line">    rewriter.replaceOpWithNewOp&lt;spirvOp&gt;(cmpFOp, cmpFOp.getResult().getType(), \</div><div class="line">                                         cmpFOpOperands.lhs(),                 \</div><div class="line">                                         cmpFOpOperands.rhs());                \</div><div class="line">    return matchSuccess();</div></div><!-- fragment -->
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToSPIRV_8cpp_source.html#l00153">getElementPtr()</a>.</p>
-
 </div>
 </div>
 <a id="adf43f78de90227c1648fb0549c103802"></a>
@@ -155,77 +150,10 @@ Functions</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line"><span class="keywordflow">case</span> cmpPredicate:                                                           \</div><div class="line">    rewriter.replaceOpWithNewOp&lt;spirvOp&gt;(cmpIOp, cmpIOp.getResult().getType(), \</div><div class="line">                                         cmpIOpOperands.lhs(),                 \</div><div class="line">                                         cmpIOpOperands.rhs());                \</div><div class="line">    return matchSuccess();</div></div><!-- fragment -->
 </div>
 </div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="a3ab2e02d478640810e38563f1d00116f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3ab2e02d478640810e38563f1d00116f">&#9670;&nbsp;</a></span>getElementPtr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static spirv::AccessChainOp getElementPtr </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;&#160;</td>
-          <td class="paramname"><em>builder</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1SPIRVTypeConverter.html">SPIRVTypeConverter</a> &amp;&#160;</td>
-          <td class="paramname"><em>typeConverter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Location.html">Location</a>&#160;</td>
-          <td class="paramname"><em>loc</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a>&#160;</td>
-          <td class="paramname"><em>origBaseType</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td>
-          <td class="paramname"><em>basePtr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt;&#160;</td>
-          <td class="paramname"><em>indices</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Performs the index computation to get to the element pointed to by <code>indices</code> using the layout map of <code>baseType</code>. </p>
-
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToSPIRV_8cpp_source.html#l00153">153</a> of file <a class="el" href="ConvertStandardToSPIRV_8cpp_source.html">ConvertStandardToSPIRV.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>, <a class="el" href="ConvertStandardToSPIRV_8cpp.html#adf43f78de90227c1648fb0549c103802">DISPATCH</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00248">mlir::RankedTensorType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8h_source.html#l00472">mlir::MemRefType::getDynamicStrideOrOffset()</a>, <a class="el" href="SPIRVLowering_8cpp_source.html#l00030">mlir::SPIRVTypeConverter::getIndexType()</a>, <a class="el" href="IR_2Builders_8cpp_source.html#l00115">mlir::Builder::getIntegerAttr()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00078">mlir::Builder::getType()</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926ceda9e55d7c6936a06336f631f412cf5da92">mlir::OEQ</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedaf36752024f8d66ec77bdf0516130c5fc">mlir::OGE</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedad7bc4f60747e9364d82cffe507605303">mlir::OGT</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926ceda4702e1e1f9db3a2ae4da4e8d63c5944d">mlir::OLE</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedabab6f0ecb8f89999407a1001a52791c6">mlir::OLT</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedabc21e6484530fc9d0313cb816b733396">mlir::ONE</a>, <a class="el" href="PatternMatch_8h_source.html#l00327">mlir::PatternRewriter::replaceOpWithNewOp()</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedae38e4eeca7782ab6c251c9619df3152e">mlir::UEQ</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedada0d6078de3703b5680eb9361f2d68fd">mlir::UGE</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926ceda7efc25ec6c881b13261c1a6d88762483">mlir::UGT</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedae29e365fd3b5e59c86218486a0c1c7c1">mlir::ULE</a>, <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926ceda2b4652512a6c88f5a39c3288081b6e13">mlir::ULT</a>, and <a class="el" href="namespacemlir.html#a6eec030e79134e91fb05b8292b926cedab57b8eb662c518fa21051312319f6270">mlir::UNE</a>.</p>
-
-</div>
-</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 12:23:45 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 16:22:29 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -8,5 +8,5 @@ digraph "include/mlir/Dialect/FxpMathOps" {
   dir_90b44803404d5d38fae17b924226134d [shape=box, label="FxpMathOps", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_90b44803404d5d38fae17b924226134d.html"];
   }
   dir_84ef7c054b4edc3447cfba80cee80f65 [shape=box label="IR" URL="dir_84ef7c054b4edc3447cfba80cee80f65.html"];
-  dir_90b44803404d5d38fae17b924226134d->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="3", labeldistance=1.5 headhref="dir_000006_000032.html"];
+  dir_90b44803404d5d38fae17b924226134d->dir_84ef7c054b4edc3447cfba80cee80f65 [headlabel="3", labeldistance=1.5 headhref="dir_000006_000033.html"];
 }

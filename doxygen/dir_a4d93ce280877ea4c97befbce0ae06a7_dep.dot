@@ -8,5 +8,5 @@ digraph "lib/Dialect/QuantOps/IR" {
   dir_a4d93ce280877ea4c97befbce0ae06a7 [shape=box, label="IR", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_a4d93ce280877ea4c97befbce0ae06a7.html"];
   }
   dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
-  dir_a4d93ce280877ea4c97befbce0ae06a7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="19", labeldistance=1.5 headhref="dir_000078_000000.html"];
+  dir_a4d93ce280877ea4c97befbce0ae06a7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="19", labeldistance=1.5 headhref="dir_000080_000000.html"];
 }

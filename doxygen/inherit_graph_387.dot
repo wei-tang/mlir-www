@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::LivenessBlockInfo",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LivenessBlockInfo.html",tooltip="This class represents liveness information on block level. "];
+  Node0 [label="mlir::Liveness",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Liveness.html",tooltip="Represents an analysis for computing liveness information from a given top-level operation. "];
 }

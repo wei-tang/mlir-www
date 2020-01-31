@@ -4,7 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::quantizer::Abstract\lTensorStatistics",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1AbstractTensorStatistics.html",tooltip="Base class for querying statistics about a tensor. "];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="mlir::quantizer::Attribute\lTensorStatistics",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1AttributeTensorStatistics.html",tooltip="Wraps an MLIR Attribute and returns statistics about it. "];
+  Node0 [label="mlir::quant::UniformQuantized\lValueConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quant_1_1UniformQuantizedValueConverter.html",tooltip="Reference implementation of converting between real numbers and values represented by a UniformQuanti..."];
 }

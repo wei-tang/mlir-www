@@ -14,7 +14,7 @@ digraph "lib/Dialect/QuantOps" {
   }
   }
   dir_d44c64559bbebec7f509842c48db8b23 [shape=box label="include" color="red" URL="dir_d44c64559bbebec7f509842c48db8b23.html"];
-  dir_4299c9e50fa32ae275bad9f71a8a2f3e->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="18", labeldistance=1.5 headhref="dir_000094_000000.html"];
-  dir_5a6024a9917a3d1c0787af41082bf5d4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000095_000000.html"];
-  dir_a4d93ce280877ea4c97befbce0ae06a7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="19", labeldistance=1.5 headhref="dir_000078_000000.html"];
+  dir_4299c9e50fa32ae275bad9f71a8a2f3e->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="18", labeldistance=1.5 headhref="dir_000096_000000.html"];
+  dir_5a6024a9917a3d1c0787af41082bf5d4->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="8", labeldistance=1.5 headhref="dir_000097_000000.html"];
+  dir_a4d93ce280877ea4c97befbce0ae06a7->dir_d44c64559bbebec7f509842c48db8b23 [headlabel="19", labeldistance=1.5 headhref="dir_000080_000000.html"];
 }

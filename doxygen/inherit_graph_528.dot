@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::tblgen::FmtContext",height=0.2,width=0.4,color="black",URL="$classmlir_1_1tblgen_1_1FmtContext.html",tooltip="Format context containing substitutions for special placeholders. "];
+  Node0 [label="mlir::tblgen::Dialect",height=0.2,width=0.4,color="black",URL="$classmlir_1_1tblgen_1_1Dialect.html"];
 }

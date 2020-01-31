@@ -110,6 +110,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a637f175b949e4c63881f1ae7a1c32e00"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a637f175b949e4c63881f1ae7a1c32e00">getBuiltinVariableValue</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op, BuiltIn builtin, <a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder)</td></tr>
 <tr class="memdesc:a637f175b949e4c63881f1ae7a1c32e00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value for the given <code>builtin</code> variable.  <a href="#a637f175b949e4c63881f1ae7a1c32e00">More...</a><br /></td></tr>
 <tr class="separator:a637f175b949e4c63881f1ae7a1c32e00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3428d39d51545d075e0ecba842d7bf07"><td class="memItemLeft" align="right" valign="top">spirv::AccessChainOp&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a3428d39d51545d075e0ecba842d7bf07">getElementPtr</a> (<a class="el" href="classmlir_1_1SPIRVTypeConverter.html">SPIRVTypeConverter</a> &amp;typeConverter, <a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a> baseType, <a class="el" href="classmlir_1_1Value.html">Value</a> basePtr, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt; indices, <a class="el" href="classmlir_1_1Location.html">Location</a> loc, <a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;builder)</td></tr>
+<tr class="memdesc:a3428d39d51545d075e0ecba842d7bf07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs the index computation to get to the element at <code>indices</code> of the memory pointed to by <code>basePtr</code>, using the layout map of <code>baseType</code>.  <a href="#a3428d39d51545d075e0ecba842d7bf07">More...</a><br /></td></tr>
+<tr class="separator:a3428d39d51545d075e0ecba842d7bf07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5338da7476d907ed53fc8a98b587b476"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structmlir_1_1LogicalResult.html">LogicalResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a5338da7476d907ed53fc8a98b587b476">setABIAttrs</a> (<a class="el" href="classmlir_1_1FuncOp.html">FuncOp</a> funcOp, EntryPointABIAttr entryPointInfo, <a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; InterfaceVarABIAttr &gt; argABIInfo)</td></tr>
 <tr class="memdesc:a5338da7476d907ed53fc8a98b587b476"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the InterfaceVarABIAttr and EntryPointABIAttr for a function and its arguments.  <a href="#a5338da7476d907ed53fc8a98b587b476">More...</a><br /></td></tr>
 <tr class="separator:a5338da7476d907ed53fc8a98b587b476"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +146,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a2ae1ed3e62618274db5bad38955db408"><td class="memItemLeft" align="right" valign="top">TargetEnvAttr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#a2ae1ed3e62618274db5bad38955db408">lookupTargetEnvOrDefault</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op)</td></tr>
 <tr class="memdesc:a2ae1ed3e62618274db5bad38955db408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queries the target environment from the given <code>op</code> or returns the default target environment (SPIR-V 1.0 with Shader capability and no extra extensions) if not provided.  <a href="#a2ae1ed3e62618274db5bad38955db408">More...</a><br /></td></tr>
 <tr class="separator:a2ae1ed3e62618274db5bad38955db408"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe035dc50594dd3b9d3c270a1f1959fa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1DenseIntElementsAttr.html">DenseIntElementsAttr</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1spirv.html#afe035dc50594dd3b9d3c270a1f1959fa">lookupLocalWorkGroupSize</a> (<a class="el" href="classmlir_1_1Operation.html">Operation</a> *op)</td></tr>
+<tr class="memdesc:afe035dc50594dd3b9d3c270a1f1959fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Queries the local workgroup size from entry point ABI on the nearest function-like op containing the given <code>op</code>.  <a href="#afe035dc50594dd3b9d3c270a1f1959fa">More...</a><br /></td></tr>
+<tr class="separator:afe035dc50594dd3b9d3c270a1f1959fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -349,7 +355,7 @@ Variables</h2></td></tr>
 <p>Returns the value for the given <code>builtin</code> variable. </p>
 <p>This function gets or inserts the global variable associated for the builtin within the nearest enclosing op that has a symbol table. Returns null <a class="el" href="classmlir_1_1Value.html" title="This class represents an instance of an SSA value in the MLIR system, representing a computable value...">Value</a> if such an enclosing op cannot be found. </p>
 
-<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00248">getOrInsertBuiltinVariable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LinalgToSPIRV_8cpp_source.html#l00028">getLocalInvocationDimSize()</a>, and <a class="el" href="SPIRVLowering_8cpp_source.html#l00248">getOrInsertBuiltinVariable()</a>.</p>
 
 </div>
 </div>
@@ -371,11 +377,11 @@ Variables</h2></td></tr>
 
 <p>Returns the default target environment: SPIR-V 1.0 with Shader capability and no extra extensions. </p>
 
-<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00049">49</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00050">50</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="IR_2Builders_8cpp_source.html#l00168">mlir::Builder::getI32ArrayAttr()</a>, and <a class="el" href="IR_2Builders_8cpp_source.html#l00103">mlir::Builder::getI32IntegerAttr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TargetAndABI_8cpp_source.html#l00059">lookupTargetEnvOrDefault()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TargetAndABI_8cpp_source.html#l00060">lookupTargetEnvOrDefault()</a>.</p>
 
 </div>
 </div>
@@ -399,6 +405,66 @@ Variables</h2></td></tr>
 <p>These capabilities are implicitly declared by the given capability. </p>
 
 <p class="reference">Referenced by <a class="el" href="SPIRVTypes_8cpp_source.html#l00083">getRecursiveImpliedCapabilities()</a>.</p>
+
+</div>
+</div>
+<a id="a3428d39d51545d075e0ecba842d7bf07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3428d39d51545d075e0ecba842d7bf07">&#9670;&nbsp;</a></span>getElementPtr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">spirv::AccessChainOp mlir::spirv::getElementPtr </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1SPIRVTypeConverter.html">SPIRVTypeConverter</a> &amp;&#160;</td>
+          <td class="paramname"><em>typeConverter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1MemRefType.html">MemRefType</a>&#160;</td>
+          <td class="paramname"><em>baseType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td>
+          <td class="paramname"><em>basePtr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classllvm_1_1ArrayRef.html">ArrayRef</a>&lt; <a class="el" href="classmlir_1_1Value.html">Value</a> &gt;&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Location.html">Location</a>&#160;</td>
+          <td class="paramname"><em>loc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1OpBuilder.html">OpBuilder</a> &amp;&#160;</td>
+          <td class="paramname"><em>builder</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Performs the index computation to get to the element at <code>indices</code> of the memory pointed to by <code>basePtr</code>, using the layout map of <code>baseType</code>. </p>
+
+<p class="definition">Definition at line <a class="el" href="SPIRVLowering_8cpp_source.html#l00297">297</a> of file <a class="el" href="SPIRVLowering_8cpp_source.html">SPIRVLowering.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="StandardTypes_8h_source.html#l00472">mlir::MemRefType::getDynamicStrideOrOffset()</a>, <a class="el" href="TargetAndABI_8cpp_source.html#l00036">getEntryPointABIAttrName()</a>, <a class="el" href="SPIRVLowering_8cpp_source.html#l00030">mlir::SPIRVTypeConverter::getIndexType()</a>, <a class="el" href="TargetAndABI_8cpp_source.html#l00021">getInterfaceVarABIAttrName()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00592">mlir::getStridesAndOffset()</a>, <a class="el" href="namespacemlir_1_1spirv.html#a5338da7476d907ed53fc8a98b587b476">setABIAttrs()</a>, <a class="el" href="OpDefinition_8h_source.html#l00161">mlir::OpState::setAttr()</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="LinalgToSPIRV_8cpp_source.html#l00028">getLocalInvocationDimSize()</a>.</p>
 
 </div>
 </div>
@@ -430,7 +496,7 @@ Variables</h2></td></tr>
 
 <p>Gets the EntryPointABIAttr given its fields. </p>
 
-<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00038">38</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00039">39</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="MLIRContext_8cpp_source.html#l00511">mlir::IntegerType::get()</a>, and <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>.</p>
 
@@ -455,9 +521,9 @@ Variables</h2></td></tr>
 
 <p>Returns the attribute name for specifying entry point information. </p>
 
-<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00035">35</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00036">36</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00248">getOrInsertBuiltinVariable()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, and <a class="el" href="SPIRVDialect_8cpp_source.html#l00648">mlir::spirv::SPIRVDialect::verifyOperationAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00297">getElementPtr()</a>, <a class="el" href="TargetAndABI_8cpp_source.html#l00067">lookupLocalWorkGroupSize()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, and <a class="el" href="SPIRVDialect_8cpp_source.html#l00648">mlir::spirv::SPIRVDialect::verifyOperationAttribute()</a>.</p>
 
 </div>
 </div>
@@ -484,7 +550,7 @@ Variables</h2></td></tr>
 
 <p class="reference">References <a class="el" href="SPIRVTypes_8cpp.html#a577f80f2a4c49dd36cd9b2edc79206f4">V_1_3_IMPLIED_EXTS</a>, <a class="el" href="SPIRVTypes_8cpp.html#a74688a1386632915436073377c4c3e9f">V_1_4_IMPLIED_EXTS</a>, and <a class="el" href="SPIRVTypes_8cpp.html#ab2ebf441ea5ac69ec90af8f609777eec">V_1_5_IMPLIED_EXTS</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00314">mlir::spirv::SPIRVConversionTarget::get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00349">mlir::spirv::SPIRVConversionTarget::get()</a>.</p>
 
 </div>
 </div>
@@ -528,7 +594,7 @@ Variables</h2></td></tr>
 
 <p>Gets the InterfaceVarABIAttr given its fields. </p>
 
-<p class="reference">Referenced by <a class="el" href="TargetAndABI_8cpp_source.html#l00020">getInterfaceVarABIAttrName()</a>, and <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TargetAndABI_8cpp_source.html#l00021">getInterfaceVarABIAttrName()</a>, and <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>.</p>
 
 </div>
 </div>
@@ -557,11 +623,11 @@ Variables</h2></td></tr>
 
 <p>Returns the attribute name for specifying argument ABI information. </p>
 
-<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00020">20</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00021">21</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="MLIRContext_8cpp_source.html#l00511">mlir::IntegerType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, and <a class="el" href="namespacemlir_1_1spirv.html#ac85cfdcf323295d12267f672d978e251">getInterfaceVarABIAttr()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00248">getOrInsertBuiltinVariable()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, and <a class="el" href="SPIRVDialect_8cpp_source.html#l00680">verifyRegionAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00297">getElementPtr()</a>, <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>, and <a class="el" href="SPIRVDialect_8cpp_source.html#l00680">verifyRegionAttribute()</a>.</p>
 
 </div>
 </div>
@@ -622,7 +688,7 @@ Variables</h2></td></tr>
 
 <p class="reference">References <a class="el" href="namespacemlir_1_1spirv.html#a6686e4cb7cffae099e00c124e04d5420">getDirectImpliedCapabilities()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00314">mlir::spirv::SPIRVConversionTarget::get()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00349">mlir::spirv::SPIRVConversionTarget::get()</a>.</p>
 
 </div>
 </div>
@@ -643,9 +709,36 @@ Variables</h2></td></tr>
 
 <p>Returns the attribute name for specifying SPIR-V target environment. </p>
 
-<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00047">47</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00048">48</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="TargetAndABI_8cpp_source.html#l00059">lookupTargetEnvOrDefault()</a>, and <a class="el" href="SPIRVDialect_8cpp_source.html#l00648">mlir::spirv::SPIRVDialect::verifyOperationAttribute()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="TargetAndABI_8cpp_source.html#l00060">lookupTargetEnvOrDefault()</a>, and <a class="el" href="SPIRVDialect_8cpp_source.html#l00648">mlir::spirv::SPIRVDialect::verifyOperationAttribute()</a>.</p>
+
+</div>
+</div>
+<a id="afe035dc50594dd3b9d3c270a1f1959fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe035dc50594dd3b9d3c270a1f1959fa">&#9670;&nbsp;</a></span>lookupLocalWorkGroupSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmlir_1_1DenseIntElementsAttr.html">DenseIntElementsAttr</a> mlir::spirv::lookupLocalWorkGroupSize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td>
+          <td class="paramname"><em>op</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Queries the local workgroup size from entry point ABI on the nearest function-like op containing the given <code>op</code>. </p>
+<p>Returns null attribute if not found. </p>
+
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00067">67</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="Operation_8h_source.html#l00291">mlir::Operation::getAttrOfType()</a>, <a class="el" href="TargetAndABI_8cpp_source.html#l00036">getEntryPointABIAttrName()</a>, <a class="el" href="Operation_8cpp_source.html#l00265">mlir::Operation::getParentOp()</a>, and <a class="el" href="Operation_8h_source.html#l00507">mlir::Operation::hasTrait()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="LinalgToSPIRV_8cpp_source.html#l00028">getLocalInvocationDimSize()</a>.</p>
 
 </div>
 </div>
@@ -667,9 +760,9 @@ Variables</h2></td></tr>
 
 <p>Queries the target environment from the given <code>op</code> or returns the default target environment (SPIR-V 1.0 with Shader capability and no extra extensions) if not provided. </p>
 
-<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00059">59</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="TargetAndABI_8cpp_source.html#l00060">60</a> of file <a class="el" href="TargetAndABI_8cpp_source.html">TargetAndABI.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Operation_8h_source.html#l00291">mlir::Operation::getAttrOfType()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="TargetAndABI_8cpp_source.html#l00049">getDefaultTargetEnv()</a>, and <a class="el" href="TargetAndABI_8cpp_source.html#l00047">getTargetEnvAttrName()</a>.</p>
+<p class="reference">References <a class="el" href="Operation_8h_source.html#l00291">mlir::Operation::getAttrOfType()</a>, <a class="el" href="Operation_8cpp_source.html#l00248">mlir::Operation::getContext()</a>, <a class="el" href="TargetAndABI_8cpp_source.html#l00050">getDefaultTargetEnv()</a>, and <a class="el" href="TargetAndABI_8cpp_source.html#l00048">getTargetEnvAttrName()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="LowerABIAttributesPass_8cpp_source.html#l00100">lowerEntryPointABIAttr()</a>.</p>
 
@@ -742,7 +835,7 @@ Variables</h2></td></tr>
 
 <p>Sets the InterfaceVarABIAttr and EntryPointABIAttr for a function and its arguments. </p>
 
-<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00248">getOrInsertBuiltinVariable()</a>, and <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="SPIRVLowering_8cpp_source.html#l00297">getElementPtr()</a>, and <a class="el" href="ConvertGPUToSPIRV_8cpp_source.html#l00277">lowerAsEntryFunction()</a>.</p>
 
 </div>
 </div>
@@ -810,7 +903,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 12:23:48 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 16:22:31 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
