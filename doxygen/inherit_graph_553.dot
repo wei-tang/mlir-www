@@ -4,5 +4,11 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::TypeConverter\l::SignatureConversion\l::InputMapping",height=0.2,width=0.4,color="black",URL="$structmlir_1_1TypeConverter_1_1SignatureConversion_1_1InputMapping.html",tooltip="This struct represents a range of new types or a single value that remaps an existing signature input..."];
+  Node0 [label="mlir::TypeConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1TypeConverter.html",tooltip="Base class for type conversion interface. "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="mlir::LLVMTypeConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LLVMTypeConverter.html",tooltip="Conversion from types in the Standard dialect to the LLVM IR dialect. "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mlir::LinalgTypeConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1LinalgTypeConverter.html"];
+  Node0 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mlir::SPIRVTypeConverter",height=0.2,width=0.4,color="black",URL="$classmlir_1_1SPIRVTypeConverter.html",tooltip="Type conversion from standard types to SPIR-V types for shader interface. "];
 }

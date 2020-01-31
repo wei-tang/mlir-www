@@ -4,9 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::OpTrait::TraitBase\l\< ConcreteType, Impl \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1TraitBase.html"];
+  Node0 [label="mlir::OpTrait::TraitBase\l\< ConcreteType, FunctionLike \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1TraitBase.html"];
   Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="mlir::OpTrait::HasParent\l\< ParentOpType \>::Impl\l\< ConcreteType \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1HasParent_1_1Impl.html"];
-  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="mlir::OpTrait::SingleBlock\lImplicitTerminator\< Terminator\lOpType \>::Impl\< ConcreteType \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1SingleBlockImplicitTerminator_1_1Impl.html"];
+  Node1 [label="mlir::OpTrait::FunctionLike\l\< ConcreteType \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1OpTrait_1_1FunctionLike.html",tooltip="This trait provides APIs for Ops that behave like functions. "];
 }

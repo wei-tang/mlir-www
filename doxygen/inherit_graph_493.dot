@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::quantizer::Discrete\lReducer\< T \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1quantizer_1_1DiscreteReducer.html",tooltip="A fact and reducer for tracking agreement of discrete values. "];
+  Node0 [label="mlir::quantizer::CAGUniform\lMetadata",height=0.2,width=0.4,color="black",URL="$structmlir_1_1quantizer_1_1CAGUniformMetadata.html"];
 }

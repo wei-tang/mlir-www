@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="llvm::DenseMap\< const\l mlir::ClassID *, mlir\l::Dialect *\>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1DenseMap.html"];
+  Node0 [label="llvm::DenseMap\< const\l AnalysisID *, std::unique\l_ptr\< AnalysisConcept \> \>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1DenseMap.html"];
 }

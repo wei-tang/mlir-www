@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="llvm::GraphTraits\<\l Block * \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1GraphTraits_3_01Block_01_5_01_4.html"];
+  Node0 [label="llvm::function_ref\l\< Fn \>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1function__ref.html"];
 }

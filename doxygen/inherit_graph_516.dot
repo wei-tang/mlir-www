@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::SymbolTable",height=0.2,width=0.4,color="black",URL="$classmlir_1_1SymbolTable.html",tooltip="This class allows for representing and managing the symbol table used by operations with the &#39;SymbolT..."];
+  Node0 [label="mlir::StorageUniquer\l::StorageAllocator",height=0.2,width=0.4,color="black",URL="$classmlir_1_1StorageUniquer_1_1StorageAllocator.html",tooltip="This is a utility allocator used to allocate memory for instances of derived types. "];
 }

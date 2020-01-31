@@ -4,5 +4,19 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::edsc::CustomOperation\l\< HandleType \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1edsc_1_1CustomOperation.html",tooltip="Simple wrapper to build a generic operation without successor blocks. "];
+  Node0 [label="mlir::edsc::CapturableHandle",height=0.2,width=0.4,color="black",URL="$classmlir_1_1edsc_1_1CapturableHandle.html",tooltip="Base class for ValueHandle, OperationHandle and BlockHandle. "];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="mlir::edsc::BlockHandle",height=0.2,width=0.4,color="black",URL="$classmlir_1_1edsc_1_1BlockHandle.html",tooltip="A BlockHandle represents a (potentially \"delayed\") Block abstraction. "];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="mlir::edsc::OperationHandle",height=0.2,width=0.4,color="black",URL="$structmlir_1_1edsc_1_1OperationHandle.html",tooltip="An OperationHandle can be used in lieu of ValueHandle to capture the operation in cases when one does..."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="mlir::edsc::intrinsics\l::OperationBuilder\< Op \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1edsc_1_1intrinsics_1_1OperationBuilder.html"];
+  Node0 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="mlir::edsc::ValueHandle",height=0.2,width=0.4,color="black",URL="$classmlir_1_1edsc_1_1ValueHandle.html",tooltip="ValueHandle implements a (potentially \"delayed\") typed Value abstraction. "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="mlir::edsc::IndexHandle",height=0.2,width=0.4,color="black",URL="$structmlir_1_1edsc_1_1IndexHandle.html",tooltip="An IndexHandle is a simple wrapper around a ValueHandle. "];
+  Node4 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="mlir::edsc::intrinsics\l::ValueBuilder\< Op \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1edsc_1_1intrinsics_1_1ValueBuilder.html",tooltip="Helper variadic abstraction to allow extending to any MLIR op without boilerplate or Tablegen..."];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="mlir::edsc::StructuredIndexed",height=0.2,width=0.4,color="black",URL="$structmlir_1_1edsc_1_1StructuredIndexed.html",tooltip="A StructuredIndexed represents an indexable quantity that is either: "];
 }

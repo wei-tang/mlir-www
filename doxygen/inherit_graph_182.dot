@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="llvm::PointerUnion\l\< const mlir::Value\l *, mlir::OpOperand *,\l void *\>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1PointerUnion.html"];
+  Node0 [label="llvm::PointerUnion\l\< Attribute, Value \>",height=0.2,width=0.4,color="black",URL="$classllvm_1_1PointerUnion.html"];
 }

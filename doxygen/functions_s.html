@@ -72,11 +72,11 @@ $(function() {
 <li>scales
 : <a class="el" href="structmlir_1_1quant_1_1detail_1_1UniformQuantizedPerAxisTypeStorage_1_1KeyTy.html#a80114032d9970866548faa012e197e69">mlir::quant::detail::UniformQuantizedPerAxisTypeStorage::KeyTy</a>
 </li>
-<li>scheme
-: <a class="el" href="structmlir_1_1quantizer_1_1CandidateQuantizedType.html#aa96321f8dbedff1ff86d62a0bde8bd79">mlir::quantizer::CandidateQuantizedType</a>
-</li>
 <li>Scheme
 : <a class="el" href="structmlir_1_1quantizer_1_1CandidateQuantizedType.html#aa5f48bf2a44f688c570329fbfc59157e">mlir::quantizer::CandidateQuantizedType</a>
+</li>
+<li>scheme
+: <a class="el" href="structmlir_1_1quantizer_1_1CandidateQuantizedType.html#aa96321f8dbedff1ff86d62a0bde8bd79">mlir::quantizer::CandidateQuantizedType</a>
 </li>
 <li>ScopedContext()
 : <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html#a4e4af643fd49eb026806f9adbb6070b5">mlir::edsc::ScopedContext</a>
@@ -106,6 +106,9 @@ $(function() {
 : <a class="el" href="classmlir_1_1IROperand.html#a0f08076b660d80f5d957409efac831b7">mlir::IROperand&lt; DerivedT, IRValueTy &gt;</a>
 , <a class="el" href="classmlir_1_1NamedAttributeList.html#ae108ba8a5bcbb02a368eedd2e78ddbb4">mlir::NamedAttributeList</a>
 , <a class="el" href="classmlir_1_1OpOperand.html#a13e7e584fd7e6c3c85d542605ac6de0f">mlir::OpOperand</a>
+</li>
+<li>setAffineMaps()
+: <a class="el" href="classmlir_1_1MemRefType_1_1Builder.html#a01566b5f0933954ab8572b7918b13bda">mlir::MemRefType::Builder</a>
 </li>
 <li>setAlignedPtr()
 : <a class="el" href="classmlir_1_1MemRefDescriptor.html#ad534494d27f30bb780a78ba87a08792e">mlir::MemRefDescriptor</a>
@@ -171,6 +174,9 @@ $(function() {
 <li>setDynamicStorage()
 : <a class="el" href="structmlir_1_1detail_1_1ResizableStorage.html#a1becd69069da07cb6ee98e1135843bf0">mlir::detail::ResizableStorage</a>
 </li>
+<li>setElementType()
+: <a class="el" href="classmlir_1_1MemRefType_1_1Builder.html#a78387d78051a75d7c291f088ffd68f7e">mlir::MemRefType::Builder</a>
+</li>
 <li>setHandler()
 : <a class="el" href="classmlir_1_1ScopedDiagnosticHandler.html#ade3d3cb20d2b3510b55e759f5bc2ea39">mlir::ScopedDiagnosticHandler</a>
 </li>
@@ -190,7 +196,7 @@ $(function() {
 : <a class="el" href="structspirv_1_1detail_1_1ImageTypeStorage.html#afc8701b2d2c19b58d5ec6d8ac6e9d057">spirv::detail::ImageTypeStorage</a>
 </li>
 <li>setInsertionPoint()
-: <a class="el" href="classmlir_1_1OpBuilder.html#a4c80a9fbc00dc28ab4a411eee5c9b1ef">mlir::OpBuilder</a>
+: <a class="el" href="classmlir_1_1OpBuilder.html#a4853433035d219e56febdb51d1b531cd">mlir::OpBuilder</a>
 </li>
 <li>setInsertionPointAfter()
 : <a class="el" href="classmlir_1_1OpBuilder.html#acd2bfec2b8f9c2a505a98da5252196b0">mlir::OpBuilder</a>
@@ -204,6 +210,9 @@ $(function() {
 <li>setLoc()
 : <a class="el" href="classmlir_1_1Operation.html#a0454b086cc0e2e4ea95a09c458fd47af">mlir::Operation</a>
 , <a class="el" href="classmlir_1_1OpState.html#ac3c894aaabd1b9c8fab2090735964b9f">mlir::OpState</a>
+</li>
+<li>setMemorySpace()
+: <a class="el" href="classmlir_1_1MemRefType_1_1Builder.html#a9972fbf95538355c1b6321d870d45d85">mlir::MemRefType::Builder</a>
 </li>
 <li>setMemRef()
 : <a class="el" href="classmlir_1_1AffineLoadOp.html#aa61e35153d24ed6a8d1352455128be2a">mlir::AffineLoadOp</a>
@@ -264,6 +273,9 @@ $(function() {
 </li>
 <li>setSamplingInfo()
 : <a class="el" href="structspirv_1_1detail_1_1ImageTypeStorage.html#a77b8c2054bce4734c2249f3a7d7b71e1">spirv::detail::ImageTypeStorage</a>
+</li>
+<li>setShape()
+: <a class="el" href="classmlir_1_1MemRefType_1_1Builder.html#acc7167c282461fe192fcf7cdaa497309">mlir::MemRefType::Builder</a>
 </li>
 <li>setSize()
 : <a class="el" href="classmlir_1_1MemRefDescriptor.html#a1a7c70f36a56f85ea9ac855396058f11">mlir::MemRefDescriptor</a>
@@ -414,7 +426,7 @@ $(function() {
 : <a class="el" href="classmlir_1_1SourceMgrDiagnosticHandler.html#a8cee67ab6d29dddc0ed32f512ecafb7c">mlir::SourceMgrDiagnosticHandler</a>
 </li>
 <li>SourceMgrDiagnosticVerifierHandler()
-: <a class="el" href="classmlir_1_1SourceMgrDiagnosticVerifierHandler.html#aee35f48a3c5b9fce3aba5c14c6cc04f2">mlir::SourceMgrDiagnosticVerifierHandler</a>
+: <a class="el" href="classmlir_1_1SourceMgrDiagnosticVerifierHandler.html#afbde598d15484da55ebf1502c2c6cd6f">mlir::SourceMgrDiagnosticVerifierHandler</a>
 </li>
 <li>SourceMgrDiagnosticVerifierHandlerImpl()
 : <a class="el" href="structmlir_1_1detail_1_1SourceMgrDiagnosticVerifierHandlerImpl.html#a4c8bc87c8a0ae693e830f90d130bc975">mlir::detail::SourceMgrDiagnosticVerifierHandlerImpl</a>
@@ -516,13 +528,13 @@ $(function() {
 : <a class="el" href="classmlir_1_1Identifier.html#a25b8a09a4ec9176cfc5088be8f2b1f32">mlir::Identifier</a>
 </li>
 <li>StructAttr()
-: <a class="el" href="classmlir_1_1tblgen_1_1StructAttr.html#acd3401054c1490c7fb9dde8dbbf29ba8">mlir::tblgen::StructAttr</a>
+: <a class="el" href="classmlir_1_1tblgen_1_1StructAttr.html#a9db2c1c7caf742bd874302f49eb575cc">mlir::tblgen::StructAttr</a>
 </li>
 <li>StructBuilder()
 : <a class="el" href="classmlir_1_1StructBuilder.html#ac3d8e223d5e7e3a6a854d390ac1a4377">mlir::StructBuilder</a>
 </li>
 <li>StructFieldAttr()
-: <a class="el" href="classmlir_1_1tblgen_1_1StructFieldAttr.html#aefdf94153b63e36d82dddb9f8b4f462e">mlir::tblgen::StructFieldAttr</a>
+: <a class="el" href="classmlir_1_1tblgen_1_1StructFieldAttr.html#ab949d027f2a6cbc1f7cbc5d3d64a81b5">mlir::tblgen::StructFieldAttr</a>
 </li>
 <li>structType
 : <a class="el" href="classmlir_1_1StructBuilder.html#a11912edf32457fa8ca155af1d3168939">mlir::StructBuilder</a>
@@ -601,7 +613,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 04:22:53 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 08:23:13 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

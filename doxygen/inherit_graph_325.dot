@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::DiagnosticArgument",height=0.2,width=0.4,color="black",URL="$classmlir_1_1DiagnosticArgument.html",tooltip="A variant type that holds a single argument for a diagnostic. "];
+  Node0 [label="mlir::Diagnostic",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Diagnostic.html",tooltip="This class contains all of the information necessary to report a diagnostic to the DiagnosticEngine..."];
 }

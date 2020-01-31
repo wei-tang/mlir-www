@@ -4,5 +4,11 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="llvm::GraphTraits\<\l Inverse\< mlir::Block * \> \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1GraphTraits_3_01Inverse_3_01mlir_1_1Block_01_5_01_4_01_4.html"];
+  Node568 [label="GraphTraits",height=0.2,width=0.4,color="grey75"];
+  Node568 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="llvm::GraphTraits\<\l const mlir::quantizer\l::CAGSlice * \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1GraphTraits_3_01const_01mlir_1_1quantizer_1_1CAGSlice_01_5_01_4.html"];
+  Node568 -> Node570 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node570 [label="llvm::GraphTraits\<\l Inverse\< mlir::Region * \> \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1GraphTraits_3_01Inverse_3_01mlir_1_1Region_01_5_01_4_01_4.html"];
+  Node568 -> Node571 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node571 [label="llvm::GraphTraits\<\l mlir::Region * \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1GraphTraits_3_01mlir_1_1Region_01_5_01_4.html"];
 }

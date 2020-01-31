@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::detail::StorageUniquer\lImpl::HashedStorage",height=0.2,width=0.4,color="black",URL="$structmlir_1_1detail_1_1StorageUniquerImpl_1_1HashedStorage.html",tooltip="A utility wrapper object representing a hashed storage object. "];
+  Node0 [label="mlir::detail::StorageUniquerImpl",height=0.2,width=0.4,color="black",URL="$structmlir_1_1detail_1_1StorageUniquerImpl.html",tooltip="This is the implementation of the StorageUniquer class. "];
 }
