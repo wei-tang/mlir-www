@@ -13,7 +13,7 @@ digraph "lib/Transforms/DialectConversion.cpp"
   Node3 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="mlir/IR/OpDefinition.h",height=0.2,width=0.4,color="black",URL="$OpDefinition_8h.html"];
   Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="mlir/IR/Operation.h",height=0.2,width=0.4,color="black",URL="$Operation_8h.html"];
+  Node5 [label="mlir/IR/Operation.h",height=0.2,width=0.4,color="red",URL="$Operation_8h.html"];
   Node5 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node6 [label="mlir/IR/Block.h",height=0.2,width=0.4,color="black",URL="$Block_8h.html"];
   Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -59,8 +59,6 @@ digraph "lib/Transforms/DialectConversion.cpp"
   Node5 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node46 [label="mlir/IR/Region.h",height=0.2,width=0.4,color="black",URL="$IR_2Region_8h.html"];
   Node46 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node47 [label="llvm/ADT/Twine.h",height=0.2,width=0.4,color="grey75"];
   Node4 -> Node48 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node48 [label="type_traits",height=0.2,width=0.4,color="grey75"];
   Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -107,10 +105,7 @@ digraph "lib/Transforms/DialectConversion.cpp"
   Node61 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node60 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node62 [label="mlir/IR/OpImplementation.h",height=0.2,width=0.4,color="red",URL="$OpImplementation_8h.html"];
-  Node62 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node63 [label="mlir/IR/DialectInterface.h",height=0.2,width=0.4,color="red",URL="$DialectInterface_8h.html"];
   Node62 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node62 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node60 -> Node67 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node67 [label="mlir/IR/StandardTypes.h",height=0.2,width=0.4,color="black",URL="$StandardTypes_8h.html"];
   Node67 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -132,4 +127,8 @@ digraph "lib/Transforms/DialectConversion.cpp"
   Node72 [label="llvm/ADT/SmallPtrSet.h",height=0.2,width=0.4,color="grey75"];
   Node0 -> Node73 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node73 [label="llvm/Support/Debug.h",height=0.2,width=0.4,color="grey75"];
+  Node0 -> Node74 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node74 [label="llvm/Support/FormatVariadic.h",height=0.2,width=0.4,color="grey75"];
+  Node0 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="llvm/Support/ScopedPrinter.h",height=0.2,width=0.4,color="grey75"];
 }
