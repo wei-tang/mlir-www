@@ -71,6 +71,7 @@ $(function() {
 <code>#include &quot;llvm/IRReader/IRReader.h&quot;</code><br />
 <code>#include &quot;llvm/Support/Error.h&quot;</code><br />
 <code>#include &quot;llvm/Support/SourceMgr.h&quot;</code><br />
+<code>#include &quot;mlir/Dialect/LLVMIR/LLVMConversionEnumsFromLLVM.inc&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ConvertFromLLVMIR.cpp:</div>
 <div class="dyncontent">
@@ -90,9 +91,6 @@ Macros</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:a6d80ed55125bb93b1e2eb58f0827ce39"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ConvertFromLLVMIR_8cpp.html#a6d80ed55125bb93b1e2eb58f0827ce39">diag</a> (llvm::Value &amp;v)</td></tr>
 <tr class="separator:a6d80ed55125bb93b1e2eb58f0827ce39"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca21b7d5c50efb2c92d7cba3ce3bb6fc"><td class="memItemLeft" align="right" valign="top">static LLVM::Linkage&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ConvertFromLLVMIR_8cpp.html#aca21b7d5c50efb2c92d7cba3ce3bb6fc">processLinkage</a> (llvm::GlobalVariable::LinkageTypes linkage)</td></tr>
-<tr class="memdesc:aca21b7d5c50efb2c92d7cba3ce3bb6fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts LLVM global variable linkage type into the LLVM dialect predicate.  <a href="#aca21b7d5c50efb2c92d7cba3ce3bb6fc">More...</a><br /></td></tr>
-<tr class="separator:aca21b7d5c50efb2c92d7cba3ce3bb6fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50097c948417dd02fe51bbb822d99543"><td class="memItemLeft" align="right" valign="top">static ICmpPredicate&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ConvertFromLLVMIR_8cpp.html#a50097c948417dd02fe51bbb822d99543">getICmpPredicate</a> (llvm::CmpInst::Predicate p)</td></tr>
 <tr class="separator:a50097c948417dd02fe51bbb822d99543"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf9ef83325485b83cee6ae589de1a25f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1OwningModuleRef.html">OwningModuleRef</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ConvertFromLLVMIR_8cpp.html#aaf9ef83325485b83cee6ae589de1a25f">translateLLVMIRToModule</a> (llvm::SourceMgr &amp;sourceMgr, <a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *context)</td></tr>
@@ -132,7 +130,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00489">489</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00460">460</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
 
 </div>
 </div>
@@ -161,11 +159,11 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00036">36</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00038">38</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Block_8h_source.html#l00113">mlir::Block::begin()</a>, <a class="el" href="Intrinsics_8cpp_source.html#l00016">mlir::edsc::intrinsics::br()</a>, <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="Block_8h_source.html#l00114">mlir::Block::end()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00511">mlir::IntegerType::get()</a>, <a class="el" href="Location_8cpp_source.html#l00041">mlir::FileLineColLoc::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00248">mlir::RankedTensorType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00599">mlir::DenseElementsAttr::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01746">mlir::LLVM::LLVMType::getArrayElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01749">mlir::LLVM::LLVMType::getArrayNumElements()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01838">mlir::LLVM::LLVMType::getArrayTy()</a>, <a class="el" href="Module_8cpp_source.html#l00102">mlir::ModuleOp::getBody()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01796">mlir::LLVM::LLVMType::getDoubleTy()</a>, <a class="el" href="StandardTypes_8h_source.html#l00126">mlir::FloatType::getF32()</a>, <a class="el" href="StandardTypes_8h_source.html#l00129">mlir::FloatType::getF64()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01799">mlir::LLVM::LLVMType::getFloatTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01805">mlir::LLVM::LLVMType::getFP128Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01844">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01813">mlir::LLVM::LLVMType::getIntNTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01775">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01856">mlir::LLVM::LLVMType::getStructTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01741">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01755">mlir::LLVM::LLVMType::getVectorElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01897">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01903">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01808">mlir::LLVM::LLVMType::getX86_FP80Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01752">mlir::LLVM::LLVMType::isArrayTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00061">mlir::LLVM::LLVMType::isDoubleTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00060">mlir::LLVM::LLVMType::isFloatTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00062">mlir::LLVM::LLVMType::isIntegerTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01758">mlir::LLVM::LLVMType::isVectorTy()</a>, <a class="el" href="RegionUtils_8cpp_source.html#l00182">processValue()</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
+<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Block_8h_source.html#l00113">mlir::Block::begin()</a>, <a class="el" href="Intrinsics_8cpp_source.html#l00016">mlir::edsc::intrinsics::br()</a>, <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="Block_8h_source.html#l00114">mlir::Block::end()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00511">mlir::IntegerType::get()</a>, <a class="el" href="Location_8cpp_source.html#l00041">mlir::FileLineColLoc::get()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00199">mlir::VectorType::get()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00248">mlir::RankedTensorType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00599">mlir::DenseElementsAttr::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01746">mlir::LLVM::LLVMType::getArrayElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01749">mlir::LLVM::LLVMType::getArrayNumElements()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01838">mlir::LLVM::LLVMType::getArrayTy()</a>, <a class="el" href="Module_8cpp_source.html#l00102">mlir::ModuleOp::getBody()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01796">mlir::LLVM::LLVMType::getDoubleTy()</a>, <a class="el" href="StandardTypes_8h_source.html#l00126">mlir::FloatType::getF32()</a>, <a class="el" href="StandardTypes_8h_source.html#l00129">mlir::FloatType::getF64()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01799">mlir::LLVM::LLVMType::getFloatTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01805">mlir::LLVM::LLVMType::getFP128Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01844">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01813">mlir::LLVM::LLVMType::getIntNTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01775">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01856">mlir::LLVM::LLVMType::getStructTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01741">mlir::LLVM::LLVMType::getUnderlyingType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01755">mlir::LLVM::LLVMType::getVectorElementType()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01897">mlir::LLVM::LLVMType::getVectorTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01903">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01808">mlir::LLVM::LLVMType::getX86_FP80Ty()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01752">mlir::LLVM::LLVMType::isArrayTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00061">mlir::LLVM::LLVMType::isDoubleTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00060">mlir::LLVM::LLVMType::isFloatTy()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00062">mlir::LLVM::LLVMType::isIntegerTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01758">mlir::LLVM::LLVMType::isVectorTy()</a>, <a class="el" href="RegionUtils_8cpp_source.html#l00182">processValue()</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="LoopTiling_8cpp_source.html#l00274">adjustToDivisorsOfTripCounts()</a>, <a class="el" href="Diagnostics_8h_source.html#l00445">mlir::DiagnosticEngine::emit()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00280">emitDiag()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00411">mlir::SourceMgrDiagnosticHandler::emitDiagnostic()</a>, <a class="el" href="Operation_8cpp_source.html#l00300">mlir::Operation::emitError()</a>, <a class="el" href="Operation_8cpp_source.html#l00329">mlir::Operation::emitRemark()</a>, <a class="el" href="Operation_8cpp_source.html#l00320">mlir::Operation::emitWarning()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00537">getICmpPredicate()</a>, <a class="el" href="Parser_8cpp_source.html#l00839">parseSymbol()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00368">processLinkage()</a>, <a class="el" href="Diagnostics_8h_source.html#l00434">mlir::DiagnosticEngine::registerHandler()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00397">mlir::SourceMgrDiagnosticHandler::SourceMgrDiagnosticHandler()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00673">mlir::SourceMgrDiagnosticVerifierHandler::SourceMgrDiagnosticVerifierHandler()</a>, and <a class="el" href="Diagnostics_8cpp_source.html#l00705">mlir::SourceMgrDiagnosticVerifierHandler::verify()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="LoopTiling_8cpp_source.html#l00274">adjustToDivisorsOfTripCounts()</a>, <a class="el" href="Diagnostics_8h_source.html#l00445">mlir::DiagnosticEngine::emit()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00280">emitDiag()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00411">mlir::SourceMgrDiagnosticHandler::emitDiagnostic()</a>, <a class="el" href="Operation_8cpp_source.html#l00300">mlir::Operation::emitError()</a>, <a class="el" href="Operation_8cpp_source.html#l00329">mlir::Operation::emitRemark()</a>, <a class="el" href="Operation_8cpp_source.html#l00320">mlir::Operation::emitWarning()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00508">getICmpPredicate()</a>, <a class="el" href="Parser_8cpp_source.html#l00839">parseSymbol()</a>, <a class="el" href="Diagnostics_8h_source.html#l00434">mlir::DiagnosticEngine::registerHandler()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00397">mlir::SourceMgrDiagnosticHandler::SourceMgrDiagnosticHandler()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00673">mlir::SourceMgrDiagnosticVerifierHandler::SourceMgrDiagnosticVerifierHandler()</a>, and <a class="el" href="Diagnostics_8cpp_source.html#l00705">mlir::SourceMgrDiagnosticVerifierHandler::verify()</a>.</p>
 
 </div>
 </div>
@@ -193,41 +191,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00537">537</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00508">508</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Parser_8cpp_source.html#l02404">Add</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Intrinsics_8cpp_source.html#l00016">mlir::edsc::intrinsics::br()</a>, <a class="el" href="Operation_8cpp_source.html#l00071">mlir::Operation::create()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00036">diag()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01761">mlir::LLVM::LLVMType::getFunctionParamType()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="Parser_8cpp_source.html#l02413">Mul</a>, <a class="el" href="RegionUtils_8cpp_source.html#l00182">processValue()</a>, <a class="el" href="Value_8cpp_source.html#l00114">mlir::Value::replaceAllUsesWith()</a>, <a class="el" href="Parser_8cpp_source.html#l02405">Sub</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
-
-</div>
-</div>
-<a id="aca21b7d5c50efb2c92d7cba3ce3bb6fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca21b7d5c50efb2c92d7cba3ce3bb6fc">&#9670;&nbsp;</a></span>processLinkage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static LLVM::Linkage processLinkage </td>
-          <td>(</td>
-          <td class="paramtype">llvm::GlobalVariable::LinkageTypes&#160;</td>
-          <td class="paramname"><em>linkage</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Converts LLVM global variable linkage type into the LLVM dialect predicate. </p>
-
-<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00368">368</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00036">diag()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, and <a class="el" href="RegionUtils_8cpp_source.html#l00182">processValue()</a>.</p>
+<p class="reference">References <a class="el" href="Parser_8cpp_source.html#l02404">Add</a>, <a class="el" href="OperationSupport_8cpp_source.html#l00044">mlir::OperationState::addOperands()</a>, <a class="el" href="OperationSupport_8h_source.html#l00289">mlir::OperationState::addTypes()</a>, <a class="el" href="Intrinsics_8cpp_source.html#l00016">mlir::edsc::intrinsics::br()</a>, <a class="el" href="Operation_8cpp_source.html#l00071">mlir::Operation::create()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00038">diag()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01761">mlir::LLVM::LLVMType::getFunctionParamType()</a>, <a class="el" href="Operation_8h_source.html#l00248">mlir::Operation::getResult()</a>, <a class="el" href="Parser_8cpp_source.html#l02413">Mul</a>, <a class="el" href="RegionUtils_8cpp_source.html#l00182">processValue()</a>, <a class="el" href="Value_8cpp_source.html#l00114">mlir::Value::replaceAllUsesWith()</a>, <a class="el" href="Parser_8cpp_source.html#l02405">Sub</a>, and <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>.</p>
 
 </div>
 </div>
@@ -257,9 +223,9 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00854">854</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00825">825</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp.html#abd50d57161768d34e9ca7bd668688075">fromLLVM</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01659">mlir::LLVM::LLVMDialect::getLLVMContext()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, and <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00834">mlir::translateLLVMIRToModule()</a>.</p>
+<p class="reference">References <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="ConvertFromLLVMIR_8cpp.html#abd50d57161768d34e9ca7bd668688075">fromLLVM</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01659">mlir::LLVM::LLVMDialect::getLLVMContext()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00315">mlir::MLIRContext::getRegisteredDialect()</a>, and <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00805">mlir::translateLLVMIRToModule()</a>.</p>
 
 </div>
 </div>
@@ -284,7 +250,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="reference">Referenced by <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00854">translateLLVMIRToModule()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00825">translateLLVMIRToModule()</a>.</p>
 
 </div>
 </div>
@@ -308,14 +274,14 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00491">491</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertFromLLVMIR_8cpp_source.html#l00462">462</a> of file <a class="el" href="ConvertFromLLVMIR_8cpp_source.html">ConvertFromLLVMIR.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 30 2020 20:22:55 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 00:22:46 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

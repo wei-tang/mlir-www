@@ -68,6 +68,7 @@ $(function() {
 <code>#include &quot;llvm/IR/LLVMContext.h&quot;</code><br />
 <code>#include &quot;llvm/IR/Module.h&quot;</code><br />
 <code>#include &quot;llvm/Transforms/Utils/Cloning.h&quot;</code><br />
+<code>#include &quot;mlir/Dialect/LLVMIR/LLVMConversionEnumsToLLVM.inc&quot;</code><br />
 <code>#include &quot;mlir/Dialect/LLVMIR/LLVMConversions.inc&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ModuleTranslation.cpp:</div>
@@ -96,9 +97,6 @@ Functions</h2></td></tr>
 <tr class="separator:a3ca0b4059cd3217a9847215fd8c9354b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21ec06abb2d4819a56dfb28a5fed0373"><td class="memItemLeft" align="right" valign="top">static llvm::AtomicOrdering&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ModuleTranslation_8cpp.html#a21ec06abb2d4819a56dfb28a5fed0373">getLLVMAtomicOrdering</a> (AtomicOrdering ordering)</td></tr>
 <tr class="separator:a21ec06abb2d4819a56dfb28a5fed0373"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c1e96d5809fa4ee7ef5c60ffc4d3452"><td class="memItemLeft" align="right" valign="top">llvm::GlobalVariable::LinkageTypes&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ModuleTranslation_8cpp.html#a0c1e96d5809fa4ee7ef5c60ffc4d3452">convertLinkageType</a> (LLVM::Linkage linkage)</td></tr>
-<tr class="memdesc:a0c1e96d5809fa4ee7ef5c60ffc4d3452"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert the LLVM dialect linkage type to LLVM IR linkage type.  <a href="#a0c1e96d5809fa4ee7ef5c60ffc4d3452">More...</a><br /></td></tr>
-<tr class="separator:a0c1e96d5809fa4ee7ef5c60ffc4d3452"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a091473715bf4679f1f429f317067664c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classmlir_1_1Value.html">Value</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ModuleTranslation_8cpp.html#a091473715bf4679f1f429f317067664c">getPHISourceValue</a> (<a class="el" href="classmlir_1_1Block.html">Block</a> *current, <a class="el" href="classmlir_1_1Block.html">Block</a> *pred, unsigned numArguments, unsigned index)</td></tr>
 <tr class="memdesc:a091473715bf4679f1f429f317067664c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the SSA value passed to the current block from the terminator operation of its predecessor.  <a href="#a091473715bf4679f1f429f317067664c">More...</a><br /></td></tr>
 <tr class="separator:a091473715bf4679f1f429f317067664c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,35 +156,11 @@ Functions</h2></td></tr>
 <p>Builds a constant of a sequential LLVM type <code>type</code>, potentially containing other sequential types recursively, from the individual constant values provided in <code>constants</code>. </p>
 <p><code>shape</code> contains the number of elements in nested sequential types. Reports errors at <code>loc</code> and returns nullptr on error. </p>
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00039">39</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00041">41</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00070">getInnermostElementType()</a>.</p>
-
-</div>
-</div>
-<a id="a0c1e96d5809fa4ee7ef5c60ffc4d3452"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c1e96d5809fa4ee7ef5c60ffc4d3452">&#9670;&nbsp;</a></span>convertLinkageType()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">llvm::GlobalVariable::LinkageTypes convertLinkageType </td>
-          <td>(</td>
-          <td class="paramtype">LLVM::Linkage&#160;</td>
-          <td class="paramname"><em>linkage</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Convert the LLVM dialect linkage type to LLVM IR linkage type. </p>
-
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00404">404</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
-
-<p class="reference">References <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00270">mlir::LLVM::ModuleTranslation::convertOperation()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00065">mlir::LLVM::ModuleTranslation::getModuleBody()</a>, <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">mlir::LLVM::ModuleTranslation::valueMapping</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00072">getInnermostElementType()</a>.</p>
 
 </div>
 </div>
@@ -216,9 +190,9 @@ Functions</h2></td></tr>
 
 <p>Returns the first non-sequential type nested in sequential types. </p>
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00070">70</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00072">72</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="ModuleTranslation_8cpp_source.html#l00039">buildSequentialConstant()</a>, <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="Attributes_8h_source.html#l01355">mlir::Attribute::dyn_cast()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00106">mlir::LLVM::ModuleTranslation::functionMapping</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
+<p class="reference">References <a class="el" href="ModuleTranslation_8cpp_source.html#l00041">buildSequentialConstant()</a>, <a class="el" href="namespacemlir.html#ae0a5f1311f5db69741663dd9e28a3c9bacb17869fe51048b5a5c4c6106551a255">mlir::Constant</a>, <a class="el" href="Attributes_8h_source.html#l01355">mlir::Attribute::dyn_cast()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00106">mlir::LLVM::ModuleTranslation::functionMapping</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
 
 </div>
 </div>
@@ -246,7 +220,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00214">214</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00216">216</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Parser_8cpp_source.html#l02404">Add</a>, and <a class="el" href="Parser_8cpp_source.html#l02405">Sub</a>.</p>
 
@@ -276,7 +250,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00246">246</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00248">248</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 </div>
 </div>
@@ -306,7 +280,7 @@ Functions</h2></td></tr>
 
 <p>Convert MLIR integer comparison predicate to LLVM IR comparison predicate. </p>
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00150">150</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00152">152</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 </div>
 </div>
@@ -334,7 +308,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00176">176</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00178">178</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 </div>
 </div>
@@ -386,7 +360,7 @@ Functions</h2></td></tr>
 
 <p>Get the SSA value passed to the current block from the terminator operation of its predecessor. </p>
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00477">477</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00450">450</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="ModuleTranslation_8h_source.html#l00108">mlir::LLVM::ModuleTranslation::blockMapping</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="Block_8h_source.html#l00098">mlir::Block::getNumArguments()</a>, <a class="el" href="Operation_8h_source.html#l00209">mlir::Operation::getOperand()</a>, <a class="el" href="Block_8h_source.html#l00232">mlir::Block::getPredecessors()</a>, <a class="el" href="Block_8cpp_source.html#l00209">mlir::Block::getTerminator()</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">mlir::LLVM::ModuleTranslation::valueMapping</a>.</p>
 
@@ -418,9 +392,9 @@ Functions</h2></td></tr>
 
 <p>Sort function blocks topologically. </p>
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00530">530</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00503">503</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="ModuleTranslation_8h_source.html#l00108">mlir::LLVM::ModuleTranslation::blockMapping</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00106">mlir::LLVM::ModuleTranslation::functionMapping</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00065">mlir::LLVM::ModuleTranslation::getModuleBody()</a>, <a class="el" href="Block_8h_source.html#l00193">mlir::Block::getOps()</a>, <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="namespacemlir.html#a67f5deb263dc3ca56a8c5ae015cba4af">mlir::topologicalSort()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00521">topologicalSortImpl()</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">mlir::LLVM::ModuleTranslation::valueMapping</a>.</p>
+<p class="reference">References <a class="el" href="ModuleTranslation_8h_source.html#l00108">mlir::LLVM::ModuleTranslation::blockMapping</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="LogicalResult_8h_source.html#l00045">mlir::failed()</a>, <a class="el" href="LogicalResult_8h_source.html#l00032">mlir::failure()</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00106">mlir::LLVM::ModuleTranslation::functionMapping</a>, <a class="el" href="ModuleTranslation_8h_source.html#l00065">mlir::LLVM::ModuleTranslation::getModuleBody()</a>, <a class="el" href="Block_8h_source.html#l00193">mlir::Block::getOps()</a>, <a class="el" href="Value_8h_source.html#l00246">mlir::BlockArgument::getType()</a>, <a class="el" href="LogicalResult_8h_source.html#l00025">mlir::success()</a>, <a class="el" href="namespacemlir.html#a67f5deb263dc3ca56a8c5ae015cba4af">mlir::topologicalSort()</a>, <a class="el" href="ModuleTranslation_8cpp_source.html#l00494">topologicalSortImpl()</a>, and <a class="el" href="ModuleTranslation_8h_source.html#l00107">mlir::LLVM::ModuleTranslation::valueMapping</a>.</p>
 
 </div>
 </div>
@@ -458,18 +432,18 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00521">521</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ModuleTranslation_8cpp_source.html#l00494">494</a> of file <a class="el" href="ModuleTranslation_8cpp_source.html">ModuleTranslation.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Block_8h_source.html#l00255">mlir::Block::getSuccessors()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00530">topologicalSort()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ModuleTranslation_8cpp_source.html#l00503">topologicalSort()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 30 2020 20:22:55 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 31 2020 00:22:46 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
