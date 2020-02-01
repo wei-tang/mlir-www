@@ -595,7 +595,7 @@ template&lt;typename... Args&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="DialectConversion_8h_source.html#l00553">553</a> of file <a class="el" href="DialectConversion_8h_source.html">DialectConversion.h</a>.</p>
 
-<p class="reference">References <a class="el" href="DialectConversion_8cpp_source.html#l01653">mlir::TypeConverter::isLegal()</a>.</p>
+<p class="reference">References <a class="el" href="DialectConversion_8cpp_source.html#l01670">mlir::TypeConverter::isLegal()</a>.</p>
 
 </div>
 </div>
@@ -813,7 +813,7 @@ template&lt;typename OpT , typename OpT2 , typename... OpTs&gt; </div>
 
 <p>Get the legality action for the given operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01759">1759</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01776">1776</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01002">mlir::ConversionPattern::matchAndRewrite()</a>.</p>
 
@@ -848,7 +848,7 @@ template&lt;typename OpT , typename OpT2 , typename... OpTs&gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="DialectConversion_8h_source.html#l00573">573</a> of file <a class="el" href="DialectConversion_8h_source.html">DialectConversion.h</a>.</p>
 
-<p class="reference">References <a class="el" href="DialectConversion_8cpp_source.html#l01903">mlir::applyAnalysisConversion()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l01883">mlir::applyFullConversion()</a>, and <a class="el" href="DialectConversion_8cpp_source.html#l01865">mlir::applyPartialConversion()</a>.</p>
+<p class="reference">References <a class="el" href="DialectConversion_8cpp_source.html#l01920">mlir::applyAnalysisConversion()</a>, <a class="el" href="DialectConversion_8cpp_source.html#l01900">mlir::applyFullConversion()</a>, and <a class="el" href="DialectConversion_8cpp_source.html#l01882">mlir::applyPartialConversion()</a>.</p>
 
 </div>
 </div>
@@ -871,7 +871,7 @@ template&lt;typename OpT , typename OpT2 , typename... OpTs&gt; </div>
 <p>If the given operation instance is legal on this target, a structure containing legality information is returned. </p>
 <p>If the operation is not legal, None is returned. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01768">1768</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01785">1785</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Operation_8cpp_source.html#l00047">mlir::OperationName::getDialect()</a>, <a class="el" href="Operation_8h_source.html#l00061">mlir::Operation::getName()</a>, <a class="el" href="DialectConversion_8h_source.html#l00412">mlir::ConversionTarget::LegalOpDetails::isRecursivelyLegal</a>, <a class="el" href="DialectConversion_8h_source.html#l00489">markOpRecursivelyLegal()</a>, and <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
 
@@ -908,7 +908,7 @@ template&lt;typename OpT &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="DialectConversion_8h_source.html#l00489">489</a> of file <a class="el" href="DialectConversion_8h_source.html">DialectConversion.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01768">isLegal()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="DialectConversion_8cpp_source.html#l01785">isLegal()</a>.</p>
 
 </div>
 </div>
@@ -1058,7 +1058,7 @@ template&lt;typename OpT , class Callable &gt; </div>
 
 <p>Register a legality action for the given dialects. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01752">1752</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01769">1769</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -1090,7 +1090,7 @@ template&lt;typename OpT , class Callable &gt; </div>
 
 <p>Register a legality action for the given operation. </p>
 
-<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01746">1746</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="DialectConversion_8cpp_source.html#l01763">1763</a> of file <a class="el" href="DialectConversion_8cpp_source.html">DialectConversion.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00063">mlir::StandardTypes::None</a>.</p>
 
@@ -1133,7 +1133,7 @@ template&lt;typename OpT &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 1 2020 16:22:30 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 1 2020 20:23:22 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
