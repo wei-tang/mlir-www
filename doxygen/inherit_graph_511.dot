@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::SDBM",height=0.2,width=0.4,color="black",URL="$classmlir_1_1SDBM.html",tooltip="Striped difference-bound matrix is a representation of an integer set bound by a system of SDBMExprs ..."];
+  Node0 [label="mlir::RewritePatternMatcher",height=0.2,width=0.4,color="black",URL="$classmlir_1_1RewritePatternMatcher.html",tooltip="This class manages optimization and execution of a group of rewrite patterns, providing an API for fi..."];
 }

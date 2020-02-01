@@ -63,7 +63,7 @@ $(function() {
 Public Types</h2></td></tr>
 <tr class="memitem:a195d0b88bed96561c7050dccd273f8db"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structllvm_1_1GraphTraits_3_01const_01mlir_1_1CallGraphNode_01_5_01_4.html#a195d0b88bed96561c7050dccd273f8db">NodeRef</a> = <a class="el" href="classmlir_1_1CallGraphNode.html">mlir::CallGraphNode</a> *</td></tr>
 <tr class="separator:a195d0b88bed96561c7050dccd273f8db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13bcb09c67023f29df907353ad9b6934"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structllvm_1_1GraphTraits_3_01const_01mlir_1_1CallGraphNode_01_5_01_4.html#a13bcb09c67023f29df907353ad9b6934">ChildIteratorType</a> = mapped_iterator&lt; <a class="el" href="classmlir_1_1CallGraphNode.html#ab57f2ea112a1d48d98c581f8a2965808">mlir::CallGraphNode::iterator</a>, decltype(&amp;unwrap)&gt;</td></tr>
+<tr class="memitem:a13bcb09c67023f29df907353ad9b6934"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structllvm_1_1GraphTraits_3_01const_01mlir_1_1CallGraphNode_01_5_01_4.html#a13bcb09c67023f29df907353ad9b6934">ChildIteratorType</a> = mapped_iterator&lt; <a class="el" href="classmlir_1_1CallGraphNode.html#ab57f2ea112a1d48d98c581f8a2965808">mlir::CallGraphNode::iterator</a>, decltype(&amp;<a class="el" href="ConvertStandardToLLVM_8cpp.html#a508f1e56c6ccb880b32a9d7772dd273f">unwrap</a>)&gt;</td></tr>
 <tr class="separator:a13bcb09c67023f29df907353ad9b6934"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
@@ -91,7 +91,7 @@ struct llvm::GraphTraits&lt; const mlir::CallGraphNode * &gt;</h3>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using llvm::GraphTraits&lt; const <a class="el" href="classmlir_1_1CallGraphNode.html">mlir::CallGraphNode</a> * &gt;::<a class="el" href="structllvm_1_1GraphTraits_3_01const_01mlir_1_1CallGraphNode_01_5_01_4.html#a13bcb09c67023f29df907353ad9b6934">ChildIteratorType</a> =  mapped_iterator&lt;<a class="el" href="classmlir_1_1CallGraphNode.html#ab57f2ea112a1d48d98c581f8a2965808">mlir::CallGraphNode::iterator</a>, decltype(&amp;unwrap)&gt;</td>
+          <td class="memname">using llvm::GraphTraits&lt; const <a class="el" href="classmlir_1_1CallGraphNode.html">mlir::CallGraphNode</a> * &gt;::<a class="el" href="structllvm_1_1GraphTraits_3_01const_01mlir_1_1CallGraphNode_01_5_01_4.html#a13bcb09c67023f29df907353ad9b6934">ChildIteratorType</a> =  mapped_iterator&lt;<a class="el" href="classmlir_1_1CallGraphNode.html#ab57f2ea112a1d48d98c581f8a2965808">mlir::CallGraphNode::iterator</a>, decltype(&amp;<a class="el" href="ConvertStandardToLLVM_8cpp.html#a508f1e56c6ccb880b32a9d7772dd273f">unwrap</a>)&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -143,7 +143,7 @@ struct llvm::GraphTraits&lt; const mlir::CallGraphNode * &gt;</h3>
 
 <p class="definition">Definition at line <a class="el" href="CallGraph_8h_source.html#l00230">230</a> of file <a class="el" href="CallGraph_8h_source.html">CallGraph.h</a>.</p>
 
-<p class="reference">References <a class="el" href="CallGraph_8h_source.html#l00109">mlir::CallGraphNode::begin()</a>.</p>
+<p class="reference">References <a class="el" href="CallGraph_8h_source.html#l00109">mlir::CallGraphNode::begin()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">unwrap()</a>.</p>
 
 </div>
 </div>
@@ -173,7 +173,7 @@ struct llvm::GraphTraits&lt; const mlir::CallGraphNode * &gt;</h3>
 
 <p class="definition">Definition at line <a class="el" href="CallGraph_8h_source.html#l00233">233</a> of file <a class="el" href="CallGraph_8h_source.html">CallGraph.h</a>.</p>
 
-<p class="reference">References <a class="el" href="CallGraph_8h_source.html#l00110">mlir::CallGraphNode::end()</a>.</p>
+<p class="reference">References <a class="el" href="CallGraph_8h_source.html#l00110">mlir::CallGraphNode::end()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">unwrap()</a>.</p>
 
 </div>
 </div>
@@ -241,7 +241,7 @@ struct llvm::GraphTraits&lt; const mlir::CallGraphNode * &gt;</h3>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 20:23:31 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 1 2020 00:22:40 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

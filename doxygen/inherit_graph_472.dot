@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::PassInstrumentor",height=0.2,width=0.4,color="black",URL="$classmlir_1_1PassInstrumentor.html",tooltip="This class holds a collection of PassInstrumentation objects, and invokes their respective call backs..."];
+  Node0 [label="mlir::PassInstrumentation",height=0.2,width=0.4,color="black",URL="$classmlir_1_1PassInstrumentation.html",tooltip="PassInstrumentation provides several entry points into the pass manager infrastructure. "];
 }

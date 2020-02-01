@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::AffineValueMap",height=0.2,width=0.4,color="black",URL="$classmlir_1_1AffineValueMap.html",tooltip="An AffineValueMap is an affine map plus its ML value operands and results for analysis purposes..."];
+  Node0 [label="mlir::AffineMap",height=0.2,width=0.4,color="black",URL="$classmlir_1_1AffineMap.html",tooltip="A multi-dimensional affine map Affine map&#39;s are immutable like Type&#39;s, and they are uniqued..."];
 }

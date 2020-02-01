@@ -4,7 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node319 [label="PointerLikeTypeTraits",height=0.2,width=0.4,color="grey75"];
-  Node319 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node0 [label="mlir::Value::ImplTypeTraits",height=0.2,width=0.4,color="black",URL="$structmlir_1_1Value_1_1ImplTypeTraits.html",tooltip="This value represents the &#39;owner&#39; of the value and its kind. "];
+  Node0 [label="mlir::TypeConverter\l::SignatureConversion\l::InputMapping",height=0.2,width=0.4,color="black",URL="$structmlir_1_1TypeConverter_1_1SignatureConversion_1_1InputMapping.html",tooltip="This struct represents a range of new types or a single value that remaps an existing signature input..."];
 }

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="int64_list_t",height=0.2,width=0.4,color="black",URL="$structint64__list__t.html",tooltip="Simple C lists for non-owning mlir Opaque C types. "];
+  Node0 [label="int32_t",height=0.2,width=0.4,color="grey75"];
 }

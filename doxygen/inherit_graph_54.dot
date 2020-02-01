@@ -4,5 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="Init",height=0.2,width=0.4,color="grey75"];
+  Node0 [label="ilist_alloc_traits",height=0.2,width=0.4,color="black",URL="$classilist__alloc__traits.html"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="llvm::ilist_traits\l\<::mlir::Block \>",height=0.2,width=0.4,color="black",URL="$structllvm_1_1ilist__traits_3_1_1mlir_1_1Block_01_4.html"];
 }

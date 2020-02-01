@@ -4,13 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="SubCommand",height=0.2,width=0.4,color="black",URL="$classllvm_1_1cl_1_1SubCommand.html"];
-  Node0 -> Node1 [dir="back",color="darkgreen",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="mlir::detail::PassOptions",height=0.2,width=0.4,color="black",URL="$classmlir_1_1detail_1_1PassOptions.html",tooltip="Base container class and manager for all pass options. "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="mlir::PassPipelineOptions\< T \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1PassPipelineOptions.html",tooltip="Subclasses of PassPipelineOptions provide a set of options that can be used to initialize a pass pipe..."];
-  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node3 [label="mlir::PassPipelineOptions\l\< EmptyPipelineOptions \>",height=0.2,width=0.4,color="black",URL="$classmlir_1_1PassPipelineOptions.html"];
-  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="mlir::EmptyPipelineOptions",height=0.2,width=0.4,color="black",URL="$structmlir_1_1EmptyPipelineOptions.html",tooltip="A default empty option struct to be used for passes that do not need to take any options. "];
+  Node0 [label="StringRef",height=0.2,width=0.4,color="grey75"];
 }

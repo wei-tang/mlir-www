@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::quantizer::Uniform\lStorageParams",height=0.2,width=0.4,color="black",URL="$structmlir_1_1quantizer_1_1UniformStorageParams.html"];
+  Node0 [label="mlir::quantizer::Uniform\lConstraintsBuilder",height=0.2,width=0.4,color="black",URL="$classmlir_1_1quantizer_1_1UniformConstraintsBuilder.html",tooltip="Factory methods for adding CAG constraints of various kinds suitable for solving for uniform quantiza..."];
 }

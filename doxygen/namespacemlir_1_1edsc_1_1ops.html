@@ -87,6 +87,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aeffbabef0e8dfd3b656a3d203378f4a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1edsc_1_1ops.html#aeffbabef0e8dfd3b656a3d203378f4a9">linalg_matmul</a> (<a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vA, <a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vB, <a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vC)</td></tr>
 <tr class="memdesc:aeffbabef0e8dfd3b656a3d203378f4a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a linalg.generic, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point, that computes: </p><div class="fragment"><div class="line">(m, n, k) = (par, par, seq)</div><div class="line">|</div><div class="line">|  C(m, n) += A(m, k) * B(k, n)</div></div><!-- fragment --><p>.  <a href="#aeffbabef0e8dfd3b656a3d203378f4a9">More...</a><br /></td></tr>
 <tr class="separator:aeffbabef0e8dfd3b656a3d203378f4a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac00d146f644508e1407598ac55073218"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1edsc_1_1ops.html#ac00d146f644508e1407598ac55073218">linalg_matmul</a> (<a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vA, <a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vB, <a class="el" href="classmlir_1_1RankedTensorType.html">RankedTensorType</a> tC)</td></tr>
+<tr class="memdesc:ac00d146f644508e1407598ac55073218"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a linalg.generic, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point, that computes: </p><div class="fragment"><div class="line">(m, n, k) = (par, par, seq)</div><div class="line">|</div><div class="line">|  C(m, n) = sum_k(A(m, k) * B(k, n))</div></div><!-- fragment --><p> and returns the tensor <code>C</code>.  <a href="#ac00d146f644508e1407598ac55073218">More...</a><br /></td></tr>
+<tr class="separator:ac00d146f644508e1407598ac55073218"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0d066c355841fded3d7937928a7397f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1edsc_1_1ops.html#aa0d066c355841fded3d7937928a7397f">linalg_matmul</a> (<a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vA, <a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vB, <a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a> vC, <a class="el" href="classmlir_1_1RankedTensorType.html">RankedTensorType</a> tD)</td></tr>
+<tr class="memdesc:aa0d066c355841fded3d7937928a7397f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a linalg.generic, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point, that computes: </p><div class="fragment"><div class="line">(m, n, k) = (par, par, seq)</div><div class="line">|</div><div class="line">|  D(m, n) = C(m, n) + sum_k(A(m, k) * B(k, n))</div></div><!-- fragment --><p> and returns the tensor <code>D</code>.  <a href="#aa0d066c355841fded3d7937928a7397f">More...</a><br /></td></tr>
+<tr class="separator:aa0d066c355841fded3d7937928a7397f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a846bae478fd1c4e37fdf80f94a291d34"><td class="memTemplParams" colspan="2">template&lt;typename Container &gt; </td></tr>
 <tr class="memitem:a846bae478fd1c4e37fdf80f94a291d34"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Operation.html">Operation</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacemlir_1_1edsc_1_1ops.html#a846bae478fd1c4e37fdf80f94a291d34">linalg_matmul</a> (Container values)</td></tr>
 <tr class="separator:a846bae478fd1c4e37fdf80f94a291d34"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,9 +197,9 @@ Functions</h2></td></tr>
 <p>], | c) | * | W([kh, kw, ...], c, f) ``<code> If</code>dilations<code>or</code>strides<code>are left empty, the default value of</code>1` is used along each relevant dimension.</p>
 <p>For now <code>...</code> must be empty (i.e. only 2-D convolutions are supported). </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00301">301</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00336">336</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="AffineExpr_8h_source.html#l00241">mlir::AffineExpr::cast()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00208">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>, and <a class="el" href="AffineExpr_8cpp_source.html#l00839">mlir::simplifyAffineExpr()</a>.</p>
+<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="AffineExpr_8h_source.html#l00241">mlir::AffineExpr::cast()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00215">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>, and <a class="el" href="AffineExpr_8cpp_source.html#l00839">mlir::simplifyAffineExpr()</a>.</p>
 
 </div>
 </div>
@@ -231,11 +237,11 @@ template&lt;typename Container &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00266">266</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html">Builders.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00287">287</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html">Builders.h</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00300">linalg_dilated_conv_nhwc()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00321">linalg_dilated_conv_nhwc()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00234">linalg_matmul()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00255">linalg_matmul()</a>.</p>
 
 </div>
 </div>
@@ -293,9 +299,9 @@ template&lt;typename Container &gt; </div>
 <p>], | c) | * | W([kh, kw, ...], c, depth_multiplier) ``<code> If</code>dilations<code>or</code>strides<code>are left empty, the default value of</code>1` is used along each relevant dimension.</p>
 <p>For now <code>...</code> must be empty (i.e. only 2-D convolutions are supported). </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00335">335</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00370">370</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="AffineExpr_8h_source.html#l00241">mlir::AffineExpr::cast()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00208">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>, and <a class="el" href="AffineExpr_8cpp_source.html#l00839">mlir::simplifyAffineExpr()</a>.</p>
+<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="AffineExpr_8h_source.html#l00241">mlir::AffineExpr::cast()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00215">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>, and <a class="el" href="AffineExpr_8cpp_source.html#l00839">mlir::simplifyAffineExpr()</a>.</p>
 
 </div>
 </div>
@@ -339,14 +345,14 @@ template&lt;typename Container &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00300">300</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html">Builders.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00321">321</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html">Builders.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00266">linalg_conv_nhwc()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00287">linalg_conv_nhwc()</a>.</p>
 
 </div>
 </div>
 <a id="aeffbabef0e8dfd3b656a3d203378f4a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeffbabef0e8dfd3b656a3d203378f4a9">&#9670;&nbsp;</a></span>linalg_matmul() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#aeffbabef0e8dfd3b656a3d203378f4a9">&#9670;&nbsp;</a></span>linalg_matmul() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -379,14 +385,100 @@ template&lt;typename Container &gt; </div>
 
 <p>Build a linalg.generic, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point, that computes: </p><div class="fragment"><div class="line">(m, n, k) = (par, par, seq)</div><div class="line">|</div><div class="line">|  C(m, n) += A(m, k) * B(k, n)</div></div><!-- fragment --><p>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00287">287</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00294">294</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00208">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, and <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>.</p>
+<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00215">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, and <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>.</p>
+
+</div>
+</div>
+<a id="ac00d146f644508e1407598ac55073218"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac00d146f644508e1407598ac55073218">&#9670;&nbsp;</a></span>linalg_matmul() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmlir_1_1Operation.html">Operation</a> * mlir::edsc::ops::linalg_matmul </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a>&#160;</td>
+          <td class="paramname"><em>vA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a>&#160;</td>
+          <td class="paramname"><em>vB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1RankedTensorType.html">RankedTensorType</a>&#160;</td>
+          <td class="paramname"><em>tC</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build a linalg.generic, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point, that computes: </p><div class="fragment"><div class="line">(m, n, k) = (par, par, seq)</div><div class="line">|</div><div class="line">|  C(m, n) = sum_k(A(m, k) * B(k, n))</div></div><!-- fragment --><p> and returns the tensor <code>C</code>. </p>
+
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00308">308</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00208">mulRegionBuilder()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, and <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>.</p>
+
+</div>
+</div>
+<a id="aa0d066c355841fded3d7937928a7397f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0d066c355841fded3d7937928a7397f">&#9670;&nbsp;</a></span>linalg_matmul() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classmlir_1_1Operation.html">Operation</a> * mlir::edsc::ops::linalg_matmul </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a>&#160;</td>
+          <td class="paramname"><em>vA</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a>&#160;</td>
+          <td class="paramname"><em>vB</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1edsc_1_1ValueHandle.html">ValueHandle</a>&#160;</td>
+          <td class="paramname"><em>vC</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1RankedTensorType.html">RankedTensorType</a>&#160;</td>
+          <td class="paramname"><em>tD</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Build a linalg.generic, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point, that computes: </p><div class="fragment"><div class="line">(m, n, k) = (par, par, seq)</div><div class="line">|</div><div class="line">|  D(m, n) = C(m, n) + sum_k(A(m, k) * B(k, n))</div></div><!-- fragment --><p> and returns the tensor <code>D</code>. </p>
+
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00322">322</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="AffineExpr_8h_source.html#l00286">mlir::bindDims()</a>, <a class="el" href="EDSC_2Builders_8cpp_source.html#l00064">mlir::edsc::ScopedContext::getContext()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00215">macRegionBuilder()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>, and <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea9e834f13e35e4edf64863ab414a6217a">mlir::edsc::Reduction</a>.</p>
 
 </div>
 </div>
 <a id="a846bae478fd1c4e37fdf80f94a291d34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a846bae478fd1c4e37fdf80f94a291d34">&#9670;&nbsp;</a></span>linalg_matmul() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a846bae478fd1c4e37fdf80f94a291d34">&#9670;&nbsp;</a></span>linalg_matmul() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -403,9 +495,9 @@ template&lt;typename Container &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00234">234</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html">Builders.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00255">255</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html">Builders.h</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00266">linalg_conv_nhwc()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00287">linalg_conv_nhwc()</a>.</p>
 
 </div>
 </div>
@@ -441,11 +533,11 @@ template&lt;typename Container &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00216">216</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00223">223</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00117">mlir::edsc::StructuredIndexed::getExprs()</a>, <a class="el" href="EDSC_2Builders_8h_source.html#l00374">mlir::edsc::ValueHandle::getType()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, and <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00267">linalg_pointwise_add()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00276">linalg_pointwise_max()</a>, and <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00237">linalg_pointwise_tanh()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00274">linalg_pointwise_add()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00283">linalg_pointwise_max()</a>, and <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00244">linalg_pointwise_tanh()</a>.</p>
 
 </div>
 </div>
@@ -489,7 +581,7 @@ template&lt;typename Container &gt; </div>
 
 <p>Binary pointwise operation (with broadcast) entry point. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00245">245</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00252">252</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8h_source.html#l00117">mlir::edsc::StructuredIndexed::getExprs()</a>, <a class="el" href="EDSC_2Builders_8h_source.html#l00374">mlir::edsc::ValueHandle::getType()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00129">mlir::edsc::makeGenericLinalgOp()</a>, and <a class="el" href="namespacemlir_1_1edsc.html#ae8511f7c9b194ab830b58cd6f15d371ea98402eecfbcefc336954458a01752131">mlir::edsc::Parallel</a>.</p>
 
@@ -530,9 +622,9 @@ template&lt;typename Container &gt; </div>
 <p>Build a linalg.pointwise with all <code>parallel</code> iterators and a region that computes <code>O = I1 + I2</code>. </p>
 <p>The client is responsible for specifying the proper indexings when creating the <a class="el" href="structmlir_1_1edsc_1_1StructuredIndexed.html" title="A StructuredIndexed represents an indexable quantity that is either: ">StructuredIndexed</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00267">267</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00274">274</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00216">linalg_pointwise()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00223">linalg_pointwise()</a>.</p>
 
 </div>
 </div>
@@ -571,9 +663,9 @@ template&lt;typename Container &gt; </div>
 <p>Build a linalg.pointwise with all <code>parallel</code> iterators and a region that computes <code>O = max(I1, I2)</code>. </p>
 <p>The client is responsible for specifying the proper indexings when creating the <a class="el" href="structmlir_1_1edsc_1_1StructuredIndexed.html" title="A StructuredIndexed represents an indexable quantity that is either: ">StructuredIndexed</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00276">276</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00283">283</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00216">linalg_pointwise()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00223">linalg_pointwise()</a>.</p>
 
 </div>
 </div>
@@ -606,9 +698,9 @@ template&lt;typename Container &gt; </div>
 <p>Build a linalg.pointwise with all <code>parallel</code> iterators and a region that computes <code>O = tanh(I)</code>. </p>
 <p>The client is responsible for specifying the proper indexings when creating the <a class="el" href="structmlir_1_1edsc_1_1StructuredIndexed.html" title="A StructuredIndexed represents an indexable quantity that is either: ">StructuredIndexed</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00237">237</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00244">244</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00216">linalg_pointwise()</a>.</p>
+<p class="reference">References <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00223">linalg_pointwise()</a>.</p>
 
 </div>
 </div>
@@ -630,16 +722,16 @@ template&lt;typename Container &gt; </div>
 
 <p>Build the body of a region to compute a multiply-accumulate, under the current <a class="el" href="classmlir_1_1edsc_1_1ScopedContext.html" title="Helper class to transparently handle builder insertion points by RAII. ">ScopedContext</a>, at the current insert point. </p>
 
-<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00208">208</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00215">215</a> of file <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html">Builders.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00301">linalg_conv_nhwc()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00335">linalg_dilated_conv_nhwc()</a>, and <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00287">linalg_matmul()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00336">linalg_conv_nhwc()</a>, <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00370">linalg_dilated_conv_nhwc()</a>, and <a class="el" href="Dialect_2Linalg_2EDSC_2Builders_8cpp_source.html#l00294">linalg_matmul()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 20:23:33 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 1 2020 00:22:41 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

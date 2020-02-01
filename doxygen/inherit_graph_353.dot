@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::FlatAffineConstraints",height=0.2,width=0.4,color="black",URL="$classmlir_1_1FlatAffineConstraints.html",tooltip="A flat list of affine equalities and inequalities in the form. "];
+  Node0 [label="mlir::ExecutionEngine",height=0.2,width=0.4,color="black",URL="$classmlir_1_1ExecutionEngine.html",tooltip="JIT-backed execution engine for MLIR modules. "];
 }

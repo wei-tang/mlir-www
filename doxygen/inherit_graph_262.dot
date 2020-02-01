@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::ComputationSliceState",height=0.2,width=0.4,color="black",URL="$structmlir_1_1ComputationSliceState.html",tooltip="ComputationSliceState aggregates loop IVs, loop bound AffineMaps and their associated operands for a ..."];
+  Node0 [label="mlir::ClassID",height=0.2,width=0.4,color="black",URL="$structmlir_1_1ClassID.html",tooltip="A special type used to provide an address for a given class that can act as a unique identifier durin..."];
 }

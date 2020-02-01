@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::detail::attr\l_value_binder\< AttrClass,\l ValueType, typename \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1detail_1_1attr__value__binder.html",tooltip="The matcher that matches a certain kind of Attribute and binds the value inside the Attribute..."];
+  Node0 [label="mlir::detail::AsmStateImpl",height=0.2,width=0.4,color="black",URL="$classmlir_1_1detail_1_1AsmStateImpl.html"];
 }

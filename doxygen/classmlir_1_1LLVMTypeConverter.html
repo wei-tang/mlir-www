@@ -79,7 +79,11 @@ Collaboration diagram for mlir::LLVMTypeConverter:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a8892f4e06baf1456125a0fe90d98cb19"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1LLVMTypeConverter.html#a8892f4e06baf1456125a0fe90d98cb19">LLVMTypeConverter</a> (<a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *ctx)</td></tr>
+<tr class="memdesc:a8892f4e06baf1456125a0fe90d98cb19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="classmlir_1_1LLVMTypeConverter.html" title="Conversion from types in the Standard dialect to the LLVM IR dialect. ">LLVMTypeConverter</a> using the default <a class="el" href="structmlir_1_1LLVMTypeConverterCustomization.html" title="Set of callbacks that allows the customization of LLVMTypeConverter. ">LLVMTypeConverterCustomization</a>.  <a href="#a8892f4e06baf1456125a0fe90d98cb19">More...</a><br /></td></tr>
 <tr class="separator:a8892f4e06baf1456125a0fe90d98cb19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae44b7a79f1da4c1007715ffc8c1cabfd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1LLVMTypeConverter.html#ae44b7a79f1da4c1007715ffc8c1cabfd">LLVMTypeConverter</a> (<a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *ctx, const <a class="el" href="structmlir_1_1LLVMTypeConverterCustomization.html">LLVMTypeConverterCustomization</a> &amp;custom)</td></tr>
+<tr class="memdesc:ae44b7a79f1da4c1007715ffc8c1cabfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create an <a class="el" href="classmlir_1_1LLVMTypeConverter.html" title="Conversion from types in the Standard dialect to the LLVM IR dialect. ">LLVMTypeConverter</a> using 'custom' customizations.  <a href="#ae44b7a79f1da4c1007715ffc8c1cabfd">More...</a><br /></td></tr>
+<tr class="separator:ae44b7a79f1da4c1007715ffc8c1cabfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a33eeba35c6cb4ddc280e1aca5fb7d8ee"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmlir_1_1Type.html">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmlir_1_1LLVMTypeConverter.html#a33eeba35c6cb4ddc280e1aca5fb7d8ee">convertType</a> (<a class="el" href="classmlir_1_1Type.html">Type</a> t) override</td></tr>
 <tr class="memdesc:a33eeba35c6cb4ddc280e1aca5fb7d8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert types to <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> IR.  <a href="#a33eeba35c6cb4ddc280e1aca5fb7d8ee">More...</a><br /></td></tr>
 <tr class="separator:a33eeba35c6cb4ddc280e1aca5fb7d8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,10 +141,10 @@ Protected Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Conversion from types in the Standard dialect to the <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> IR dialect. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00037">37</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00062">62</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8892f4e06baf1456125a0fe90d98cb19"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8892f4e06baf1456125a0fe90d98cb19">&#9670;&nbsp;</a></span>LLVMTypeConverter()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8892f4e06baf1456125a0fe90d98cb19">&#9670;&nbsp;</a></span>LLVMTypeConverter() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -155,9 +159,44 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00046">46</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p>Create an <a class="el" href="classmlir_1_1LLVMTypeConverter.html" title="Conversion from types in the Standard dialect to the LLVM IR dialect. ">LLVMTypeConverter</a> using the default <a class="el" href="structmlir_1_1LLVMTypeConverterCustomization.html" title="Set of callbacks that allows the customization of LLVMTypeConverter. ">LLVMTypeConverterCustomization</a>. </p>
+<p>Create an <a class="el" href="classmlir_1_1LLVMTypeConverter.html" title="Conversion from types in the Standard dialect to the LLVM IR dialect. ">LLVMTypeConverter</a> using default <a class="el" href="structmlir_1_1LLVMTypeConverterCustomization.html" title="Set of callbacks that allows the customization of LLVMTypeConverter. ">LLVMTypeConverterCustomization</a>.</p>
 
-<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01660">mlir::LLVM::LLVMDialect::getLLVMModule()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00082">llvmDialect</a>, and <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00081">module</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00111">111</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae44b7a79f1da4c1007715ffc8c1cabfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae44b7a79f1da4c1007715ffc8c1cabfd">&#9670;&nbsp;</a></span>LLVMTypeConverter() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">LLVMTypeConverter::LLVMTypeConverter </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classmlir_1_1MLIRContext.html">MLIRContext</a> *&#160;</td>
+          <td class="paramname"><em>ctx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structmlir_1_1LLVMTypeConverterCustomization.html">LLVMTypeConverterCustomization</a> &amp;&#160;</td>
+          <td class="paramname"><em>custom</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Create an <a class="el" href="classmlir_1_1LLVMTypeConverter.html" title="Conversion from types in the Standard dialect to the LLVM IR dialect. ">LLVMTypeConverter</a> using 'custom' customizations. </p>
+
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00115">115</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+
+<p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01660">mlir::LLVM::LLVMDialect::getLLVMModule()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00113">llvmDialect</a>, and <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00112">module</a>.</p>
 
 </div>
 </div>
@@ -197,11 +236,11 @@ Protected Attributes</h2></td></tr>
 <p>Convert a function type. </p>
 <p>The arguments and results are converted one by one and results are packed into a wrapped <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> IR structure type. <code>result</code> is populated with argument mapping. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00113">113</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00172">172</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="DialectConversion_8cpp_source.html#l01597">mlir::TypeConverter::SignatureConversion::addInputs()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02151">convertType()</a>, <a class="el" href="Types_8h_source.html#l00261">mlir::Type::dyn_cast_or_null()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="DialectConversion_8h_source.html#l00058">mlir::TypeConverter::SignatureConversion::getConvertedTypes()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01844">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01775">mlir::LLVM::LLVMType::getPointerTo()</a>, <a class="el" href="Types_8cpp_source.html#l00047">mlir::FunctionType::getResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01903">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="Types_8h_source.html#l00254">mlir::Type::isa()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00082">llvmDialect</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02154">packFunctionResults()</a>.</p>
+<p class="reference">References <a class="el" href="DialectConversion_8cpp_source.html#l01595">mlir::TypeConverter::SignatureConversion::addInputs()</a>, <a class="el" href="Matchers_8h_source.html#l00180">mlir::detail::enumerate()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00043">mlir::LLVMTypeConverterCustomization::funcArgConverter</a>, <a class="el" href="DialectConversion_8h_source.html#l00058">mlir::TypeConverter::SignatureConversion::getConvertedTypes()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01844">mlir::LLVM::LLVMType::getFunctionTy()</a>, <a class="el" href="Types_8cpp_source.html#l00041">mlir::FunctionType::getInputs()</a>, <a class="el" href="Types_8cpp_source.html#l00045">mlir::FunctionType::getNumResults()</a>, <a class="el" href="Types_8cpp_source.html#l00047">mlir::FunctionType::getResults()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01903">mlir::LLVM::LLVMType::getVoidTy()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00113">llvmDialect</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02302">packFunctionResults()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">unwrap()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">getLLVMContext()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00124">getLLVMContext()</a>.</p>
 
 </div>
 </div>
@@ -234,9 +273,9 @@ Protected Attributes</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classmlir_1_1TypeConverter.html#a0c98e16a500d002a3e2974f329279759">mlir::TypeConverter</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02151">2151</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02299">2299</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00113">convertFunctionSignature()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00087">convertLinalgType()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00422">mlir::LinalgTypeConverter::convertType()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00085">extractOne()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00291">mlir::MemRefDescriptor::fromStaticShape()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00072">getPtrToElementType()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00058">insertOne()</a>, <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00445">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00101">mlir::barePtrFuncArgTypeConverter()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00087">convertLinalgType()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00084">convertMemRefTypeToBarePtr()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00422">mlir::LinalgTypeConverter::convertType()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00085">extractOne()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00349">mlir::MemRefDescriptor::fromStaticShape()</a>, <a class="el" href="LinalgToLLVM_8cpp_source.html#l00072">getPtrToElementType()</a>, <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00058">insertOne()</a>, <a class="el" href="OpToFuncCallLowering_8h_source.html#l00038">mlir::OpToFuncCallLowering&lt; SourceOp &gt;::matchAndRewrite()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00503">mlir::UnrankedMemRefDescriptor::setMemRefDescPtr()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00072">mlir::structFuncArgTypeConverter()</a>.</p>
 
 </div>
 </div>
@@ -265,11 +304,11 @@ Protected Attributes</h2></td></tr>
 
 <p>Returns the <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> dialect. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00063">63</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00094">94</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
 
 <p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01697">llvmDialect</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="IndexIntrinsicsOpLowering_8h_source.html#l00051">mlir::GPUIndexIntrinsicOpLowering&lt; Op, XOp, YOp, ZOp &gt;::matchAndRewrite()</a>, <a class="el" href="LowerGpuOpsToNVVMOps_8cpp_source.html#l00726">mlir::populateGpuToNVVMConversionPatterns()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02126">mlir::populateStdToLLVMMemoryConversionPatters()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02070">mlir::populateStdToLLVMNonMemoryConversionPatterns()</a>, and <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00955">mlir::populateVectorToLLVMConversionPatterns()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="IndexIntrinsicsOpLowering_8h_source.html#l00051">mlir::GPUIndexIntrinsicOpLowering&lt; Op, XOp, YOp, ZOp &gt;::matchAndRewrite()</a>, <a class="el" href="LowerGpuOpsToNVVMOps_8cpp_source.html#l00726">mlir::populateGpuToNVVMConversionPatterns()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02286">populateStdToLLVMBarePtrFuncOpConversionPattern()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02274">mlir::populateStdToLLVMDefaultFuncOpConversionPattern()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02257">mlir::populateStdToLLVMMemoryConversionPatters()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02201">mlir::populateStdToLLVMNonMemoryConversionPatterns()</a>, and <a class="el" href="ConvertVectorToLLVM_8cpp_source.html#l00955">mlir::populateVectorToLLVMConversionPatterns()</a>.</p>
 
 </div>
 </div>
@@ -289,10 +328,11 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> context. </p>
+<p>Get the <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> context. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">53</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00124">124</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
 
-<p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00044">mlir::StandardTypes::BF16</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00113">convertFunctionSignature()</a>, <a class="el" href="Types_8h_source.html#l00258">mlir::Type::dyn_cast()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="StandardTypes_8h_source.html#l00045">mlir::StandardTypes::F16</a>, <a class="el" href="StandardTypes_8h_source.html#l00046">mlir::StandardTypes::F32</a>, <a class="el" href="StandardTypes_8h_source.html#l00047">mlir::StandardTypes::F64</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="IR_2Dialect_8h_source.html#l00047">mlir::Dialect::getContext()</a>, <a class="el" href="Types_8cpp_source.html#l00027">mlir::Type::getContext()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01796">mlir::LLVM::LLVMType::getDoubleTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01799">mlir::LLVM::LLVMType::getFloatTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01802">mlir::LLVM::LLVMType::getHalfTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01813">mlir::LLVM::LLVMType::getIntNTy()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00065">mlir::IntegerType::getWidth()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00082">llvmDialect</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00081">module</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
+<p class="reference">References <a class="el" href="StandardTypes_8h_source.html#l00044">mlir::StandardTypes::BF16</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00172">convertFunctionSignature()</a>, <a class="el" href="Diagnostics_8cpp_source.html#l00301">mlir::emitError()</a>, <a class="el" href="StandardTypes_8h_source.html#l00045">mlir::StandardTypes::F16</a>, <a class="el" href="StandardTypes_8h_source.html#l00046">mlir::StandardTypes::F32</a>, <a class="el" href="StandardTypes_8h_source.html#l00047">mlir::StandardTypes::F64</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00559">mlir::UnknownLoc::get()</a>, <a class="el" href="IR_2Dialect_8h_source.html#l00047">mlir::Dialect::getContext()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01796">mlir::LLVM::LLVMType::getDoubleTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01799">mlir::LLVM::LLVMType::getFloatTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01802">mlir::LLVM::LLVMType::getHalfTy()</a>, <a class="el" href="LLVMDialect_8cpp_source.html#l01813">mlir::LLVM::LLVMType::getIntNTy()</a>, <a class="el" href="Types_8h_source.html#l00199">mlir::FunctionType::getNumInputs()</a>, <a class="el" href="StandardTypes_8cpp_source.html#l00065">mlir::IntegerType::getWidth()</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00113">llvmDialect</a>, <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00112">module</a>, and <a class="el" href="Attributes_8h_source.html#l00139">mlir::StandardAttributes::Type</a>.</p>
 
 </div>
 </div>
@@ -315,11 +355,11 @@ Protected Attributes</h2></td></tr>
 <p>Convert a non-empty list of types to be returned from a function into a supported <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> IR type. </p>
 <p>In particular, if more than one values is returned, create an <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> IR structure type with elements that correspond to each of the MLIR types converted with <code>convertType</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02154">2154</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02302">2302</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="LLVMDialect_8cpp_source.html#l01856">mlir::LLVM::LLVMType::getStructTy()</a>, and <a class="el" href="LLVMDialect_8cpp_source.html#l01697">llvmDialect</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00113">convertFunctionSignature()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00172">convertFunctionSignature()</a>.</p>
 
 </div>
 </div>
@@ -363,7 +403,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Promote the <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> struct representation of all MemRef descriptors to stack and use pointers to struct to avoid the complexity of the platform-specific C/C++ ABI lowering related to struct argument passing. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02190">2190</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02338">2338</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="STLExtras_8h_source.html#l00237">mlir::detail::indexed_accessor_range_base&lt; DerivedT, BaseT, T, PointerT, ReferenceT &gt;::size()</a>.</p>
 
@@ -403,7 +443,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Promote the <a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> struct representation of one MemRef descriptor to stack and use pointer to struct to avoid the complexity of the platform-specific C/C++ ABI lowering related to struct argument passing. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02172">2172</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l02320">2320</a> of file <a class="el" href="ConvertStandardToLLVM_8cpp_source.html">ConvertStandardToLLVM.cpp</a>.</p>
 
 <p class="reference">References <a class="el" href="Types_8h_source.html#l00264">mlir::Type::cast()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00294">mlir::OpBuilder::create()</a>, <a class="el" href="MLIRContext_8cpp_source.html#l00486">mlir::IndexType::get()</a>, <a class="el" href="Attributes_8cpp_source.html#l00271">mlir::IntegerAttr::get()</a>, <a class="el" href="IR_2Builders_8h_source.html#l00052">mlir::Builder::getContext()</a>, <a class="el" href="LLVMDialect_8h_source.html#l00116">mlir::LLVM::LLVMType::getInt64Ty()</a>, and <a class="el" href="Value_8cpp_source.html#l00034">mlir::Value::getType()</a>.</p>
 
@@ -430,9 +470,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00082">82</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00113">113</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00113">convertFunctionSignature()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">getLLVMContext()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00046">LLVMTypeConverter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00172">convertFunctionSignature()</a>, <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00124">getLLVMContext()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00115">LLVMTypeConverter()</a>.</p>
 
 </div>
 </div>
@@ -458,9 +498,9 @@ Protected Attributes</h2></td></tr>
 
 <p><a class="el" href="namespacemlir_1_1LLVM.html">LLVM</a> IR module used to parse/create types. </p>
 
-<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00081">81</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ConvertStandardToLLVM_8h_source.html#l00112">112</a> of file <a class="el" href="ConvertStandardToLLVM_8h_source.html">ConvertStandardToLLVM.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00053">getLLVMContext()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00046">LLVMTypeConverter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00124">getLLVMContext()</a>, and <a class="el" href="ConvertStandardToLLVM_8cpp_source.html#l00115">LLVMTypeConverter()</a>.</p>
 
 </div>
 </div>
@@ -471,7 +511,7 @@ Protected Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 31 2020 20:23:32 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 1 2020 00:22:41 for MLIR by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::quantizer::Minimizing\lNumericReducer\< T \>",height=0.2,width=0.4,color="black",URL="$structmlir_1_1quantizer_1_1MinimizingNumericReducer.html",tooltip="A binary reducer that minimizing a numeric type. "];
+  Node0 [label="mlir::quantizer::Expanding\lMinMaxReducer",height=0.2,width=0.4,color="black",URL="$structmlir_1_1quantizer_1_1ExpandingMinMaxReducer.html",tooltip="A binary reducer that expands a min/max range represented by a pair of doubles such that it represent..."];
 }

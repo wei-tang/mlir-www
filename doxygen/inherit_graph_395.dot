@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::MemRefRegion",height=0.2,width=0.4,color="black",URL="$structmlir_1_1MemRefRegion.html",tooltip="A region of a memref&#39;s data space; this is typically constructed by analyzing load/store op&#39;s on this..."];
+  Node0 [label="mlir::LoopNestStats",height=0.2,width=0.4,color="black",URL="$structmlir_1_1LoopNestStats.html",tooltip="LoopNestStats aggregates various per-loop statistics (eg. "];
 }

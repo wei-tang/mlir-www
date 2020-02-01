@@ -4,5 +4,5 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="mlir::AffineCopyOptions",height=0.2,width=0.4,color="black",URL="$structmlir_1_1AffineCopyOptions.html",tooltip="Explicit copy / DMA generation options for mlir::affineDataCopyGenerate. "];
+  Node0 [label="mlir::AffineBound",height=0.2,width=0.4,color="black",URL="$classmlir_1_1AffineBound.html",tooltip="AffineBound represents a lower or upper bound in the for operation. "];
 }
