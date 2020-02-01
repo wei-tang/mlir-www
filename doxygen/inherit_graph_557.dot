@@ -1,8 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  bgcolor="transparent";
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="mlir::TypeConverter\l::SignatureConversion",height=0.2,width=0.4,color="black",URL="$classmlir_1_1TypeConverter_1_1SignatureConversion.html",tooltip="This class provides all of the information necessary to convert a type signature. ..."];
-}

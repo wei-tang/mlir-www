@@ -1,8 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  bgcolor="transparent";
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="mlir::CallGraphNode\l::Edge",height=0.2,width=0.4,color="black",URL="$classmlir_1_1CallGraphNode_1_1Edge.html",tooltip="This class represents a directed edge between two nodes in the callgraph. "];
-}

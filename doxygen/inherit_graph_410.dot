@@ -1,8 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  bgcolor="transparent";
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="mlir::OpAsmParser::\lOperandType",height=0.2,width=0.4,color="black",URL="$structmlir_1_1OpAsmParser_1_1OperandType.html",tooltip="This is the representation of an operand reference. "];
-}

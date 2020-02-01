@@ -1,8 +1,0 @@
-digraph "Graphical Class Hierarchy"
-{
-  bgcolor="transparent";
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  rankdir="LR";
-  Node0 [label="mlir::Location",height=0.2,width=0.4,color="black",URL="$classmlir_1_1Location.html",tooltip="This class defines the main interface for locations in MLIR and acts as a non-nullable wrapper around..."];
-}
