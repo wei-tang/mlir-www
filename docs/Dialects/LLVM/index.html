@@ -6,7 +6,7 @@ operations and LLVM IR does not have a <code>constant</code> operation).</p><p>I
 <a href=https://llvm.org/docs/LangRef.html>intermediate representation of LLVM</a>
 and
 &ldquo;LLVM IR <em>dialect</em>&rdquo; to refer to the MLIR dialect reflecting LLVM instructions
-and types.</p><p>[TOC]</p><h2 id=context-and-module-association>Context and Module Association</h2><p>The LLVM IR dialect object <em>contains</em> an LLVM Context and an LLVM Module that it
+and types.</p><p><nav id=TableOfContents><ul><li><a href=#context-and-module-association>Context and Module Association</a></li><li><a href=#types>Types</a></li><li><a href=#operations>Operations</a><ul><li><a href=#llvm-functions>LLVM functions</a></li><li><a href=#llvm-ir-operations>LLVM IR operations</a></li><li><a href=#auxiliary-mlir-operations>Auxiliary MLIR operations</a></li></ul></li></ul></nav><h2 id=context-and-module-association>Context and Module Association</h2><p>The LLVM IR dialect object <em>contains</em> an LLVM Context and an LLVM Module that it
 uses to define, print, parse and manage LLVM IR types. These objects can be
 obtained from the dialect object using <code>.getLLVMContext()</code> and
 <code>getLLVMModule()</code>. All LLVM IR objects that interact with the LLVM IR dialect
