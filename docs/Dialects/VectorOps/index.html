@@ -53,24 +53,25 @@ which should be expressed in their indexing maps.</p><pre><code>           Free 
 and acc arguments. An indexing map attribute specifies a mapping from each
 iterator in the iterator type list, to each dimension of an N-D vector.</p><p>Examples:</p><p>// 2D vector contraction with one contracting dimension (matmul).
 #contraction_accesses = [
-(i, j, k) -> (i, k),
-(i, j, k) -> (k, j),
-(i, j, k) -> (i, j)
+affine_map&lt;(i, j, k) -> (i, k)>,
+affine_map&lt;(i, j, k) -> (k, j)>,
+affine_map&lt;(i, j, k) -> (i, j)>
 ]
 #contraction_trait = {
 indexing_maps = #contraction_accesses,
-iterator_types = [parallel, parallel, reduction]
+iterator_types = [&ldquo;parallel&rdquo;, &ldquo;parallel&rdquo;, &ldquo;reduction&rdquo;]
 }</p><p>%3 = vector.contract #contraction_trait %0, %1, %2
 : vector&lt;4x3xf32>, vector&lt;3x7xf32> into vector&lt;4x7xf32></p><p>// 4D to 3D vector contraction with two contracting dimensions and
 // one batch dimension.
 #contraction_accesses = [
-(b0, f0, f1, c0, c1) -> (c0, b0, c1, f0),
-(b0, f0, f1, c0, c1) -> (b0, c1, c0, f1),
-(b0, f0, f1, c0, c1) -> (b0, f0, f1)
+affine_map&lt;(b0, f0, f1, c0, c1) -> (c0, b0, c1, f0)>,
+affine_map&lt;(b0, f0, f1, c0, c1) -> (b0, c1, c0, f1)>,
+affine_map&lt;(b0, f0, f1, c0, c1) -> (b0, f0, f1)>
 ]
 #contraction_trait = {
 indexing_maps = #contraction_accesses,
-iterator_types = [parallel, parallel, parallel reduction, reduction]
+iterator_types = [&ldquo;parallel&rdquo;, &ldquo;parallel&rdquo;, &ldquo;parallel&rdquo;,
+&ldquo;reduction&rdquo;, &ldquo;reduction&rdquo;]
 }</p><p>%4 = vector.contract #contraction_trait %0, %1, %2
 : vector&lt;7x8x16x15xf32>, vector&lt;8x16x7x5xf32> into vector&lt;8x15x5xf32></p><p>// 4D vector contraction with two contracting dimensions and optional
 // vector mask arguments.
