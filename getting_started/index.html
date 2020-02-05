@@ -12,7 +12,7 @@ mkdir llvm-project/build
 cmake -G Ninja ../llvm <span class=se>\
 </span><span class=se></span>   -DLLVM_ENABLE_PROJECTS<span class=o>=</span>mlir <span class=se>\
 </span><span class=se></span>   -DLLVM_BUILD_EXAMPLES<span class=o>=</span>ON <span class=se>\
-</span><span class=se></span>   -DLLVM_TARGETS_TO_BUILD<span class=o>=</span><span class=s2>&#34;host&#34;</span> <span class=se>\
+</span><span class=se></span>   -DLLVM_TARGETS_TO_BUILD<span class=o>=</span><span class=s2>&#34;X86;NVPTX;AMDGPU&#34;</span> <span class=se>\
 </span><span class=se></span>   -DCMAKE_BUILD_TYPE<span class=o>=</span>Release <span class=se>\
 </span><span class=se></span>   -DLLVM_ENABLE_ASSERTIONS<span class=o>=</span>ON <span class=se>\
 </span><span class=se></span><span class=c1>#  -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DLLVM_ENABLE_LLD=ON</span>
