@@ -448,8 +448,35 @@ the 1.0, 1.1, 1.2, and 1.3 versions of SPIR-V and the 1.0 version of the SPIR-V
 extended instructions for GLSL. Further Vulkan extensions may enable more SPIR-V
 instructions.</p><p>SPIR-V compilation should also take into consideration of the execution
 environment, so we generate SPIR-V modules valid for the target environment.
-This is conveyed by the <code>spv.target_env</code> attribute. It is a triple of</p><ul><li><code>version</code>: a 32-bit integer indicating the target SPIR-V version.</li><li><code>extensions</code>: a string array attribute containing allowed extensions.</li><li><code>capabilities</code>: a 32-bit integer array attribute containing allowed
-capabilities.</li></ul><p>Dialect conversion framework will utilize the information in <code>spv.target_env</code>
+This is conveyed by the <code>spv.target_env</code> attribute. It should be of
+<code>#spv.target_env</code> attribute kind, which is defined as:</p><pre><code>spirv-version    ::= `V_1_0` | `V_1_1` | ...
+spirv-extension  ::= `SPV_KHR_16bit_storage` | `SPV_EXT_physical_storage_buffer` | ...
+spirv-capability ::= `Shader` | `Kernel` | `GroupNonUniform` | ...
+
+spirv-extension-list     ::= `[` (spirv-extension-elements)? `]`
+spirv-extension-elements ::= spirv-extension (`,` spirv-extension)*
+
+spirv-capability-list     ::= `[` (spirv-capability-elements)? `]`
+spirv-capability-elements ::= spirv-capability (`,` spirv-capability)*
+
+spirv-resource-limits ::= dictionary-attribute
+
+spirv-target-env-attribute ::= `#` `spv.target_env` `&lt;`
+                                  spirv-version `,`
+                                  spirv-extensions-list `,`
+                                  spirv-capability-list `,`
+                                  spirv-resource-limits `&gt;`
+</code></pre><p>The attribute has a few fields:</p><ul><li>The target SPIR-V version.</li><li>A list of SPIR-V extensions for the target.</li><li>A list of SPIR-V capabilities for the target.</li><li>A dictionary of target resource limits (see the
+<a href=https://renderdoc.org/vkspec_chunked/chap36.html#limits>Vulkan spec</a>
+for explanation):<ul><li><code>max_compute_workgroup_invocations</code></li><li><code>max_compute_workgroup_size</code></li></ul></li></ul><p>For example,</p><pre><code>module attributes {
+spv.target_env = #spv.target_env&lt;
+    V_1_3, [SPV_KHR_8bit_storage], [Shader, GroupNonUniform]
+    {
+      max_compute_workgroup_invocations = 128 : i32,
+      max_compute_workgroup_size = dense&lt;[128, 128, 64]&gt; : vector&lt;3xi32&gt;
+    }&gt;
+} { ... }
+</code></pre><p>Dialect conversion framework will utilize the information in <code>spv.target_env</code>
 to properly filter out patterns and ops not available in the target execution
 environment.</p><h2 id=shader-interface-abi>Shader interface (ABI)</h2><p>SPIR-V itself is just expressing computation happening on GPU device. SPIR-V
 programs themselves are not enough for running workloads on GPU; a companion
