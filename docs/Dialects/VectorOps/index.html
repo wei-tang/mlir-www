@@ -32,11 +32,12 @@ rows 1 | 1 1 0
 dimension pairs from 2 vectors of rank M and N respectively, adds this
 intermediate result to the accumulator argument of rank K, and returns a
 vector result of rank K (where K = num_lhs_free_dims + num_rhs_free_dims +
-num_batch_dims (see dimension type descriptions below)).</p><p>Optional vector mask arguments (produced by CreateMaskOp or ConstantMaskOp)
+num_batch_dims (see dimension type descriptions below)). For K = 0 (no
+free or batch dimensions), the accumulator and output are a scalar.</p><p>Optional vector mask arguments (produced by CreateMaskOp or ConstantMaskOp)
 specify the dynamic dimension sizes of valid data within the lhs/rhs vector
 arguments.</p><p>An iterator type attribute list must be specified, where each element of
 the list represents an iterator with one of the following types:</p><p>*) &ldquo;reduction&rdquo;: reduction dimensions are present in the lhs and rhs
-arguments but not in the output (or optional accumulator
+arguments but not in the output (and accumulator
 argument). These are the dimensions along which the vector
 contraction op computes the sum of products, and
 contracting dimension pair dimension sizes must match
@@ -51,7 +52,18 @@ which should be expressed in their indexing maps.</p><pre><code>           Free 
            should be expressed in their indexing maps.
 </code></pre><p>An indexing map attribute list must be specified with an entry for lhs, rhs
 and acc arguments. An indexing map attribute specifies a mapping from each
-iterator in the iterator type list, to each dimension of an N-D vector.</p><p>Examples:</p><p>// 2D vector contraction with one contracting dimension (matmul).
+iterator in the iterator type list, to each dimension of an N-D vector.</p><p>Examples:</p><p>// Simple dot product (K = 0).
+#contraction_accesses = [
+affine_map&lt;(i) -> (i)>,
+affine_map&lt;(i) -> (i)>,
+affine_map&lt;(i) -> ()>
+]
+#contraction_trait = {
+indexing_maps = #contraction_accesses,
+iterator_types = [&ldquo;reduction&rdquo;]
+}
+%3 = vector.contract #contraction_trait %0, %1, %2
+: vector&lt;10xf32>, vector&lt;10xf32> into f32</p><p>// 2D vector contraction with one contracting dimension (matmul, K = 2).
 #contraction_accesses = [
 affine_map&lt;(i, j, k) -> (i, k)>,
 affine_map&lt;(i, j, k) -> (k, j)>,
@@ -62,7 +74,7 @@ indexing_maps = #contraction_accesses,
 iterator_types = [&ldquo;parallel&rdquo;, &ldquo;parallel&rdquo;, &ldquo;reduction&rdquo;]
 }</p><p>%3 = vector.contract #contraction_trait %0, %1, %2
 : vector&lt;4x3xf32>, vector&lt;3x7xf32> into vector&lt;4x7xf32></p><p>// 4D to 3D vector contraction with two contracting dimensions and
-// one batch dimension.
+// one batch dimension (K = 3).
 #contraction_accesses = [
 affine_map&lt;(b0, f0, f1, c0, c1) -> (c0, b0, c1, f0)>,
 affine_map&lt;(b0, f0, f1, c0, c1) -> (b0, c1, c0, f1)>,
@@ -77,7 +89,7 @@ iterator_types = [&ldquo;parallel&rdquo;, &ldquo;parallel&rdquo;, &ldquo;paralle
 // vector mask arguments.
 %lhs_mask = vector.constant_mask [7, 8, 16, 15] : vector&lt;7x8x16x15xi1>
 %rhs_mask = vector.constant_mask [8, 16, 7, 5] : vector&lt;8x16x7x5xi1></p><p>%5 = vector.contract #contraction_trait %0, %1, %2, %lhs_mask, %rhs_mask
-: vector&lt;7x8x16x15xf32>, vector&lt;8x16x7x5xf32> into vector&lt;8x15x8x5xf32></p><h4 id=operands-2>Operands:</h4><ol><li><code>lhs</code>: vector of any type values</li><li><code>rhs</code>: vector of any type values</li><li><code>acc</code>: vector of any type values</li><li><code>masks</code>: vector of 1-bit integer values</li></ol><h4 id=attributes-2>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>indexing_maps</code></td><td align=center><code>ArrayAttr</code></td><td>AffineMap array attribute attribute</td></tr><tr><td align=center><code>iterator_types</code></td><td align=center><code>ArrayAttr</code></td><td>array attribute attribute</td></tr></tbody></table><h4 id=results-2>Results:</h4><ol><li>«unnamed»: vector of any type values</li></ol><h3 id=vectorcreate_mask-vectorcreatemaskop>vector.create_mask (vector::CreateMaskOp)</h3><p>creates a vector mask</p><h4 id=description-3>Description:</h4><p>Creates and returns a vector mask where elements of the result vector
+: vector&lt;7x8x16x15xf32>, vector&lt;8x16x7x5xf32> into vector&lt;8x15x8x5xf32></p><h4 id=operands-2>Operands:</h4><ol><li><code>lhs</code>: vector of any type values</li><li><code>rhs</code>: vector of any type values</li><li><code>acc</code>: any type</li><li><code>masks</code>: vector of 1-bit integer values</li></ol><h4 id=attributes-2>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>indexing_maps</code></td><td align=center><code>ArrayAttr</code></td><td>AffineMap array attribute attribute</td></tr><tr><td align=center><code>iterator_types</code></td><td align=center><code>ArrayAttr</code></td><td>array attribute attribute</td></tr></tbody></table><h4 id=results-2>Results:</h4><ol><li>«unnamed»: any type</li></ol><h3 id=vectorcreate_mask-vectorcreatemaskop>vector.create_mask (vector::CreateMaskOp)</h3><p>creates a vector mask</p><h4 id=description-3>Description:</h4><p>Creates and returns a vector mask where elements of the result vector
 are set to &lsquo;0&rsquo; or &lsquo;1&rsquo;, based on whether the element indices are contained
 within a hyper-rectangular region specified by the operands. Specifically,
 each operand specifies a range [0, operand-value) for a unique dimension in
