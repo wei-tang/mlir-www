@@ -368,7 +368,8 @@ the <code>type</code> directive.</li></ul></li><li><p><code>operands</code></p><
 <code>operands</code> directive, or the <code>results</code> directive.</li></ul></li></ul><h4 id=literals>Literals</h4><p>A literal is either a keyword or punctuation surrounded by ``.</p><p>The following are the set of valid punctuation:
 <code>:</code>, <code>,</code>, <code>=</code>, <code>&lt;</code>, <code>></code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>-></code></p><h4 id=variables>Variables</h4><p>A variable is an entity that has been registered on the operation itself, i.e.
 an argument(attribute or operand), result, etc. In the <code>CallOp</code> example above,
-the variables would be <code>$callee</code> and <code>$args</code>.</p><h4 id=requirements>Requirements</h4><p>The format specification has a certain set of requirements that must be adhered
+the variables would be <code>$callee</code> and <code>$args</code>.</p><p>Attribute variables are printed with their respective value type, unless that
+value type is buildable. In those cases, the type of the attribute is elided.</p><h4 id=requirements>Requirements</h4><p>The format specification has a certain set of requirements that must be adhered
 to:</p><ol><li>The output and operation name are never shown as they are fixed and cannot be
 altered.</li><li>All operands within the operation must appear within the format, either
 individually or with the <code>operands</code> directive.</li><li>All operand and result types must appear within the format using the various
