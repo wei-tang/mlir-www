@@ -7,7 +7,7 @@ performed by the specialized dialect conversion pass by running</p><div class=hi
 standard dialect (operations on scalars and vectors, control flow operations) as
 described in this document. We use the terminology defined by the
 <a href=/docs/Dialects/LLVM/>LLVM IR Dialect description</a>
-throughout this document.</p><p><nav id=TableOfContents><ul><li><a href=#type-conversion>Type Conversion</a><ul><li><a href=#scalar-types>Scalar Types</a></li><li><a href=#index-type>Index Type</a></li><li><a href=#vector-types>Vector Types</a></li><li><a href=#memref-types>Memref Types</a></li><li><a href=#function-types>Function Types</a></li></ul></li><li><a href=#calling-convention>Calling Convention</a><ul><li><a href=#function-signature-conversion>Function Signature Conversion</a></li><li><a href=#result-packing>Result Packing</a></li><li><a href=#calling-convention-for-memref>Calling Convention for memref</a></li></ul></li><li><a href=#repeated-successor-removal>Repeated Successor Removal</a></li><li><a href=#default-memref-model>Default Memref Model</a><ul><li><a href=#memref-descriptor>Memref Descriptor</a></li><li><a href=#index-linearization>Index Linearization</a></li></ul></li></ul></nav><h2 id=type-conversion>Type Conversion</h2><h3 id=scalar-types>Scalar Types</h3><p>Scalar types are converted to their LLVM counterparts if they exist. The
+throughout this document.</p><p><nav id=TableOfContents><ul><li><a href=#type-conversion>Type Conversion</a><ul><li><a href=#scalar-types>Scalar Types</a></li><li><a href=#index-type>Index Type</a></li><li><a href=#vector-types>Vector Types</a></li><li><a href=#memref-types>Memref Types</a></li><li><a href=#function-types>Function Types</a></li></ul></li><li><a href=#calling-convention>Calling Convention</a><ul><li><a href=#function-signature-conversion>Function Signature Conversion</a></li><li><a href=#result-packing>Result Packing</a></li><li><a href=#calling-convention-for-memref>Calling Convention for memref</a></li><li><a href=#c-compatible-wrapper-emission>C-compatible wrapper emission</a></li></ul></li><li><a href=#repeated-successor-removal>Repeated Successor Removal</a></li><li><a href=#default-memref-model>Default Memref Model</a><ul><li><a href=#memref-descriptor>Memref Descriptor</a></li><li><a href=#index-linearization>Index Linearization</a></li></ul></li></ul></nav><h2 id=type-conversion>Type Conversion</h2><h3 id=scalar-types>Scalar Types</h3><p>Scalar types are converted to their LLVM counterparts if they exist. The
 following conversions are currently implemented.</p><ul><li><code>i*</code> converts to <code>!llvm.i*</code></li><li><code>f16</code> converts to <code>!llvm.half</code></li><li><code>f32</code> converts to <code>!llvm.float</code></li><li><code>f64</code> converts to <code>!llvm.double</code></li></ul><p>Note: <code>bf16</code> type is not supported by LLVM IR and cannot be converted.</p><h3 id=index-type>Index Type</h3><p>Index type is converted to a wrapped LLVM IR integer with bitwidth equal to the
 bitwidth of the pointer size as specified by the
 <a href=https://llvm.org/docs/LangRef.html#data-layout>data layout</a>
@@ -152,55 +152,203 @@ defines and uses of the values being returned.</p><p>Example:</p><div class=high
 </span><span class=c></span>  <span class=s>&#34;use_i32&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
   <span class=s>&#34;use_i64&#34;</span><span class=p>(</span><span class=nv>%4</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=calling-convention-for-memref>Calling Convention for <code>memref</code></h3><p>For function <em>arguments</em> of <code>memref</code> type, ranked or unranked, the type of the
-argument is a <em>pointer</em> to the memref descriptor type defined above. The caller
-of such function is required to store the descriptor in memory and guarantee
-that the storage remains live until the callee returns. The caller can than pass
-the pointer to that memory as function argument. The callee loads from the
-pointers it was passed as arguments in the entry block of the function, making
-the descriptor passed in as argument available for use similarly to
-ocally-defined descriptors.</p><p>This convention is implemented in the conversion of <code>std.func</code> and <code>std.call</code> to
-the LLVM dialect. Conversions from other dialects should take it into account.
-The motivation for this convention is to simplify the ABI for interfacing with
-other LLVM modules, in particular those generated from C sources, while avoiding
-platform-specific aspects until MLIR has a proper ABI modeling.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
-<span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
-  <span class=nv>%c0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0</span> <span class=p>:</span> <span class=k>index</span>
-  load <span class=nv>%arg0</span><span class=p>[</span><span class=nv>%c0</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span>
+</code></pre></div><h3 id=calling-convention-for-memref>Calling Convention for <code>memref</code></h3><p>Function <em>arguments</em> of <code>memref</code> type, ranked or unranked, are <em>expanded</em> into a
+list of arguments of non-aggregate types that the memref descriptor defined
+above comprises. That is, the outer struct type and the inner array types are
+replaced with individual arguments.</p><p>This convention is implemented in the conversion of <code>std.func</code> and <code>std.call</code> to
+the LLVM dialect, with the former unpacking the descriptor into a set of
+individual values and the latter packing those values back into a descriptor so
+as to make it transparently usable by other operations. Conversions from other
+dialects should take this convention into account.</p><p>This specific convention is motivated by the necessity to specify alignment and
+aliasing attributes on the raw pointers underpinning the memref.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
   <span class=kt>return</span>
 <span class=p>}</span>
 
-<span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>{</span>
-  <span class=nv>%0</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span>
-  call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span><span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+<span class=c>// Gets converted to the following.
+</span><span class=c></span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span>   <span class=c>// Allocated pointer.
+</span><span class=c></span>               <span class=nv>%arg1</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span>   <span class=c>// Aligned pointer.
+</span><span class=c></span>               <span class=nv>%arg2</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>         <span class=c>// Offset.
+</span><span class=c></span>               <span class=nv>%arg3</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>         <span class=c>// Size in dim 0.
+</span><span class=c></span>               <span class=nv>%arg4</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>{</span>       <span class=c>// Stride in dim 0.
+</span><span class=c></span>  <span class=c>// Populate memref descriptor structure.
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span>undef <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg2</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg3</span><span class=p>,</span> <span class=nv>%3</span><span class=p>[</span><span class=m>3</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%5</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg4</span><span class=p>,</span> <span class=nv>%4</span><span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Descriptor is now usable as a single value.
+</span><span class=c></span>  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%5</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;get&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span>
+  call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
   <span class=kt>return</span>
 <span class=p>}</span>
 
-<span class=c>// Gets converted to the following IR.
-</span><span class=c></span><span class=c>// Accepts a pointer to the memref descriptor.
-</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
-  <span class=c>// Loads the descriptor so that it can be used similarly to locally
-</span><span class=c></span>  <span class=c>// created descriptors.
-</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>load <span class=nv>%arg0</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span>
+<span class=c>// Gets converted to the following.
+</span><span class=c></span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;get&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Unpack the memref descriptor.
+</span><span class=c></span>  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>3</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%5</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Pass individual values to the callee.
+</span><span class=c></span>  llvm<span class=p>.</span>call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%2</span><span class=p>,</span> <span class=nv>%3</span><span class=p>,</span> <span class=nv>%4</span><span class=p>,</span> <span class=nv>%5</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
 
-llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>{</span>
-  <span class=c>// ... Allocation ...
-</span><span class=c></span>  <span class=c>// Definition of the descriptor.
-</span><span class=c></span>  <span class=nv>%7</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span>undef <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
-  <span class=c>// ... Filling in the descriptor ...
-</span><span class=c></span>  <span class=nv>%14</span> <span class=p>=</span> <span class=c>// The final value of the allocated descriptor.
-</span><span class=c></span>  <span class=c>// Allocate the memory for the descriptor and store it.
-</span><span class=c></span>  <span class=nv>%15</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>1</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
-  <span class=nv>%16</span> <span class=p>=</span> llvm<span class=p>.</span>alloca <span class=nv>%15</span> <span class=p>x</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }&#34;</span><span class=p>&gt;</span>
-      <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span>
-  llvm<span class=p>.</span>store <span class=nv>%14</span><span class=p>,</span> <span class=nv>%16</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span>
-  <span class=c>// Pass the pointer to the function.
-</span><span class=c></span>  llvm<span class=p>.</span>call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%16</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [1 x i64], [1 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+</code></pre></div><p>For <strong>unranked</strong> memrefs, the list of function arguments always contains two
+elements, same as the unranked memref descriptor: an integer rank, and a
+type-erased (<code>!llvm&lt;"i8*"></code>) pointer to the ranked memref descriptor. Note that
+while the <em>calling convention</em> does not require stack allocation, <em>casting</em> to
+unranked memref does since one cannot take an address of an SSA value containing
+the ranked memref. The caller is in charge of ensuring the thread safety and
+eventually removing unnecessary stack allocations in cast operations.</p><p>Example</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+
+<span class=c>// Gets converted to the following.
+</span><span class=c></span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>       <span class=c>// Rank.
+</span><span class=c></span>               <span class=nv>%arg1</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span> <span class=c>// Type-erased pointer to descriptor.
+</span><span class=c></span>  <span class=c>// Pack the unranked memref descriptor.
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span>undef <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span>
+
+  <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;get&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span><span class=p>)</span>
+  call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span><span class=p>:</span> <span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=p>*</span>xf32<span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+
+<span class=c>// Gets converted to the following.
+</span><span class=c></span>
+llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;get&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span><span class=p>)</span>
+
+  <span class=c>// Unpack the memref descriptor.
+</span><span class=c></span>  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ i64, i8* }&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Pass individual values to the callee.
+</span><span class=c></span>  llvm<span class=p>.</span>call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%2</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i8*&#34;</span><span class=p>&gt;</span><span class=p>)</span>
   llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
 </code></pre></div><p><em>This convention may or may not apply if the conversion of MemRef types is
-overridden by the user.</em></p><h2 id=repeated-successor-removal>Repeated Successor Removal</h2><p>Since the goal of the LLVM IR dialect is to reflect LLVM IR in MLIR, the dialect
+overridden by the user.</em></p><h3 id=c-compatible-wrapper-emission>C-compatible wrapper emission</h3><p>In practical cases, it may be desirable to have externally-facing functions
+with a single attribute corresponding to a MemRef argument. When interfacing
+with LLVM IR produced from C, the code needs to respect the corresponding
+calling convention. The conversion to the LLVM dialect provides an option to
+generate wrapper functions that take memref descriptors as pointers-to-struct
+compatible with data types produced by Clang when compiling C sources.</p><p>More specifically, a memref argument is converted into a pointer-to-struct
+argument of type <code>{T*, T*, i64, i64[N], i64[N]}*</code> in the wrapper function, where
+<code>T</code> is the converted element type and <code>N</code> is the memref rank. This type is
+compatible with that produced by Clang for the following C++ structure template
+instantiations or their equivalents in C.</p><div class=highlight><pre class=chroma><code class=language-cpp data-lang=cpp><span class=k>template</span><span class=o>&lt;</span><span class=k>typename</span> <span class=n>T</span><span class=p>,</span> <span class=n>size_t</span> <span class=n>N</span><span class=o>&gt;</span>
+<span class=k>struct</span> <span class=nc>MemRefDescriptor</span> <span class=p>{</span>
+  <span class=n>T</span> <span class=o>*</span><span class=n>allocated</span><span class=p>;</span>
+  <span class=n>T</span> <span class=o>*</span><span class=n>aligned</span><span class=p>;</span>
+  <span class=n>intptr_t</span> <span class=n>offset</span><span class=p>;</span>
+  <span class=n>intptr_t</span> <span class=n>sizes</span><span class=p>[</span><span class=n>N</span><span class=p>]</span><span class=p>;</span>
+  <span class=n>intptr_t</span> <span class=n>stides</span><span class=p>[</span><span class=n>N</span><span class=p>]</span><span class=p>;</span>
+<span class=p>}</span><span class=p>;</span>
+</code></pre></div><p>If enabled, the option will do the following. For <em>external</em> functions declared
+in the MLIR module.</p><ol><li>Declare a new function <code>_mlir_ciface_&lt;original name></code> where memref arguments
+are converted to pointer-to-struct and the remaining arguments are converted
+as usual.</li><li>Add a body to the original function (making it non-external) that<ol><li>allocates a memref descriptor,</li><li>populates it, and</li><li>passes the pointer to it into the newly declared interface function</li><li>collects the result of the call and returns it to the caller.</li></ol></li></ol><p>For (non-external) functions defined in the MLIR module.</p><ol><li>Define a new function <code>_mlir_ciface_&lt;original name></code> where memref arguments
+are converted to pointer-to-struct and the remaining arguments are converted
+as usual.</li><li>Populate the body of the newly defined function with IR that<ol><li>loads descriptors from pointers;</li><li>unpacks descriptor into individual non-aggregate values;</li><li>passes these values into the original function;</li><li>collects the result of the call and returns it to the caller.</li></ol></li></ol><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>
+<span class=kt>func</span> <span class=nf>@qux</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span>
+
+<span class=c>// Gets converted into the following.
+</span><span class=c></span>
+<span class=c>// Function with unpacked arguments.
+</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@qux</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%arg2</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>
+               <span class=nv>%arg3</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=nv>%arg4</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=nv>%arg5</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>
+               <span class=nv>%arg6</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// Populate memref descriptor (as per calling convention).
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span>undef <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg0</span><span class=p>,</span> <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg1</span><span class=p>,</span> <span class=nv>%1</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg2</span><span class=p>,</span> <span class=nv>%2</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg3</span><span class=p>,</span> <span class=nv>%3</span><span class=p>[</span><span class=m>3</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%5</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg5</span><span class=p>,</span> <span class=nv>%4</span><span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%6</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg4</span><span class=p>,</span> <span class=nv>%5</span><span class=p>[</span><span class=m>3</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%7</span> <span class=p>=</span> llvm<span class=p>.</span>insertvalue <span class=nv>%arg6</span><span class=p>,</span> <span class=nv>%6</span><span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Store the descriptor in a stack-allocated space.
+</span><span class=c></span>  <span class=nv>%8</span> <span class=p>=</span> llvm<span class=p>.</span>mlir<span class=p>.</span><span class=kt>constant</span><span class=p>(</span><span class=m>1</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span>
+  <span class=nv>%9</span> <span class=p>=</span> llvm<span class=p>.</span>alloca <span class=nv>%8</span> <span class=p>x</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+                 <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }*&#34;</span><span class=p>&gt;</span>
+  llvm<span class=p>.</span>store <span class=nv>%7</span><span class=p>,</span> <span class=nv>%9</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }*&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Call the interface function.
+</span><span class=c></span>  llvm<span class=p>.</span>call <span class=nf>@_mlir_ciface_qux</span><span class=p>(</span><span class=nv>%9</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+
+  <span class=c>// The stored descriptor will be freed on return.
+</span><span class=c></span>  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+
+<span class=c>// Interface function.
+</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@_mlir_ciface_qux</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span>
+</code></pre></div><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  <span class=kt>return</span>
+<span class=p>}</span>
+
+<span class=c>// Gets converted into the following.
+</span><span class=c></span>
+<span class=c>// Function with unpacked arguments.
+</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%arg2</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>
+               <span class=nv>%arg3</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=nv>%arg4</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=nv>%arg5</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>
+               <span class=nv>%arg6</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>{</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+
+<span class=c>// Interface function callable from C.
+</span><span class=c></span>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@_mlir_ciface_foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>{</span>
+  <span class=c>// Load the descriptor.
+</span><span class=c></span>  <span class=nv>%0</span> <span class=p>=</span> llvm<span class=p>.</span>load <span class=nv>%arg0</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }*&#34;</span><span class=p>&gt;</span>
+
+  <span class=c>// Unpack the descriptor as per calling convention.
+</span><span class=c></span>  <span class=nv>%1</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%3</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>2</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%4</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>3</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%5</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>3</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%6</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  <span class=nv>%7</span> <span class=p>=</span> llvm<span class=p>.</span>extractvalue <span class=nv>%0</span><span class=p>[</span><span class=m>4</span><span class=p>,</span> <span class=m>1</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;{ float*, float*, i64, [2 x i64], [2 x i64] }&#34;</span><span class=p>&gt;</span>
+  llvm<span class=p>.</span>call <span class=nf>@foo</span><span class=p>(</span><span class=nv>%1</span><span class=p>,</span> <span class=nv>%2</span><span class=p>,</span> <span class=nv>%3</span><span class=p>,</span> <span class=nv>%4</span><span class=p>,</span> <span class=nv>%5</span><span class=p>,</span> <span class=nv>%6</span><span class=p>,</span> <span class=nv>%7</span><span class=p>)</span>
+    <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;float*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span>
+       <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>Rationale: Introducing auxiliary functions for C-compatible interfaces is
+preferred to modifying the calling convention since it will minimize the effect
+of C compatibility on intra-module calls or calls between MLIR-generated
+functions. In particular, when calling external functions from an MLIR module in
+a (parallel) loop, the fact of storing a memref descriptor on stack can lead to
+stack exhaustion and/or concurrent access to the same address. Auxiliary
+interface function serves as an allocation scope in this case. Furthermore, when
+targeting accelerators with separate memory spaces such as GPUs, stack-allocated
+descriptors passed by pointer would have to be transferred to the device memory,
+which introduces significant overhead. In such situations, auxiliary interface
+functions are executed on host and only pass the values through device function
+invocation mechanism.</p><h2 id=repeated-successor-removal>Repeated Successor Removal</h2><p>Since the goal of the LLVM IR dialect is to reflect LLVM IR in MLIR, the dialect
 and the conversion procedure must account for the differences between block
 arguments and LLVM IR PHI nodes. In particular, LLVM IR disallows PHI nodes with
 different values coming from the same source. Therefore, the LLVM IR dialect
