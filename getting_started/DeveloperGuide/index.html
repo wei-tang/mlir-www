@@ -14,11 +14,9 @@ arguments are passed by non-const reference in general.</li><li>IR constructs ar
 .</li><li>Do <em>not</em> use recursive algorithms if the recursion can&rsquo;t be bounded
 statically: that is avoid recursion if there is a possible IR input that can
 trigger a stack overflow (for example traversing use-def chains in a
-recursive way). At the moment, we tolerate it for the two following cases:<ul><li>The nesting of the IR: we use recursion when traversing nested regions.</li><li>Type nesting: recursion may be used for the nesting of composite types.</li></ul></li><li>Follow the <code>git</code> conventions for writing a commit message, in particular the
-first line is the &ldquo;title&rdquo;, it should be followed by an empty line and an
-optional description. This
-<a href=https://chris.beams.io/posts/git-commit/>post</a>
-give examples and more details.</li></ul><p>Please run clang-format on the files you modified with the <code>.clang-format</code>
+recursive way). At the moment, we tolerate it for the two following cases:<ul><li>The nesting of the IR: we use recursion when traversing nested regions.</li><li>Type nesting: recursion may be used for the nesting of composite types.</li></ul></li><li>Follows git conventions for
+<a href=/getting_started/Contributing/#commit-messages>commit messages</a>
+.</li></ul><p>Please run clang-format on the files you modified with the <code>.clang-format</code>
 configuration file available in the root directory. Check the clang-format
 <a href=https://clang.llvm.org/docs/ClangFormat.html>documentation</a>
 for more details

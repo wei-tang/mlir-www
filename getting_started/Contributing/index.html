@@ -10,7 +10,39 @@ which pledges to foster an open and welcoming environment.</p><h3 id=contributin
 At the moment you need to also join this
 <a href=https://reviews.llvm.org/project/members/78/>group</a>
 to enable build and test of your Phabricator revisions.</p><p>Once a patch is approved on Phabricator and pass continuous integration checks,
-it can be pushed directly to the master branch of the repository.</p><h3 id=issue-tracking>Issue tracking</h3><p>To report a bug, use the
+it can be pushed directly to the master branch of the repository.</p><h4 id=using-arcanist>Using Arcanist</h4><p>Use
+<a href=https://llvm.org/docs/Phabricator.html#requesting-a-review-via-the-command-line>Arcanist</a>
+to send your patches for review. This triggers the continuous build system and
+preserves the authorship information in case somebody else commits the patch on
+your behalf.</p><p><strong>Do not use <code>arc land</code></strong>, push commits to master directly with <code>git</code>. Arcanist
+adds noisy tags to the commit message that we prefer to remove. See the
+<a href=http://lists.llvm.org/pipermail/llvm-dev/2019-December/137848.html>llvm-dev thread</a>
+on the subject for more information. <em>Note:</em> Arcanist also adds tags when you
+send a patch for review, by quietly amending your commit message. Make sure to
+<strong>remove Phabricator tags</strong> other than &ldquo;Differential Revision&rdquo; before pushing
+commits out to the repository.</p><p>The following script can be added to your <code>.bashrc</code> to create the <code>arcfilter</code>
+command. When called as <code>arcfilter</code> from the command line, it removes the
+Arcanist-injected tags from the last commit by amending its message.</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh><span class=k>function</span> arcfilter<span class=o>(</span><span class=o>)</span> <span class=o>{</span>  git log -1 --pretty<span class=o>=</span>%B <span class=p>|</span> sed  <span class=s1>&#39;s/^Summary://&#39;</span>  <span class=p>|</span> awk <span class=s1>&#39;/Reviewers: /{p=1; sub(/Reviewers: .*Differential Revision: /, &#34;&#34;)}; /Differential Revision: /{p=0;}; !p&#39;</span> <span class=p>|</span> git commit --amend -F - <span class=p>;</span> <span class=o>}</span>
+</code></pre></div><h4 id=first-time-contributors>First-time contributors</h4><p>LLVM follows a
+<a href=https://llvm.org/docs/DeveloperPolicy.html#obtaining-commit-access>policy</a>
+of granting established contributors direct commit access to the repository.
+If you make your first contributions to the LLVM infrastructure, you are unlikely
+to have commit access. In this case, ask the reviewers to commit the change
+for you after it has been accepted. Once you have demonstrated the ability to
+write high-quality patches, follow the
+<a href=https://llvm.org/docs/DeveloperPolicy.html#obtaining-commit-access>policy</a>
+to
+obtain commit access for yourself.</p><p><em>Note:</em> if you haven&rsquo;t used Arcanist to send your patch for review, committers
+don&rsquo;t have access to your preferred identity for commit messages. Make sure
+to communicate it to them through available channels or use the git sign-off
+functionality to make your identity visible in the commit message.</p><h4 id=commit-messages>Commit messages</h4><p>Follow the git conventions for writing a commit message, in particular the
+first line is the short title of the commit. The title should be followed by an
+empty line and a longer description. Prefer describing <em>why</em> the change is
+implemented rather than what it does. The latter can be inferred from the code.
+This
+<a href=https://chris.beams.io/posts/git-commit/>post</a>
+give examples and more
+details.</p><h3 id=issue-tracking>Issue tracking</h3><p>To report a bug, use the
 <a href="https://bugs.llvm.org/enter_bug.cgi?product=MLIR">MLIR product on the LLVM bug
 tracker</a>
 , try to pick a
