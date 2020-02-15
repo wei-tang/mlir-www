@@ -351,7 +351,7 @@ definition and providing a definition of the <code>*Op::fold</code> method.</p><
     <span class=k>return</span> <span class=k>nullptr</span><span class=p>;</span>
 
   <span class=n>size_t</span> <span class=n>elementIndex</span> <span class=o>=</span> <span class=n>index</span><span class=p>(</span><span class=p>)</span><span class=p>.</span><span class=n>getZExtValue</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
-  <span class=k>return</span> <span class=n>structAttr</span><span class=p>.</span><span class=n>getValue</span><span class=p>(</span><span class=p>)</span><span class=p>[</span><span class=n>elementIndex</span><span class=p>]</span><span class=p>;</span>
+  <span class=k>return</span> <span class=n>structAttr</span><span class=p>[</span><span class=n>elementIndex</span><span class=p>]</span><span class=p>;</span>
 <span class=p>}</span>
 </code></pre></div><p>To ensure that MLIR generates the proper constant operations when folding our
 <code>Toy</code> operations, i.e. <code>ConstantOp</code> for <code>TensorType</code> and <code>StructConstant</code> for
