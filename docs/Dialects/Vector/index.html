@@ -7,7 +7,7 @@ rewrites and lowerings that enable targeting specific instructions on concrete
 targets. These abstractions serve to separate concerns between operations on
 <code>memref</code> (a.k.a buffers) and operations on <code>vector</code> values. This is not a
 new proposal but rather a textual documentation of existing MLIR components
-along with a rationale.</p><p>The following diagram, recently presented with the
+along with a rationale.</p><h2 id=positioning-in-the-codegen-infrastructure>Positioning in the Codegen Infrastructure</h2><p>The following diagram, recently presented with the
 <a href=https://drive.google.com/corp/drive/u/0/folders/1sRAsgsd8Bvpm_IxREmZf2agsGU2KvrK->StructuredOps
 abstractions</a>
 ,
@@ -23,7 +23,7 @@ and other types of structured ops (be they <code>HLO</code>, <code>LHLO</code>, 
 Looking a bit forward in time, we can put a stake in the ground and venture
 that the higher level of <code>vector</code>-level primitives we build and target from
 codegen (or some user/language level), the simpler our task will be, the more
-complex patterns can be expressed and the better performance will be.</p><p>The existing MLIR <code>vector</code>-level dialects are related to the following
+complex patterns can be expressed and the better performance will be.</p><h2 id=components-of-a-generic-retargetable-vector-level-dialect>Components of a Generic Retargetable Vector-Level Dialect</h2><p>The existing MLIR <code>vector</code>-level dialects are related to the following
 bottom-up abstractions:</p><ol><li>Representation in <code>LLVMIR</code> via data structures, instructions and
 intrinsics. This is referred to as the <code>LLVM</code> level.</li><li>Set of machine-specific operations and types that are built to translate
 almost 1-1 with the HW ISA. This is referred to as the Hardware Vector level;
@@ -39,7 +39,7 @@ following top-down rewrites and conversions:</p><ol><li>MLIR Rewrite Patterns ap
 to progressively lower to implementations that match closer and closer to the
 <code>HWV</code>. Some patterns are &ldquo;in-dialect&rdquo; <code>VV -> VV</code> and some are conversions <code>VV -> HWV</code>.</li><li><code>Virtual Vector -> Hardware Vector</code> lowering is specified as a set of MLIR
 lowering patterns that are specified manually for now.</li><li><code>Hardware Vector -> LLVM</code> lowering is a mechanical process that is written
-manually at the moment and that should be automated, following the <code>LLVM -> Hardware Vector</code> ops generation as closely as possible.</li></ol><h2 id=llvm-level>LLVM level</h2><p>On CPU, the <code>n-D</code> <code>vector</code> type currently lowers to
+manually at the moment and that should be automated, following the <code>LLVM -> Hardware Vector</code> ops generation as closely as possible.</li></ol><h2 id=short-description-of-the-existing-infrastructure>Short Description of the Existing Infrastructure</h2><h3 id=llvm-level>LLVM level</h3><p>On CPU, the <code>n-D</code> <code>vector</code> type currently lowers to
 <code>!llvm&lt;array&lt;vector>></code>. More concretely, <code>vector&lt;4x8x128xf32></code> lowers to
 <code>!llvm&lt;[4 x [ 8 x [ 128 x float ]]]></code>.
 There are tradeoffs involved related to how one can access subvectors and how
@@ -47,7 +47,7 @@ one uses <code>llvm.extractelement</code>, <code>llvm.insertelement</code> and
 <code>llvm.shufflevector</code>. A
 <a href=#DeeperDive>deeper dive section</a>
 discusses the
-current lowering choices and tradeoffs.</p><h2 id=hardware-vector-ops>Hardware Vector Ops</h2><p>Hardware Vector Ops are implemented as one dialect per target.
+current lowering choices and tradeoffs.</p><h3 id=hardware-vector-ops>Hardware Vector Ops</h3><p>Hardware Vector Ops are implemented as one dialect per target.
 For internal hardware, we are auto-generating the specific HW dialects.
 For <code>GPU</code>, the <code>NVVM</code> dialect adds operations such as <code>mma.sync</code>, <code>shfl</code> and
 tests.
@@ -58,7 +58,7 @@ abstraction for all targets and perform cost-based lowering decisions in MLIR
 even for <code>LLVM</code>.
 Specialized <code>CPU</code> dialects that would capture specific features not well
 captured by LLVM peephole optimizations of on different types that core MLIR
-supports (e.g. Scalable Vectors) are welcome future extensions.</p><h2 id=virtual-vector-ops>Virtual Vector Ops</h2><p>Some existing Standard and VectorOps Dialect on <code>n-D</code> <code>vector</code> types comprise:</p><pre><code>%2 = std.addf %0, %1 : vector&lt;3x7x8xf32&gt;  // -&gt; vector&lt;3x7x8xf32&gt;
+supports (e.g. Scalable Vectors) are welcome future extensions.</p><h3 id=virtual-vector-ops>Virtual Vector Ops</h3><p>Some existing Standard and VectorOps Dialect on <code>n-D</code> <code>vector</code> types comprise:</p><pre><code>%2 = std.addf %0, %1 : vector&lt;3x7x8xf32&gt;  // -&gt; vector&lt;3x7x8xf32&gt;
 %2 = std.mulf %0, %1 : vector&lt;3x7x8xf32&gt;  // -&gt; vector&lt;3x7x8xf32&gt;
 %2 = std.splat %1    : vector&lt;3x7x8xf32&gt;  // -&gt; vector&lt;3x7x8xf32&gt;
 
@@ -66,14 +66,14 @@ supports (e.g. Scalable Vectors) are welcome future extensions.</p><h2 id=virtua
 %1 = vector.extract %0[1, 5]: vector&lt;3x7x8xf32&gt;            // -&gt; vector&lt;8xf32&gt;
 %2 = vector.outerproduct %0, %1: vector&lt;4xf32&gt;, vector&lt;8xf32&gt;     // -&gt; vector&lt;4x8xf32&gt;
 %3 = vector.outerproduct %0, %1, %2: vector&lt;4xf32&gt;, vector&lt;8xf32&gt; // fma when adding %2
-%3 = vector.strided_slice %0 {offsets = [2, 2], sizes = [2, 2], strides = [1, 1]}: 
+%3 = vector.strided_slice %0 {offsets = [2, 2], sizes = [2, 2], strides = [1, 1]}:
    vector&lt;4x8x16xf32&gt; // Returns a slice of type vector&lt;2x2x16xf32&gt;
 
-%2 = vector.transfer_read %A[%0, %1] 
+%2 = vector.transfer_read %A[%0, %1]
   {permutation_map = (d0, d1) -&gt; (d0)}: memref&lt;7x?xf32&gt;, vector&lt;4xf32&gt;
 
-vector.transfer_write %f1, %A[%i0, %i1, %i2, %i3] 
-  {permutation_map = (d0, d1, d2, d3) -&gt; (d3, d1, d0)} : 
+vector.transfer_write %f1, %A[%i0, %i1, %i2, %i3]
+  {permutation_map = (d0, d1, d2, d3) -&gt; (d3, d1, d0)} :
     vector&lt;5x4x3xf32&gt;, memref&lt;?x?x?x?xf32&gt;
 </code></pre><p>The list of VectorOps is currently undergoing evolutions and is best kept
 track of by following the evolution of the
@@ -85,7 +85,7 @@ doc</a>
 ). Recent
 extensions are driven by concrete use cases of interest. A notable such use
 case is the <code>vector.contract</code> op which applies principles of the StructuredOps
-abstraction to <code>vector</code> types.</p><h2 id=virtual-vector-rewrite-patterns>Virtual Vector Rewrite Patterns</h2><p>The following rewrite patterns exist at the <code>VV->VV</code> level:</p><ol><li>The now retired <code>MaterializeVector</code> pass used to legalize ops on a
+abstraction to <code>vector</code> types.</p><h3 id=virtual-vector-rewrite-patterns>Virtual Vector Rewrite Patterns</h3><p>The following rewrite patterns exist at the <code>VV->VV</code> level:</p><ol><li>The now retired <code>MaterializeVector</code> pass used to legalize ops on a
 coarse-grained virtual <code>vector</code> to a finer-grained virtual <code>vector</code> by
 unrolling. This has been rewritten as a retargetable unroll-and-jam pattern on
 <code>vector</code> ops and <code>vector</code> types.</li><li>The lowering of <code>vector_transfer</code> ops legalizes <code>vector</code> load/store ops to
@@ -93,7 +93,7 @@ permuted loops over scalar load/stores. This should evolve to loops over
 <code>vector</code> load/stores + <code>mask</code> operations as they become available <code>vector</code> ops
 at the <code>VV</code> level.</li></ol><p>The general direction is to add more Virtual Vector level ops and implement
 more useful <code>VV -> VV</code> rewrites as composable patterns that the PatternRewrite
-infrastructure can apply iteratively.</p><h2 id=virtual-vector-to-hardware-vector-lowering>Virtual Vector to Hardware Vector Lowering</h2><p>For now, <code>VV -> HWV</code> are specified in C++ (see for instance the
+infrastructure can apply iteratively.</p><h3 id=virtual-vector-to-hardware-vector-lowering>Virtual Vector to Hardware Vector Lowering</h3><p>For now, <code>VV -> HWV</code> are specified in C++ (see for instance the
 <a href=https://github.com/tensorflow/mlir/commit/0a0c4867c6a6fcb0a2f17ef26a791c1d551fe33d>SplatOpLowering for n-D
 vectors</a>
 or the
@@ -102,7 +102,7 @@ lowering</a>
 ).</p><p>Simple
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/test/Conversion/VectorToLLVM/vector-to-llvm.mlir>conversion
 tests</a>
-are available for the <code>LLVM</code> target starting from the Virtual Vector Level.</p><h2 id=hardware-as-vector-machines-of-minimum-granularity>Hardware as <code>vector</code> Machines of Minimum Granularity</h2><p>Higher-dimensional <code>vector</code>s are ubiquitous in modern HPC hardware. One way to
+are available for the <code>LLVM</code> target starting from the Virtual Vector Level.</p><h2 id=rationale>Rationale</h2><h3 id=hardware-as-vector-machines-of-minimum-granularity>Hardware as <code>vector</code> Machines of Minimum Granularity</h3><p>Higher-dimensional <code>vector</code>s are ubiquitous in modern HPC hardware. One way to
 think about Generic Retargetable <code>vector</code>-Level Dialect is that it operates on
 <code>vector</code> types that are a multiples of a &ldquo;good&rdquo; <code>vector</code> size so the HW can
 efficiently implement a set of high-level primitives
@@ -110,7 +110,7 @@ efficiently implement a set of high-level primitives
 <code>vector&lt;warp_size * k x 4 x 4 x 4></code> for tensor_core sizes,</li><li>Other accelerators: n-D <code>vector</code> as first-class citizens in the HW.</li></ol><p>Depending on the target, ops on sizes that are not multiples of the HW
 <code>vector</code> size may either produce slow code (e.g. by going through <code>LLVM</code>
 legalization) or may not legalize at all (e.g. some unsupported accelerator X
-combination of ops and types).</p><h2 id=transformations-problems-avoided>Transformations Problems Avoided</h2><p>A <code>vector&lt;16x32x64xf32></code> virtual <code>vector</code> is a coarse-grained type that can be
+combination of ops and types).</p><h3 id=transformations-problems-avoided>Transformations Problems Avoided</h3><p>A <code>vector&lt;16x32x64xf32></code> virtual <code>vector</code> is a coarse-grained type that can be
 “unrolled” to HW-specific sizes. The multi-dimensional unrolling factors are
 carried in the IR by the <code>vector</code> type. After unrolling, traditional
 instruction-level scheduling can be run.</p><p>The following key transformations (along with the supporting analyses and
@@ -118,7 +118,7 @@ structural constraints) are completely avoided by operating on a <code>vector</c
 <code>ssa-value</code> abstraction:</p><ol><li>Loop unroll and unroll-and-jam.</li><li>Loop and load-store restructuring for register reuse.</li><li>Load to store forwarding and Mem2reg.</li><li>Coarsening (raising) from finer-grained <code>vector</code> form.</li></ol><p>Note that “unrolling” in the context of <code>vector</code>s corresponds to partial loop
 unroll-and-jam and not full unrolling. As a consequence this is expected to
 compose with SW pipelining where applicable and does not result in ICache blow
-up.</p><h2 id=the-big-out-of-scope-piece-automatic-vectorization>The Big Out-Of-Scope Piece: Automatic Vectorization</h2><p>One important piece not discussed here is automatic vectorization
+up.</p><h3 id=the-big-out-of-scope-piece-automatic-vectorization>The Big Out-Of-Scope Piece: Automatic Vectorization</h3><p>One important piece not discussed here is automatic vectorization
 (automatically raising from scalar to n-D <code>vector</code> ops and types). The TL;DR
 is that when the first &ldquo;super-vectorization&rdquo; prototype was implemented, MLIR
 was nowhere near as mature as it is today. As we continue building more
@@ -148,14 +148,14 @@ with expressing <code>vector</code>s in the IR directly and simple
 pattern-rewrites.
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/docs/EDSC.md>EDSC</a>
 s
-provide a simple way of driving such a notional language directly in C++.</p><p>There are arguments against naming an n-D level of abstraction <code>vector</code>
+provide a simple way of driving such a notional language directly in C++.</p><h2 id=bikeshed-naming-discussion>Bikeshed Naming Discussion</h2><p>There are arguments against naming an n-D level of abstraction <code>vector</code>
 because most people associate it with 1-D <code>vector</code>s. On the other hand,
 <code>vector</code>s are first-class n-D values in MLIR.
 The alternative name Tile has been proposed, which conveys higher-D
 meaning. But it also is one of the most overloaded terms in compilers and
 hardware.
 For now, we generally use the <code>n-D</code> <code>vector</code> name and are open to better
-suggestions.</p><p>This section describes the tradeoffs involved in lowering the MLIR n-D vector
+suggestions.</p><h2 id=deeperdive>DeeperDive</h2><p>This section describes the tradeoffs involved in lowering the MLIR n-D vector
 type and operations on it to LLVM-IR. Putting aside the
 <a href=http://lists.llvm.org/pipermail/llvm-dev/2018-October/126871.html>LLVM
 Matrix</a>
@@ -171,14 +171,14 @@ aggregates following the
 .
 MLIR operations are prefixed by the <code>vector.</code> dialect prefix
 (e.g. <code>vector.insertelement</code>). Such ops operate exclusively on MLIR <code>n-D</code>
-<code>vector</code> types.</p><h2 id=alternatives-for-lowering-an-n-d-vector-type-to-llvm>Alternatives For Lowering an n-D Vector Type to LLVM</h2><p>Consider a vector of rank n with static sizes <code>{s_0, ... s_{n-1}}</code> (i.e. an
+<code>vector</code> types.</p><h3 id=alternatives-for-lowering-an-n-d-vector-type-to-llvm>Alternatives For Lowering an n-D Vector Type to LLVM</h3><p>Consider a vector of rank n with static sizes <code>{s_0, ... s_{n-1}}</code> (i.e. an
 MLIR <code>vector&lt;s_0x...s_{n-1}xf32></code>). Lowering such an <code>n-D</code> MLIR vector type to
 an LLVM descriptor can be done by either:</p><ol><li>Flattening to a <code>1-D</code> vector: <code>!llvm&lt;"(s_0*...*s_{n-1})xfloat"></code> in the
 MLIR LLVM dialect.</li><li>Nested aggregate type of <code>1-D</code> vector:
 <code>!llvm&lt;"[s_0x[s_1x[...&lt;s_{n-1}xfloat>]]]"></code> in the MLIR LLVM dialect.</li><li>A mix of both.</li></ol><p>There are multiple tradeoffs involved in choosing one or the other that we
 discuss. It is important to note that “a mix of both” immediately reduces to
 “nested aggregate type of 1-D vector” with a <code>vector.cast %0: vector&lt;4x8x16x32xf32> to vector&lt;4x4096xf32></code> operation, that flattens the most
-&ldquo;k&rdquo; minor dimensions.</p><h2 id=constraints-inherited-from-llvm-see-langref>Constraints Inherited from LLVM (see LangRef)</h2><p>The first constraint was already mentioned: LLVM only supports <code>1-D</code> <code>vector</code>
+&ldquo;k&rdquo; minor dimensions.</p><h3 id=constraints-inherited-from-llvm-see-langref>Constraints Inherited from LLVM (see LangRef)</h3><p>The first constraint was already mentioned: LLVM only supports <code>1-D</code> <code>vector</code>
 types natively.
 Additional constraints are related to the difference in LLVM between vector
 and aggregate types:</p><pre><code> “Aggregate Types are a subset of derived types that can contain multiple
@@ -204,20 +204,20 @@ that this is consistent with hardware considerations as discussed below.</p><p>A
 operations accept dynamic indices. The implication is that one has to use a
 flattened lowering of an MLIR n-D vector to an LLVM 1-D vector.</p><p>There are multiple tradeoffs involved that mix implications on the programming
 model, execution on actual HW and what is visible or hidden from codegen. They
-are discussed in the following sections.</p><h2 id=nested-aggregate>Nested Aggregate</h2><p>Pros:</p><ol><li>Natural encoding n-D vector -> (n-1)-D aggregate over 1-D vector.</li><li>No need for linearization / delinearization logic inserted everywhere.</li><li><code>llvm.insertvalue</code>, <code>llvm.extractvalue</code> of <code>(n-k)-D</code> aggregate is natural.</li><li><code>llvm.insertelement</code>, <code>llvm.extractelement</code>, <code>llvm.shufflevector</code> over
+are discussed in the following sections.</p><h3 id=nested-aggregate>Nested Aggregate</h3><p>Pros:</p><ol><li>Natural encoding n-D vector -> (n-1)-D aggregate over 1-D vector.</li><li>No need for linearization / delinearization logic inserted everywhere.</li><li><code>llvm.insertvalue</code>, <code>llvm.extractvalue</code> of <code>(n-k)-D</code> aggregate is natural.</li><li><code>llvm.insertelement</code>, <code>llvm.extractelement</code>, <code>llvm.shufflevector</code> over
 <code>1-D</code> vector type is natural.</li></ol><p>Cons:</p><ol><li><code>llvm.insertvalue</code> / <code>llvm.extractvalue</code> does not accept dynamic indices
 but only static ones.</li><li>Dynamic indexing on the non-most-minor dimension requires roundtrips to
 memory.</li><li>Special intrinsics and native instructions in LLVM operate on <code>1-D</code>
 vectors. This is not expected to be a practical limitation thanks to a
 <code>vector.cast %0: vector&lt;4x8x16x32xf32> to vector&lt;4x4096xf32></code> operation, that
 flattens the most minor dimensions (see the bigger picture in implications on
-codegen).</li></ol><h2 id=flattened-1-d-vector-type>Flattened 1-D Vector Type</h2><p>Pros:</p><ol><li><code>insertelement</code> / <code>extractelement</code> / <code>shufflevector</code> with dynamic indexing
+codegen).</li></ol><h3 id=flattened-1-d-vector-type>Flattened 1-D Vector Type</h3><p>Pros:</p><ol><li><code>insertelement</code> / <code>extractelement</code> / <code>shufflevector</code> with dynamic indexing
 is possible over the whole lowered <code>n-D</code> vector type.</li><li>Supports special intrinsics and native operations.</li></ol><p>Cons:</p><ol><li>Requires linearization/delinearization logic everywhere, translations are
 complex.</li><li>Hides away the real HW structure behind dynamic indexing: at the end of the
 day, HW vector sizes are generally fixed and multiple vectors will be needed
 to hold a vector that is larger than the HW.</li><li>Unlikely peephole optimizations will result in good code: arbitrary dynamic
 accesses, especially at HW vector boundaries unlikely to result in regular
-patterns.</li></ol><h2 id=discussion>Discussion</h2><h3 id=hw-vectors-and-implications-on-the-sw-and-the-programming-model>HW Vectors and Implications on the SW and the Programming Model</h3><p>As of today, the LLVM model only support <code>1-D</code> vector types. This is
+patterns.</li></ol><h3 id=discussion>Discussion</h3><h4 id=hw-vectors-and-implications-on-the-sw-and-the-programming-model>HW Vectors and Implications on the SW and the Programming Model</h4><p>As of today, the LLVM model only support <code>1-D</code> vector types. This is
 unsurprising because historically, the vast majority of HW only supports <code>1-D</code>
 vector registers. We note that multiple HW vendors are in the process of
 evolving to higher-dimensional physical vectors.</p><p>In the following discussion, let&rsquo;s assume the HW vector size is <code>1-D and the SW vector size is </code>n-D<code>, with </code>n >= 1<code>. The same discussion would apply with</code>2-D<code>HW</code>vector<code>size and</code>n >= 2<code>. In this context, most HW exhibit a vector register file. The number of such vectors is fixed. Depending on the rank and sizes of the SW vector abstraction and the HW vector sizes and number of registers, an </code>n-D<code>SW vector type may be materialized by a mix of multiple</code>1-D` HW vector registers + memory locations at a given
@@ -228,7 +228,7 @@ is fixed and one either needs to unroll explicitly to obtain fixed register
 numbers or go through memory. This is a constraint familiar to CUDA
 programmers: when declaring a <code>private float a[4]</code>; and subsequently indexing
 with a <em>dynamic</em> value results in so-called <strong>local memory</strong> usage
-(i.e. roundtripping to memory).</p><h3 id=implication-on-codegen>Implication on codegen</h3><p>MLIR <code>n-D</code> vector types are currently represented as <code>(n-1)-D</code> arrays of <code>1-D</code>
+(i.e. roundtripping to memory).</p><h4 id=implication-on-codegen>Implication on codegen</h4><p>MLIR <code>n-D</code> vector types are currently represented as <code>(n-1)-D</code> arrays of <code>1-D</code>
 vectors when lowered to LLVM.
 This introduces the consequences on static vs dynamic indexing discussed
 previously: <code>extractelement</code>, <code>insertelement</code> and <code>shufflevector</code> on <code>n-D</code>
@@ -255,7 +255,7 @@ explicitly. Instead, each target will expose a set of &ldquo;good&rdquo; target 
 and <code>n-D</code> vector types, associated with costs that <code>PatterRewriters</code> at the
 MLIR level will be able to target. Such costs at the MLIR level will be
 abstract and used for ranking, not for accurate performance modeling. In the
-future such costs will be learned.</p><h3 id=implication-on-lowering-to-accelerators>Implication on Lowering to Accelerators</h3><p>To target accelerators that support higher dimensional vectors natively, we
+future such costs will be learned.</p><h4 id=implication-on-lowering-to-accelerators>Implication on Lowering to Accelerators</h4><p>To target accelerators that support higher dimensional vectors natively, we
 can start from either <code>1-D</code> or <code>n-D</code> vectors in MLIR and use <code>vector.cast</code> to
 flatten the most minor dimensions to <code>1-D</code> <code>vector&lt;Kxf32></code> where <code>K</code> is an
 appropriate constant. Then, the existing lowering to LLVM-IR immediately
@@ -269,8 +269,8 @@ involved. For example, <code>vector.cast %0: vector&lt;K1x...xKnxf32> to vector&
 and intra-vector shuffling that may not be worthwhile or even feasible,
 i.e. infinite cost.</p><p>However <code>vector.cast %0: vector&lt;K1x...xKnxf32> to vector&lt;Kxf32></code> when <code>K = K1 * … * Kn</code> should be close to a noop.</p><p>As we start building accelerator-specific abstractions, we hope to achieve
 retargetable codegen: the same infra is used for CPU, GPU and accelerators
-with extra MLIR patterns and costs.</p><h3 id=implication-on-calling-external-functions-that-operate-on-vectors>Implication on calling external functions that operate on vectors</h3><p>It is possible (likely) that we additionally need to linearize when calling an
-external function.</p><h2 id=relationship-to-llvm-matrix-type-proposal>Relationship to LLVM matrix type proposal.</h2><p>The LLVM matrix proposal was formulated 1 year ago but seemed to be somewhat
+with extra MLIR patterns and costs.</p><h4 id=implication-on-calling-external-functions-that-operate-on-vectors>Implication on calling external functions that operate on vectors</h4><p>It is possible (likely) that we additionally need to linearize when calling an
+external function.</p><h3 id=relationship-to-llvm-matrix-type-proposal>Relationship to LLVM matrix type proposal.</h3><p>The LLVM matrix proposal was formulated 1 year ago but seemed to be somewhat
 stalled until recently. In its current form, it is limited to 2-D matrix types
 and operations are implemented with LLVM intrinsics.
 In contrast, MLIR sits at a higher level of abstraction and allows the
@@ -279,7 +279,7 @@ aggregates of 1-D LLVM vectors.
 In the future, it could make sense to lower to the LLVM matrix abstraction
 also for CPU even though MLIR will continue needing higher level abstractions.</p><p>On the other hand, one should note that as MLIR is moving to LLVM, this
 document could become the unifying abstraction that people should target for</p><blockquote><p>1-D vectors and the LLVM matrix proposal can be viewed as a subset of this
-work.</p></blockquote><h2 id=conclusion>Conclusion</h2><p>The flattened 1-D vector design in the LLVM matrix proposal is good in a
+work.</p></blockquote><h3 id=conclusion>Conclusion</h3><p>The flattened 1-D vector design in the LLVM matrix proposal is good in a
 HW-specific world with special intrinsics. This is a good abstraction for
 register allocation, Instruction-Level-Parallelism and
 SoftWare-Pipelining/Modulo Scheduling optimizations at the register level.
@@ -290,5 +290,5 @@ matched.</p><p>This makes “nested aggregate type of 1-D vector” an appealing
 lowering from MLIR because:</p><ol><li>it does not hide complexity related to the buffer vs value semantics and
 the memory subsystem and</li><li>it does not rely on LLVM to magically make all the things work from a too
 low-level abstraction.</li></ol><p>The use of special intrinsics in a <code>1-D</code> LLVM world is still available thanks
-to an explicit <code>vector.cast</code> op.</p><h2 id=operations>Operations</h2><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/Standard/ title="Standard Dialect"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Standard Dialect</a>
+to an explicit <code>vector.cast</code> op.</p><h3 id=operations>Operations</h3><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Dialects/Standard/ title="Standard Dialect"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Standard Dialect</a>
 <a class="nav nav-next" href=/docs/Tutorials/Toy/ title=Toy>Next - Toy <i class="fas fa-arrow-right" aria-hidden=true></i></a></nav><footer><p class=powered>Powered by <a href=https://gohugo.io>Hugo</a>. Theme by <a href=https://themes.gohugo.io/hugo-theme-techdoc/>TechDoc</a>. Designed by <a href=https://github.com/thingsym/hugo-theme-techdoc>Thingsym</a>.</p></footer></main><div class=sidebar><nav class=slide-menu><ul><li><a href=https://mlir.llvm.org/>Home</a></li><li><a href=/talks/>Talks and Related Publications</a></li><li><a href=/users/>Users of MLIR</a></li><li class=has-sub-menu><a href=/getting_started/>Getting Started<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/getting_started/Faq/>FAQ</a></li><li><a href=/getting_started/Contributing/>How to Contribute</a></li><li><a href=/getting_started/DeveloperGuide/>Developer Guide</a></li><li><a href=/getting_started/openprojects/>Open Projects</a></li><li><a href=/getting_started/Glossary/>Glossary</a></li><li><a href=/getting_started/TestingGuide/>Testing Guide</a></li></ul></li><li class="parent has-sub-menu"><a href=/docs/>Code Documentation<span class="mark opened">-</span></a><ul class=sub-menu><li class="parent has-sub-menu"><a href=/docs/Dialects/>Dialects<span class="mark opened">-</span></a><ul class=sub-menu><li><a href=/docs/Dialects/Affine/>Affine Dialect</a></li><li><a href=/docs/Dialects/AffineOps/>Dialect 'affine' definition</a></li><li><a href=/docs/Dialects/FxpMathOps/>Dialect 'fxpmath' definition</a></li><li><a href=/docs/Dialects/GPUOps/>Dialect 'gpu' definition</a></li><li><a href=/docs/Dialects/LinalgDoc/>Dialect 'linalg' definition</a></li><li><a href=/docs/Dialects/LoopOps/>Dialect 'loop' definition</a></li><li><a href=/docs/Dialects/NVVMOps/>Dialect 'nvvm' definition</a></li><li><a href=/docs/Dialects/OpenMPOps/>Dialect 'omp' definition</a></li><li><a href=/docs/Dialects/QuantOps/>Dialect 'quant' definition</a></li><li><a href=/docs/Dialects/ROCDLOps/>Dialect 'rocdl' definition</a></li><li><a href=/docs/Dialects/ShapeOps/>Dialect 'shape' definition</a></li><li><a href=/docs/Dialects/SPIRVOps/>Dialect 'spv' definition</a></li><li><a href=/docs/Dialects/VectorOps/>Dialect 'vector' definition</a></li><li><a href=/docs/Dialects/GPU/>GPU Dialect</a></li><li><a href=/docs/Dialects/Linalg/>Linalg Dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM IR Dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V Dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard Dialect</a></li><li class=active><a href=/docs/Dialects/Vector/>Vector Dialect</a></li></ul></li><li class=has-sub-menu><a href=/docs/Tutorials/Toy/>Toy<span class="mark closed">+</span></a><ul class=sub-menu><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter 1: Toy Tutorial Introduction</a></li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2: Emitting Basic MLIR</a></li><li><a href=/docs/Tutorials/Toy/Ch-3/>Chapter 3: High-level Language-Specific Analysis and Transformation</a></li><li><a href=/docs/Tutorials/Toy/Ch-4/>Chapter 4: Enabling Generic Transformation with Interfaces</a></li><li><a href=/docs/Tutorials/Toy/Ch-5/>Chapter 5: Partial Lowering to Lower-Level Dialects for Optimization</a></li><li><a href=/docs/Tutorials/Toy/Ch-6/>Chapter 6: Lowering to LLVM and CodeGeneration</a></li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter 7: Adding a Composite Type to Toy</a></li></ul></li><li><a href=/docs/EDSC/>Background: declarative builders API</a></li><li><a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM Dialect</a></li><li><a href=/docs/DialectConversion/>Dialect Conversion</a></li><li><a href=/docs/Diagnostics/>Introduction and Usage Guide to MLIR's Diagnostics Infrastructure</a></li><li><a href=/docs/Interfaces/>Introduction to MLIR Interfaces</a></li><li><a href=/docs/Traits/>Introduction to MLIR Operation Traits</a></li><li><a href=/docs/RationaleLinalgDialect/>Linalg Dialect Rationale: The Case For Compiler-Friendly Custom Operations</a></li><li><a href=/docs/GenericDAGRewriter/>MLIR Generic DAG Rewriter Infrastructure</a></li><li><a href=/docs/Passes/>MLIR Passes</a></li><li><a href=/docs/Quantization/>MLIR Quantization</a></li><li><a href=/docs/Rationale/>MLIR Rationale</a></li><li><a href=/docs/LangRef/>MLIR Specification</a></li><li><a href=/docs/MLIRForGraphAlgorithms/>MLIR: Incremental Application to Graph Algorithms in ML Frameworks</a></li><li><a href=/docs/RationaleSimplifiedPolyhedralForm/>MLIR: The case for a simplified polyhedral form</a></li><li><a href=/docs/Canonicalization/>Operation Canonicalization in MLIR</a></li><li><a href=/docs/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph rewrite</a></li><li><a href=/docs/DefiningAttributesAndTypes/>Quickstart tutorial to defining custom dialect attributes and types</a></li><li><a href=/docs/ShapeInference/>Shape inference</a></li><li><a href=/docs/SymbolsAndSymbolTables/>Symbols and Symbol Tables</a></li><li><a href=/docs/DeclarativeRewrites/>Table-driven Declarative Rewrite Rule (DRR)</a></li><li><a href=/docs/OpDefinitions/>Table-driven Operation Definition Specification (ODS)</a></li><li><a href=/docs/UsageOfConst/>Usage of 'Const' in MLIR, for core IR types</a></li><li><a href=/docs/WritingAPass/>Writing a Pass</a></li></ul></li></ul></nav><div class=sidebar-footer></div></div></div><a href=# id=backtothetop-fixed class=backtothetop data-backtothetop-duration=600 data-backtothetop-easing=easeOutQuart data-backtothetop-fixed-fadein=1000 data-backtothetop-fixed-fadeout=1000 data-backtothetop-fixed-bottom=10 data-backtothetop-fixed-right=20><span class="fa-layers fa-fw"><i class="fas fa-circle"></i><i class="fas fa-arrow-circle-up"></i></span></a></div></body></html>

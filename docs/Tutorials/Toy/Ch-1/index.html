@@ -55,7 +55,8 @@ requires type declarations to specify tensor shapes when needed. Functions are
 generic: their parameters are unranked (in other words, we know these are
 tensors, but we don&rsquo;t know their dimensions). They are specialized for every
 newly discovered signature at call sites. Let&rsquo;s revisit the previous example by
-adding a user-defined function:</p><pre><code class=language-toy data-lang=toy>def multiply_transpose(a, b) {
+adding a user-defined function:</p><pre><code class=language-toy data-lang=toy># User defined generic function that operates on unknown shaped arguments.
+def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);
 }
 

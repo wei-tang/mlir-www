@@ -4,7 +4,8 @@ MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></heade
 , we demonstrated an end-to-end compilation
 flow from our Toy front-end to LLVM IR. In this chapter, we will extend the Toy
 language to support a new composite <code>struct</code> type.</p><h2 id=defining-a-struct-in-toy>Defining a <code>struct</code> in Toy</h2><p>The first thing we need to define is the interface of this type in our <code>toy</code>
-source language. The general syntax of a <code>struct</code> type in Toy is as follows:</p><pre><code class=language-toy data-lang=toy>struct MyStruct {
+source language. The general syntax of a <code>struct</code> type in Toy is as follows:</p><pre><code class=language-toy data-lang=toy># A struct is defined by using the `struct` keyword followed by a name.
+struct MyStruct {
   # Inside of the struct is a list of variable declarations without initializers
   # or shapes, which may also be other previously defined structs.
   var a;
@@ -19,6 +20,7 @@ surrounded by <code>{}</code>. An example is shown below:</p><pre><code class=la
   var b;
 }
 
+# User defined generic function may operate on struct types as well.
 def multiply_transpose(Struct value) {
   # We can access the elements of a struct via the '.' operator.
   return transpose(value.a) * transpose(value.b);
@@ -289,6 +291,7 @@ that contains a set of constant values for each of the <code>struct</code> eleme
   var b;
 }
 
+# User defined generic function may operate on struct types as well.
 def multiply_transpose(Struct value) {
   # We can access the elements of a struct via the '.' operator.
   return transpose(value.a) * transpose(value.b);

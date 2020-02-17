@@ -367,7 +367,8 @@ framework, but there are many more that we haven&rsquo;t had a chance to: region
 variadic operands, etc. Check out the
 <a href=/docs/OpDefinitions/>full specification</a>
 for more details.</p><h2 id=complete-toy-example>Complete Toy Example</h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
-example:</p><pre><code class=language-toy data-lang=toy>def multiply_transpose(a, b) {
+example:</p><pre><code class=language-toy data-lang=toy># User defined generic function that operates on unknown shaped arguments.
+def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);
 }
 

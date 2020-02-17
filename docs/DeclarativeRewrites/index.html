@@ -365,7 +365,8 @@ a very helpful way to understand and debug issues. To build <code>mlir-tblgen</c
 <code>cmake --build . --target mlir-tblgen</code> in your build directory and find the
 <code>mlir-tblgen</code> binary in the <code>bin/</code> subdirectory. All the supported generators
 can be found via <code>mlir-tblgen --help</code>.</p><p>To see the generated code, invoke <code>mlir-tblgen</code> with a specific generator by
-providing include paths via <code>-I</code>. For example,</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh>mlir-tblgen --gen-rewriters -I /path/to/mlir/include /path/to/input/td/file
+providing include paths via <code>-I</code>. For example,</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh><span class=c1># To see all the C++ pattern rewrite classes</span>
+mlir-tblgen --gen-rewriters -I /path/to/mlir/include /path/to/input/td/file
 </code></pre></div><h3 id=compilation-error-no-matching-member-function-for-call-to-build>Compilation error: no matching member function for call to &lsquo;build&rsquo;</h3><p>This is because DRR is failing to call a <code>build()</code> method with result type
 deduction ability. See
 <a href=#building-operations>building operations</a>

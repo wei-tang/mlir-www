@@ -19,7 +19,7 @@ the optimization needs to get a non-<code>const</code> pointer. So all analyses 
 end up being templates (and if they never get instantiated in a const context,
 then the point of <code>const</code> correctness has been defeated), you need to somehow
 launder the const in a safe way or there will be <code>const_cast</code>s. These options
-are all bad, probably so bad as to out-weigh the benefits of const.</p></blockquote><p>This document argues this design is introducing significant sub-optimalities
+are all bad, probably so bad as to out-weigh the benefits of const.</p></blockquote><h1 id=reconsidering-const-in-mlir>Reconsidering <code>const</code> in MLIR</h1><p>This document argues this design is introducing significant sub-optimalities
 into the MLIR codebase, argues that the cost/benefit tradeoff of this design is
 a poor tradeoff, and proposes switching to a much simpler approach - eliminating
 the use of const of these IR types entirely.</p><p><strong>Note:</strong> <strong>This document is only discussing things like <code>const Value</code> and

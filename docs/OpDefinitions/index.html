@@ -727,12 +727,18 @@ can be found via <code>mlir-tblgen --help</code>. For example, <code>--gen-op-de
 <code>--gen-op-defs</code> as explained in
 <a href=#generated-c++-code>Generated C++ code</a>
 .</p><p>To see the generated code, invoke <code>mlir-tblgen</code> with a specific generator by
-providing include paths via <code>-I</code>. For example,</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh>mlir-tblgen --gen-op-decls -I /path/to/mlir/include /path/to/input/td/file
+providing include paths via <code>-I</code>. For example,</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh><span class=c1># To see op C++ class declaration</span>
+mlir-tblgen --gen-op-decls -I /path/to/mlir/include /path/to/input/td/file
+<span class=c1># To see op C++ class definition</span>
 mlir-tblgen --gen-op-defs -I /path/to/mlir/include /path/to/input/td/file
+<span class=c1># To see op documentation</span>
 mlir-tblgen --gen-op-doc -I /path/to/mlir/include /path/to/input/td/file
 
+<span class=c1># To see op interface C++ class declaration</span>
 mlir-tblgen --gen-op-interface-decls -I /path/to/mlir/include /path/to/input/td/file
+<span class=c1># To see op interface C++ class definition</span>
 mlir-tblgen --gen-op-interface-defs -I /path/to/mlir/include /path/to/input/td/file
+<span class=c1># To see op interface documentation</span>
 mlir-tblgen --gen-op-interface-doc -I /path/to/mlir/include /path/to/input/td/file
 </code></pre></div><h2 id=appendix>Appendix</h2><h3 id=requirements-and-existing-mechanisms-analysis>Requirements and existing mechanisms analysis</h3><p>The op description should as declarative as possible to allow a wide range of
 tools to work with them and query methods generated from them. In particular
