@@ -64,8 +64,8 @@ parallel loop and hence reduction order is unspecified, the result of
 reduction may be non-deterministic unless the operation is associative and
 commutative.</p><p>The result of the reduce operation&rsquo;s body must have the same type as the
 operands and associated result value of the parallel loop operation.
-Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=nv>%zero</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
-  loop<span class=p>.</span>reduce<span class=p>(</span><span class=nv>%zero</span><span class=p>)</span> <span class=p>{</span>
+Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=nv>%operand</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>1.0</span> <span class=p>:</span> <span class=k>f32</span>
+  loop<span class=p>.</span>reduce<span class=p>(</span><span class=nv>%operand</span><span class=p>)</span> <span class=p>{</span>
     <span class=nl>^bb0</span><span class=p>(</span><span class=nv>%lhs</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>%rhs</span><span class=p>:</span> <span class=k>f32</span><span class=p>)</span><span class=p>:</span>
       <span class=nv>%res</span> <span class=p>=</span> addf <span class=nv>%lhs</span><span class=p>,</span> <span class=nv>%rhs</span> <span class=p>:</span> <span class=k>f32</span>
       loop<span class=p>.</span>reduce<span class=p>.</span><span class=kt>return</span> <span class=nv>%res</span> <span class=p>:</span> <span class=k>f32</span>
