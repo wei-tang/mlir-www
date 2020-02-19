@@ -124,15 +124,26 @@ and by the general conversion infrastructure to convert the signatures of blocks
 and regions.</p><h3 id=type-converter>Type Converter</h3><p>As stated above, the <code>TypeConverter</code> contains several hooks for detailing how to
 convert types. Several of these hooks are detailed below:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>TypeConverter</span> <span class=p>{</span>
  <span class=k>public</span><span class=o>:</span>
-  <span class=c1>/// This hook allows for converting a type. This function should return
-</span><span class=c1></span>  <span class=c1>/// failure if no valid conversion exists, success otherwise. If the new set
-</span><span class=c1></span>  <span class=c1>/// of types is empty, the type is removed and any usages of the existing
-</span><span class=c1></span>  <span class=c1>/// value are expected to be removed during conversion.
-</span><span class=c1></span>  <span class=k>virtual</span> <span class=n>LogicalResult</span> <span class=n>convertType</span><span class=p>(</span><span class=n>Type</span> <span class=n>t</span><span class=p>,</span> <span class=n>SmallVectorImpl</span><span class=o>&lt;</span><span class=n>Type</span><span class=o>&gt;</span> <span class=o>&amp;</span><span class=n>results</span><span class=p>)</span><span class=p>;</span>
-
-  <span class=c1>/// This hook simplifies defining 1-1 type conversions. This function returns
-</span><span class=c1></span>  <span class=c1>/// the type to convert to on success, and a null type on failure.
-</span><span class=c1></span>  <span class=k>virtual</span> <span class=n>Type</span> <span class=nf>convertType</span><span class=p>(</span><span class=n>Type</span> <span class=n>t</span><span class=p>)</span><span class=p>;</span>
+  <span class=c1>/// Register a conversion function. A conversion function must be convertible
+</span><span class=c1></span>  <span class=c1>/// to any of the following forms(where `T` is a class derived from `Type`:
+</span><span class=c1></span>  <span class=c1>///   * Optional&lt;Type&gt;(T)
+</span><span class=c1></span>  <span class=c1>///     - This form represents a 1-1 type conversion. It should return nullptr
+</span><span class=c1></span>  <span class=c1>///       or `llvm::None` to signify failure. If `llvm::None` is returned, the
+</span><span class=c1></span>  <span class=c1>///       converter is allowed to try another conversion function to perform
+</span><span class=c1></span>  <span class=c1>///       the conversion.
+</span><span class=c1></span>  <span class=c1>///   * Optional&lt;LogicalResult&gt;(T, SmallVectorImpl&lt;Type&gt; &amp;)
+</span><span class=c1></span>  <span class=c1>///     - This form represents a 1-N type conversion. It should return
+</span><span class=c1></span>  <span class=c1>///       `failure` or `llvm::None` to signify a failed conversion. If the new
+</span><span class=c1></span>  <span class=c1>///       set of types is empty, the type is removed and any usages of the
+</span><span class=c1></span>  <span class=c1>///       existing value are expected to be removed during conversion. If
+</span><span class=c1></span>  <span class=c1>///       `llvm::None` is returned, the converter is allowed to try another
+</span><span class=c1></span>  <span class=c1>///       conversion function to perform the conversion.
+</span><span class=c1></span>  <span class=c1>///
+</span><span class=c1></span>  <span class=c1>/// When attempting to convert a type, e.g. via `convertType`, the
+</span><span class=c1></span>  <span class=c1>/// `TypeConverter` will invoke each of the converters starting with the one
+</span><span class=c1></span>  <span class=c1>/// most recently registered.
+</span><span class=c1></span>  <span class=k>template</span> <span class=o>&lt;</span><span class=k>typename</span> <span class=n>ConversionFnT</span><span class=o>&gt;</span>
+  <span class=kt>void</span> <span class=n>addConversion</span><span class=p>(</span><span class=n>ConversionFnT</span> <span class=o>&amp;</span><span class=o>&amp;</span><span class=n>callback</span><span class=p>)</span><span class=p>;</span>
 
   <span class=c1>/// This hook allows for materializing a conversion from a set of types into
 </span><span class=c1></span>  <span class=c1>/// one result type by generating a cast operation of some kind. The generated
