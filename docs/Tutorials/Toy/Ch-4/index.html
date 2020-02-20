@@ -226,7 +226,7 @@ inferred as the shape of the inputs.</p><div class=highlight><pre class=chroma><
 </span><span class=c1></span><span class=kt>void</span> <span class=n>MulOp</span><span class=o>:</span><span class=o>:</span><span class=n>inferShapes</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span> <span class=n>getResult</span><span class=p>(</span><span class=p>)</span><span class=p>.</span><span class=n>setType</span><span class=p>(</span><span class=n>getOperand</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span><span class=p>.</span><span class=n>getType</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span> <span class=p>}</span>
 </code></pre></div><p>At this point, each of the necessary Toy operations provide a mechanism by which
 to infer their output shapes. The ShapeInferencePass is a FunctionPass: it will
-runs on each Function in isolation. MLIR also supports general
+run on each Function in isolation. MLIR also supports general
 <a href=/docs/WritingAPass/#operation-pass>OperationPasses</a>
 that run on any isolated
 operation (i.e. other function-like operations), but here our module only

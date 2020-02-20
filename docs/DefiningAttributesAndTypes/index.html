@@ -146,42 +146,34 @@ functionality of <code>Type::TypeBase</code> is put to use.</p><div class=highli
   <span class=c1>/// This method is used to get an instance of the &#39;ComplexType&#39;. This method
 </span><span class=c1></span>  <span class=c1>/// asserts that all of the construction invariants were satisfied. To
 </span><span class=c1></span>  <span class=c1>/// gracefully handle failed construction, getChecked should be used instead.
-</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexType</span> <span class=nf>get</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexType</span> <span class=nf>get</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
     <span class=c1>// Call into a helper &#39;get&#39; method in &#39;TypeBase&#39; to get a uniqued instance
 </span><span class=c1></span>    <span class=c1>// of this type. All parameters to the storage class are passed after the
 </span><span class=c1></span>    <span class=c1>// type kind.
-</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>:</span><span class=o>:</span><span class=n>get</span><span class=p>(</span><span class=n>context</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>:</span><span class=o>:</span><span class=n>Complex</span><span class=p>,</span> <span class=n>param</span><span class=p>,</span> <span class=n>type</span><span class=p>)</span><span class=p>;</span>
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>:</span><span class=o>:</span><span class=n>get</span><span class=p>(</span><span class=n>type</span><span class=p>.</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>:</span><span class=o>:</span><span class=n>Complex</span><span class=p>,</span> <span class=n>param</span><span class=p>,</span> <span class=n>type</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 
   <span class=c1>/// This method is used to get an instance of the &#39;ComplexType&#39;, defined at
 </span><span class=c1></span>  <span class=c1>/// the given location. If any of the construction invariants are invalid,
 </span><span class=c1></span>  <span class=c1>/// errors are emitted with the provided location and a null type is returned.
 </span><span class=c1></span>  <span class=c1>/// Note: This method is completely optional.
-</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexType</span> <span class=nf>getChecked</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>,</span>
-                                <span class=n>Location</span> <span class=n>location</span><span class=p>)</span> <span class=p>{</span>
+</span><span class=c1></span>  <span class=k>static</span> <span class=n>ComplexType</span> <span class=nf>getChecked</span><span class=p>(</span><span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>,</span> <span class=n>Location</span> <span class=n>location</span><span class=p>)</span> <span class=p>{</span>
     <span class=c1>// Call into a helper &#39;getChecked&#39; method in &#39;TypeBase&#39; to get a uniqued
 </span><span class=c1></span>    <span class=c1>// instance of this type. All parameters to the storage class are passed
 </span><span class=c1></span>    <span class=c1>// after the type kind.
-</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>:</span><span class=o>:</span><span class=n>getChecked</span><span class=p>(</span><span class=n>location</span><span class=p>,</span> <span class=n>context</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>:</span><span class=o>:</span><span class=n>Complex</span><span class=p>,</span> <span class=n>param</span><span class=p>,</span> <span class=n>type</span><span class=p>)</span><span class=p>;</span>
+</span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>:</span><span class=o>:</span><span class=n>getChecked</span><span class=p>(</span><span class=n>location</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>:</span><span class=o>:</span><span class=n>Complex</span><span class=p>,</span> <span class=n>param</span><span class=p>,</span> <span class=n>type</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 
   <span class=c1>/// This method is used to verify the construction invariants passed into the
 </span><span class=c1></span>  <span class=c1>/// &#39;get&#39; and &#39;getChecked&#39; methods. Note: This method is completely optional.
 </span><span class=c1></span>  <span class=k>static</span> <span class=n>LogicalResult</span> <span class=nf>verifyConstructionInvariants</span><span class=p>(</span>
-      <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>Optional</span><span class=o>&lt;</span><span class=n>Location</span><span class=o>&gt;</span> <span class=n>loc</span><span class=p>,</span> <span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span>
-      <span class=n>Type</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
+      <span class=n>Location</span> <span class=n>loc</span><span class=p>,</span> <span class=kt>unsigned</span> <span class=n>param</span><span class=p>,</span> <span class=n>Type</span> <span class=n>type</span><span class=p>)</span> <span class=p>{</span>
     <span class=c1>// Our type only allows non-zero parameters.
-</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>param</span> <span class=o>=</span><span class=o>=</span> <span class=mi>0</span><span class=p>)</span> <span class=p>{</span>
-      <span class=k>if</span> <span class=p>(</span><span class=n>loc</span><span class=p>)</span>
-        <span class=n>context</span><span class=o>-</span><span class=o>&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=n>loc</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>non-zero parameter passed to &#39;ComplexType&#39;</span><span class=s>&#34;</span><span class=p>;</span>
-      <span class=k>return</span> <span class=n>failure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
-    <span class=p>}</span>
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=n>param</span> <span class=o>=</span><span class=o>=</span> <span class=mi>0</span><span class=p>)</span>
+      <span class=k>return</span> <span class=n>emitError</span><span class=p>(</span><span class=n>loc</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>non-zero parameter passed to &#39;ComplexType&#39;</span><span class=s>&#34;</span><span class=p>;</span>
     <span class=c1>// Our type also expects an integer type.
-</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>type</span><span class=p>.</span><span class=n>isa</span><span class=o>&lt;</span><span class=n>IntegerType</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>)</span> <span class=p>{</span>
-      <span class=k>if</span> <span class=p>(</span><span class=n>loc</span><span class=p>)</span>
-        <span class=n>context</span><span class=o>-</span><span class=o>&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=n>loc</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>non integer-type passed to &#39;ComplexType&#39;</span><span class=s>&#34;</span><span class=p>;</span>
-      <span class=k>return</span> <span class=n>failure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
-    <span class=p>}</span>
+</span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>type</span><span class=p>.</span><span class=n>isa</span><span class=o>&lt;</span><span class=n>IntegerType</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>)</span>
+      <span class=k>return</span> <span class=n>emitError</span><span class=p>(</span><span class=n>loc</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>non integer-type passed to &#39;ComplexType&#39;</span><span class=s>&#34;</span><span class=p>;</span>
     <span class=k>return</span> <span class=n>success</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 
