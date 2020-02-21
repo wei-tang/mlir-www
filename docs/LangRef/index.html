@@ -515,9 +515,14 @@ used as an element of vector, tensor or memref type
 <a href=/docs/Rationale/#index-type-disallowed-in-vectortensormemref-types>rationale</a>
 ).</p><p><strong>Rationale:</strong> integers of platform-specific bit widths are practical to express
 sizes, dimensionalities and subscripts.</p><h4 id=integer-type>Integer Type</h4><p>Syntax:</p><pre><code>// Sized integers like i1, i4, i8, i16, i32.
-integer-type ::= `i` [1-9][0-9]*
-</code></pre><p>MLIR supports arbitrary precision integer types. Integer types are signless, but
-have a designated width.</p><p><strong>Rationale:</strong> low precision integers (like <code>i2</code>, <code>i4</code> etc) are useful for
+signed-integer-type ::= `si` [1-9][0-9]*
+unsigned-integer-type ::= `ui` [1-9][0-9]*
+signless-integer-type ::= `i` [1-9][0-9]*
+integer-type ::= signed-integer-type |
+                 unsigned-integer-type |
+                 signless-integer-type
+</code></pre><p>MLIR supports arbitrary precision integer types. Integer types have a designated
+width and may have signedness semantics.</p><p><strong>Rationale:</strong> low precision integers (like <code>i2</code>, <code>i4</code> etc) are useful for
 low-precision inference chips, and arbitrary precision integers are useful for
 hardware synthesis (where a 13 bit multiplier is a lot cheaper/smaller than a 16
 bit one).</p><p>TODO: Need to decide on a representation for quantized integers
