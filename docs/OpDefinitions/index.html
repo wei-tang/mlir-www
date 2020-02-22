@@ -159,7 +159,14 @@ by <code>outs</code>:</p><div class=highlight><pre class=chroma><code class=lang
 <span class=p>)</span><span class=p>;</span>
 </code></pre></div><h4 id=variadic-results>Variadic results</h4><p>Similar to variadic operands, <code>Variadic&lt;...></code> can also be used for results.
 And similarly, <code>SameVariadicResultSize</code> for multiple variadic results in the
-same operation.</p><h3 id=operation-traits-and-constraints>Operation traits and constraints</h3><p>Traits are operation properties that affect syntax or semantics. MLIR C++
+same operation.</p><h3 id=operation-successors>Operation successors</h3><p>For terminator operations, the successors are specified inside of the
+<code>dag</code>-typed <code>successors</code>, led by <code>successor</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>successors</span> <span class=p>=</span> <span class=p>(</span><span class=nv>successor</span>
+  <span class=p>&lt;</span><span class=nv>successor</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>successor</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>)</span><span class=p>;</span>
+</code></pre></div><h4 id=variadic-successors>Variadic successors</h4><p>Similar to the <code>Variadic</code> class used for variadic operands and results,
+<code>VariadicSuccessor&lt;...></code> can be used for successors. Variadic successors can
+currently only be specified as the last successor in the successor list.</p><h3 id=operation-traits-and-constraints>Operation traits and constraints</h3><p>Traits are operation properties that affect syntax or semantics. MLIR C++
 models various traits in the <code>mlir::OpTrait</code> namespace.</p><p>Both operation traits,
 <a href=#operation-interfaces>interfaces</a>
 , and constraints
@@ -359,17 +366,35 @@ operation:</p><div class=highlight><pre class=chroma><code class=language-tableg
 </span><span class=s>  }]</span><span class=p>;</span>
 <span class=p>}</span>
 </code></pre></div><p>The format is comprised of three components:</p><h4 id=directives>Directives</h4><p>A directive is a type of builtin function, with an optional set of arguments.
-The available directives are as follows:</p><ul><li><p><code>attr-dict</code></p><ul><li>Represents the attribute dictionary of the operation.</li></ul></li><li><p><code>functional-type</code> ( inputs , results )</p><ul><li>Formats the <code>inputs</code> and <code>results</code> arguments as a
+The available directives are as follows:</p><ul><li><p><code>attr-dict</code></p><ul><li>Represents the attribute dictionary of the operation.</li></ul></li><li><p><code>attr-dict-with-keyword</code></p><ul><li>Represents the attribute dictionary of the operation, but prefixes the
+dictionary with an <code>attributes</code> keyword.</li></ul></li><li><p><code>functional-type</code> ( inputs , results )</p><ul><li>Formats the <code>inputs</code> and <code>results</code> arguments as a
 <a href=/docs/LangRef/#function-type>function type</a>
 .</li><li>The constraints on <code>inputs</code> and <code>results</code> are the same as the <code>input</code> of
-the <code>type</code> directive.</li></ul></li><li><p><code>operands</code></p><ul><li>Represents all of the operands of an operation.</li></ul></li><li><p><code>results</code></p><ul><li>Represents all of the results of an operation.</li></ul></li><li><p><code>type</code> ( input )</p><ul><li>Represents the type of the given input.</li><li><code>input</code> must be either an operand or result
+the <code>type</code> directive.</li></ul></li><li><p><code>operands</code></p><ul><li>Represents all of the operands of an operation.</li></ul></li><li><p><code>results</code></p><ul><li>Represents all of the results of an operation.</li></ul></li><li><p><code>successors</code></p><ul><li>Represents all of the successors of an operation.</li></ul></li><li><p><code>type</code> ( input )</p><ul><li>Represents the type of the given input.</li><li><code>input</code> must be either an operand or result
 <a href=#variables>variable</a>
 , the
 <code>operands</code> directive, or the <code>results</code> directive.</li></ul></li></ul><h4 id=literals>Literals</h4><p>A literal is either a keyword or punctuation surrounded by ``.</p><p>The following are the set of valid punctuation:
 <code>:</code>, <code>,</code>, <code>=</code>, <code>&lt;</code>, <code>></code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>-></code></p><h4 id=variables>Variables</h4><p>A variable is an entity that has been registered on the operation itself, i.e.
-an argument(attribute or operand), result, etc. In the <code>CallOp</code> example above,
-the variables would be <code>$callee</code> and <code>$args</code>.</p><p>Attribute variables are printed with their respective value type, unless that
-value type is buildable. In those cases, the type of the attribute is elided.</p><h4 id=requirements>Requirements</h4><p>The format specification has a certain set of requirements that must be adhered
+an argument(attribute or operand), result, successor, etc. In the <code>CallOp</code>
+example above, the variables would be <code>$callee</code> and <code>$args</code>.</p><p>Attribute variables are printed with their respective value type, unless that
+value type is buildable. In those cases, the type of the attribute is elided.</p><h4 id=optional-groups>Optional Groups</h4><p>In certain situations operations may have &ldquo;optional&rdquo; information, e.g.
+attributes or an empty set of variadic operands. In these situtations a section
+of the assembly format can be marked as <code>optional</code> based on the presence of this
+information. An optional group is defined by wrapping a set of elements within
+<code>()</code> followed by a <code>?</code> and has the following requirements:</p><ul><li>The first element of the group must either be a literal or an operand.<ul><li>This is because the first element must be optionally parsable.</li></ul></li><li>Exactly one argument variable within the group must be marked as the anchor
+of the group.<ul><li>The anchor is the element whose presence controls whether the group
+should be printed/parsed.</li><li>An element is marked as the anchor by adding a trailing <code>^</code>.</li><li>The first element is <em>not</em> required to be the anchor of the group.</li></ul></li><li>Literals, variables, and type directives are the only valid elements within
+the group.<ul><li>Any attribute variable may be used, but only optional attributes can be
+marked as the anchor.</li><li>Only variadic, i.e. optional, operand arguments can be used.</li><li>The operands to a type directive must be defined within the optional
+group.</li></ul></li></ul><p>An example of an operation with an optional group is <code>std.return</code>, which has a
+variadic number of operands.</p><pre><code>def ReturnOp : ... {
+  let arguments = (ins Variadic&lt;AnyType&gt;:$operands);
+
+  // We only print the operands and types if there are a non-zero number
+  // of operands.
+  let assemblyFormat = &quot;attr-dict ($operands^ `:` type($operands))?&quot;;
+}
+</code></pre><h4 id=requirements>Requirements</h4><p>The format specification has a certain set of requirements that must be adhered
 to:</p><ol><li>The output and operation name are never shown as they are fixed and cannot be
 altered.</li><li>All operands within the operation must appear within the format, either
 individually or with the <code>operands</code> directive.</li><li>All operand and result types must appear within the format using the various

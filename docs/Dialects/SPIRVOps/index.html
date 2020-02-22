@@ -268,12 +268,12 @@ successor ::= bb-id branch-use-list?
 branch-use-list ::= `(` ssa-use-list `:` type-list-no-parens `)`
 </code></pre><p>For example:</p><pre><code>spv.BranchConditional %condition, ^true_branch, ^false_branch
 spv.BranchConditional %condition, ^true_branch(%0: i32), ^false_branch(%1: i32)
-</code></pre><h4 id=operands-23>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li><li><code>branch_arguments</code>: any type</li></ol><h4 id=attributes-23>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>branch_weights</code></td><td align=center><code>ArrayAttr</code></td><td>32-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-23>Results:</h4><h3 id=spvbranch-spirvbranchop>spv.Branch (spirv::BranchOp)</h3><p>Unconditional branch to target block.</p><h4 id=description-24>Description:</h4><p>This instruction must be the last instruction in a block.</p><h3 id=custom-assembly-form-24>Custom assembly form</h3><pre><code>branch-op ::= `spv.Branch` successor
+</code></pre><h4 id=operands-23>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li></ol><h4 id=attributes-23>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>branch_weights</code></td><td align=center><code>ArrayAttr</code></td><td>32-bit integer array attribute attribute</td></tr></tbody></table><h4 id=results-23>Results:</h4><h3 id=spvbranch-spirvbranchop>spv.Branch (spirv::BranchOp)</h3><p>Unconditional branch to target block.</p><h4 id=description-24>Description:</h4><p>This instruction must be the last instruction in a block.</p><h3 id=custom-assembly-form-24>Custom assembly form</h3><pre><code>branch-op ::= `spv.Branch` successor
 successor ::= bb-id branch-use-list?
 branch-use-list ::= `(` ssa-use-list `:` type-list-no-parens `)`
 </code></pre><p>For example:</p><pre><code>spv.Branch ^target
 spv.Branch ^target(%0, %1: i32, f32)
-</code></pre><h4 id=operands-24>Operands:</h4><ol><li><code>block_arguments</code>: any type</li></ol><h4 id=attributes-24>Attributes:</h4><h4 id=results-24>Results:</h4><h3 id=spvcompositeconstruct-spirvcompositeconstructop>spv.CompositeConstruct (spirv::CompositeConstructOp)</h3><pre><code>Construct a new composite object from a set of constituent objects that
+</code></pre><h4 id=operands-24>Operands:</h4><h4 id=attributes-24>Attributes:</h4><h4 id=results-24>Results:</h4><h3 id=spvcompositeconstruct-spirvcompositeconstructop>spv.CompositeConstruct (spirv::CompositeConstructOp)</h3><pre><code>Construct a new composite object from a set of constituent objects that
 will fully form it.
 </code></pre><h4 id=description-25>Description:</h4><p>Result Type must be a composite type, whose top-level
 members/elements/components/columns have the same type as the types of
