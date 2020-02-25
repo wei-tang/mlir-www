@@ -24,7 +24,7 @@ variables to the next iteration, or to the &ldquo;loop.for&rdquo; result, if at 
 </span><span class=c></span>  <span class=nv>%sum_0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=c>// iter_args binds initial values to the loop&#39;s region arguments.
 </span><span class=c></span>  <span class=nv>%sum</span> <span class=p>=</span> loop<span class=p>.</span>for <span class=nv>%iv</span> <span class=p>=</span> <span class=nv>%lb</span> to <span class=nv>%ub</span> step <span class=nv>%step</span> iter_args<span class=p>(</span><span class=nv>%sum_iter</span> <span class=p>=</span> <span class=nv>%sum_0</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
-   <span class=nv>%t</span> <span class=p>=</span> load <span class=nv>%buffer</span><span class=p>[</span><span class=nv>%iv</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span>
+    <span class=nv>%t</span> <span class=p>=</span> load <span class=nv>%buffer</span><span class=p>[</span><span class=nv>%iv</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span>
     <span class=nv>%sum_next</span> <span class=p>=</span> addf <span class=nv>%sum_iter</span><span class=p>,</span> <span class=nv>%t</span> <span class=p>:</span> <span class=k>f32</span>
     <span class=c>// Yield current iteration sum to next iteration %sum_iter or to %sum if final iteration.
 </span><span class=c></span>    loop<span class=p>.</span>yield <span class=nv>%sum_next</span> <span class=p>:</span> <span class=k>f32</span>
@@ -41,11 +41,11 @@ to perform conditional reduction:</p><div class=highlight><pre class=chroma><cod
     <span class=nv>%t</span> <span class=p>=</span> load <span class=nv>%buffer</span><span class=p>[</span><span class=nv>%iv</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span>
     <span class=nv>%cond</span> <span class=p>=</span> cmpf <span class=s>&#34;ugt&#34;</span><span class=p>,</span> <span class=nv>%t</span><span class=p>,</span> <span class=nv>%c0</span> <span class=p>:</span> <span class=k>f32</span>
     <span class=nv>%sum_next</span> <span class=p>=</span> loop<span class=p>.</span>if <span class=nv>%cond</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
-     <span class=nv>%new_sum</span> <span class=p>=</span> addf <span class=nv>%sum_iter</span><span class=p>,</span> <span class=nv>%t</span> <span class=p>:</span> <span class=k>f32</span>
+      <span class=nv>%new_sum</span> <span class=p>=</span> addf <span class=nv>%sum_iter</span><span class=p>,</span> <span class=nv>%t</span> <span class=p>:</span> <span class=k>f32</span>
       loop<span class=p>.</span>yield <span class=nv>%new_sum</span> <span class=p>:</span> <span class=k>f32</span>
-   <span class=p>}</span> else <span class=p>{</span>
-          loop<span class=p>.</span>yield <span class=nv>%sum_iter</span> <span class=p>:</span> <span class=k>f32</span>
-   <span class=p>}</span>
+    <span class=p>}</span> else <span class=p>{</span>
+      loop<span class=p>.</span>yield <span class=nv>%sum_iter</span> <span class=p>:</span> <span class=k>f32</span>
+    <span class=p>}</span>
     loop<span class=p>.</span>yield <span class=nv>%sum_next</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=p>}</span>
   <span class=kt>return</span> <span class=nv>%sum</span> <span class=p>:</span> <span class=k>f32</span>
