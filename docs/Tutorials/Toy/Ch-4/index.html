@@ -41,10 +41,10 @@ hook into.</p><p>The first thing we need to do is to define the constraints on i
 operations in the Toy dialect. This information is provided through a
 <a href=/docs/Interfaces/#dialect-interfaces>dialect interface</a>
 . This is essentially
-a class containing a set of virtual hooks for which a dialect may provide a
-specialization. In this case, the interface is <code>DialectInlinerInterface</code>.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This class defines the interface for handling inlining with Toy operations.
-</span><span class=c1></span><span class=c1>/// We simplify inherit from the base interface class and provide a
-</span><span class=c1></span><span class=c1>/// specialization of the necessary methods.
+a class containing a set of virtual hooks which the dialect can override.
+In this case, the interface is <code>DialectInlinerInterface</code>.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This class defines the interface for handling inlining with Toy operations.
+</span><span class=c1></span><span class=c1>/// We simplify inherit from the base interface class and override
+</span><span class=c1></span><span class=c1>/// the necessary methods.
 </span><span class=c1></span><span class=k>struct</span> <span class=nc>ToyInlinerInterface</span> <span class=o>:</span> <span class=k>public</span> <span class=n>DialectInlinerInterface</span> <span class=p>{</span>
   <span class=k>using</span> <span class=n>DialectInlinerInterface</span><span class=o>:</span><span class=o>:</span><span class=n>DialectInlinerInterface</span><span class=p>;</span>
 
@@ -84,11 +84,8 @@ to mark an operation as being &ldquo;call-like&rdquo;. Unlike dialect interfaces
 interfaces provide a more refined granularity of information that is specific
 and core to a single operation. The interface that we will be adding here is the
 <code>CallOpInterface</code>.</p><p>To add this interface we just need to include the definition into our operation
-specification file (<code>Ops.td</code>):</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=cp>#ifdef MLIR_CALLINTERFACES</span>
-<span class=err>#</span><span class=nv>else</span>
-<span class=nv>include</span> <span class=s>&#34;mlir/Analysis/CallInterfaces.td&#34;</span>
-<span class=cp>#endif</span> <span class=c>// MLIR_CALLINTERFACES
-</span></code></pre></div><p>and add it to the traits list of <code>GenericCallOp</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>GenericCallOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;generic_call&#34;</span><span class=p>,</span>
+specification file (<code>Ops.td</code>):</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=nv>include</span> <span class=s>&#34;mlir/Analysis/CallInterfaces.td&#34;</span>
+</code></pre></div><p>and add it to the traits list of <code>GenericCallOp</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>GenericCallOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;generic_call&#34;</span><span class=p>,</span>
     <span class=p>[</span><span class=nv>DeclareOpInterfaceMethods</span><span class=p>&lt;</span><span class=nv>CallOpInterface</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=p>}</span>
@@ -190,7 +187,7 @@ to have their result shapes inferred.</p><p>Similarly to operations, we can also
 using
 the operation definition specification (ODS) framework.</p><p>The interface is defined by inheriting from <code>OpInterface</code>, which takes the name
 to be given to the generated C++ interface class as a template argument. For our
-purposes, we will name the generated class a simpler <code>ShapeInference</code>. We also
+purposes, we will simply name the generated class <code>ShapeInference</code>. We also
 provide a description for the interface.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ShapeInferenceOpInterface</span> <span class=p>:</span> <span class=nv>OpInterface</span><span class=p>&lt;</span><span class=s>&#34;ShapeInference&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
   <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
 </span><span class=s>    Interface to access a registered method to infer the return types for an
@@ -204,10 +201,7 @@ the need. See the
 <a href=/docs/OpDefinitions/#operation-interfaces>ODS documentation</a>
 for more
 information.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ShapeInferenceOpInterface</span> <span class=p>:</span> <span class=nv>OpInterface</span><span class=p>&lt;</span><span class=s>&#34;ShapeInference&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
-  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
-</span><span class=s>    Interface to access a registered method to infer the return types for an
-</span><span class=s>    operation that can be used during type inference.
-</span><span class=s>  }]</span><span class=p>;</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
   <span class=k>let</span> <span class=nv>methods</span> <span class=p>=</span> <span class=p>[</span>
     <span class=nv>InterfaceMethod</span><span class=p>&lt;</span><span class=s>&#34;Infer and set the output shape for the current operation.&#34;</span><span class=p>,</span>
@@ -231,16 +225,19 @@ run on each Function in isolation. MLIR also supports general
 that run on any isolated
 operation (i.e. other function-like operations), but here our module only
 contains functions, so there is no need to generalize to all operations.</p><p>Implementing such a pass is done by creating a class inheriting from
-<code>mlir::FunctionPass</code> and overriding the <code>runOnFunction()</code> method:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>ShapeInferencePass</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>FunctionPass</span><span class=o>&lt;</span><span class=n>ShapeInferencePass</span><span class=o>&gt;</span> <span class=p>{</span>
+<code>mlir::FunctionPass</code> and overriding the <code>runOnFunction()</code> method.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>ShapeInferencePass</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>FunctionPass</span><span class=o>&lt;</span><span class=n>ShapeInferencePass</span><span class=o>&gt;</span> <span class=p>{</span>
   <span class=kt>void</span> <span class=nf>runOnFunction</span><span class=p>(</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span>
     <span class=n>FuncOp</span> <span class=n>function</span> <span class=o>=</span> <span class=n>getFunction</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
     <span class=p>.</span><span class=p>.</span><span class=p>.</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><p>The algorithm operates as follows:</p><ol><li>Build a worklist containing all the operations that return a dynamically
+</code></pre></div><p>While at it, let&rsquo;s also create a helper method for instantiating the pass:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>std</span><span class=o>:</span><span class=o>:</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Pass</span><span class=o>&gt;</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>toy</span><span class=o>:</span><span class=o>:</span><span class=n>createShapeInferencePass</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+  <span class=k>return</span> <span class=n>std</span><span class=o>:</span><span class=o>:</span><span class=n>make_unique</span><span class=o>&lt;</span><span class=n>ShapeInferencePass</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>The shape inference algorithm operates as follows:</p><ol><li>Build a worklist containing all the operations that return a dynamically
 shaped tensor: these are the operations that need shape inference.</li><li>Iterate on the worklist:<ul><li>find an operation to process: the next ready operation in the worklist
-has all of its arguments non-generic,</li><li>if no operation is found, break out of the loop,</li><li>remove the operation from the worklist,</li><li>infer the shape of its output from the argument types.</li></ul></li><li>If the worklist is empty, the algorithm succeeded.</li></ol><p>When processing an operation, we query if it registered the <code>ShapeInference</code>
-interface.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=c1>// Ask the operation to infer its output shapes.
+has all of its arguments non-generic,</li><li>if no operation is found, break out of the loop,</li><li>remove the operation from the worklist,</li><li>infer the shape of its output from the argument types.</li></ul></li><li>If the worklist is empty, the algorithm succeeded.</li></ol><p>When processing an operation like described, we query if it registered the
+<code>ShapeInference</code> interface, using this code snippet:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=c1>// Ask the operation to infer its output shapes.
 </span><span class=c1></span>  <span class=n>LLVM_DEBUG</span><span class=p>(</span><span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>dbgs</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>Inferring shape for: </span><span class=s>&#34;</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=o>*</span><span class=n>op</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>)</span><span class=p>;</span>
 
   <span class=c1>/// We check if an operation has a particular interface by casting.

@@ -69,7 +69,7 @@ by relying on
   <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>populateLoopToStdConversionPatterns</span><span class=p>(</span><span class=n>patterns</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
   <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>populateStdToLLVMConversionPatterns</span><span class=p>(</span><span class=n>typeConverter</span><span class=p>,</span> <span class=n>patterns</span><span class=p>)</span><span class=p>;</span>
 
-  <span class=c1>// The only remaining operation to lower from the `toy` dialect, is the
+  <span class=c1>// The only remaining operation, to lower from the `toy` dialect, is the
 </span><span class=c1></span>  <span class=c1>// PrintOp.
 </span><span class=c1></span>  <span class=n>patterns</span><span class=p>.</span><span class=n>insert</span><span class=o>&lt;</span><span class=n>PrintOpLowering</span><span class=o>&gt;</span><span class=p>(</span><span class=o>&amp;</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
 </code></pre></div><h3 id=full-lowering>Full Lowering</h3><p>We want to completely lower to LLVM, so we use a <code>FullConversion</code>. This ensures

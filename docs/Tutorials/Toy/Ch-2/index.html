@@ -68,7 +68,7 @@ represent, and
 <a href=/getting_started/Glossary/#round-trip>round-trip</a>
 any valid IR. For
 example, we could place our Toy operation from above into an <code>.mlir</code> file and
-round-trip through <em>mlir-opt</em> without registering anything:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@toy_func</span><span class=p>(</span><span class=nv>%tensor</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=p>{</span>
+round-trip through <em>mlir-opt</em> without registering any dialect:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@toy_func</span><span class=p>(</span><span class=nv>%tensor</span><span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span> <span class=p>{</span>
   <span class=nv>%t_tensor</span> <span class=p>=</span> <span class=s>&#34;toy.transpose&#34;</span><span class=p>(</span><span class=nv>%tensor</span><span class=p>)</span> <span class=p>{</span> <span class=nl>inplace =</span> true <span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
   <span class=kt>return</span> <span class=nv>%t_tensor</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
 <span class=p>}</span>
@@ -90,8 +90,8 @@ verifier, and add nicer APIs to manipulate our operations.</p><h2 id=defining-a-
 dialect will properly model the semantics of the Toy language, as well as
 provide an easy avenue for high-level analysis and transformation.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This is the definition of the Toy dialect. A dialect inherits from
 </span><span class=c1></span><span class=c1>/// mlir::Dialect and registers custom attributes, operations, and types (in its
-</span><span class=c1></span><span class=c1>/// constructor). It can also override some general behavior exposed via virtual
-</span><span class=c1></span><span class=c1>/// methods, which will be demonstrated in later chapters of the tutorial.
+</span><span class=c1></span><span class=c1>/// constructor). It can also override virtual methods to change some general
+</span><span class=c1></span><span class=c1>/// behavior, which will be demonstrated in later chapters of the tutorial.
 </span><span class=c1></span><span class=k>class</span> <span class=nc>ToyDialect</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Dialect</span> <span class=p>{</span>
  <span class=k>public</span><span class=o>:</span>
   <span class=k>explicit</span> <span class=n>ToyDialect</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>ctx</span><span class=p>)</span><span class=p>;</span>
@@ -117,7 +117,7 @@ attribute named
 to
 customize its behavior. These traits may provide additional accessors,
 verification, etc.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>ConstantOp</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Op</span><span class=o>&lt;</span><span class=n>ConstantOp</span><span class=p>,</span>
-                     <span class=c1>/// The ConstantOp takes zero inputs.
+                     <span class=c1>/// The ConstantOp takes no inputs.
 </span><span class=c1></span>                     <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>OpTrait</span><span class=o>:</span><span class=o>:</span><span class=n>ZeroOperands</span><span class=p>,</span>
                      <span class=c1>/// The ConstantOp returns a single result.
 </span><span class=c1></span>                     <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>OpTrait</span><span class=o>:</span><span class=o>:</span><span class=n>OneResult</span><span class=p>,</span>
@@ -179,7 +179,7 @@ casting infrastructure:</p><div class=highlight><pre class=chroma><code class=la
 </span><span class=c1></span>  <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>op</span><span class=p>)</span>
     <span class=k>return</span><span class=p>;</span>
 
-  <span class=c1>// Get the internal operation instance back.
+  <span class=c1>// Get the internal operation instance wrapped by the smart pointer.
 </span><span class=c1></span>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Operation</span> <span class=o>*</span><span class=n>internalOperation</span> <span class=o>=</span> <span class=n>op</span><span class=p>.</span><span class=n>getOperation</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=n>assert</span><span class=p>(</span><span class=n>internalOperation</span> <span class=o>=</span><span class=o>=</span> <span class=n>operation</span> <span class=o>&amp;</span><span class=o>&amp;</span>
          <span class=sa></span><span class=s>&#34;</span><span class=s>these operation instances are the same</span><span class=s>&#34;</span><span class=p>)</span><span class=p>;</span>
@@ -320,31 +320,7 @@ field. This field
 takes a list of <code>OpBuilder</code> objects that take a string corresponding to a list
 of C++ parameters, as well as an optional code block that can be used to specify
 the implementation inline.</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ConstantOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;constant&#34;</span><span class=p>,</span> <span class=p>[</span><span class=nv>NoSideEffect</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
-  <span class=c>// Provide a summary and description for this operation. This can be used to
-</span><span class=c></span>  <span class=c>// auto-generate documentation of the operations within our dialect.
-</span><span class=c></span>  <span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;constant operation&#34;</span><span class=p>;</span>
-  <span class=k>let</span> <span class=nv>description</span> <span class=p>=</span> <span class=s>[{
-</span><span class=s>    Constant operation turns a literal into an SSA value. The data is attached
-</span><span class=s>    to the operation as an attribute. For example:
-</span><span class=s>
-</span><span class=s>      %0 = &#34;toy.constant&#34;()
-</span><span class=s>         { value = dense&lt;[[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]&gt; : tensor&lt;2x3xf64&gt; }
-</span><span class=s>        : () -&gt; tensor&lt;2x3xf64&gt;
-</span><span class=s>  }]</span><span class=p>;</span>
-
-  <span class=c>// The constant operation takes an attribute as the only input.
-</span><span class=c></span>  <span class=c>// `F64ElementsAttr` corresponds to a 64-bit floating-point ElementsAttr.
-</span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>F64ElementsAttr</span><span class=p>:</span><span class=nv>$value</span><span class=p>)</span><span class=p>;</span>
-
-  <span class=c>// The generic call operation returns a single value of TensorType.
-</span><span class=c></span>  <span class=c>// F64Tensor corresponds to a 64-bit floating-point TensorType.
-</span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
-
-  <span class=c>// Add additional verification logic to the constant operation. Here we invoke
-</span><span class=c></span>  <span class=c>// a static `verify` method in a c++ source file. This codeblock is executed
-</span><span class=c></span>  <span class=c>// inside of ConstantOp::verify, so we can use `this` to refer to the current
-</span><span class=c></span>  <span class=c>// operation instance.
-</span><span class=c></span>  <span class=k>let</span> <span class=nv>verifier</span> <span class=p>=</span> <span class=s>[{ return ::verify(*this); }]</span><span class=p>;</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
   <span class=c>// Add custom build methods for the constant operation. These methods populate
 </span><span class=c></span>  <span class=c>// the `state` that MLIR uses to create operations, i.e. these are used when
@@ -429,7 +405,7 @@ first, as this is what the declarative format maps to internally.</p><div class=
   <span class=n>printer</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s> : </span><span class=s>&#34;</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=n>op</span><span class=p>.</span><span class=n>input</span><span class=p>(</span><span class=p>)</span><span class=p>.</span><span class=n>getType</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
 
-<span class=c1>/// The &#39;OpAsmPrinter&#39; class provides a collection of methods for parsing
+<span class=c1>/// The &#39;OpAsmParser&#39; class provides a collection of methods for parsing
 </span><span class=c1></span><span class=c1>/// various punctuation, as well as attributes, operands, types, etc. Each of
 </span><span class=c1></span><span class=c1>/// these methods returns a `ParseResult`. This class is a wrapper around
 </span><span class=c1></span><span class=c1>/// `LogicalResult` that can be converted to a boolean `true` value on failure,

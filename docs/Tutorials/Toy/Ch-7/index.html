@@ -51,7 +51,7 @@ symbol registry file
 </span><span class=c1></span><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>TOY</span><span class=p>)</span>    <span class=c1>// Toy language (tutorial) Dialect
 </span><span class=c1></span>
 <span class=c1>// The following ranges are reserved for experimenting with MLIR dialects in a
-</span><span class=c1></span><span class=c1>// private context without having to register them here.
+</span><span class=c1></span><span class=c1>// private context.
 </span><span class=c1></span><span class=n>DEFINE_SYM_KIND_RANGE</span><span class=p>(</span><span class=n>PRIVATE_EXPERIMENTAL_0</span><span class=p>)</span>
 </code></pre></div><p>These definitions will provide a range in the Type::Kind enum to use when
 defining the derived types.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Create a local enumeration with all of the types that are defined by Toy.
@@ -282,10 +282,8 @@ modeling, we just use an
 that contains a set of constant values for each of the <code>struct</code> elements.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=nv>%0</span> <span class=p>=</span> toy<span class=p>.</span>struct_constant <span class=p>[</span>
     dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.0</span><span class=p>,</span> <span class=m>2.0</span><span class=p>,</span> <span class=m>3.0</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.0</span><span class=p>,</span> <span class=m>5.0</span><span class=p>,</span> <span class=m>6.0</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
   <span class=p>]</span> <span class=p>:</span> <span class=p>!</span>toy<span class=p>.</span>struct<span class=p>&lt;</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>&gt;</span>
-</code></pre></div><h5 id=toystruct_access><code>toy.struct_access</code></h5><p>This new operation materializes the Nth element of a <code>struct</code> value.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=nv>%0</span> <span class=p>=</span> toy<span class=p>.</span>struct_constant <span class=p>[</span>
-    dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.0</span><span class=p>,</span> <span class=m>2.0</span><span class=p>,</span> <span class=m>3.0</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.0</span><span class=p>,</span> <span class=m>5.0</span><span class=p>,</span> <span class=m>6.0</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
-  <span class=p>]</span> <span class=p>:</span> <span class=p>!</span>toy<span class=p>.</span>struct<span class=p>&lt;</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>&gt;</span>
-  <span class=nv>%1</span> <span class=p>=</span> toy<span class=p>.</span>struct_access <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>toy<span class=p>.</span>struct<span class=p>&lt;</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
+</code></pre></div><h5 id=toystruct_access><code>toy.struct_access</code></h5><p>This new operation materializes the Nth element of a <code>struct</code> value.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=c>// Using %0 from above
+</span><span class=c></span>  <span class=nv>%1</span> <span class=p>=</span> toy<span class=p>.</span>struct_access <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>toy<span class=p>.</span>struct<span class=p>&lt;</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
 </code></pre></div><p>With these operations, we can revisit our original example:</p><pre><code class=language-toy data-lang=toy>struct Struct {
   var a;
   var b;
@@ -343,9 +341,10 @@ new constant folding opportunities.</p><p>After inlining, the MLIR module in the
 </code></pre></div><p>We have several <code>toy.struct_access</code> operations that access into a
 <code>toy.struct_constant</code>. As detailed in
 <a href=/docs/Tutorials/Toy/Ch-3/>chapter 3</a>
-, we can add folders
-for these <code>toy</code> operations by setting the <code>hasFolder</code> bit on the operation
-definition and providing a definition of the <code>*Op::fold</code> method.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Fold constants.
+(FoldConstantReshape),
+we can add folders for these <code>toy</code> operations by setting the <code>hasFolder</code> bit
+on the operation definition and providing a definition of the <code>*Op::fold</code>
+method.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Fold constants.
 </span><span class=c1></span><span class=n>OpFoldResult</span> <span class=n>ConstantOp</span><span class=o>:</span><span class=o>:</span><span class=n>fold</span><span class=p>(</span><span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Attribute</span><span class=o>&gt;</span> <span class=n>operands</span><span class=p>)</span> <span class=p>{</span> <span class=k>return</span> <span class=nf>value</span><span class=p>(</span><span class=p>)</span><span class=p>;</span> <span class=p>}</span>
 
 <span class=c1>/// Fold struct constants.
