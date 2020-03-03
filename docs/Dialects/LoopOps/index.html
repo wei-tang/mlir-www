@@ -30,7 +30,7 @@ variables to the next iteration, or to the &ldquo;loop.for&rdquo; result, if at 
 </span><span class=c></span>    loop<span class=p>.</span>yield <span class=nv>%sum_next</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=p>}</span>
   <span class=kt>return</span> <span class=nv>%sum</span> <span class=p>:</span> <span class=k>f32</span>
-<span class=p>}</span>   
+<span class=p>}</span>
 </code></pre></div><p>If the &ldquo;loop.for&rdquo; defines any values, a yield must be explicitly present.
 The number and types of the &ldquo;loop.for&rdquo; results must match the initial values
 in the &ldquo;iter_args&rdquo; binding and the yield operands.</p><p>Another example with a nested &ldquo;loop.if&rdquo; (see &ldquo;loop.if&rdquo; for details)
@@ -64,8 +64,8 @@ For example:</p><div class=highlight><pre class=chroma><code class=language-mlir
      <span class=nv>%y_true</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
      loop<span class=p>.</span>yield <span class=nv>%x_true</span><span class=p>,</span> <span class=nv>%y_true</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=k>f32</span>
    <span class=p>}</span> else <span class=p>{</span>
-     <span class=nv>%x_false</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> 
-     <span class=nv>%y_false</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> 
+     <span class=nv>%x_false</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+     <span class=nv>%y_false</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
      loop<span class=p>.</span>yield <span class=nv>%x_false</span><span class=p>,</span> <span class=nv>%y_false</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=k>f32</span>
    <span class=p>}</span>
 </code></pre></div><p>&ldquo;loop.if&rdquo; regions are always terminated with &ldquo;loop.yield&rdquo;. If &ldquo;loop.if&rdquo;
@@ -75,23 +75,26 @@ Also, if &ldquo;loop.if&rdquo; defines one or more values, the &lsquo;else&rsquo
 be omitted.</p><p>For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>if <span class=nv>%b</span>  <span class=p>{</span>
      <span class=p>.</span><span class=p>.</span><span class=p>.</span>
    <span class=p>}</span>
-</code></pre></div><h4 id=operands-1>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li></ol><h4 id=attributes-1>Attributes:</h4><h4 id=results-1>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopparallel-parallelop>loop.parallel (ParallelOp)</h3><p>parallel for operation</p><h4 id=description-2>Description:</h4><p>The &ldquo;loop.parallel&rdquo; operation represents a loop nest taking 3 groups of SSA
-values as operands that represent the lower bounds, upper bounds and steps,
-respectively. The operation defines a variadic number of SSA values for its
-induction variables. It has one region capturing the loop body. The
-induction variables are represented as an argument of this region. These SSA
-values always have type index, which is the size of the machine word. The
-steps are values of type index, required to be positive.
-The lower and upper bounds specify a half-open range: the range includes the
-lower bound but does not include the upper bound.</p><p>Semantically we require that the iteration space can be iterated in any
+</code></pre></div><h4 id=operands-1>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li></ol><h4 id=attributes-1>Attributes:</h4><h4 id=results-1>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopparallel-parallelop>loop.parallel (ParallelOp)</h3><p>parallel for operation</p><h4 id=description-2>Description:</h4><p>The &ldquo;loop.parallel&rdquo; operation represents a loop nest taking 4 groups of SSA
+values as operands that represent the lower bounds, upper bounds, steps and
+initial values, respectively. The operation defines a variadic number of
+SSA values for its induction variables. It has one region capturing the
+loop body. The induction variables are represented as an argument of this
+region. These SSA values always have type index, which is the size of the
+machine word. The steps are values of type index, required to be positive.
+The lower and upper bounds specify a half-open range: the range includes
+the lower bound but does not include the upper bound. The initial values
+have the same types as results of &ldquo;loop.parallel&rdquo;. If there are no results,
+the keyword <code>init</code> can be omitted.</p><p>Semantically we require that the iteration space can be iterated in any
 order, and the loop body can be executed in parallel. If there are data
 races, the behavior is undefined.</p><p>The parallel loop operation supports reduction of values produced by
 individual iterations into a single result. This is modeled using the
 loop.reduce operation (see loop.reduce for details). Each result of a
-loop.parallel operation is associated with a reduce operation that is an
-immediate child. Reduces are matched to result values in order of their
-appearance in the body. Consequently, we require that the body region has
-the same number of results as it has reduce operations.</p><p>The body region must contain exactly one block that terminates with
+loop.parallel operation is associated with an initial value operand and
+reduce operation that is an immediate child. Reductions are matched to result
+and initial values in order of their appearance in the body. Consequently,
+we require that the body region has the same number of results and initial
+values as it has reduce operations.</p><p>The body region must contain exactly one block that terminates with
 &ldquo;loop.yield&rdquo; without operands. Parsing ParallelOp will create such a region
 and insert the terminator when it is absent from the custom format. For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>parallel <span class=p>(</span><span class=nv>%iv</span><span class=p>)</span> <span class=p>=</span> <span class=p>(</span><span class=nv>%lb</span><span class=p>)</span> to <span class=p>(</span><span class=nv>%ub</span><span class=p>)</span> step <span class=p>(</span><span class=nv>%step</span><span class=p>)</span> <span class=p>{</span>
      <span class=nv>%zero</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
@@ -101,7 +104,7 @@ and insert the terminator when it is absent from the custom format. For example:
          loop<span class=p>.</span>reduce<span class=p>.</span><span class=kt>return</span> <span class=nv>%res</span> <span class=p>:</span> <span class=k>f32</span>
      <span class=p>}</span> <span class=p>:</span> <span class=k>f32</span>
    <span class=p>}</span>
-</code></pre></div><h4 id=operands-2>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopreduce-reduceop>loop.reduce (ReduceOp)</h3><p>reduce operation for parallel for</p><h4 id=description-3>Description:</h4><p>&ldquo;loop.reduce&rdquo; is an operation occurring inside &ldquo;loop.parallel&rdquo; operations.
+</code></pre></div><h4 id=operands-2>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li><li><code>initVals</code>: any type</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopreduce-reduceop>loop.reduce (ReduceOp)</h3><p>reduce operation for parallel for</p><h4 id=description-3>Description:</h4><p>&ldquo;loop.reduce&rdquo; is an operation occurring inside &ldquo;loop.parallel&rdquo; operations.
 It consists of one block with two arguments which have the same type as the
 operand of &ldquo;loop.reduce&rdquo;.</p><p>&ldquo;loop.reduce&rdquo; is used to model the value for reduction computations of a
 &ldquo;loop.parallel&rdquo; operation. It has to appear as an immediate child of a
