@@ -13,31 +13,38 @@ the terminator implicitly if none is defined, so will the parsing even
 in cases when it is absent from the custom format. For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>for <span class=nv>%iv</span> <span class=p>=</span> <span class=nv>%lb</span> to <span class=nv>%ub</span> step <span class=nv>%step</span> <span class=p>{</span>
      <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=c>// body
 </span><span class=c></span>   <span class=p>}</span>
-</code></pre></div><p>&ldquo;loop.for&rdquo; can also operate on loop-carried variables and returns the final values
-after loop termination. The initial values of the variables are passed as additional SSA
-operands to the &ldquo;loop.for&rdquo; following the 3 loop control SSA values mentioned above
-(lower bound, upper bound and step). The operation region has equivalent arguments
-for each variable representing the value of the variable at the current iteration.</p><p>The region must terminate with a &ldquo;loop.yield&rdquo; that passes all the current iteration
-variables to the next iteration, or to the &ldquo;loop.for&rdquo; result, if at the last iteration.
-&ldquo;loop.for&rdquo; results hold the final values after the last iteration.</p><p>For example, to sum-reduce a memref:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@reduce</span><span class=p>(</span><span class=nv>%buffer</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%lb</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%ub</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%step</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
+</code></pre></div><p>&ldquo;loop.for&rdquo; can also operate on loop-carried variables and returns the final
+values after loop termination. The initial values of the variables are
+passed as additional SSA operands to the &ldquo;loop.for&rdquo; following the 3 loop
+control SSA values mentioned above (lower bound, upper bound and step). The
+operation region has equivalent arguments for each variable representing
+the value of the variable at the current iteration.</p><p>The region must terminate with a &ldquo;loop.yield&rdquo; that passes all the current
+iteration variables to the next iteration, or to the &ldquo;loop.for&rdquo; result, if
+at the last iteration. &ldquo;loop.for&rdquo; results hold the final values after the
+last iteration.</p><p>For example, to sum-reduce a memref:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@reduce</span><span class=p>(</span><span class=nv>%buffer</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%lb</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+             <span class=nv>%ub</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%step</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
   <span class=c>// Initial sum set to 0.
 </span><span class=c></span>  <span class=nv>%sum_0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=c>// iter_args binds initial values to the loop&#39;s region arguments.
-</span><span class=c></span>  <span class=nv>%sum</span> <span class=p>=</span> loop<span class=p>.</span>for <span class=nv>%iv</span> <span class=p>=</span> <span class=nv>%lb</span> to <span class=nv>%ub</span> step <span class=nv>%step</span> iter_args<span class=p>(</span><span class=nv>%sum_iter</span> <span class=p>=</span> <span class=nv>%sum_0</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
+</span><span class=c></span>  <span class=nv>%sum</span> <span class=p>=</span> loop<span class=p>.</span>for <span class=nv>%iv</span> <span class=p>=</span> <span class=nv>%lb</span> to <span class=nv>%ub</span> step <span class=nv>%step</span>
+      iter_args<span class=p>(</span><span class=nv>%sum_iter</span> <span class=p>=</span> <span class=nv>%sum_0</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
     <span class=nv>%t</span> <span class=p>=</span> load <span class=nv>%buffer</span><span class=p>[</span><span class=nv>%iv</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span>
     <span class=nv>%sum_next</span> <span class=p>=</span> addf <span class=nv>%sum_iter</span><span class=p>,</span> <span class=nv>%t</span> <span class=p>:</span> <span class=k>f32</span>
-    <span class=c>// Yield current iteration sum to next iteration %sum_iter or to %sum if final iteration.
+    <span class=c>// Yield current iteration sum to next iteration %sum_iter or to %sum
+</span><span class=c></span>    <span class=c>// if final iteration.
 </span><span class=c></span>    loop<span class=p>.</span>yield <span class=nv>%sum_next</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=p>}</span>
   <span class=kt>return</span> <span class=nv>%sum</span> <span class=p>:</span> <span class=k>f32</span>
 <span class=p>}</span>
 </code></pre></div><p>If the &ldquo;loop.for&rdquo; defines any values, a yield must be explicitly present.
-The number and types of the &ldquo;loop.for&rdquo; results must match the initial values
-in the &ldquo;iter_args&rdquo; binding and the yield operands.</p><p>Another example with a nested &ldquo;loop.if&rdquo; (see &ldquo;loop.if&rdquo; for details)
-to perform conditional reduction:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@conditional_reduce</span><span class=p>(</span><span class=nv>%buffer</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%lb</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%ub</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%step</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
+The number and types of the &ldquo;loop.for&rdquo; results must match the initial
+values in the &ldquo;iter_args&rdquo; binding and the yield operands.</p><p>Another example with a nested &ldquo;loop.if&rdquo; (see &ldquo;loop.if&rdquo; for details)
+to perform conditional reduction:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@conditional_reduce</span><span class=p>(</span><span class=nv>%buffer</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%lb</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+                         <span class=nv>%ub</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%step</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
   <span class=nv>%sum_0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=nv>%c0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
-  <span class=nv>%sum</span> <span class=p>=</span> loop<span class=p>.</span>for <span class=nv>%iv</span> <span class=p>=</span> <span class=nv>%lb</span> to <span class=nv>%ub</span> step <span class=nv>%step</span> iter_args<span class=p>(</span><span class=nv>%sum_iter</span> <span class=p>=</span> <span class=nv>%sum_0</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
+  <span class=nv>%sum</span> <span class=p>=</span> loop<span class=p>.</span>for <span class=nv>%iv</span> <span class=p>=</span> <span class=nv>%lb</span> to <span class=nv>%ub</span> step <span class=nv>%step</span>
+      iter_args<span class=p>(</span><span class=nv>%sum_iter</span> <span class=p>=</span> <span class=nv>%sum_0</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
     <span class=nv>%t</span> <span class=p>=</span> load <span class=nv>%buffer</span><span class=p>[</span><span class=nv>%iv</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span>
     <span class=nv>%cond</span> <span class=p>=</span> cmpf <span class=s>&#34;ugt&#34;</span><span class=p>,</span> <span class=nv>%t</span><span class=p>,</span> <span class=nv>%c0</span> <span class=p>:</span> <span class=k>f32</span>
     <span class=nv>%sum_next</span> <span class=p>=</span> loop<span class=p>.</span>if <span class=nv>%cond</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
@@ -57,8 +64,8 @@ is a boolean value. For example:</p><div class=highlight><pre class=chroma><code
    <span class=p>}</span> else <span class=p>{</span>
      <span class=p>.</span><span class=p>.</span><span class=p>.</span>
    <span class=p>}</span>
-</code></pre></div><p>&ldquo;loop.if&rdquo; may also return results that are defined in its regions. The values
-defined are determined by which execution path is taken.
+</code></pre></div><p>&ldquo;loop.if&rdquo; may also return results that are defined in its regions. The
+values defined are determined by which execution path is taken.
 For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   <span class=nv>%x</span><span class=p>,</span> <span class=nv>%y</span> <span class=p>=</span> loop<span class=p>.</span>if <span class=nv>%b</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
      <span class=nv>%x_true</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
      <span class=nv>%y_true</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
@@ -96,7 +103,8 @@ and initial values in order of their appearance in the body. Consequently,
 we require that the body region has the same number of results and initial
 values as it has reduce operations.</p><p>The body region must contain exactly one block that terminates with
 &ldquo;loop.yield&rdquo; without operands. Parsing ParallelOp will create such a region
-and insert the terminator when it is absent from the custom format. For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>parallel <span class=p>(</span><span class=nv>%iv</span><span class=p>)</span> <span class=p>=</span> <span class=p>(</span><span class=nv>%lb</span><span class=p>)</span> to <span class=p>(</span><span class=nv>%ub</span><span class=p>)</span> step <span class=p>(</span><span class=nv>%step</span><span class=p>)</span> <span class=p>{</span>
+and insert the terminator when it is absent from the custom format.
+For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>parallel <span class=p>(</span><span class=nv>%iv</span><span class=p>)</span> <span class=p>=</span> <span class=p>(</span><span class=nv>%lb</span><span class=p>)</span> to <span class=p>(</span><span class=nv>%ub</span><span class=p>)</span> step <span class=p>(</span><span class=nv>%step</span><span class=p>)</span> <span class=p>{</span>
      <span class=nv>%zero</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
      loop<span class=p>.</span>reduce<span class=p>(</span><span class=nv>%zero</span><span class=p>)</span> <span class=p>{</span>
        <span class=nl>^bb0</span><span class=p>(</span><span class=nv>%lhs</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>%rhs</span><span class=p>:</span> <span class=k>f32</span><span class=p>)</span><span class=p>:</span>
@@ -125,8 +133,8 @@ Example:</p><div class=highlight><pre class=chroma><code class=language-mlir dat
       loop<span class=p>.</span>reduce<span class=p>.</span><span class=kt>return</span> <span class=nv>%res</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=p>}</span> <span class=p>:</span> <span class=k>f32</span>
 </code></pre></div><h4 id=operands-3>Operands:</h4><ol><li><code>operand</code>: any type</li></ol><h4 id=attributes-3>Attributes:</h4><h4 id=results-3>Results:</h4><h3 id=loopreducereturn-reducereturnop>loop.reduce.return (ReduceReturnOp)</h3><p>terminator for reduce operation</p><h4 id=description-4>Description:</h4><p>&ldquo;loop.reduce.return&rdquo; is a special terminator operation for the block inside
-&ldquo;loop.reduce&rdquo;. It terminates the region. It should have the same type as the
-operand of &ldquo;loop.reduce&rdquo;. Example for the custom format:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  loop<span class=p>.</span>reduce<span class=p>.</span><span class=kt>return</span> <span class=nv>%res</span> <span class=p>:</span> <span class=k>f32</span>
+&ldquo;loop.reduce&rdquo;. It terminates the region. It should have the same type as
+the operand of &ldquo;loop.reduce&rdquo;. Example for the custom format:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  loop<span class=p>.</span>reduce<span class=p>.</span><span class=kt>return</span> <span class=nv>%res</span> <span class=p>:</span> <span class=k>f32</span>
 </code></pre></div><h4 id=operands-4>Operands:</h4><ol><li><code>result</code>: any type</li></ol><h4 id=attributes-4>Attributes:</h4><h4 id=results-4>Results:</h4><h3 id=loopyield-yieldop>loop.yield (YieldOp)</h3><p>loop yield and termination operation</p><h4 id=description-5>Description:</h4><p>&ldquo;loop.yield&rdquo; yields an SSA value from a loop dialect op region and
 terminates the regions. The semantics of how the values are yielded
 is defined by the parent operation.
