@@ -82,7 +82,7 @@ Also, if &ldquo;loop.if&rdquo; defines one or more values, the &lsquo;else&rsquo
 be omitted.</p><p>For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>if <span class=nv>%b</span>  <span class=p>{</span>
      <span class=p>.</span><span class=p>.</span><span class=p>.</span>
    <span class=p>}</span>
-</code></pre></div><h4 id=operands-1>Operands:</h4><ol><li><code>condition</code>: 1-bit integer</li></ol><h4 id=attributes-1>Attributes:</h4><h4 id=results-1>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopparallel-parallelop>loop.parallel (ParallelOp)</h3><p>parallel for operation</p><h4 id=description-2>Description:</h4><p>The &ldquo;loop.parallel&rdquo; operation represents a loop nest taking 4 groups of SSA
+</code></pre></div><h4 id=operands-1>Operands:</h4><ol><li><code>condition</code>: 1-bit signless integer</li></ol><h4 id=attributes-1>Attributes:</h4><h4 id=results-1>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopparallel-parallelop>loop.parallel (ParallelOp)</h3><p>parallel for operation</p><h4 id=description-2>Description:</h4><p>The &ldquo;loop.parallel&rdquo; operation represents a loop nest taking 4 groups of SSA
 values as operands that represent the lower bounds, upper bounds, steps and
 initial values, respectively. The operation defines a variadic number of
 SSA values for its induction variables. It has one region capturing the
