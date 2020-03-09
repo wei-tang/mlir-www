@@ -104,13 +104,13 @@ we require that the body region has the same number of results and initial
 values as it has reduce operations.</p><p>The body region must contain exactly one block that terminates with
 &ldquo;loop.yield&rdquo; without operands. Parsing ParallelOp will create such a region
 and insert the terminator when it is absent from the custom format.
-For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>parallel <span class=p>(</span><span class=nv>%iv</span><span class=p>)</span> <span class=p>=</span> <span class=p>(</span><span class=nv>%lb</span><span class=p>)</span> to <span class=p>(</span><span class=nv>%ub</span><span class=p>)</span> step <span class=p>(</span><span class=nv>%step</span><span class=p>)</span> <span class=p>{</span>
+For example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>   loop<span class=p>.</span>parallel <span class=p>(</span><span class=nv>%iv</span><span class=p>)</span> <span class=p>=</span> <span class=p>(</span><span class=nv>%lb</span><span class=p>)</span> to <span class=p>(</span><span class=nv>%ub</span><span class=p>)</span> step <span class=p>(</span><span class=nv>%step</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>f32</span> <span class=p>{</span>
      <span class=nv>%zero</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
-     loop<span class=p>.</span>reduce<span class=p>(</span><span class=nv>%zero</span><span class=p>)</span> <span class=p>{</span>
+     loop<span class=p>.</span>reduce<span class=p>(</span><span class=nv>%zero</span><span class=p>)</span> <span class=p>:</span> <span class=k>f32</span> <span class=p>{</span>
        <span class=nl>^bb0</span><span class=p>(</span><span class=nv>%lhs</span> <span class=p>:</span> <span class=k>f32</span><span class=p>,</span> <span class=nv>%rhs</span><span class=p>:</span> <span class=k>f32</span><span class=p>)</span><span class=p>:</span>
          <span class=nv>%res</span> <span class=p>=</span> addf <span class=nv>%lhs</span><span class=p>,</span> <span class=nv>%rhs</span> <span class=p>:</span> <span class=k>f32</span>
          loop<span class=p>.</span>reduce<span class=p>.</span><span class=kt>return</span> <span class=nv>%res</span> <span class=p>:</span> <span class=k>f32</span>
-     <span class=p>}</span> <span class=p>:</span> <span class=k>f32</span>
+     <span class=p>}</span>
    <span class=p>}</span>
 </code></pre></div><h4 id=operands-2>Operands:</h4><ol><li><code>lowerBound</code>: index</li><li><code>upperBound</code>: index</li><li><code>step</code>: index</li><li><code>initVals</code>: any type</li></ol><h4 id=attributes-2>Attributes:</h4><h4 id=results-2>Results:</h4><ol><li><code>results</code>: any type</li></ol><h3 id=loopreduce-reduceop>loop.reduce (ReduceOp)</h3><p>reduce operation for parallel for</p><h4 id=description-3>Description:</h4><p>&ldquo;loop.reduce&rdquo; is an operation occurring inside &ldquo;loop.parallel&rdquo; operations.
 It consists of one block with two arguments which have the same type as the
