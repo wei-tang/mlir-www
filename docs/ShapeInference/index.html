@@ -10,7 +10,7 @@ constraints/bounds in the system for that operation (e.g., the output of a
 <code>tf.where</code> is at most the size of the input data). That is, there are additional
 valuable constraints that could be captured even without full knowledge of the
 shape.</p><p>Type inference is currently modelled executionally for operation creation using the
-<a href=https://github.com/llvm/llvm-project/tree/master/mlir/include/mlir/Analysis/InferTypeOpInterface.td><code>InferTypeOpInterface</code></a>
+<a href=https://github.com/llvm/llvm-project/tree/master/mlir/include/mlir/Interfaces/InferTypeOpInterface.td><code>InferTypeOpInterface</code></a>
 , while
 <code>InferShapedTypeOpInterface</code> is used to implement the shape and element type
 inference. The return type can often be deduced from the deduced return shape

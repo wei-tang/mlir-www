@@ -84,7 +84,7 @@ to mark an operation as being &ldquo;call-like&rdquo;. Unlike dialect interfaces
 interfaces provide a more refined granularity of information that is specific
 and core to a single operation. The interface that we will be adding here is the
 <code>CallOpInterface</code>.</p><p>To add this interface we just need to include the definition into our operation
-specification file (<code>Ops.td</code>):</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=nv>include</span> <span class=s>&#34;mlir/Analysis/CallInterfaces.td&#34;</span>
+specification file (<code>Ops.td</code>):</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=nv>include</span> <span class=s>&#34;mlir/Interfaces/CallInterfaces.td&#34;</span>
 </code></pre></div><p>and add it to the traits list of <code>GenericCallOp</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>GenericCallOp</span> <span class=p>:</span> <span class=nv>Toy_Op</span><span class=p>&lt;</span><span class=s>&#34;generic_call&#34;</span><span class=p>,</span>
     <span class=p>[</span><span class=nv>DeclareOpInterfaceMethods</span><span class=p>&lt;</span><span class=nv>CallOpInterface</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>

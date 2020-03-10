@@ -8,8 +8,8 @@ workgroup. The result is equal for all work items of a workgroup.</p><p>For exam
   }) : (f32) -&gt; (f32)
 </code></pre><p>compute the sum of each work item&rsquo;s %0 value. The first version specifies
 the accumulation as operation, whereas the second version specifies the
-accumulation as code region. The accumulation operation must either be
-<code>add</code> or <code>mul</code>.</p><p>Either none or all work items of a workgroup need to execute this op
+accumulation as code region. The accumulation operation must be one of:
+<code>add</code>, <code>and</code>, <code>max</code>, <code>min</code>, <code>mul</code>, <code>or</code>, <code>xor</code>.</p><p>Either none or all work items of a workgroup need to execute this op
 in convergence.</p><h4 id=operands>Operands:</h4><ol><li><code>value</code>: any type</li></ol><h4 id=attributes>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>op</code></td><td align=center><code>StringAttr</code></td><td>built-in reduction operations supported by gpu.allreduce. attribute</td></tr></tbody></table><h4 id=results>Results:</h4><ol><li>«unnamed»: any type</li></ol><h3 id=gpubarrier-gpubarrierop>gpu.barrier (gpu::BarrierOp)</h3><p>Synchronizes all work items of a workgroup.</p><h4 id=description-1>Description:</h4><p>The &ldquo;barrier&rdquo; op synchronizes all work items of a workgroup. It is used
 to coordinate communication between the work items of the workgroup.</p><pre><code>  gpu.barrier
 </code></pre><p>waits until all work items in the workgroup have reached this point

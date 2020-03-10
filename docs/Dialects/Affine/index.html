@@ -56,7 +56,8 @@ other dimensions and symbols).</p><h3 id=affine-expressions>Affine Expressions</
               | bare-id
               | `-`? integer-literal
 
-multi-dim-affine-expr ::= `(` affine-expr (`,` affine-expr)* `)`
+multi-dim-affine-expr ::= `(` `)`
+                        | `(` affine-expr (`,` affine-expr)* `)`
 </code></pre><p><code>ceildiv</code> is the ceiling function which maps the result of the division of its
 first argument by its second argument to the smallest integer greater than or
 equal to that result. <code>floordiv</code> is a function which maps the result of the
