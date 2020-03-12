@@ -779,7 +779,8 @@ shape <code>(0, 42)</code> and zero shapes are not allowed.</p><h2 id=attributes
 attribute-entry ::= dialect-attribute-entry | dependent-attribute-entry
 dialect-attribute-entry ::= dialect-namespace `.` bare-id `=` attribute-value
 dependent-attribute-entry ::= dependent-attribute-name `=` attribute-value
-dependent-attribute-name ::= (letter|[_]) (letter|digit|[_$])*
+dependent-attribute-name ::= ((letter|[_]) (letter|digit|[_$])*)
+                           | string-literal
 </code></pre><p>Attributes are the mechanism for specifying constant data on operations in
 places where a variable is never allowed - e.g. the index of a
 <a href=/docs/Dialects/Standard/#dim-operation><code>dim</code> operation</a>
