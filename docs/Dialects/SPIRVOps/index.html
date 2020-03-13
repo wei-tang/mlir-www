@@ -1130,22 +1130,22 @@ SPIR-V modules in other dialects in a clean manner: this op guarantees
 the validity and serializability of a SPIR-V module and thus serves as
 a clear-cut boundary.</p><p>This op takes no operands and generates no results. This op should not
 implicitly capture values from the enclosing environment.</p><p>This op has only one region, which only contains one block. The block
-must be terminated via the <code>spv._module_end</code> op.</p><h3 id=custom-assembly-form-83>Custom assembly form</h3><pre><code>addressing-model ::= `&quot;Logical&quot;` | `&quot;Physical32&quot;` | `&quot;Physical64&quot;`
-memory-model ::= `&quot;Simple&quot;` | `&quot;GLSL450&quot;` | `&quot;OpenCL&quot;` | `&quot;VulkanKHR&quot;`
+must be terminated via the <code>spv._module_end</code> op.</p><h3 id=custom-assembly-form-83>Custom assembly form</h3><pre><code>addressing-model ::= `Logical` | `Physical32` | `Physical64` | ...
+memory-model ::= `Simple` | `GLSL450` | `OpenCL` | `Vulkan` | ...
 spv-module-op ::= `spv.module` addressing-model memory-model
-                  region
+                  (requires  spirv-vce-attribute)?
                   (`attributes` attribute-dict)?
-</code></pre><p>For example:</p><pre><code>spv.module &quot;Logical&quot; &quot;VulkanKHR&quot; { }
+                  region
+</code></pre><p>For example:</p><pre><code>spv.module Logical GLSL450  {}
 
-spv.module &quot;Logical&quot; &quot;VulkanKHR&quot; {
-  func @do_nothing() -&gt; () {
+spv.module Logical Vulkan
+    requires #spv.vce&lt;v1.0, [Shader], [SPV_KHR_vulkan_memory_model]&gt;
+    attributes { some_additional_attr = ... } {
+  spv.func @do_nothing() -&gt; () {
     spv.Return
   }
-} attributes {
-  capability = [&quot;Shader&quot;],
-  extension = [&quot;SPV_KHR_16bit_storage&quot;]
 }
-</code></pre><h4 id=operands-103>Operands:</h4><h4 id=attributes-103>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>addressing_model</code></td><td align=center><code>IntegerAttr</code></td><td>valid SPIR-V AddressingModel attribute</td></tr><tr><td align=center><code>memory_model</code></td><td align=center><code>IntegerAttr</code></td><td>valid SPIR-V MemoryModel attribute</td></tr><tr><td align=center><code>capabilities</code></td><td align=center><code>ArrayAttr</code></td><td>string array attribute attribute</td></tr><tr><td align=center><code>extensions</code></td><td align=center><code>ArrayAttr</code></td><td>string array attribute attribute</td></tr><tr><td align=center><code>extended_instruction_sets</code></td><td align=center><code>ArrayAttr</code></td><td>string array attribute attribute</td></tr></tbody></table><h4 id=results-103>Results:</h4><h3 id=spvnot-spirvnotop>spv.Not (spirv::NotOp)</h3><p>Complement the bits of Operand.</p><h4 id=description-104>Description:</h4><p>Results are computed per component, and within each component, per bit.</p><p>Result Type must be a scalar or vector of integer type.</p><p>Operand’s type must be a scalar or vector of integer type. It must
+</code></pre><h4 id=operands-103>Operands:</h4><h4 id=attributes-103>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>addressing_model</code></td><td align=center><code>IntegerAttr</code></td><td>valid SPIR-V AddressingModel attribute</td></tr><tr><td align=center><code>memory_model</code></td><td align=center><code>IntegerAttr</code></td><td>valid SPIR-V MemoryModel attribute</td></tr><tr><td align=center><code>vce_triple</code></td><td align=center><code>::mlir::spirv::VerCapExtAttr</code></td><td>version-capability-extension attribute attribute</td></tr></tbody></table><h4 id=results-103>Results:</h4><h3 id=spvnot-spirvnotop>spv.Not (spirv::NotOp)</h3><p>Complement the bits of Operand.</p><h4 id=description-104>Description:</h4><p>Results are computed per component, and within each component, per bit.</p><p>Result Type must be a scalar or vector of integer type.</p><p>Operand’s type must be a scalar or vector of integer type. It must
 have the same number of components as Result Type. The component width
 must equal the component width in Result Type.</p><h3 id=custom-assembly-form-84>Custom assembly form</h3><pre><code>integer-scalar-vector-type ::= integer-type |
                               `vector&lt;` integer-literal `x` integer-type `&gt;`

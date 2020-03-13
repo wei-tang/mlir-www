@@ -453,8 +453,8 @@ the 1.0, 1.1, 1.2, and 1.3 versions of SPIR-V and the 1.0 version of the SPIR-V
 extended instructions for GLSL. Further Vulkan extensions may enable more SPIR-V
 instructions.</p><p>SPIR-V compilation should also take into consideration of the execution
 environment, so we generate SPIR-V modules valid for the target environment.
-This is conveyed by the <code>spv.target_env</code> attribute. It should be of
-<code>#spv.target_env</code> attribute kind, which is defined as:</p><pre><code>spirv-version    ::= `V_1_0` | `V_1_1` | ...
+This is conveyed by the <code>spv.target_env</code> (<code>spirv::TargetEnvAttr</code>) attribute. It
+should be of <code>#spv.target_env</code> attribute kind, which is defined as:</p><pre><code>spirv-version    ::= `v1.0` | `v1.1` | ...
 spirv-extension  ::= `SPV_KHR_16bit_storage` | `SPV_EXT_physical_storage_buffer` | ...
 spirv-capability ::= `Shader` | `Kernel` | `GroupNonUniform` | ...
 
@@ -466,24 +466,30 @@ spirv-capability-elements ::= spirv-capability (`,` spirv-capability)*
 
 spirv-resource-limits ::= dictionary-attribute
 
+spirv-vce-attribute ::= `#` `spv.vce` `&lt;`
+                            spirv-version `,`
+                            spirv-capability-list `,`
+                            spirv-extensions-list `&gt;`
+
 spirv-target-env-attribute ::= `#` `spv.target_env` `&lt;`
-                                  spirv-version `,`
-                                  spirv-extensions-list `,`
-                                  spirv-capability-list `,`
+                                  spirv-vce-attribute,
                                   spirv-resource-limits `&gt;`
-</code></pre><p>The attribute has a few fields:</p><ul><li>The target SPIR-V version.</li><li>A list of SPIR-V extensions for the target.</li><li>A list of SPIR-V capabilities for the target.</li><li>A dictionary of target resource limits (see the
+</code></pre><p>The attribute has a few fields:</p><ul><li>A <code>#spv.vce</code> (<code>spirv::VerCapExtAttr</code>) attribute:<ul><li>The target SPIR-V version.</li><li>A list of SPIR-V extensions for the target.</li><li>A list of SPIR-V capabilities for the target.</li></ul></li><li>A dictionary of target resource limits (see the
 <a href=https://renderdoc.org/vkspec_chunked/chap36.html#limits>Vulkan spec</a>
 for explanation):<ul><li><code>max_compute_workgroup_invocations</code></li><li><code>max_compute_workgroup_size</code></li></ul></li></ul><p>For example,</p><pre><code>module attributes {
 spv.target_env = #spv.target_env&lt;
-    V_1_3, [SPV_KHR_8bit_storage], [Shader, GroupNonUniform]
+    #spv.vce&lt;v1.3, [Shader, GroupNonUniform], [SPV_KHR_8bit_storage]&gt;,
     {
       max_compute_workgroup_invocations = 128 : i32,
       max_compute_workgroup_size = dense&lt;[128, 128, 64]&gt; : vector&lt;3xi32&gt;
     }&gt;
 } { ... }
-</code></pre><p>Dialect conversion framework will utilize the information in <code>spv.target_env</code>
-to properly filter out patterns and ops not available in the target execution
-environment.</p><h2 id=shader-interface-abi>Shader interface (ABI)</h2><p>SPIR-V itself is just expressing computation happening on GPU device. SPIR-V
+</code></pre><p>Dialect conversion framework will utilize the information in <code>spv.target_env</code> to
+properly filter out patterns and ops not available in the target execution
+environment. When targeting SPIR-V, one needs to create a
+<a href=#spirvconversiontarget><code>SPIRVConversionTarget</code></a>
+by providing such an
+attribute.</p><h2 id=shader-interface-abi>Shader interface (ABI)</h2><p>SPIR-V itself is just expressing computation happening on GPU device. SPIR-V
 programs themselves are not enough for running workloads on GPU; a companion
 host application is needed to manage the resources referenced by SPIR-V programs
 and dispatch the workload. For the Vulkan execution environment, the host
@@ -572,7 +578,9 @@ target satisfying a given
 <a href=#target-environment><code>spv.target_env</code></a>
 . It registers
 proper hooks to check the dynamic legality of SPIR-V ops. Users can further
-register other legality constraints into the returned <code>SPIRVConversionTarget</code>.</p><h3 id=spirvtypeconverter><code>SPIRVTypeConverter</code></h3><p>The <code>mlir::SPIRVTypeConverter</code> derives from <code>mlir::TypeConverter</code> and provides
+register other legality constraints into the returned <code>SPIRVConversionTarget</code>.</p><p><code>spirv::lookupTargetEnvOrDefault()</code> is a handy utility function to query an
+<code>spv.target_env</code> attached in the input IR or use the feault to construct a
+<code>SPIRVConversionTarget</code>.</p><h3 id=spirvtypeconverter><code>SPIRVTypeConverter</code></h3><p>The <code>mlir::SPIRVTypeConverter</code> derives from <code>mlir::TypeConverter</code> and provides
 type conversion for standard types to SPIR-V types:</p><ul><li><a href=/docs/LangRef/#integer-type>Standard Integer</a>
 -> Standard Integer</li><li><a href=/docs/LangRef/#floating-point-types>Standard Float</a>
 -> Standard Float</li><li><a href=/docs/LangRef/#vector-type>Vector Type</a>
