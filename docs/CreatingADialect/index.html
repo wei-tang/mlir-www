@@ -18,7 +18,7 @@ although some files pertaining to the operations of a dialect (e.g.
 FooOps.cpp) might be.</p><h2 id=cmake-best-practices>CMake best practices</h2><h3 id=tablegen-targets>TableGen Targets</h3><p>Operations in dialects are typically declared using the ODS format in
 tablegen in a file FooOps.td. This file forms the core of a dialect and
 is declared using add_mlir_dialect().</p><div class=highlight><pre class=chroma><code class=language-cmake data-lang=cmake><span class=err>
-</span><span class=err></span><span class=nb>add_mlir_dialect</span><span class=p>(</span><span class=s>FooOps</span> <span class=s>FooOps</span><span class=p>)</span><span class=err>
+</span><span class=err></span><span class=nb>add_mlir_dialect</span><span class=p>(</span><span class=s>FooOps</span> <span class=s>foo</span> <span class=s>FooOps</span><span class=p>)</span><span class=err>
 </span><span class=err></span><span class=err>
 </span></code></pre></div><p>This generates the correct rules to run mlir-tblgen, along with a
 &lsquo;MLIRFooOpsIncGen&rsquo; target which can be used to declare dependencies.</p><p>Dialect transformations are typically declared in a file FooTransforms.td.
