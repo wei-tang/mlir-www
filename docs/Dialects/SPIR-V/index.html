@@ -579,7 +579,7 @@ target satisfying a given
 . It registers
 proper hooks to check the dynamic legality of SPIR-V ops. Users can further
 register other legality constraints into the returned <code>SPIRVConversionTarget</code>.</p><p><code>spirv::lookupTargetEnvOrDefault()</code> is a handy utility function to query an
-<code>spv.target_env</code> attached in the input IR or use the feault to construct a
+<code>spv.target_env</code> attached in the input IR or use the default to construct a
 <code>SPIRVConversionTarget</code>.</p><h3 id=spirvtypeconverter><code>SPIRVTypeConverter</code></h3><p>The <code>mlir::SPIRVTypeConverter</code> derives from <code>mlir::TypeConverter</code> and provides
 type conversion for standard types to SPIR-V types:</p><ul><li><a href=/docs/LangRef/#integer-type>Standard Integer</a>
 -> Standard Integer</li><li><a href=/docs/LangRef/#floating-point-types>Standard Float</a>

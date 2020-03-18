@@ -56,7 +56,7 @@ sufficient. Also note that we avoid using add_dependencies
 explicitly, since the dependencies need to be available to the
 underlying add_llvm_library() call, allowing it to correctly create
 new targets with the same sources.</p><h1 id=dialect-conversions>Dialect Conversions</h1><p>Conversions from “X” to “Y” live in mlir/include/mlir/Conversion/XToY,
-mlir/lib/Convresion/XToY and mlir/test/Conversion/XToY, respectively.</p><p>Default file names for conversion should omit “Convert” from their
+mlir/lib/Conversion/XToY and mlir/test/Conversion/XToY, respectively.</p><p>Default file names for conversion should omit “Convert” from their
 name, e.g. lib/VectorToLLVM/VectorToLLVM.cpp.</p><p>Conversion passes should live separately from conversions themselves
 for convenience of users that only care about a pass and not about its
 implementation with patterns or other infrastructure. For example

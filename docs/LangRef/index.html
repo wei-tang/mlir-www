@@ -634,7 +634,7 @@ and index maps.</p><p>Examples of memref static type</p><div class=highlight><pr
 </span><span class=c></span><span class=nv>%T</span> <span class=p>=</span> alloc<span class=p>(</span><span class=nv>%M</span><span class=p>,</span> <span class=nv>%N</span><span class=p>)</span> <span class=p>[</span><span class=nv>%B1</span><span class=p>,</span> <span class=nv>%B2</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#tiled_dynamic</span><span class=p>&gt;</span>
 
 <span class=c>// A memref that has a two-element padding at either end. The allocation size
-</span><span class=c></span><span class=c>// will fit 16 * 68 float elements of data.
+</span><span class=c></span><span class=c>// will fit 16 * 64 float elements of data.
 </span><span class=c></span><span class=nv>%P</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x64x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#padded</span><span class=p>&gt;</span>
 
 <span class=c>// Affine map with symbol &#39;s0&#39; used as offset for the first dimension.

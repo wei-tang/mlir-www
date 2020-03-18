@@ -378,7 +378,7 @@ the <code>type</code> directive.</li></ul></li><li><p><code>operands</code></p><
 an argument(attribute or operand), result, successor, etc. In the <code>CallOp</code>
 example above, the variables would be <code>$callee</code> and <code>$args</code>.</p><p>Attribute variables are printed with their respective value type, unless that
 value type is buildable. In those cases, the type of the attribute is elided.</p><h4 id=optional-groups>Optional Groups</h4><p>In certain situations operations may have &ldquo;optional&rdquo; information, e.g.
-attributes or an empty set of variadic operands. In these situtations a section
+attributes or an empty set of variadic operands. In these situations a section
 of the assembly format can be marked as <code>optional</code> based on the presence of this
 information. An optional group is defined by wrapping a set of elements within
 <code>()</code> followed by a <code>?</code> and has the following requirements:</p><ul><li>The first element of the group must either be a literal or an operand.<ul><li>This is because the first element must be optionally parsable.</li></ul></li><li>Exactly one argument variable within the group must be marked as the anchor
