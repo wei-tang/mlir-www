@@ -60,7 +60,7 @@ MLIR <code>Canonicalizer</code> pass by implementing a <code>RewritePattern</cod
   <span class=c1>/// This method is attempting to match a pattern and rewrite it. The rewriter
 </span><span class=c1></span>  <span class=c1>/// argument is the orchestrator of the sequence of rewrites. It is expected
 </span><span class=c1></span>  <span class=c1>/// to interact with it to perform any changes to the IR from here.
-</span><span class=c1></span>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>PatternMatchResult</span>
+</span><span class=c1></span>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>LogicalResult</span>
   <span class=n>matchAndRewrite</span><span class=p>(</span><span class=n>TransposeOp</span> <span class=n>op</span><span class=p>,</span>
                   <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
     <span class=c1>// Look through the input of the current transpose.
@@ -70,11 +70,11 @@ MLIR <code>Canonicalizer</code> pass by implementing a <code>RewritePattern</cod
 
     <span class=c1>// Input defined by another transpose? If not, no match.
 </span><span class=c1></span>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>transposeInputOp</span><span class=p>)</span>
-      <span class=k>return</span> <span class=n>matchFailure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+      <span class=k>return</span> <span class=n>failure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 
     <span class=c1>// Otherwise, we have a redundant transpose. Use the rewriter.
 </span><span class=c1></span>    <span class=n>rewriter</span><span class=p>.</span><span class=n>replaceOp</span><span class=p>(</span><span class=n>op</span><span class=p>,</span> <span class=p>{</span><span class=n>transposeInputOp</span><span class=p>.</span><span class=n>getOperand</span><span class=p>(</span><span class=p>)</span><span class=p>}</span><span class=p>,</span> <span class=p>{</span><span class=n>transposeInputOp</span><span class=p>}</span><span class=p>)</span><span class=p>;</span>
-    <span class=k>return</span> <span class=nf>matchSuccess</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+    <span class=k>return</span> <span class=nf>success</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
 </code></pre></div><p>The implementation of this rewriter is in <code>ToyCombine.cpp</code>. The

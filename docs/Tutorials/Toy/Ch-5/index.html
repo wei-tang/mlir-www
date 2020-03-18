@@ -86,7 +86,7 @@ the <code>toy.transpose</code> operation:</p><div class=highlight><pre class=chr
 
   <span class=c1>/// Match and rewrite the given `toy.transpose` operation, with the given
 </span><span class=c1></span>  <span class=c1>/// operands that have been remapped from `tensor&lt;...&gt;` to `memref&lt;...&gt;`.
-</span><span class=c1></span>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>PatternMatchResult</span>
+</span><span class=c1></span>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>LogicalResult</span>
   <span class=n>matchAndRewrite</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span> <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Value</span><span class=o>&gt;</span> <span class=n>operands</span><span class=p>,</span>
                   <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ConversionPatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span> <span class=k>final</span> <span class=p>{</span>
     <span class=k>auto</span> <span class=n>loc</span> <span class=o>=</span> <span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getLoc</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
@@ -112,7 +112,7 @@ the <code>toy.transpose</code> operation:</p><div class=highlight><pre class=chr
 </span><span class=c1></span>          <span class=n>SmallVector</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Value</span><span class=p>,</span> <span class=mi>2</span><span class=o>&gt;</span> <span class=n>reverseIvs</span><span class=p>(</span><span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>reverse</span><span class=p>(</span><span class=n>loopIvs</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
           <span class=k>return</span> <span class=n>rewriter</span><span class=p>.</span><span class=n>create</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>AffineLoadOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>loc</span><span class=p>,</span> <span class=n>input</span><span class=p>,</span> <span class=n>reverseIvs</span><span class=p>)</span><span class=p>;</span>
         <span class=p>}</span><span class=p>)</span><span class=p>;</span>
-    <span class=k>return</span> <span class=nf>matchSuccess</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+    <span class=k>return</span> <span class=nf>success</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
 </code></pre></div><p>Now we can prepare the list of patterns to use during the lowering process:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=n>ToyToAffineLoweringPass</span><span class=o>:</span><span class=o>:</span><span class=n>runOnFunction</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>

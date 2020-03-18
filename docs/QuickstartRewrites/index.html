@@ -108,8 +108,8 @@ expressing a rewrite:</p><div class=highlight><pre class=chroma><code class=lang
   <span class=n>ConvertTFLeakyRelu</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>)</span>
       <span class=o>:</span> <span class=n>RewritePattern</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>tf.LeakyRelu</span><span class=s>&#34;</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>context</span><span class=p>)</span> <span class=p>{</span><span class=p>}</span>
 
-  <span class=n>PatternMatchResult</span> <span class=nf>match</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>)</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
-    <span class=k>return</span> <span class=n>matchSuccess</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+  <span class=n>LogicalResult</span> <span class=nf>match</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>)</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
+    <span class=k>return</span> <span class=n>success</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 
   <span class=kt>void</span> <span class=nf>rewrite</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span> <span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
@@ -125,12 +125,12 @@ expressing a rewrite:</p><div class=highlight><pre class=chroma><code class=lang
   <span class=n>ConvertTFLeakyRelu</span><span class=p>(</span><span class=n>MLIRContext</span> <span class=o>*</span><span class=n>context</span><span class=p>)</span>
       <span class=o>:</span> <span class=n>RewritePattern</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>tf.LeakyRelu</span><span class=s>&#34;</span><span class=p>,</span> <span class=mi>1</span><span class=p>,</span> <span class=n>context</span><span class=p>)</span> <span class=p>{</span><span class=p>}</span>
 
-  <span class=n>PatternMatchResult</span> <span class=nf>matchAndRewrite</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span>
+  <span class=n>LogicalResult</span> <span class=nf>matchAndRewrite</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span>
                                      <span class=n>PatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span> <span class=k>override</span> <span class=p>{</span>
     <span class=n>rewriter</span><span class=p>.</span><span class=n>replaceOpWithNewOp</span><span class=o>&lt;</span><span class=n>TFL</span><span class=o>:</span><span class=o>:</span><span class=n>LeakyReluOp</span><span class=o>&gt;</span><span class=p>(</span>
         <span class=n>op</span><span class=p>,</span> <span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getResult</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span><span class=p>.</span><span class=n>getType</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getOperand</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span><span class=p>,</span>
         <span class=cm>/*alpha=*/</span><span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getAttrOfType</span><span class=o>&lt;</span><span class=n>FloatAttr</span><span class=o>&gt;</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>alpha</span><span class=s>&#34;</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
-    <span class=k>return</span> <span class=n>matchSuccess</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
+    <span class=k>return</span> <span class=n>success</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
 </code></pre></div><p>In the C++ rewrite the static benefit of the rewrite pattern is specified at

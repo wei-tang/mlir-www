@@ -168,7 +168,7 @@ hooks for use with the conversion infrastructure.</p><div class=highlight><pre c
   <span class=c1>/// The `matchAndRewrite` hooks on ConversionPatterns take an additional
 </span><span class=c1></span>  <span class=c1>/// `operands` parameter, containing the remapped operands of the original
 </span><span class=c1></span>  <span class=c1>/// operation.
-</span><span class=c1></span>  <span class=k>virtual</span> <span class=n>PatternMatchResult</span>
+</span><span class=c1></span>  <span class=k>virtual</span> <span class=n>LogicalResult</span>
   <span class=nf>matchAndRewrite</span><span class=p>(</span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span><span class=p>,</span> <span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>Value</span><span class=o>&gt;</span> <span class=n>operands</span><span class=p>,</span>
                   <span class=n>ConversionPatternRewriter</span> <span class=o>&amp;</span><span class=n>rewriter</span><span class=p>)</span> <span class=k>const</span><span class=p>;</span>
 <span class=p>}</span><span class=p>;</span>
