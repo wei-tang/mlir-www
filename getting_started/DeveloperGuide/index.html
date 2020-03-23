@@ -23,7 +23,17 @@ for more details
 on integrating it with your development environment. In particular, if clang is
 installed system-wide, running <code>git clang-format origin/master</code> will update the
 files in the working directory with the relevant formatting changes; don&rsquo;t
-forget to include those to the commit.</p><h2 id=pass-name-and-other-command-line-options>Pass name and other command line options</h2><p>To avoid collision between options provided by different dialects, the naming
+forget to include those to the commit.</p><h2 id=ir-should-be-valid-before-and-after-each-pass>IR should be valid before and after each pass</h2><p>Passes should assume that their input IR passes the verifier. Passes should not
+check invariants that are guaranteed by the verifier. If many passes are checking
+the same invariant consider adding that invariant to the verifier or factoring
+the IR design / dialects to better model the invariant at each phase of compilation.</p><p>Similarly, the IR after a pass runs should be verifier-valid. If a pass produces IR
+that fails the verifier then the pass has a bug.</p><p>It is somewhat common for invalid IR to exist transiently while a pass is executing.
+This is moderately discouraged but often practically necessary.</p><h2 id=assertions-and-crashes-in-passes>Assertions and crashes in passes</h2><p>It should not be possible to trigger a crash or assertion by running an MLIR
+pass on verifier-valid IR. If it is possible, then the pass has a bug.</p><p>If a pass requires additional invariants not guaranteed by the verifier, then
+it should check them itself and if those invariants are not present,
+either safely perform no transformation (for pure optimization passes)
+or emit a diagnostic explaining why a transformation cannot be performed
+(for lowering passes where the transformation is needed for correctness).</p><h2 id=pass-name-and-other-command-line-options>Pass name and other command line options</h2><p>To avoid collision between options provided by different dialects, the naming
 convention is to prepend the dialect name to every dialect-specific passes and
 options in general. Options that are specific to a pass should also be prefixed
 with the pass name. For example, the affine dialect provides a loop tiling pass
