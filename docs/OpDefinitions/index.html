@@ -106,11 +106,13 @@ documentation. They need to be provided in the operation&rsquo;s definition body
 it helps in understanding the operation.</p><blockquote><ul><li>Place documentation at the beginning of the operation definition</li><li>The summary should be short and concise. It should be a one-liner without
 trailing punctuation. Put expanded explanation in description.</li></ul></blockquote><h3 id=operation-arguments>Operation arguments</h3><p>There are two kinds of arguments: operands and attributes. Operands are runtime
 values produced by other ops; while attributes are compile-time known constant
-values, including two categories:</p><ol><li>Natural attributes: these attributes affect the behavior of the operations
-(e.g., padding for convolution);</li><li>Derived attributes: these attributes are not needed to define the operation
+values, including two categories:</p><ol><li><p>Natural attributes: these attributes affect the behavior of the operations
+(e.g., padding for convolution);</p></li><li><p>Derived attributes: these attributes are not needed to define the operation
 but are instead derived from information of the operation. E.g., the output
 shape of type. This is mostly used for convenience interface generation or
-interaction with other frameworks/translation.</li></ol><p>Both operands and attributes are specified inside the <code>dag</code>-typed <code>arguments</code>,
+interaction with other frameworks/translation.</p><p>All derived attributes should be materializable as an Attribute. That is,
+even though they are not materialized, it should be possible to store as
+an attribute.</p></li></ol><p>Both operands and attributes are specified inside the <code>dag</code>-typed <code>arguments</code>,
 led by <code>ins</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
   <span class=p>&lt;</span><span class=nv>type</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>operand</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
