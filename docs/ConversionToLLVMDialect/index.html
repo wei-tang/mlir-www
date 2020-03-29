@@ -265,7 +265,7 @@ instantiations or their equivalents in C.</p><div class=highlight><pre class=chr
   <span class=n>T</span> <span class=o>*</span><span class=n>aligned</span><span class=p>;</span>
   <span class=n>intptr_t</span> <span class=n>offset</span><span class=p>;</span>
   <span class=n>intptr_t</span> <span class=n>sizes</span><span class=p>[</span><span class=n>N</span><span class=p>]</span><span class=p>;</span>
-  <span class=n>intptr_t</span> <span class=n>stides</span><span class=p>[</span><span class=n>N</span><span class=p>]</span><span class=p>;</span>
+  <span class=n>intptr_t</span> <span class=n>strides</span><span class=p>[</span><span class=n>N</span><span class=p>]</span><span class=p>;</span>
 <span class=p>}</span><span class=p>;</span>
 </code></pre></div><p>If enabled, the option will do the following. For <em>external</em> functions declared
 in the MLIR module.</p><ol><li>Declare a new function <code>_mlir_ciface_&lt;original name></code> where memref arguments

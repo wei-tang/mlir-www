@@ -67,7 +67,7 @@ mlir/lib/Conversion/XCommon, for example
 mlir/lib/Conversion/GPUCommon.</p><h2 id=cmake-best-practices-1>CMake best practices</h2><p>Each conversion typically exists in a separate library, declared with
 add_mlir_conversion_library(). Conversion libraries typically depend
 on their source and target dialects, but may also depend on other
-dialects (e.g. MLIRStandard). Typically this dependence is specifid
+dialects (e.g. MLIRStandard). Typically this dependence is specified
 using target_link_libraries() and the PUBLIC keyword. For instance:</p><div class=highlight><pre class=chroma><code class=language-cmake data-lang=cmake><span class=err>
 </span><span class=err></span><span class=nb>add_mlir_conversion_library</span><span class=p>(</span><span class=s>MLIRBarToFoo</span>
 	<span class=s>BarToFoo.cpp</span>
