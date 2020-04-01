@@ -8,7 +8,7 @@ Linalg. They are all implemented in terms of the properties of the
 <code>linalg.generic</code> OpInterface and avoid the pitfall of relying on hardcoded
 one-off op knowledge.</p><p>The textual form description of these transformations is left for future
 work. Still, it is useful to at least the key transformations that are
-performed on the Linalg IR and that have influenced its design:</p><ol><li>Progressive Buffer Allocation.</li><li>Parametric Tiling.</li><li>Promotion to Temporary Buffer in Fast Memory.</li><li>Tiled Producer-Consumer Fusion with Parametric Tile-And-Fuse.</li><li>Map to Parallel and Reduction Loops and Hardware.</li><li>Vectorization: Rewrite in Vector Form.</li><li>Lower to Loops (Affine and/or Generic).</li><li>Lower to Library Calls or Special Instructions, Intrinsics or ISA.</li><li>Partially Lower to Iterations Over a Finer-Grained Linalg Op.</li></ol><h2 id=high-level-description-of-linalg-opsa-namelinalg_opsa>High-Level Description of Linalg Ops<a name=linalg_ops></a></h2><p>Linalg takes at least some inspiration from all previously
+performed on the Linalg IR and that have influenced its design:</p><ol><li>Progressive Buffer Allocation.</li><li>Parametric Tiling.</li><li>Promotion to Temporary Buffer in Fast Memory.</li><li>Tiled Producer-Consumer Fusion with Parametric Tile-And-Fuse.</li><li>Map to Parallel and Reduction Loops and Hardware.</li><li>Vectorization: Rewrite in Vector Form.</li><li>Lower to Loops (Affine, Generic and Parallel).</li><li>Lower to Library Calls or Special Instructions, Intrinsics or ISA.</li><li>Partially Lower to Iterations Over a Finer-Grained Linalg Op.</li></ol><h2 id=high-level-description-of-linalg-opsa-namelinalg_opsa>High-Level Description of Linalg Ops<a name=linalg_ops></a></h2><p>Linalg takes at least some inspiration from all previously
 <a href=#prior_art>listed prior
 art</a>
 . The design enables the definition of <em><strong>CustomOps</strong></em> with
@@ -159,7 +159,7 @@ example:</p><pre><code>#indexing_maps = {
   (i, j) -&gt; (i, j),
   (i, j) -&gt; (i, j)
 }
-#attrs = {args_in: 1, args_out: 1, indexings: #indexing_maps}
+#attrs = {args_in: 2, args_out: 1, indexings: #indexing_maps}
 func @example(%A: memref&lt;?x?xf32&gt;, %B: memref&lt;?x?xf32&gt;, %C: memref&lt;?x?xf32&gt;) {
   linalg.generic #attrs (%A, %B, %C) {
     ^bb0(%a: f32, %b: f32):
@@ -200,7 +200,7 @@ example:</p><pre><code>#fun_attr = &quot;pointwise_add&quot;
   (i, j) -&gt; (i, j),
   (i, j) -&gt; (i, j)
 }
-#attrs = {args_in: 1, args_out: 1, indexings: #indexing_maps, fun: #fun_attr}
+#attrs = {args_in: 2, args_out: 1, indexings: #indexing_maps, fun: #fun_attr}
 func @example(%A: memref&lt;?x?xf32&gt;, %B: memref&lt;?x?xf32&gt;, %C: memref&lt;?x?xf32&gt;) {
   linalg.generic #attrs (%A, %B, %C) {
     ^bb0(%a: f32, %b: f32):
