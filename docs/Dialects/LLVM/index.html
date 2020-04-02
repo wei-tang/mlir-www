@@ -45,7 +45,22 @@ differently by the built-in MLIR function.</p><div class=highlight><pre class=ch
   llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
 
-</code></pre></div><h3 id=llvm-ir-operations>LLVM IR operations</h3><p>The following operations are currently supported. The semantics of these
+</code></pre></div><h4 id=attribute-pass-through>Attribute pass-through</h4><p>An LLVM IR dialect function provides a mechanism to forward function-level
+attributes to LLVM IR using the <code>passthrough</code> attribute. This is an array
+attribute containing either string attributes or array attributes. In the former
+case, the value of the string is interpreted as the name of LLVM IR function
+attribute. In the latter case, the array is expected to contain exactly two
+string attributes, the first corresponding to the name of LLVM IR function
+attribute, and the second corresponding to its value. Note that even integer
+LLVM IR function attributes have their value represented in the string form.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@func</span><span class=p>(</span><span class=p>)</span> attributes <span class=p>{</span>
+  <span class=nl>passthrough =</span> <span class=p>[</span><span class=s>&#34;noinline&#34;</span><span class=p>,</span>           <span class=c>// value-less attribute
+</span><span class=c></span>                 <span class=p>[</span><span class=s>&#34;alignstack&#34;</span><span class=p>,</span> <span class=s>&#34;4&#34;</span><span class=p>]</span><span class=p>,</span>  <span class=c>// integer attribute with value
+</span><span class=c></span>                 <span class=p>[</span><span class=s>&#34;other&#34;</span><span class=p>,</span> <span class=s>&#34;attr&#34;</span><span class=p>]</span><span class=p>]</span>    <span class=c>// attrbute unknown to LLVM
+</span><span class=c></span><span class=p>}</span> <span class=p>{</span>
+  llvm<span class=p>.</span><span class=kt>return</span>
+<span class=p>}</span>
+</code></pre></div><p>If the attribute is not known to LLVM IR, it will be attached as a string
+attribute.</p><h3 id=llvm-ir-operations>LLVM IR operations</h3><p>The following operations are currently supported. The semantics of these
 operations corresponds to the semantics of the similarly-named LLVM IR
 instructions.</p><h4 id=integer-binary-arithmetic-operations>Integer binary arithmetic operations</h4><p>Take two arguments of wrapped LLVM IR integer type, produce one value of the
 same type.</p><ul><li><code>add</code></li><li><code>sub</code></li><li><code>mul</code></li><li><code>udiv</code></li><li><code>sdiv</code></li><li><code>urem</code></li><li><code>srem</code></li></ul><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Integer addition.
