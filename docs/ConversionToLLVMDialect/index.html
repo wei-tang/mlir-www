@@ -250,12 +250,14 @@ llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><
   llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
 </code></pre></div><p><em>This convention may or may not apply if the conversion of MemRef types is
-overridden by the user.</em></p><h3 id=c-compatible-wrapper-emission>C-compatible wrapper emission</h3><p>In practical cases, it may be desirable to have externally-facing functions
-with a single attribute corresponding to a MemRef argument. When interfacing
-with LLVM IR produced from C, the code needs to respect the corresponding
-calling convention. The conversion to the LLVM dialect provides an option to
-generate wrapper functions that take memref descriptors as pointers-to-struct
-compatible with data types produced by Clang when compiling C sources.</p><p>More specifically, a memref argument is converted into a pointer-to-struct
+overridden by the user.</em></p><h3 id=c-compatible-wrapper-emission>C-compatible wrapper emission</h3><p>In practical cases, it may be desirable to have externally-facing functions with
+a single attribute corresponding to a MemRef argument. When interfacing with
+LLVM IR produced from C, the code needs to respect the corresponding calling
+convention. The conversion to the LLVM dialect provides an option to generate
+wrapper functions that take memref descriptors as pointers-to-struct compatible
+with data types produced by Clang when compiling C sources. The generation of
+such wrapper functions can additionally be controlled at a function granularity
+by setting the <code>llvm.emit_c_interface</code> unit attribute.</p><p>More specifically, a memref argument is converted into a pointer-to-struct
 argument of type <code>{T*, T*, i64, i64[N], i64[N]}*</code> in the wrapper function, where
 <code>T</code> is the converted element type and <code>N</code> is the memref rank. This type is
 compatible with that produced by Clang for the following C++ structure template
