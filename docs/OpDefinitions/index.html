@@ -154,7 +154,14 @@ equal to <code>N</code></li><li><code>IntMaxValue&lt;N></code>: Specifying an in
 to <code>N</code></li><li><code>ArrayMinCount&lt;N></code>: Specifying an array attribute to have at least <code>N</code>
 elements</li><li><code>IntArrayNthElemEq&lt;I, N></code>: Specifying an integer array attribute&rsquo;s <code>I</code>-th
 element to be equal to <code>N</code></li><li><code>IntArrayNthElemMinValue&lt;I, N></code>: Specifying an integer array attribute&rsquo;s
-<code>I</code>-th element to be greater than or equal to <code>N</code></li></ul><p>TODO: Design and implement more primitive constraints</p><h3 id=operation-results>Operation results</h3><p>Similar to operands, results are specified inside the <code>dag</code>-typed <code>results</code>, led
+<code>I</code>-th element to be greater than or equal to <code>N</code></li></ul><p>TODO: Design and implement more primitive constraints</p><h3 id=operation-regions>Operation regions</h3><p>The regions of an operation are specified inside of the <code>dag</code>-typed <code>regions</code>,
+led by <code>region</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>regions</span> <span class=p>=</span> <span class=p>(</span><span class=nv>region</span>
+  <span class=p>&lt;</span><span class=nv>region</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>region</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
+  <span class=p>.</span><span class=p>.</span><span class=p>.</span>
+<span class=p>)</span><span class=p>;</span>
+</code></pre></div><h4 id=variadic-regions>Variadic regions</h4><p>Similar to the <code>Variadic</code> class used for variadic operands and results,
+<code>VariadicRegion&lt;...></code> can be used for regions. Variadic regions can currently
+only be specified as the last region in the regions list.</p><h3 id=operation-results>Operation results</h3><p>Similar to operands, results are specified inside the <code>dag</code>-typed <code>results</code>, led
 by <code>outs</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span>
   <span class=p>&lt;</span><span class=nv>type</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>result</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
