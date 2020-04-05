@@ -20,8 +20,10 @@ control SSA values mentioned above (lower bound, upper bound and step). The
 operation region has equivalent arguments for each variable representing
 the value of the variable at the current iteration.</p><p>The region must terminate with a &ldquo;loop.yield&rdquo; that passes all the current
 iteration variables to the next iteration, or to the &ldquo;loop.for&rdquo; result, if
-at the last iteration. &ldquo;loop.for&rdquo; results hold the final values after the
-last iteration.</p><p>For example, to sum-reduce a memref:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@reduce</span><span class=p>(</span><span class=nv>%buffer</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%lb</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span>
+at the last iteration. Note, that when the loop-carried variables are
+present, calling ForOp::build will not insert the terminator implicitly.
+The caller must insert &ldquo;loop.yield&rdquo; in that case.</p><p>&ldquo;loop.for&rdquo; results hold the final values after the last iteration.
+For example, to sum-reduce a memref:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@reduce</span><span class=p>(</span><span class=nv>%buffer</span><span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>1024x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> <span class=nv>%lb</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span>
              <span class=nv>%ub</span><span class=p>:</span> <span class=k>index</span><span class=p>,</span> <span class=nv>%step</span><span class=p>:</span> <span class=k>index</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>f32</span><span class=p>)</span> <span class=p>{</span>
   <span class=c>// Initial sum set to 0.
 </span><span class=c></span>  <span class=nv>%sum_0</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>0.0</span> <span class=p>:</span> <span class=k>f32</span>
