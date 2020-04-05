@@ -61,7 +61,7 @@ standard attributes.</p><p>Example:</p><div class=highlight><pre class=chroma><c
 <span class=c>// Tensor element-wise bitwise integer and.
 </span><span class=c></span><span class=nv>%x</span> <span class=p>=</span> and <span class=nv>%y</span><span class=p>,</span> <span class=nv>%z</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>4x?x</span><span class=k>i8</span><span class=p>&gt;</span>
 </code></pre></div><h4 id=operands-4>Operands:</h4><table><thead><tr><th align=center>Operand</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>lhs</code></td><td>signless-integer-like</td></tr><tr><td align=center><code>rhs</code></td><td>signless-integer-like</td></tr></tbody></table><h4 id=results-4>Results:</h4><table><thead><tr><th align=center>Result</th><th>Description</th></tr></thead><tbody><tr><td align=center>«unnamed»</td><td>any type</td></tr></tbody></table><h3 id=stdassume_alignment-assumealignmentop><code>std.assume_alignment</code> (AssumeAlignmentOp)</h3><p>assertion that gives alignment information to the input memref</p><p>Syntax:</p><pre><code>operation ::= `std.assume_alignment` $memref `,` $alignment attr-dict `:` type($memref)
-</code></pre><p>The <code>assume_alignment</code> operation takes a memref and a integer of alignment
+</code></pre><p>The <code>assume_alignment</code> operation takes a memref and an integer of alignment
 value, and internally annotates the buffer with the given alignment. If
 the buffer isn&rsquo;t aligned to the given alignment, the behavior is undefined.</p><p>This operation doesn&rsquo;t affect the semantics of a correct program. It&rsquo;s for
 optimization only, and the optimization is best-effort.</p><h4 id=attributes-1>Attributes:</h4><table><thead><tr><th align=center>Attribute</th><th align=center>MLIR Type</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>alignment</code></td><td align=center>IntegerAttr</td><td>32-bit signless integer attribute whose value is positive</td></tr></tbody></table><h4 id=operands-5>Operands:</h4><table><thead><tr><th align=center>Operand</th><th>Description</th></tr></thead><tbody><tr><td align=center><code>memref</code></td><td>memref of any type values</td></tr></tbody></table><h3 id=stdatomic_rmw-atomicrmwop><code>std.atomic_rmw</code> (AtomicRMWOp)</h3><p>atomic read-modify-write operation</p><p>Syntax:</p><pre><code>operation ::= `std.atomic_rmw` $kind $value `,` $memref `[` $indices `]` attr-dict `:` `(` type($value) `,`
@@ -717,7 +717,7 @@ indices, and optionally two additional arguments corresponding to the stride (in
 terms of number of elements) and the number of elements to transfer per stride.
 The tag location is used by a dma_wait operation to check for completion. The
 indices of the source memref, destination memref, and the tag memref have the
-same restrictions as any load/store operation in a affine context (whenever DMA
+same restrictions as any load/store operation in an affine context (whenever DMA
 operations appear in an affine context). See
 <a href=/docs/Dialects/Affine/#restrictions-on-dimensions-and-symbols>restrictions on dimensions and symbols</a>
 in affine contexts. This allows powerful static analysis and transformations in

@@ -55,7 +55,7 @@ attribute, and the second corresponding to its value. Note that even integer
 LLVM IR function attributes have their value represented in the string form.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@func</span><span class=p>(</span><span class=p>)</span> attributes <span class=p>{</span>
   <span class=nl>passthrough =</span> <span class=p>[</span><span class=s>&#34;noinline&#34;</span><span class=p>,</span>           <span class=c>// value-less attribute
 </span><span class=c></span>                 <span class=p>[</span><span class=s>&#34;alignstack&#34;</span><span class=p>,</span> <span class=s>&#34;4&#34;</span><span class=p>]</span><span class=p>,</span>  <span class=c>// integer attribute with value
-</span><span class=c></span>                 <span class=p>[</span><span class=s>&#34;other&#34;</span><span class=p>,</span> <span class=s>&#34;attr&#34;</span><span class=p>]</span><span class=p>]</span>    <span class=c>// attrbute unknown to LLVM
+</span><span class=c></span>                 <span class=p>[</span><span class=s>&#34;other&#34;</span><span class=p>,</span> <span class=s>&#34;attr&#34;</span><span class=p>]</span><span class=p>]</span>    <span class=c>// attribute unknown to LLVM
 </span><span class=c></span><span class=p>}</span> <span class=p>{</span>
   llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
