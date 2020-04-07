@@ -336,11 +336,11 @@ VerifierPass
 <span class=o>=</span><span class=o>=</span><span class=o>=</span>-------------------------------------------------------------------------<span class=o>=</span><span class=o>=</span><span class=o>=</span>
 MyPass
   <span class=o>(</span>S<span class=o>)</span> <span class=m>21</span> testStat - A <span class=nb>test</span> statistic
-</code></pre></div><h2 id=declarative-pass-specification>Declarative Pass Specification</h2><p>Some aspects of a Pass may be specified declaratively, in a form similarly to
+</code></pre></div><h2 id=declarative-pass-specification>Declarative Pass Specification</h2><p>Some aspects of a Pass may be specified declaratively, in a form similar to
 <a href=/docs/OpDefinitions/>operations</a>
-. This specification simiplifies several
-mechanisms related to defining passes. It can be used for generating pass
-registration calls, defining boiler plate pass utilities, and generating pass
+. This specification simplifies several
+mechanisms used when defining passes. It can be used for generating pass
+registration calls, defining boilerplate pass utilities, and generating pass
 documentation.</p><p>Consider the following pass specified in C++:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>MyPass</span> <span class=o>:</span> <span class=n>OperationPass</span><span class=o>&lt;</span><span class=n>MyPass</span><span class=o>&gt;</span> <span class=p>{</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 

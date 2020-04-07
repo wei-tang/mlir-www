@@ -14,9 +14,9 @@ by-value, as opposed to by-pointer or by-reference. The <code>Type</code> class 
 acts as a wrapper around an internal storage object that is uniqued within an
 instance of an <code>MLIRContext</code>.</p><h3 id=reserving-a-range-of-type-kinds>Reserving a range of type kinds</h3><p>Types in MLIR rely on having a unique <code>kind</code> value to ensure that casting checks
 remain extremely
-efficient(
+efficient (
 <a href=/docs/Rationale/#reserving-dialect-type-kinds>rationale</a>
-. For a dialect
+). For a dialect
 author, this means that a range of type <code>kind</code> values must be explicitly, and
 statically, reserved. A dialect can reserve a range of values by adding a new
 entry to the
