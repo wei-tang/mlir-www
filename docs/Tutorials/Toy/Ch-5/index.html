@@ -9,8 +9,8 @@ part of the program and is limited: it doesn&rsquo;t support representing our
 <code>toy.print</code> builtin, for instance, neither should it! Instead, we can target
 <code>Affine</code> for the computation heavy part of Toy, and in the
 <a href=/docs/Tutorials/Toy/Ch-6/>next chapter</a>
-directly the <code>LLVM IR</code> dialect for lowering <code>print</code>. As
-part of this lowering, we will be lowering from the
+directly target the <code>LLVM IR</code> dialect for lowering
+<code>print</code>. As part of this lowering, we will be lowering from the
 <a href=/docs/LangRef/#tensor-type>TensorType</a>
 that <code>Toy</code> operates on to the
 <a href=/docs/LangRef/#memref-type>MemRefType</a>
