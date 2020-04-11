@@ -15,7 +15,7 @@ for
 the latter.</p><p>Given that declarative rewrite rules depend on op definition specification, this
 manual assumes knowledge of the
 <a href=/docs/OpDefinitions/>ODS</a>
-doc.</p><h2 id=benefits>Benefits</h2><p>Compared to the hand-written C++ classes, this declarative approach has several
+doc.</p><h2 id=benefits>Benefits&nbsp;<a class=headline-hash href=#benefits>¶</a></h2><p>Compared to the hand-written C++ classes, this declarative approach has several
 benefits, including but not limited to:</p><ul><li><strong>Being declarative</strong>: The pattern creator just needs to state the rewrite
 pattern declaratively, without worrying about the concrete C++ methods to
 call.</li><li><strong>Removing boilerplate and showing the very essence of the rewrite</strong>:
@@ -26,13 +26,13 @@ op <code>build()</code> methods for constructing. These statements are typically
 simple and similar, so they can be further condensed with auto-generation.
 Because we reduce the boilerplate to the bare minimum, the declarative
 rewrite rule will just contain the very essence of the rewrite. This makes
-it very easy to understand the pattern.</li></ul><h2 id=strengths-and-limitations>Strengths and Limitations</h2><p>The declarative rewrite rule is <strong>operation-based</strong>: it describes a rule to
+it very easy to understand the pattern.</li></ul><h2 id=strengths-and-limitations>Strengths and Limitations&nbsp;<a class=headline-hash href=#strengths-and-limitations>¶</a></h2><p>The declarative rewrite rule is <strong>operation-based</strong>: it describes a rule to
 match against a directed acyclic graph (DAG) of operations and generate DAGs of
 operations. This gives DRR both its strengths and limitations: it is good at
 expressing op to op conversions, but not that well suited for, say, converting
 an op into a loop nest.</p><p>Per the current implementation, DRR does not have good support for the following
 features:</p><ul><li>Matching and generating ops with regions.</li><li>Matching and generating ops with block arguments.</li><li>Matching multi-result ops in nested patterns.</li><li>Matching and generating variadic operand/result ops in nested patterns.</li><li>Packing and unpacking variadic operands/results during generation.</li><li><a href=#native-code-call-transforming-the-generated-op><code>NativeCodeCall</code></a>
-returning more than one results.</li></ul><h2 id=rule-definition>Rule Definition</h2><p>The core construct for defining a rewrite rule is defined in
+returning more than one results.</li></ul><h2 id=rule-definition>Rule Definition&nbsp;<a class=headline-hash href=#rule-definition>¶</a></h2><p>The core construct for defining a rewrite rule is defined in
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 as</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>class</span> <span class=nv>Pattern</span><span class=p>&lt;</span>
     <span class=k>dag</span> <span class=nv>sourcePattern</span><span class=p>,</span> <span class=k>list</span><span class=p>&lt;</span><span class=k>dag</span><span class=p>&gt;</span> <span class=nv>resultPatterns</span><span class=p>,</span>
@@ -59,12 +59,12 @@ pattern) or generating (if used in result pattern) the <code>N</code>-th argumen
 argument as specified in the <code>arguments</code> list of the op&rsquo;s definition.
 Therefore, we say op argument specification in pattern is <strong>position-based</strong>:
 the position where they appear matters.</p><p><code>argN</code> can be a <code>dag</code> object itself, thus we can have nested <code>dag</code> tree to model
-the def-use relationship between ops.</p><h3 id=source-pattern>Source pattern</h3><p>The source pattern is for matching a DAG of operations. Arguments in the <code>dag</code>
+the def-use relationship between ops.</p><h3 id=source-pattern>Source pattern&nbsp;<a class=headline-hash href=#source-pattern>¶</a></h3><p>The source pattern is for matching a DAG of operations. Arguments in the <code>dag</code>
 object are intended to <strong>capture</strong> the op arguments. They can also be used to
 <strong>further limit</strong> the match criteria. The capturing is done by specifying a
 symbol starting with the <code>$</code> sign, while further constraints are introduced by
 specifying a <code>TypeConstraint</code> (for an operand) or a <code>AttrConstraint</code> (for an
-attribute).</p><h4 id=binding-op-arguments-and-limiting-the-match>Binding op arguments and limiting the match</h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>AOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;a_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+attribute).</p><h4 id=binding-op-arguments-and-limiting-the-match>Binding op arguments and limiting the match&nbsp;<a class=headline-hash href=#binding-op-arguments-and-limiting-the-match>¶</a></h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>AOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;a_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
     <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
       <span class=nv>AnyType</span><span class=p>:</span><span class=nv>$a_input</span><span class=p>,</span>
       <span class=nv>AnyAttr</span><span class=p>:</span><span class=nv>$a_attr</span>
@@ -91,7 +91,7 @@ are acceptable, then we can leave the constraint unspecified.</p><p><code>$_</co
 will be referenced later in result patterns. It&rsquo;s still possible to place
 additional constraints even if the symbol is not to be captured; for such case,
 you can simply use just the <code>TypeConstraint</code> or <code>AttributeConstraint</code> without a
-bound symbol, for example, <code>def : Pat&lt;(AOp $a, F32Attr), ...></code>.</p><h4 id=matching-dag-of-operations>Matching DAG of operations</h4><p>To match an DAG of ops, use nested <code>dag</code> objects:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>
+bound symbol, for example, <code>def : Pat&lt;(AOp $a, F32Attr), ...></code>.</p><h4 id=matching-dag-of-operations>Matching DAG of operations&nbsp;<a class=headline-hash href=#matching-dag-of-operations>¶</a></h4><p>To match an DAG of ops, use nested <code>dag</code> objects:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen>
 <span class=k>def</span> <span class=nv>BOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;b_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
     <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span><span class=p>)</span><span class=p>;</span>
 
@@ -105,14 +105,14 @@ bound symbol, for example, <code>def : Pat&lt;(AOp $a, F32Attr), ...></code>.</p
 </code></pre></div><p>The above pattern matches an <code>AOp</code> whose only operand is generated by a <code>BOp</code>,
 that is, the following MLIR code:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%0</span> <span class=p>=</span> <span class=s>&#34;b_op&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span>
 <span class=nv>%1</span> <span class=p>=</span> <span class=s>&#34;a_op&#34;</span><span class=p>(</span><span class=nv>%0</span><span class=p>)</span> <span class=p>{</span>attr<span class=p>:</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span>
-</code></pre></div><h4 id=binding-op-results>Binding op results</h4><p>To bind a symbol to the results of a matched op for later reference, attach the
+</code></pre></div><h4 id=binding-op-results>Binding op results&nbsp;<a class=headline-hash href=#binding-op-results>¶</a></h4><p>To bind a symbol to the results of a matched op for later reference, attach the
 symbol to the op itself:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>AOp</span> <span class=p>(</span><span class=nv>BOp</span><span class=p>:</span><span class=nv>$b_result</span><span class=p>)</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>,</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>&gt;</span><span class=p>;</span>
 </code></pre></div><p>The above will bind <code>$b_result</code> to the matched <code>BOp</code>'s result. (There are more
 details regarding multi-result ops, which is covered
 <a href=#supporting-multi-result-ops>later</a>
-.)</p><h3 id=result-pattern>Result pattern</h3><p>The result pattern is for generating a DAG of operations. Arguments in the <code>dag</code>
+.)</p><h3 id=result-pattern>Result pattern&nbsp;<a class=headline-hash href=#result-pattern>¶</a></h3><p>The result pattern is for generating a DAG of operations. Arguments in the <code>dag</code>
 object are intended to <strong>reference</strong> values captured in the source pattern and
-potentially <strong>apply transformations</strong>.</p><h4 id=referencing-bound-symbols>Referencing bound symbols</h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>COp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;c_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
+potentially <strong>apply transformations</strong>.</p><h4 id=referencing-bound-symbols>Referencing bound symbols&nbsp;<a class=headline-hash href=#referencing-bound-symbols>¶</a></h4><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>COp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;c_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
     <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
       <span class=nv>AnyType</span><span class=p>:</span><span class=nv>$c_input</span><span class=p>,</span>
       <span class=nv>AnyAttr</span><span class=p>:</span><span class=nv>$c_attr</span>
@@ -128,7 +128,7 @@ potentially <strong>apply transformations</strong>.</p><h4 id=referencing-bound-
 <code>$attr</code>, respectively. We then reference them in the result pattern for
 generating the <code>COp</code> by passing them in as arguments to <code>COp</code>'s <code>build()</code>
 method.</p><p>We can also reference symbols bound to matched op&rsquo;s results:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>AOp</span> <span class=p>(</span><span class=nv>BOp</span><span class=p>:</span><span class=nv>$b_result</span><span class=p>)</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>COp</span> <span class=nv>$b_result</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
-</code></pre></div><p>In the above, we are using <code>BOp</code>'s result for building <code>COp</code>.</p><h4 id=building-operations>Building operations</h4><p>Given that <code>COp</code> was specified with table-driven op definition, there will be
+</code></pre></div><p>In the above, we are using <code>BOp</code>'s result for building <code>COp</code>.</p><h4 id=building-operations>Building operations&nbsp;<a class=headline-hash href=#building-operations>¶</a></h4><p>Given that <code>COp</code> was specified with table-driven op definition, there will be
 several <code>build()</code> methods generated for it. One of them has aggregated
 parameters for result types, operands, and attributes in the signature: <code>void COp::build(..., ArrayRef&lt;Type> resultTypes, Array&lt;Value> operands, ArrayRef&lt;NamedAttribute> attr)</code>. The pattern in the above calls this <code>build()</code>
 method for constructing the <code>COp</code>.</p><p>In general, arguments in the result pattern will be passed directly to the
@@ -160,9 +160,9 @@ For example, for the above <code>AOp</code>, a possible builder is:</p><div clas
 <span class=p>}</span>
 </code></pre></div><p>Failing to define such a builder will result in an error at C++ compilation time
 saying the call to <code>AOp::build()</code> cannot be resolved because of the number of
-parameters mismatch.</p><h4 id=generating-dag-of-operations>Generating DAG of operations</h4><p><code>dag</code> objects can be nested to generate a DAG of operations:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>AOp</span> <span class=nv>$input</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>COp</span> <span class=p>(</span><span class=nv>BOp</span><span class=p>)</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
+parameters mismatch.</p><h4 id=generating-dag-of-operations>Generating DAG of operations&nbsp;<a class=headline-hash href=#generating-dag-of-operations>¶</a></h4><p><code>dag</code> objects can be nested to generate a DAG of operations:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>AOp</span> <span class=nv>$input</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>COp</span> <span class=p>(</span><span class=nv>BOp</span><span class=p>)</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
 </code></pre></div><p>In the above, we generate a <code>BOp</code>, and then use its result to generate the <code>COp</code>
-to replace the matched <code>AOp</code>.</p><h4 id=binding-op-results-1>Binding op results</h4><p>In the result pattern, we can bind to the result(s) of a newly built op by
+to replace the matched <code>AOp</code>.</p><h4 id=binding-op-results-1>Binding op results&nbsp;<a class=headline-hash href=#binding-op-results-1>¶</a></h4><p>In the result pattern, we can bind to the result(s) of a newly built op by
 attaching symbols to the op. (But we <strong>cannot</strong> bind to op arguments given that
 they are referencing previously bound symbols.) This is useful for reusing
 newly created results where suitable. For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>DOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;d_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
@@ -180,7 +180,7 @@ newly created results where suitable. For example,</p><div class=highlight><pre 
 </code></pre></div><p>In this pattern, an <code>AOp</code> is matched and replaced with a <code>DOp</code> whose two
 operands are from the result of a single <code>BOp</code>. This is only possible by binding
 the result of the <code>BOp</code> to a name and reuse it for the second operand of the
-<code>DOp</code></p><h4 id=nativecodecall-transforming-the-generated-op><code>NativeCodeCall</code>: transforming the generated op</h4><p>Sometimes the captured arguments are not exactly what we want so they cannot be
+<code>DOp</code></p><h4 id=nativecodecall-transforming-the-generated-op><code>NativeCodeCall</code>: transforming the generated op&nbsp;<a class=headline-hash href=#nativecodecall-transforming-the-generated-op>¶</a></h4><p>Sometimes the captured arguments are not exactly what we want so they cannot be
 directly fed in as arguments to build the new op. For such cases, we can apply
 transformations on the arguments by calling into C++ helper functions. This is
 achieved by <code>NativeCodeCall</code>.</p><p>For example, if we want to capture some op&rsquo;s attributes and group them as an
@@ -217,7 +217,7 @@ definition of the C++ helper function.</p><p>In the above example, we are using 
 template. The string can be an arbitrary C++ expression that evaluates into
 some C++ object expected at the <code>NativeCodeCall</code> site (here it would be
 expecting an array attribute). Typically the string should be a function call.</p><p>Note that currently <code>NativeCodeCall</code> must return no more than one value or
-attribute. This might change in the future.</p><h5 id=nativecodecall-placeholders><code>NativeCodeCall</code> placeholders</h5><p>In <code>NativeCodeCall</code>, we can use placeholders like <code>$_builder</code>, <code>$N</code>. The former
+attribute. This might change in the future.</p><h5 id=nativecodecall-placeholders><code>NativeCodeCall</code> placeholders&nbsp;<a class=headline-hash href=#nativecodecall-placeholders>¶</a></h5><p>In <code>NativeCodeCall</code>, we can use placeholders like <code>$_builder</code>, <code>$N</code>. The former
 is called <em>special placeholder</em>, while the latter is called <em>positional
 placeholder</em>.</p><p><code>NativeCodeCall</code> right now only supports two special placeholders: <code>$_builder</code>
 and <code>$_self</code>:</p><ul><li><code>$_builder</code> will be replaced by the current <code>mlir::PatternRewriter</code>.</li><li><code>$_self</code> will be replaced with the entity <code>NativeCodeCall</code> is attached to.</li></ul><p>We have seen how <code>$_builder</code> can be used in the above; it allows us to pass a
@@ -231,12 +231,12 @@ example and decompose the array attribute into two attributes:</p><div class=hig
           <span class=p>(</span><span class=nv>TwoAttrOp</span> <span class=p>(</span><span class=nv>getNthAttr</span><span class=p>&lt;</span><span class=m>0</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$attr</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>getNthAttr</span><span class=p>&lt;</span><span class=m>1</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$attr</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
 </code></pre></div><p>In the above, <code>$_self</code> is substituted by the attribute bound by <code>$attr</code>, which
 is <code>OneAttrOp</code>'s array attribute.</p><p>Positional placeholders will be substituted by the <code>dag</code> object parameters at
-the <code>NativeCodeCall</code> use site. For example, if we define <code>SomeCall : NativeCodeCall&lt;"someFn($1, $2, $0)"></code> and use it like <code>(SomeCall $in0, $in1, $in2)</code>, then this will be translated into C++ call <code>someFn($in1, $in2, $in0)</code>.</p><h5 id=customizing-entire-op-building>Customizing entire op building</h5><p><code>NativeCodeCall</code> is not only limited to transforming arguments for building an
+the <code>NativeCodeCall</code> use site. For example, if we define <code>SomeCall : NativeCodeCall&lt;"someFn($1, $2, $0)"></code> and use it like <code>(SomeCall $in0, $in1, $in2)</code>, then this will be translated into C++ call <code>someFn($in1, $in2, $in0)</code>.</p><h5 id=customizing-entire-op-building>Customizing entire op building&nbsp;<a class=headline-hash href=#customizing-entire-op-building>¶</a></h5><p><code>NativeCodeCall</code> is not only limited to transforming arguments for building an
 op; it can be also used to specify how to build an op entirely. An example:</p><p>If we have a C++ function for building an op:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>Operation</span> <span class=o>*</span><span class=nf>createMyOp</span><span class=p>(</span><span class=n>OpBuilder</span> <span class=n>builder</span><span class=p>,</span> <span class=n>Value</span> <span class=n>input</span><span class=p>,</span> <span class=n>Attribute</span> <span class=n>attr</span><span class=p>)</span><span class=p>;</span>
 </code></pre></div><p>We can wrap it up and invoke it like:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>createMyOp</span> <span class=p>:</span> <span class=nv>NativeCodeCall</span><span class=p>&lt;</span><span class=s>&#34;createMyOp($_builder, $0, $1)&#34;</span><span class=p>&gt;</span><span class=p>;</span>
 
 <span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=nv>$input</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>createMyOp</span> <span class=nv>$input</span><span class=p>,</span> <span class=nv>$attr</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
-</code></pre></div><h3 id=supporting-auxiliary-ops>Supporting auxiliary ops</h3><p>A declarative rewrite rule supports multiple result patterns. One of the
+</code></pre></div><h3 id=supporting-auxiliary-ops>Supporting auxiliary ops&nbsp;<a class=headline-hash href=#supporting-auxiliary-ops>¶</a></h3><p>A declarative rewrite rule supports multiple result patterns. One of the
 purposes is to allow generating <em>auxiliary ops</em>. Auxiliary ops are operations
 used for building the replacement ops; but they are not directly used for
 replacement themselves.</p><p>For the case of uni-result ops, if there are multiple result patterns, only the
@@ -257,11 +257,11 @@ value. Instead we can use multiple result patterns:</p><div class=highlight><pre
                <span class=p>(</span><span class=nv>LoadOp</span> <span class=nv>$mem</span><span class=p>)</span><span class=p>]</span><span class=p>;</span>
 </code></pre></div><p>In the above we use the first result pattern to generate the first four ops, and
 use the last pattern to generate the last op, which is used to replace the
-matched op.</p><h3 id=supporting-multi-result-ops>Supporting multi-result ops</h3><p>Multi-result ops bring extra complexity to declarative rewrite rules. We use
+matched op.</p><h3 id=supporting-multi-result-ops>Supporting multi-result ops&nbsp;<a class=headline-hash href=#supporting-multi-result-ops>¶</a></h3><p>Multi-result ops bring extra complexity to declarative rewrite rules. We use
 TableGen <code>dag</code> objects to represent ops in patterns; there is no native way to
 indicate that an op generates multiple results. The approach adopted is based
 on <strong>naming convention</strong>: a <code>__N</code> suffix is added to a symbol to indicate the
-<code>N</code>-th result.</p><h4 id=__n-suffix><code>__N</code> suffix</h4><p>The <code>__N</code> suffix is specifying the <code>N</code>-th result as a whole (which can be
+<code>N</code>-th result.</p><h4 id=__n-suffix><code>__N</code> suffix&nbsp;<a class=headline-hash href=#__n-suffix>¶</a></h4><p>The <code>__N</code> suffix is specifying the <code>N</code>-th result as a whole (which can be
 <a href=#supporting-variadic-ops>variadic</a>
 ). For example, we can bind a symbol to some
 multi-result op and reference a specific result later:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>ThreeResultOp</span> <span class=p>:</span> <span class=nv>Op</span><span class=p>&lt;</span><span class=s>&#34;three_result_op&#34;</span><span class=p>&gt;</span> <span class=p>{</span>
@@ -287,7 +287,7 @@ time, which is typically useful when generating multi-result ops:</p><div class=
                <span class=p>(</span><span class=nv>replaceWithValue</span> <span class=nv>$results__0</span><span class=p>)</span><span class=p>]</span><span class=p>&gt;</span><span class=p>;</span>
 </code></pre></div><p>In the above, we created a <code>ThreeResultOp</code> and bind <code>results</code> to its results,
 and uses its last result (<code>$output3</code>) and first result (<code>$output1</code>) to replace
-the <code>TwoResultOp</code>'s two results, respectively.</p><h4 id=replacing-multi-result-ops>Replacing multi-result ops</h4><p>The above example also shows how to replace a matched multi-result op.</p><p>To replace a <code>N</code>-result op, the result patterns must generate at least <code>N</code>
+the <code>TwoResultOp</code>'s two results, respectively.</p><h4 id=replacing-multi-result-ops>Replacing multi-result ops&nbsp;<a class=headline-hash href=#replacing-multi-result-ops>¶</a></h4><p>The above example also shows how to replace a matched multi-result op.</p><p>To replace a <code>N</code>-result op, the result patterns must generate at least <code>N</code>
 declared values (see
 <a href=#declared-vs-actual-value>Declared vs. actual value</a>
 for
@@ -317,7 +317,7 @@ forbidden, i.e., the following is not allowed because that the first
 <code>TwoResultOp</code> generates two results but only the second result is used for
 replacing the matched op&rsquo;s result:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pattern</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>ThreeResultOp</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span><span class=p>,</span>
               <span class=p>[</span><span class=p>(</span><span class=nv>TwoResultOp</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>TwoResultOp</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span><span class=p>]</span><span class=p>&gt;</span><span class=p>;</span>
-</code></pre></div><h3 id=supporting-variadic-ops>Supporting variadic ops</h3><h4 id=declared-vs-actual-value>Declared vs. actual value</h4><p>Before going into details on variadic op support, we need to define a few terms
+</code></pre></div><h3 id=supporting-variadic-ops>Supporting variadic ops&nbsp;<a class=headline-hash href=#supporting-variadic-ops>¶</a></h3><h4 id=declared-vs-actual-value>Declared vs. actual value&nbsp;<a class=headline-hash href=#declared-vs-actual-value>¶</a></h4><p>Before going into details on variadic op support, we need to define a few terms
 regarding an op&rsquo;s values.</p><ul><li><em>Value</em>: either an operand or a result</li><li><em>Declared operand/result/value</em>: an operand/result/value statically declared
 in ODS of the op</li><li><em>Actual operand/result/value</em>: an operand/result/value of an op instance at
 runtime</li></ul><p>The above terms are needed because ops can have multiple results, and some of the
@@ -338,7 +338,7 @@ results can also be variadic. For example,</p><div class=highlight><pre class=ch
 runtime, an instance can have 3 values corresponding to <code>$input2</code> and 2 values
 correspond to <code>$output2</code>; we say it has 5 actual operands and 4 actual
 results. A variadic operand/result is a considered as a declared value that can
-correspond to multiple actual values.</p><p>[TODO]</p><h3 id=supplying-additional-constraints>Supplying additional constraints</h3><p>Constraints can be placed on op arguments when matching. But sometimes we need
+correspond to multiple actual values.</p><p>[TODO]</p><h3 id=supplying-additional-constraints>Supplying additional constraints&nbsp;<a class=headline-hash href=#supplying-additional-constraints>¶</a></h3><p>Constraints can be placed on op arguments when matching. But sometimes we need
 to also place constraints on the matched op&rsquo;s results or sometimes need to limit
 the matching with some constraints that cover both the arguments and the
 results. The third parameter to <code>Pattern</code> (and <code>Pat</code>) is for this purpose.</p><p>For example, we can write</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>HasNoUseOf</span><span class=p>:</span> <span class=nv>Constraint</span><span class=p>&lt;</span><span class=nv>CPred</span><span class=p>&lt;</span><span class=s>&#34;$_self.use_empty()&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=s>&#34;has no use&#34;</span><span class=p>&gt;</span><span class=p>;</span>
@@ -355,12 +355,12 @@ results. The third parameter to <code>Pattern</code> (and <code>Pat</code>) is f
 </code></pre></div><p>You can</p><ul><li>Use normal <code>TypeConstraint</code>s on previous bound symbols (the first result of
 <code>TwoResultOp</code> must be a float tensor);</li><li>Define new <code>Constraint</code> for previous bound symbols (the second result of
 <code>TwoResultOp</code> must has no use);</li><li>Apply constraints on multiple bound symbols (<code>$input</code> and <code>TwoResultOp</code>'s
-first result must have the same element type).</li></ul><h3 id=adjusting-benefits>Adjusting benefits</h3><p>The benefit of a <code>Pattern</code> is an integer value indicating the benefit of matching
+first result must have the same element type).</li></ul><h3 id=adjusting-benefits>Adjusting benefits&nbsp;<a class=headline-hash href=#adjusting-benefits>¶</a></h3><p>The benefit of a <code>Pattern</code> is an integer value indicating the benefit of matching
 the pattern. It determines the priorities of patterns inside the pattern rewrite
 driver. A pattern with a higher benefit is applied before one with a lower
 benefit.</p><p>In DRR, a rule is set to have a benefit of the number of ops in the source
 pattern. This is based on the heuristics and assumptions that:</p><ul><li>Larger matches are more beneficial than smaller ones.</li><li>If a smaller one is applied first the larger one may not apply anymore.</li></ul><p>The fourth parameter to <code>Pattern</code> (and <code>Pat</code>) allows to manually tweak a
-pattern&rsquo;s benefit. Just supply <code>(addBenefit N)</code> to add <code>N</code> to the benefit value.</p><h2 id=rewrite-directives>Rewrite directives</h2><h3 id=location><code>location</code></h3><p>By default the C++ pattern expanded from a DRR pattern uses the fused location
+pattern&rsquo;s benefit. Just supply <code>(addBenefit N)</code> to add <code>N</code> to the benefit value.</p><h2 id=rewrite-directives>Rewrite directives&nbsp;<a class=headline-hash href=#rewrite-directives>¶</a></h2><h3 id=location><code>location</code>&nbsp;<a class=headline-hash href=#location>¶</a></h3><p>By default the C++ pattern expanded from a DRR pattern uses the fused location
 of all source ops as the location for all generated ops. This is not always the
 best location mapping relationship. For such cases, DRR provides the <code>location</code>
 directive to provide finer control.</p><p><code>location</code> is of the following syntax:</p><pre><code class=language-tablgen data-lang=tablgen>(location $symbol0, $symbol1, ...)
@@ -370,18 +370,18 @@ created instead;</li></ul><p><code>location</code> must be used as the last argu
           <span class=p>(</span><span class=nv>LocDst1Op</span> <span class=p>(</span><span class=nv>LocDst2Op</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>,</span> <span class=p>(</span><span class=nv>location</span> <span class=nv>$src2</span><span class=p>)</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>location</span> <span class=s>&#34;outer&#34;</span><span class=p>)</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
 </code></pre></div><p>In the above pattern, the generated <code>LocDst2Op</code> will use the matched location
 of <code>LocSrc2Op</code> while the root <code>LocDst1Op</code> node will used the named location
-<code>outer</code>.</p><h3 id=replacewithvalue><code>replaceWithValue</code></h3><p>The <code>replaceWithValue</code> directive is used to eliminate a matched op by replacing
+<code>outer</code>.</p><h3 id=replacewithvalue><code>replaceWithValue</code>&nbsp;<a class=headline-hash href=#replacewithvalue>¶</a></h3><p>The <code>replaceWithValue</code> directive is used to eliminate a matched op by replacing
 all of it uses with a captured value. It is of the following syntax:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=p>(</span><span class=nv>replaceWithValue</span> <span class=nv>$symbol</span><span class=p>)</span>
 </code></pre></div><p>where <code>$symbol</code> should be a symbol bound previously in the pattern.</p><p>For example,</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>Foo</span> <span class=nv>$input</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>replaceWithValue</span> <span class=nv>$input</span><span class=p>)</span><span class=p>&gt;</span><span class=p>;</span>
 </code></pre></div><p>The above pattern removes the <code>Foo</code> and replaces all uses of <code>Foo</code> with
-<code>$input</code>.</p><h2 id=debugging-tips>Debugging Tips</h2><h3 id=run-mlir-tblgen-to-see-the-generated-content>Run <code>mlir-tblgen</code> to see the generated content</h3><p>TableGen syntax sometimes can be obscure; reading the generated content can be
+<code>$input</code>.</p><h2 id=debugging-tips>Debugging Tips&nbsp;<a class=headline-hash href=#debugging-tips>¶</a></h2><h3 id=run-mlir-tblgen-to-see-the-generated-content>Run <code>mlir-tblgen</code> to see the generated content&nbsp;<a class=headline-hash href=#run-mlir-tblgen-to-see-the-generated-content>¶</a></h3><p>TableGen syntax sometimes can be obscure; reading the generated content can be
 a very helpful way to understand and debug issues. To build <code>mlir-tblgen</code>, run
 <code>cmake --build . --target mlir-tblgen</code> in your build directory and find the
 <code>mlir-tblgen</code> binary in the <code>bin/</code> subdirectory. All the supported generators
 can be found via <code>mlir-tblgen --help</code>.</p><p>To see the generated code, invoke <code>mlir-tblgen</code> with a specific generator by
 providing include paths via <code>-I</code>. For example,</p><div class=highlight><pre class=chroma><code class=language-sh data-lang=sh><span class=c1># To see all the C++ pattern rewrite classes</span>
 mlir-tblgen --gen-rewriters -I /path/to/mlir/include /path/to/input/td/file
-</code></pre></div><h3 id=compilation-error-no-matching-member-function-for-call-to-build>Compilation error: no matching member function for call to &lsquo;build&rsquo;</h3><p>This is because DRR is failing to call a <code>build()</code> method with result type
+</code></pre></div><h3 id=compilation-error-no-matching-member-function-for-call-to-build>Compilation error: no matching member function for call to &lsquo;build&rsquo;&nbsp;<a class=headline-hash href=#compilation-error-no-matching-member-function-for-call-to-build>¶</a></h3><p>This is because DRR is failing to call a <code>build()</code> method with result type
 deduction ability. See
 <a href=#building-operations>building operations</a>
 for more

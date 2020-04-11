@@ -8,11 +8,11 @@ The main part of the tutorial focuses on defining types, but the instructions
 are nearly identical for defining attributes.</p><p>See
 <a href=/docs/LangRef/>MLIR specification</a>
 for more information about MLIR, the
-structure of the IR, operations, etc.</p><h2 id=types>Types</h2><p>Types in MLIR (like attributes, locations, and many other things) are
+structure of the IR, operations, etc.</p><h2 id=types>Types&nbsp;<a class=headline-hash href=#types>¶</a></h2><p>Types in MLIR (like attributes, locations, and many other things) are
 value-typed. This means that instances of <code>Type</code> should be passed around
 by-value, as opposed to by-pointer or by-reference. The <code>Type</code> class in itself
 acts as a wrapper around an internal storage object that is uniqued within an
-instance of an <code>MLIRContext</code>.</p><h3 id=reserving-a-range-of-type-kinds>Reserving a range of type kinds</h3><p>Types in MLIR rely on having a unique <code>kind</code> value to ensure that casting checks
+instance of an <code>MLIRContext</code>.</p><h3 id=reserving-a-range-of-type-kinds>Reserving a range of type kinds&nbsp;<a class=headline-hash href=#reserving-a-range-of-type-kinds>¶</a></h3><p>Types in MLIR rely on having a unique <code>kind</code> value to ensure that casting checks
 remain extremely
 efficient (
 <a href=/docs/Rationale/Rationale/#reserving-dialect-type-kinds>rationale</a>
@@ -39,7 +39,7 @@ Type::Kind enum to use when defining the derived types.</p><div class=highlight>
   <span class=n>Complex</span>
 <span class=p>}</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=defining-the-type-class>Defining the type class</h3><p>As described above, <code>Type</code> objects in MLIR are value-typed and rely on having an
+</code></pre></div><h3 id=defining-the-type-class>Defining the type class&nbsp;<a class=headline-hash href=#defining-the-type-class>¶</a></h3><p>As described above, <code>Type</code> objects in MLIR are value-typed and rely on having an
 implicitly internal storage object that holds the actual data for the type. When
 defining a new <code>Type</code> it isn&rsquo;t always necessary to define a new storage class.
 So before defining the derived <code>Type</code>, it&rsquo;s important to know which of the two
@@ -53,7 +53,7 @@ additional information that differentiates different instances of the same
 has a
 bitwidth, making <code>i8</code> and <code>i16</code> be different instances of
 <a href=/docs/LangRef/#integer-type><code>integer</code> type</a>
-.</p><h4 id=simple-non-parametric-types>Simple non-parametric types</h4><p>For simple parameterless types, we can jump straight into defining the derived
+.</p><h4 id=simple-non-parametric-types>Simple non-parametric types&nbsp;<a class=headline-hash href=#simple-non-parametric-types>¶</a></h4><p>For simple parameterless types, we can jump straight into defining the derived
 type class. Given that these types are uniqued solely on <code>kind</code>, we don&rsquo;t need
 to provide our own storage class.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This class defines a simple parameterless type. All derived types must
 </span><span class=c1></span><span class=c1>/// inherit from the CRTP class &#39;Type::TypeBase&#39;. It takes as template
@@ -78,9 +78,9 @@ to provide our own storage class.</p><div class=highlight><pre class=chroma><cod
 </span><span class=c1></span>    <span class=k>return</span> <span class=n>Base</span><span class=o>:</span><span class=o>:</span><span class=n>get</span><span class=p>(</span><span class=n>context</span><span class=p>,</span> <span class=n>MyTypes</span><span class=o>:</span><span class=o>:</span><span class=n>Simple</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h4 id=parametric-types>Parametric types</h4><p>Parametric types are those that have additional construction or uniquing
+</code></pre></div><h4 id=parametric-types>Parametric types&nbsp;<a class=headline-hash href=#parametric-types>¶</a></h4><p>Parametric types are those that have additional construction or uniquing
 constraints outside of the type <code>kind</code>. As such, these types require defining a
-type storage class.</p><h5 id=defining-a-type-storage>Defining a type storage</h5><p>Type storage objects contain all of the data necessary to construct and unique a
+type storage class.</p><h5 id=defining-a-type-storage>Defining a type storage&nbsp;<a class=headline-hash href=#defining-a-type-storage>¶</a></h5><p>Type storage objects contain all of the data necessary to construct and unique a
 parametric type instance. The storage classes must obey the following:</p><ul><li>Inherit from the base type storage class <code>TypeStorage</code>.</li><li>Define a type alias, <code>KeyTy</code>, that maps to a type that uniquely identifies
 an instance of the parent type.</li><li>Provide a construction method that is used to allocate a new instance of the
 storage class.<ul><li><code>Storage *construct(TypeStorageAllocator &, const KeyTy &key)</code></li></ul></li><li>Provide a comparison method between the storage and <code>KeyTy</code>.<ul><li><code>bool operator==(const KeyTy &) const</code></li></ul></li><li>Provide a method to generate the <code>KeyTy</code> from a list of arguments passed to
@@ -124,7 +124,7 @@ necessary if an <code>llvm::DenseMapInfo&lt;KeyTy></code> specialization exists)
   <span class=kt>unsigned</span> <span class=n>nonZeroParam</span><span class=p>;</span>
   <span class=n>Type</span> <span class=n>integerType</span><span class=p>;</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h5 id=type-class-definition>Type class definition</h5><p>Now that the storage class has been created, the derived type class can be
+</code></pre></div><h5 id=type-class-definition>Type class definition&nbsp;<a class=headline-hash href=#type-class-definition>¶</a></h5><p>Now that the storage class has been created, the derived type class can be
 defined. This structure is similar to the
 <a href=#simple-non-parametric-types>simple type</a>
 , except for a bit more of the
@@ -189,7 +189,7 @@ functionality of <code>Type::TypeBase</code> is put to use.</p><div class=highli
 </span><span class=c1></span>    <span class=k>return</span> <span class=n>getImpl</span><span class=p>(</span><span class=p>)</span><span class=o>-</span><span class=o>&gt;</span><span class=n>integerType</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h3 id=registering-types-with-a-dialect>Registering types with a Dialect</h3><p>Once the dialect types have been defined, they must then be registered with a
+</code></pre></div><h3 id=registering-types-with-a-dialect>Registering types with a Dialect&nbsp;<a class=headline-hash href=#registering-types-with-a-dialect>¶</a></h3><p>Once the dialect types have been defined, they must then be registered with a
 <code>Dialect</code>. This is done via similar mechanism to
 <a href=/docs/LangRef/#operations>operations</a>
 , <code>addTypes</code>.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>MyDialect</span> <span class=o>:</span> <span class=k>public</span> <span class=n>Dialect</span> <span class=p>{</span>
@@ -198,9 +198,9 @@ functionality of <code>Type::TypeBase</code> is put to use.</p><div class=highli
 </span><span class=c1></span>    <span class=n>addTypes</span><span class=o>&lt;</span><span class=n>SimpleType</span><span class=p>,</span> <span class=n>ComplexType</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h3 id=parsing-and-printing>Parsing and Printing</h3><p>As a final step after registration, a dialect must override the <code>printType</code> and
+</code></pre></div><h3 id=parsing-and-printing>Parsing and Printing&nbsp;<a class=headline-hash href=#parsing-and-printing>¶</a></h3><p>As a final step after registration, a dialect must override the <code>printType</code> and
 <code>parseType</code> hooks. These enable native support for roundtripping the type in the
-textual IR.</p><h2 id=attributes>Attributes</h2><p>As stated in the introduction, the process for defining dialect attributes is
+textual IR.</p><h2 id=attributes>Attributes&nbsp;<a class=headline-hash href=#attributes>¶</a></h2><p>As stated in the introduction, the process for defining dialect attributes is
 nearly identical to that of defining dialect types. That key difference is that
 the things named <code>*Type</code> are generally now named <code>*Attr</code>.</p><ul><li><code>Type::TypeBase</code> -> <code>Attribute::AttrBase</code></li><li><code>TypeStorageAllocator</code> -> <code>AttributeStorageAllocator</code></li><li><code>addTypes</code> -> <code>addAttributes</code></li></ul><p>Aside from that, all of the interfaces for uniquing and storage construction are
 all the same.</p><div class=edit-meta><br></div><nav class=pagination><a class="nav nav-prev" href=/docs/Tutorials/CreatingADialect/ title="Creating a Dialect"><i class="fas fa-arrow-left" aria-hidden=true></i>Prev - Creating a Dialect</a>

@@ -8,7 +8,7 @@ core aspects, such as the IR structure and operations.</p><p>See
 <a href=/docs/Tutorials/QuickstartRewrites/>MLIR Rewrites</a>
 for a quick start on graph rewriting
 in MLIR. If your transformation involves pattern matching operation DAGs, this
-is a great place to start.</p><h2 id=operation-pass>Operation Pass</h2><p>In MLIR, the main unit of abstraction and transformation is an
+is a great place to start.</p><h2 id=operation-pass>Operation Pass&nbsp;<a class=headline-hash href=#operation-pass>¶</a></h2><p>In MLIR, the main unit of abstraction and transformation is an
 <a href=/docs/LangRef/#operations>operation</a>
 . As such, the pass manager is designed to
 work on instances of operations at different levels of nesting. The structure of
@@ -28,7 +28,7 @@ simultaneously.</li></ul></li><li>Maintain any global mutable state, e.g. static
 file. All mutable state should be maintained by an instance of the pass.</li><li>Must be copy-constructible, multiple instances of the pass may be created by
 the pass manager to process operations in parallel.</li><li>Inspect the IR of sibling operations. Other threads may be modifying these
 operations in parallel.</li></ul><p>When creating an operation pass, there are two different types to choose from
-depending on the usage scenario:</p><h3 id=operationpass--op-specific>OperationPass : Op-Specific</h3><p>An <code>op-specific</code> operation pass operates explicitly on a given operation type.
+depending on the usage scenario:</p><h3 id=operationpass--op-specific>OperationPass : Op-Specific&nbsp;<a class=headline-hash href=#operationpass--op-specific>¶</a></h3><p>An <code>op-specific</code> operation pass operates explicitly on a given operation type.
 This operation type must adhere to the restrictions set by the pass manager for
 pass execution.</p><p>To define an op-specific operation pass, a derived class must adhere to the
 following:</p><ul><li>Inherit from the CRTP class <code>OperationPass</code> and provide the operation type
@@ -50,7 +50,7 @@ as an additional template parameter.</li><li>Override the virtual <code>void run
 </span><span class=c1></span><span class=c1>// (Pass registration is discussed more below)
 </span><span class=c1></span><span class=k>static</span> <span class=n>PassRegistration</span><span class=o>&lt;</span><span class=n>MyFunctionPass</span><span class=o>&gt;</span> <span class=n>pass</span><span class=p>(</span>
     <span class=sa></span><span class=s>&#34;</span><span class=s>flag-name-to-invoke-pass-via-mlir-opt</span><span class=s>&#34;</span><span class=p>,</span> <span class=sa></span><span class=s>&#34;</span><span class=s>Pass description here</span><span class=s>&#34;</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=operationpass--op-agnostic>OperationPass : Op-Agnostic</h3><p>An <code>op-agnostic</code> pass operates on the operation type of the pass manager that it
+</code></pre></div><h3 id=operationpass--op-agnostic>OperationPass : Op-Agnostic&nbsp;<a class=headline-hash href=#operationpass--op-agnostic>¶</a></h3><p>An <code>op-agnostic</code> pass operates on the operation type of the pass manager that it
 is added to. This means that a pass that operates on several different operation
 types in the same way only needs one implementation.</p><p>To create an operation pass, a derived class must adhere to the following:</p><ul><li>Inherit from the CRTP class <code>OperationPass</code>.</li><li>Override the virtual <code>void runOnOperation()</code> method.</li></ul><p>A simple pass may look like:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>struct</span> <span class=nc>MyOperationPass</span> <span class=o>:</span> <span class=k>public</span> <span class=n>OperationPass</span><span class=o>&lt;</span><span class=n>MyOperationPass</span><span class=o>&gt;</span> <span class=p>{</span>
   <span class=kt>void</span> <span class=nf>runOnOperation</span><span class=p>(</span><span class=p>)</span> <span class=k>override</span> <span class=p>{</span>
@@ -59,7 +59,7 @@ types in the same way only needs one implementation.</p><p>To create an operatio
     <span class=p>.</span><span class=p>.</span><span class=p>.</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h2 id=analysis-management>Analysis Management</h2><p>An important concept, along with transformation passes, are analyses. These are
+</code></pre></div><h2 id=analysis-management>Analysis Management&nbsp;<a class=headline-hash href=#analysis-management>¶</a></h2><p>An important concept, along with transformation passes, are analyses. These are
 conceptually similar to transformation passes, except that they compute
 information on a specific operation without modifying it. In MLIR, analyses are
 not passes but free-standing classes that are computed lazily on-demand and
@@ -67,7 +67,7 @@ cached to avoid unnecessary recomputation. An analysis in MLIR must adhere to
 the following:</p><ul><li>Provide a valid constructor taking an <code>Operation*</code>.</li><li>Must not modify the given operation.</li></ul><p>An analysis may provide additional hooks to control various behavior:</p><ul><li><code>bool isInvalidated(const AnalysisManager::PreservedAnalyses &)</code></li></ul><p>Given a preserved analysis set, the analysis returns true if it should truly be
 invalidated. This allows for more fine-tuned invalidation in cases where an
 analysis wasn&rsquo;t explicitly marked preserved, but may be preserved (or
-invalidated) based upon other properties such as analyses sets.</p><h3 id=querying-analyses>Querying Analyses</h3><p>The base <code>OperationPass</code> class provides utilities for querying and preserving
+invalidated) based upon other properties such as analyses sets.</p><h3 id=querying-analyses>Querying Analyses&nbsp;<a class=headline-hash href=#querying-analyses>¶</a></h3><p>The base <code>OperationPass</code> class provides utilities for querying and preserving
 analyses for the current operation being processed.</p><ul><li>OperationPass automatically provides the following utilities for querying
 analyses:<ul><li><code>getAnalysis&lt;></code><ul><li>Get an analysis for the current operation, constructing it if
 necessary.</li></ul></li><li><code>getCachedAnalysis&lt;></code><ul><li>Get an analysis for the current operation, if it already exists.</li></ul></li><li><code>getCachedParentAnalysis&lt;></code><ul><li>Get an analysis for a given parent operation, if it exists.</li></ul></li><li><code>getCachedChildAnalysis&lt;></code><ul><li>Get an analysis for a given child operation, if it exists.</li></ul></li><li><code>getChildAnalysis&lt;></code><ul><li>Get an analysis for a given child operation, constructing it if
@@ -93,7 +93,7 @@ necessary.</li></ul></li></ul></li></ul><p>Using the example passes defined abov
   <span class=k>if</span> <span class=p>(</span><span class=n>optionalAnalysis</span><span class=p>)</span>
     <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=preserving-analyses>Preserving Analyses</h3><p>Analyses that are constructed after being queried by a pass are cached to avoid
+</code></pre></div><h3 id=preserving-analyses>Preserving Analyses&nbsp;<a class=headline-hash href=#preserving-analyses>¶</a></h3><p>Analyses that are constructed after being queried by a pass are cached to avoid
 unnecessary computation if they are requested again later. To avoid stale
 analyses, all analyses are assumed to be invalidated by a pass. To avoid
 invalidation, a pass must specifically mark analyses that are known to be
@@ -108,7 +108,7 @@ preserving analyses:<ul><li><code>markAllAnalysesPreserved</code></li><li><code>
 </span><span class=c1></span>  <span class=c1>// preserved.
 </span><span class=c1></span>  <span class=n>markAnalysesPreserved</span><span class=o>&lt;</span><span class=n>MyAnalysis</span><span class=p>,</span> <span class=n>MyAnalyses</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=pass-failure>Pass Failure</h2><p>Passes in MLIR are allowed to gracefully fail. This may happen if some invariant
+</code></pre></div><h2 id=pass-failure>Pass Failure&nbsp;<a class=headline-hash href=#pass-failure>¶</a></h2><p>Passes in MLIR are allowed to gracefully fail. This may happen if some invariant
 of the pass was broken, potentially leaving the IR in some invalid state. If
 such a situation occurs, the pass can directly signal a failure to the pass
 manager. If a pass signaled a failure when executing, no other passes in the
@@ -120,11 +120,11 @@ signaling is provided in the form of a <code>signalPassFailure</code> method.</p
     <span class=k>return</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=pass-manager>Pass Manager</h2><p>Above we introduced the different types of passes and their constraints. Now
+</code></pre></div><h2 id=pass-manager>Pass Manager&nbsp;<a class=headline-hash href=#pass-manager>¶</a></h2><p>Above we introduced the different types of passes and their constraints. Now
 that we have our pass we need to be able to run it over a specific module. This
 is where the pass manager comes into play. The <code>PassManager</code> class is used to
 configure and run a pipeline. The <code>OpPassManager</code> class is used to schedule
-passes to run at a specific level of nesting.</p><h3 id=oppassmanager>OpPassManager</h3><p>An <code>OpPassManager</code> is essentially a collection of passes to execute on an
+passes to run at a specific level of nesting.</p><h3 id=oppassmanager>OpPassManager&nbsp;<a class=headline-hash href=#oppassmanager>¶</a></h3><p>An <code>OpPassManager</code> is essentially a collection of passes to execute on an
 operation of a given type. This operation type must adhere to the following
 requirement:</p><ul><li><p>Must be registered and marked <code>IsolatedFromAbove</code>.</p><ul><li>Passes are expected to not modify operations at or above the current
 operation being processed. If the operation is not isolated, it may
@@ -182,7 +182,7 @@ program has been run through the passes. This provides several benefits:</p><ul>
 touching a single function at a time, instead of traversing the entire
 program.</li><li>This improves multi-threading performance by reducing the number of jobs
 that need to be scheduled, as well as increasing the efficiency of each job.
-An entire function pipeline can be run on each function asynchronously.</li></ul><h2 id=pass-registration>Pass Registration</h2><p>Briefly shown in the example definitions of the various pass types is the
+An entire function pipeline can be run on each function asynchronously.</li></ul><h2 id=pass-registration>Pass Registration&nbsp;<a class=headline-hash href=#pass-registration>¶</a></h2><p>Briefly shown in the example definitions of the various pass types is the
 <code>PassRegistration</code> class. This is a utility to register derived pass classes so
 that they may be created, and inspected, by utilities like mlir-opt. Registering
 a pass class takes the form:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=n>PassRegistration</span><span class=o>&lt;</span><span class=n>MyPass</span><span class=o>&gt;</span> <span class=n>pass</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>command-line-arg</span><span class=s>&#34;</span><span class=p>,</span> <span class=sa></span><span class=s>&#34;</span><span class=s>description</span><span class=s>&#34;</span><span class=p>)</span><span class=p>;</span>
@@ -201,7 +201,7 @@ constructor. Make sure that the pass is copy-constructible in a way that does
 not share data as the
 <a href=#pass-manager>pass manager</a>
 may create copies of the
-pass to run in parallel.</p><h3 id=pass-pipeline-registration>Pass Pipeline Registration</h3><p>Described above is the mechanism used for registering a specific derived pass
+pass to run in parallel.</p><h3 id=pass-pipeline-registration>Pass Pipeline Registration&nbsp;<a class=headline-hash href=#pass-pipeline-registration>¶</a></h3><p>Described above is the mechanism used for registering a specific derived pass
 class. On top of that, MLIR allows for registering custom pass pipelines in a
 similar fashion. This allows for custom pipelines to be available to tools like
 mlir-opt in the same way that passes are, which is useful for encapsulating
@@ -226,7 +226,7 @@ pipeline builder that modifies a provided <code>OpPassManager</code>.</p><div cl
 </code></pre></div><p>Pipeline registration also allows for simplified registration of
 specifializations for existing passes:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=n>PassPipelineRegistration</span><span class=o>&lt;</span><span class=o>&gt;</span> <span class=n>foo10</span><span class=p>(</span>
     <span class=sa></span><span class=s>&#34;</span><span class=s>foo-10</span><span class=s>&#34;</span><span class=p>,</span> <span class=sa></span><span class=s>&#34;</span><span class=s>Foo Pass 10</span><span class=s>&#34;</span><span class=p>,</span> <span class=p>[</span><span class=p>]</span> <span class=p>{</span> <span class=k>return</span> <span class=n>std</span><span class=o>:</span><span class=o>:</span><span class=n>make_unique</span><span class=o>&lt;</span><span class=n>FooPass</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>10</span><span class=p>)</span><span class=p>;</span> <span class=p>}</span> <span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=textual-pass-pipeline-specification>Textual Pass Pipeline Specification</h3><p>In the previous sections, we showed how to register passes and pass pipelines
+</code></pre></div><h3 id=textual-pass-pipeline-specification>Textual Pass Pipeline Specification&nbsp;<a class=headline-hash href=#textual-pass-pipeline-specification>¶</a></h3><p>In the previous sections, we showed how to register passes and pass pipelines
 with a specific argument and description. Once registered, these can be used on
 the command line to configure a pass manager. The limitation of using these
 arguments directly is that they cannot build a nested pipeline. For example, if
@@ -251,7 +251,7 @@ section.</li></ul></li></ul><p>For example, the following pipeline:</p><div clas
 </code></pre></div><p>In order to support round-tripping your pass to the textual representation using
 <code>OpPassManager::printAsTextualPipeline(raw_ostream&)</code>, override
 <code>Pass::printAsTextualPipeline(raw_ostream&)</code> to format your pass-name and
-options in the format described above.</p><h3 id=instance-specific-pass-options>Instance Specific Pass Options</h3><p>Options may be specified for a parametric pass. Individual options are defined
+options in the format described above.</p><h3 id=instance-specific-pass-options>Instance Specific Pass Options&nbsp;<a class=headline-hash href=#instance-specific-pass-options>¶</a></h3><p>Options may be specified for a parametric pass. Individual options are defined
 using the
 <a href=https://llvm.org/docs/CommandLine.html>LLVM command line</a>
 flag
@@ -287,7 +287,7 @@ construct the passes from the options and pass them to the pm:</p><div class=hig
     <span class=p>[</span><span class=p>]</span><span class=p>(</span><span class=n>OpPassManager</span> <span class=o>&amp;</span><span class=n>pm</span><span class=p>,</span> <span class=k>const</span> <span class=n>MyPipelineOptions</span> <span class=o>&amp;</span><span class=n>pipelineOptions</span><span class=p>)</span> <span class=p>{</span>
       <span class=c1>// Initialize the pass manager.
 </span><span class=c1></span>    <span class=p>}</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h2 id=pass-statistics>Pass Statistics</h2><p>Statistics are a way to keep track of what the compiler is doing and how
+</code></pre></div><h2 id=pass-statistics>Pass Statistics&nbsp;<a class=headline-hash href=#pass-statistics>¶</a></h2><p>Statistics are a way to keep track of what the compiler is doing and how
 effective various transformations are. It is often useful to see what effect
 specific transformations have on a particular program, and how often they
 trigger. Pass statistics are instance specific which allow for taking this a
@@ -336,7 +336,7 @@ VerifierPass
 <span class=o>=</span><span class=o>=</span><span class=o>=</span>-------------------------------------------------------------------------<span class=o>=</span><span class=o>=</span><span class=o>=</span>
 MyPass
   <span class=o>(</span>S<span class=o>)</span> <span class=m>21</span> testStat - A <span class=nb>test</span> statistic
-</code></pre></div><h2 id=declarative-pass-specification>Declarative Pass Specification</h2><p>Some aspects of a Pass may be specified declaratively, in a form similar to
+</code></pre></div><h2 id=declarative-pass-specification>Declarative Pass Specification&nbsp;<a class=headline-hash href=#declarative-pass-specification>¶</a></h2><p>Some aspects of a Pass may be specified declaratively, in a form similar to
 <a href=/docs/OpDefinitions/>operations</a>
 . This specification simplifies several
 mechanisms used when defining passes. It can be used for generating pass
@@ -407,16 +407,16 @@ documentation.</p><p>Consider the following pass specified in C++:</p><div class
 </span><span class=c1></span><span class=n>std</span><span class=o>:</span><span class=o>:</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=n>Pass</span><span class=o>&gt;</span> <span class=n>foo</span><span class=o>:</span><span class=o>:</span><span class=n>createMyPass</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
   <span class=k>return</span> <span class=n>std</span><span class=o>:</span><span class=o>:</span><span class=n>make_unique</span><span class=o>&lt;</span><span class=n>MyPass</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=tablegen-specification>Tablegen Specification</h3><p>The <code>Pass</code> class is used to begin a new pass definition. This class takes as an
+</code></pre></div><h3 id=tablegen-specification>Tablegen Specification&nbsp;<a class=headline-hash href=#tablegen-specification>¶</a></h3><p>The <code>Pass</code> class is used to begin a new pass definition. This class takes as an
 argument the command line argument to attribute to the pass, as well as an
 optional string corresponding to the operation type that the pass operates on.
 It contains the following fields:</p><ul><li>summary<ul><li>A short one line summary of the pass, used as the description when
 registering the pass.</li></ul></li><li>description<ul><li>A longer, more detailed description of the pass. This is used when
-generating pass documentation.</li></ul></li><li>constructor<ul><li>A piece of C++ code used to create a default instance of the pass.</li></ul></li><li>options<ul><li>A list of pass options used by the pass.</li></ul></li><li>statistics<ul><li>A list of pass statistics used by the pass.</li></ul></li></ul><h4 id=options>Options</h4><p>Options can be specified by the <code>Option</code> and <code>ListOption</code> classes. The <code>Option</code>
+generating pass documentation.</li></ul></li><li>constructor<ul><li>A piece of C++ code used to create a default instance of the pass.</li></ul></li><li>options<ul><li>A list of pass options used by the pass.</li></ul></li><li>statistics<ul><li>A list of pass statistics used by the pass.</li></ul></li></ul><h4 id=options>Options&nbsp;<a class=headline-hash href=#options>¶</a></h4><p>Options can be specified by the <code>Option</code> and <code>ListOption</code> classes. The <code>Option</code>
 class takes the following fields:</p><ul><li>C++ variable name<ul><li>A name to use for the generated option variable.</li></ul></li><li>argument<ul><li>The command line argument of the option.</li></ul></li><li>type<ul><li>The C++ type of the option.</li></ul></li><li>default value<ul><li>The default option value.</li></ul></li><li>description<ul><li>A one line description of the option.</li></ul></li><li>additional option flags<ul><li>A string containing any additional options necessary to construct the
 option.</li></ul></li></ul><p>The <code>ListOption</code> class takes the following fields:</p><ul><li>C++ variable name<ul><li>A name to use for the generated option variable.</li></ul></li><li>argument<ul><li>The command line argument of the option.</li></ul></li><li>element type<ul><li>The C++ type of the list element.</li></ul></li><li>description<ul><li>A one line description of the option.</li></ul></li><li>additional option flags<ul><li>A string containing any additional options necessary to construct the
-option.</li></ul></li></ul><h4 id=statistic>Statistic</h4><p>Statistics can be specified via the <code>Statistic</code>, which takes the following
-fields:</p><ul><li>C++ variable name<ul><li>A name to use for the generated statistic variable.</li></ul></li><li>display name<ul><li>The name used when displaying the statistic.</li></ul></li><li>description<ul><li>A one line description of the statistic.</li></ul></li></ul><h2 id=pass-instrumentation>Pass Instrumentation</h2><p>MLIR provides a customizable framework to instrument pass execution and analysis
+option.</li></ul></li></ul><h4 id=statistic>Statistic&nbsp;<a class=headline-hash href=#statistic>¶</a></h4><p>Statistics can be specified via the <code>Statistic</code>, which takes the following
+fields:</p><ul><li>C++ variable name<ul><li>A name to use for the generated statistic variable.</li></ul></li><li>display name<ul><li>The name used when displaying the statistic.</li></ul></li><li>description<ul><li>A one line description of the statistic.</li></ul></li></ul><h2 id=pass-instrumentation>Pass Instrumentation&nbsp;<a class=headline-hash href=#pass-instrumentation>¶</a></h2><p>MLIR provides a customizable framework to instrument pass execution and analysis
 computation. This is provided via the <code>PassInstrumentation</code> class. This class
 provides hooks into the PassManager that observe various pass events:</p><ul><li><code>runBeforePipeline</code><ul><li>This callback is run just before a pass pipeline, i.e. pass manager, is
 executed.</li></ul></li><li><code>runAfterPipeline</code><ul><li>This callback is run right after a pass pipeline has been executed,
@@ -452,16 +452,16 @@ that counts the number of times DominanceInfo is computed:</p><div class=highlig
     <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 
 <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>errs</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>DominanceInfo was computed </span><span class=s>&#34;</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=n>domInfoCount</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s> times!</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
-</code></pre></div><h3 id=standard-instrumentations>Standard Instrumentations</h3><p>MLIR utilizes the pass instrumentation framework to provide a few useful
+</code></pre></div><h3 id=standard-instrumentations>Standard Instrumentations&nbsp;<a class=headline-hash href=#standard-instrumentations>¶</a></h3><p>MLIR utilizes the pass instrumentation framework to provide a few useful
 developer tools and utilities. Each of these instrumentations are immediately
-available to all users of the MLIR pass framework.</p><h4 id=pass-timing>Pass Timing</h4><p>The PassTiming instrumentation provides timing information about the execution
+available to all users of the MLIR pass framework.</p><h4 id=pass-timing>Pass Timing&nbsp;<a class=headline-hash href=#pass-timing>¶</a></h4><p>The PassTiming instrumentation provides timing information about the execution
 of passes and computation of analyses. This provides a quick glimpse into what
 passes are taking the most time to execute, as well as how much of an effect
 your pass has on the total execution time of the pipeline. Users can enable this
 instrumentation directly on the PassManager via <code>enableTiming</code>. This
 instrumentation is also made available in mlir-opt via the <code>-pass-timing</code> flag.
 The PassTiming instrumentation provides several different display modes for the
-timing results, each of which is described below:</p><h5 id=list-display-mode>List Display Mode</h5><p>In this mode, the results are displayed in a list sorted by total time with each
+timing results, each of which is described below:</p><h5 id=list-display-mode>List Display Mode&nbsp;<a class=headline-hash href=#list-display-mode>¶</a></h5><p>In this mode, the results are displayed in a list sorted by total time with each
 pass/analysis instance aggregated into one unique result. This view is useful
 for getting an overview of what analyses/passes are taking the most time in a
 pipeline. This display mode is available in mlir-opt via
@@ -479,7 +479,7 @@ pipeline. This display mode is available in mlir-opt via
    0.0003 <span class=o>(</span>  3.4%<span class=o>)</span>  CSE
    0.0002 <span class=o>(</span>  1.9%<span class=o>)</span>  <span class=o>(</span>A<span class=o>)</span> DominanceInfo
    0.0084 <span class=o>(</span>100.0%<span class=o>)</span>  Total
-</code></pre></div><h5 id=pipeline-display-mode>Pipeline Display Mode</h5><p>In this mode, the results are displayed in a nested pipeline view that mirrors
+</code></pre></div><h5 id=pipeline-display-mode>Pipeline Display Mode&nbsp;<a class=headline-hash href=#pipeline-display-mode>¶</a></h5><p>In this mode, the results are displayed in a nested pipeline view that mirrors
 the internal pass pipeline that is being executed in the pass manager. This view
 is useful for understanding specifically which parts of the pipeline are taking
 the most time, and can also be used to identify when analyses are being
@@ -501,7 +501,7 @@ invalidated and recomputed. This is the default display mode.</p><div class=high
    0.0014 <span class=o>(</span> 17.2%<span class=o>)</span>  LLVMLoweringPass
    0.0005 <span class=o>(</span>  6.2%<span class=o>)</span>  VerifierPass
    0.0082 <span class=o>(</span>100.0%<span class=o>)</span>  Total
-</code></pre></div><h5 id=multi-threaded-pass-timing>Multi-threaded Pass Timing</h5><p>When multi-threading is enabled in the pass manager the meaning of the display
+</code></pre></div><h5 id=multi-threaded-pass-timing>Multi-threaded Pass Timing&nbsp;<a class=headline-hash href=#multi-threaded-pass-timing>¶</a></h5><p>When multi-threading is enabled in the pass manager the meaning of the display
 slightly changes. First, a new timing column is added, <code>User Time</code>, that
 displays the total time spent across all threads. Secondly, the <code>Wall Time</code>
 column displays the longest individual time spent amongst all of the threads.
@@ -525,7 +525,7 @@ cpu time.</p><div class=highlight><pre class=chroma><code class=language-shell d
    0.0013 <span class=o>(</span>  6.5%<span class=o>)</span>     0.0013 <span class=o>(</span> 16.3%<span class=o>)</span>  LLVMLoweringPass
    0.0006 <span class=o>(</span>  2.8%<span class=o>)</span>     0.0006 <span class=o>(</span>  7.0%<span class=o>)</span>  VerifierPass
    0.0200 <span class=o>(</span>100.0%<span class=o>)</span>     0.0081 <span class=o>(</span>100.0%<span class=o>)</span>  Total
-</code></pre></div><h4 id=ir-printing>IR Printing</h4><p>When debugging it is often useful to dump the IR at various stages of a pass
+</code></pre></div><h4 id=ir-printing>IR Printing&nbsp;<a class=headline-hash href=#ir-printing>¶</a></h4><p>When debugging it is often useful to dump the IR at various stages of a pass
 pipeline. This is where the IR printing instrumentation comes into play. This
 instrumentation allows for conditionally printing the IR before and after pass
 execution by optionally filtering on the pass being executed. This
@@ -583,7 +583,7 @@ func @simple_constant<span class=o>(</span><span class=o>)</span> -&gt; <span cl
   %c1_i32 <span class=o>=</span> constant <span class=m>1</span> : i32
   <span class=k>return</span> %c1_i32, %c1_i32 : i32, i32
 <span class=o>}</span>
-</code></pre></div><h2 id=crash-and-failure-reproduction>Crash and Failure Reproduction</h2><p>The
+</code></pre></div><h2 id=crash-and-failure-reproduction>Crash and Failure Reproduction&nbsp;<a class=headline-hash href=#crash-and-failure-reproduction>¶</a></h2><p>The
 <a href=#pass-manager>pass manager</a>
 in MLIR contains a builtin mechanism to
 generate reproducibles in the even of a crash, or a

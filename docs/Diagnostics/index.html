@@ -3,31 +3,31 @@ MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></heade
 diagnostics infrastructure.</p><p>See
 <a href=/docs/LangRef/>MLIR specification</a>
 for more information about MLIR, the
-structure of the IR, operations, etc.</p><h2 id=source-locations>Source Locations</h2><p>Source location information is extremely important for any compiler, because it
+structure of the IR, operations, etc.</p><h2 id=source-locations>Source Locations&nbsp;<a class=headline-hash href=#source-locations>¶</a></h2><p>Source location information is extremely important for any compiler, because it
 provides a baseline for debuggability and error-reporting. MLIR provides several
-different location types depending on the situational need.</p><h3 id=callsite-location>CallSite Location</h3><pre><code>callsite-location ::= 'callsite' '(' location 'at' location ')'
+different location types depending on the situational need.</p><h3 id=callsite-location>CallSite Location&nbsp;<a class=headline-hash href=#callsite-location>¶</a></h3><pre><code>callsite-location ::= 'callsite' '(' location 'at' location ')'
 </code></pre><p>An instance of this location allows for representing a directed stack of
 location usages. This connects a location of a <code>callee</code> with the location of a
-<code>caller</code>.</p><h3 id=filelinecol-location>FileLineCol Location</h3><pre><code>filelinecol-location ::= string-literal ':' integer-literal ':' integer-literal
+<code>caller</code>.</p><h3 id=filelinecol-location>FileLineCol Location&nbsp;<a class=headline-hash href=#filelinecol-location>¶</a></h3><pre><code>filelinecol-location ::= string-literal ':' integer-literal ':' integer-literal
 </code></pre><p>An instance of this location represents a tuple of file, line number, and column
 number. This is similar to the type of location that you get from most source
-languages.</p><h3 id=fused-location>Fused Location</h3><pre><code>fused-location ::= `fused` fusion-metadata? '[' location (location ',')* ']'
+languages.</p><h3 id=fused-location>Fused Location&nbsp;<a class=headline-hash href=#fused-location>¶</a></h3><pre><code>fused-location ::= `fused` fusion-metadata? '[' location (location ',')* ']'
 fusion-metadata ::= '&lt;' attribute-value '&gt;'
 </code></pre><p>An instance of a <code>fused</code> location represents a grouping of several other source
 locations, with optional metadata that describes the context of the fusion.
 There are many places within a compiler in which several constructs may be fused
 together, e.g. pattern rewriting, that normally result partial or even total
-loss of location information. With <code>fused</code> locations, this is a non-issue.</p><h3 id=name-location>Name Location</h3><pre><code>name-location ::= string-literal ('(' location ')')?
+loss of location information. With <code>fused</code> locations, this is a non-issue.</p><h3 id=name-location>Name Location&nbsp;<a class=headline-hash href=#name-location>¶</a></h3><pre><code>name-location ::= string-literal ('(' location ')')?
 </code></pre><p>An instance of this location allows for attaching a name to a child location.
 This can be useful for representing the locations of variable, or node,
-definitions.</p><h3 id=opaque-location>Opaque Location</h3><p>An instance of this location essentially contains a pointer to some data
+definitions.</p><h3 id=opaque-location>Opaque Location&nbsp;<a class=headline-hash href=#opaque-location>¶</a></h3><p>An instance of this location essentially contains a pointer to some data
 structure that is external to MLIR and an optional location that can be used if
 the first one is not suitable. Since it contains an external structure, only the
-optional location is used during serialization.</p><h3 id=unknown-location>Unknown Location</h3><pre><code>unknown-location ::= `unknown`
+optional location is used during serialization.</p><h3 id=unknown-location>Unknown Location&nbsp;<a class=headline-hash href=#unknown-location>¶</a></h3><pre><code>unknown-location ::= `unknown`
 </code></pre><p>Source location information is an extremely integral part of the MLIR
 infrastructure. As such, location information is always present in the IR, and
 must explicitly be set to unknown. Thus an instance of the <code>unknown</code> location,
-represents an unspecified source location.</p><h2 id=diagnostic-engine>Diagnostic Engine</h2><p>The <code>DiagnosticEngine</code> acts as the main interface for diagnostics in MLIR. It
+represents an unspecified source location.</p><h2 id=diagnostic-engine>Diagnostic Engine&nbsp;<a class=headline-hash href=#diagnostic-engine>¶</a></h2><p>The <code>DiagnosticEngine</code> acts as the main interface for diagnostics in MLIR. It
 manages the registration of diagnostic handlers, as well as the core API for
 diagnostic emission. Handlers generally take the form of
 <code>LogicalResult(Diagnostic &)</code>. If the result is <code>success</code>, it signals that the
@@ -53,7 +53,7 @@ can be interfaced with via an <code>MLIRContext</code> instance.</p><div class=h
 
 <span class=c1>// Unregister this handler when we are done.
 </span><span class=c1></span><span class=n>engine</span><span class=p>.</span><span class=n>eraseHandler</span><span class=p>(</span><span class=n>id</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=constructing-a-diagnostic>Constructing a Diagnostic</h3><p>As stated above, the <code>DiagnosticEngine</code> holds the core API for diagnostic
+</code></pre></div><h3 id=constructing-a-diagnostic>Constructing a Diagnostic&nbsp;<a class=headline-hash href=#constructing-a-diagnostic>¶</a></h3><p>As stated above, the <code>DiagnosticEngine</code> holds the core API for diagnostic
 emission. A new diagnostic can be emitted with the engine via <code>emit</code>. This
 method returns an
 <a href=#inflight-diagnostic>InFlightDiagnostic</a>
@@ -71,9 +71,9 @@ methods for emitting diagnostics:</p><div class=highlight><pre class=chroma><cod
 
 <span class=c1>// This method creates a diagnostic prefixed with &#34;&#39;op-name&#39; op &#34;.
 </span><span class=c1></span><span class=n>InFlightDiagnostic</span> <span class=n>Operation</span><span class=o>:</span><span class=o>:</span><span class=n>emitOpError</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h2 id=diagnostic>Diagnostic</h2><p>A <code>Diagnostic</code> in MLIR contains all of the necessary information for reporting a
+</code></pre></div><h2 id=diagnostic>Diagnostic&nbsp;<a class=headline-hash href=#diagnostic>¶</a></h2><p>A <code>Diagnostic</code> in MLIR contains all of the necessary information for reporting a
 message to the user. A <code>Diagnostic</code> essentially boils down to three main
-components:</p><ul><li><a href=#source-locations>Source Location</a></li><li>Severity Level<ul><li>Error, Note, Remark, Warning</li></ul></li><li>Diagnostic Arguments<ul><li>The diagnostic arguments are used when constructing the output message.</li></ul></li></ul><h3 id=appending-arguments>Appending arguments</h3><p>One a diagnostic has been constructed, the user can start composing it. The
+components:</p><ul><li><a href=#source-locations>Source Location</a></li><li>Severity Level<ul><li>Error, Note, Remark, Warning</li></ul></li><li>Diagnostic Arguments<ul><li>The diagnostic arguments are used when constructing the output message.</li></ul></li></ul><h3 id=appending-arguments>Appending arguments&nbsp;<a class=headline-hash href=#appending-arguments>¶</a></h3><p>One a diagnostic has been constructed, the user can start composing it. The
 output message of a diagnostic is composed of a set of diagnostic arguments that
 have been attached to it. New arguments can be attached to a diagnostic in a few
 different ways:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>// A few interesting things to use when composing a diagnostic.
@@ -87,7 +87,7 @@ different ways:</p><div class=highlight><pre class=chroma><code class=language-c
 
 <span class=c1>// This could generate something like (FuncAttr:@foo, IntegerType:i32, {0,1,2}):
 </span><span class=c1></span><span class=sa></span><span class=s>&#34;</span><span class=s>Compose an interesting error: @foo, i32, (0, 1, 2)</span><span class=s>&#34;</span>
-</code></pre></div><h3 id=attaching-notes>Attaching notes</h3><p>Unlike many other compiler frameworks, notes in MLIR cannot be emitted directly.
+</code></pre></div><h3 id=attaching-notes>Attaching notes&nbsp;<a class=headline-hash href=#attaching-notes>¶</a></h3><p>Unlike many other compiler frameworks, notes in MLIR cannot be emitted directly.
 They must be explicitly attached to another diagnostic non-note diagnostic. When
 emitting a diagnostic, notes can be directly attached via <code>attachNote</code>. When
 attaching a note, if the user does not provide an explicit source location the
@@ -96,7 +96,7 @@ note will inherit the location of the parent diagnostic.</p><div class=highlight
 
 <span class=c1>// Emit a note that inherits the parent location.
 </span><span class=c1></span><span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>...</span><span class=s>&#34;</span><span class=p>)</span><span class=p>.</span><span class=n>attachNote</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>...</span><span class=s>&#34;</span><span class=p>;</span>
-</code></pre></div><h2 id=inflight-diagnostic>InFlight Diagnostic</h2><p>Now that
+</code></pre></div><h2 id=inflight-diagnostic>InFlight Diagnostic&nbsp;<a class=headline-hash href=#inflight-diagnostic>¶</a></h2><p>Now that
 <a href=#diagnostic>Diagnostics</a>
 have been explained, we introduce the
 <code>InFlightDiagnostic</code>, an RAII wrapper around a diagnostic that is set to be
@@ -105,8 +105,8 @@ it is not reported directly by the user it will automatically report when
 destroyed.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=p>{</span>
   <span class=n>InFlightDiagnostic</span> <span class=n>diag</span> <span class=o>=</span> <span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>...</span><span class=s>&#34;</span><span class=p>;</span>
 <span class=p>}</span>  <span class=c1>// The diagnostic is automatically reported here.
-</span></code></pre></div><h2 id=diagnostic-configuration-options>Diagnostic Configuration Options</h2><p>Several options are provided to help control and enhance the behavior of
-diagnostics. These options are listed below:</p><h3 id=print-operation-on-diagnostic>Print Operation On Diagnostic</h3><p>Command Line Flag: <code>-mlir-print-op-on-diagnostic</code></p><p>When a diagnostic is emitted on an operation, via <code>Operation::emitError/...</code>,
+</span></code></pre></div><h2 id=diagnostic-configuration-options>Diagnostic Configuration Options&nbsp;<a class=headline-hash href=#diagnostic-configuration-options>¶</a></h2><p>Several options are provided to help control and enhance the behavior of
+diagnostics. These options are listed below:</p><h3 id=print-operation-on-diagnostic>Print Operation On Diagnostic&nbsp;<a class=headline-hash href=#print-operation-on-diagnostic>¶</a></h3><p>Command Line Flag: <code>-mlir-print-op-on-diagnostic</code></p><p>When a diagnostic is emitted on an operation, via <code>Operation::emitError/...</code>,
 the textual form of that operation is printed and attached as a note to the
 diagnostic. This option is useful for understanding the current form of an
 operation that may be invalid, especially when debugging verifier failures. An
@@ -116,7 +116,7 @@ example output is shown below:</p><div class=highlight><pre class=chroma><code c
 test.mlir:3:3: note: see current operation: <span class=s2>&#34;module_terminator&#34;</span><span class=o>(</span><span class=o>)</span> : <span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</span><span class=o>)</span>
   <span class=s2>&#34;module_terminator&#34;</span><span class=o>(</span><span class=o>)</span> : <span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</span><span class=o>)</span>
   ^
-</code></pre></div><h3 id=print-stacktrace-on-diagnostic>Print StackTrace On Diagnostic</h3><p>Command Line Flag: <code>-mlir-print-stacktrace-on-diagnostic</code></p><p>When a diagnostic is emitted, attach the current stack trace as a note to the
+</code></pre></div><h3 id=print-stacktrace-on-diagnostic>Print StackTrace On Diagnostic&nbsp;<a class=headline-hash href=#print-stacktrace-on-diagnostic>¶</a></h3><p>Command Line Flag: <code>-mlir-print-stacktrace-on-diagnostic</code></p><p>When a diagnostic is emitted, attach the current stack trace as a note to the
 diagnostic. This option is useful for understanding which part of the compiler
 generated certain diagnostics. An example output is shown below:</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>test.mlir:3:3: error: <span class=s1>&#39;module_terminator&#39;</span> op expects parent op <span class=s1>&#39;module&#39;</span>
   <span class=s2>&#34;module_terminator&#34;</span><span class=o>(</span><span class=o>)</span> : <span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</span><span class=o>)</span>
@@ -132,12 +132,12 @@ test.mlir:3:3: note: diagnostic emitted with trace:
  <span class=c1>#  ...</span>
   <span class=s2>&#34;module_terminator&#34;</span><span class=o>(</span><span class=o>)</span> : <span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</span><span class=o>)</span>
   ^
-</code></pre></div><h2 id=common-diagnostic-handlers>Common Diagnostic Handlers</h2><p>To interface with the diagnostics infrastructure, users will need to register a
+</code></pre></div><h2 id=common-diagnostic-handlers>Common Diagnostic Handlers&nbsp;<a class=headline-hash href=#common-diagnostic-handlers>¶</a></h2><p>To interface with the diagnostics infrastructure, users will need to register a
 diagnostic handler with the
 <a href=#diagnostic-engine><code>DiagnosticEngine</code></a>
 .
 Recognizing the many users will want the same handler functionality, MLIR
-provides several common diagnostic handlers for immediate use.</p><h3 id=scoped-diagnostic-handler>Scoped Diagnostic Handler</h3><p>This diagnostic handler is a simple RAII class that registers and unregisters a
+provides several common diagnostic handlers for immediate use.</p><h3 id=scoped-diagnostic-handler>Scoped Diagnostic Handler&nbsp;<a class=headline-hash href=#scoped-diagnostic-handler>¶</a></h3><p>This diagnostic handler is a simple RAII class that registers and unregisters a
 given diagnostic handler. This class can be either be used directly, or in
 conjunction with a derived diagnostic handler.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>// Construct the handler directly.
 </span><span class=c1></span><span class=n>MLIRContext</span> <span class=n>context</span><span class=p>;</span>
@@ -154,7 +154,7 @@ conjunction with a derived diagnostic handler.</p><div class=highlight><pre clas
     <span class=p>}</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h3 id=sourcemgr-diagnostic-handler>SourceMgr Diagnostic Handler</h3><p>This diagnostic handler is a wrapper around an llvm::SourceMgr instance. It
+</code></pre></div><h3 id=sourcemgr-diagnostic-handler>SourceMgr Diagnostic Handler&nbsp;<a class=headline-hash href=#sourcemgr-diagnostic-handler>¶</a></h3><p>This diagnostic handler is a wrapper around an llvm::SourceMgr instance. It
 provides support for displaying diagnostic messages inline with a line of a
 respective source file. This handler will also automatically load newly seen
 source files into the SourceMgr when attempting to display the source line of a
@@ -166,7 +166,7 @@ func @foo<span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</spa
 </code></pre></div><p>To use this handler in your tool, add the following:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>SourceMgr</span> <span class=n>sourceMgr</span><span class=p>;</span>
 <span class=n>MLIRContext</span> <span class=n>context</span><span class=p>;</span>
 <span class=n>SourceMgrDiagnosticHandler</span> <span class=nf>sourceMgrHandler</span><span class=p>(</span><span class=n>sourceMgr</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>context</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=sourcemgr-diagnostic-verifier-handler>SourceMgr Diagnostic Verifier Handler</h3><p>This handler is a wrapper around a llvm::SourceMgr that is used to verify that
+</code></pre></div><h3 id=sourcemgr-diagnostic-verifier-handler>SourceMgr Diagnostic Verifier Handler&nbsp;<a class=headline-hash href=#sourcemgr-diagnostic-verifier-handler>¶</a></h3><p>This handler is a wrapper around a llvm::SourceMgr that is used to verify that
 certain diagnostics have been emitted to the context. To use this handler,
 annotate your source file with expected diagnostics in the form of:</p><ul><li><code>expected-(error|note|remark|warning) {{ message }}</code></li></ul><p>A few examples are shown below:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Expect an error on the same line.
 </span><span class=c></span><span class=kt>func</span> <span class=nf>@bad_branch</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
@@ -206,7 +206,7 @@ func @foo<span class=o>(</span><span class=o>)</span> -&gt; <span class=o>(</spa
 this handler can be added to any tool via the following:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>SourceMgr</span> <span class=n>sourceMgr</span><span class=p>;</span>
 <span class=n>MLIRContext</span> <span class=n>context</span><span class=p>;</span>
 <span class=n>SourceMgrDiagnosticVerifierHandler</span> <span class=nf>sourceMgrHandler</span><span class=p>(</span><span class=n>sourceMgr</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>context</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=parallel-diagnostic-handler>Parallel Diagnostic Handler</h3><p>MLIR is designed from the ground up to be multi-threaded. One important to thing
+</code></pre></div><h3 id=parallel-diagnostic-handler>Parallel Diagnostic Handler&nbsp;<a class=headline-hash href=#parallel-diagnostic-handler>¶</a></h3><p>MLIR is designed from the ground up to be multi-threaded. One important to thing
 to keep in mind when multi-threading is determinism. This means that the
 behavior seen when operating on multiple threads is the same as when operating
 on a single thread. For diagnostics, this means that the ordering of the

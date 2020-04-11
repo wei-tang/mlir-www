@@ -4,21 +4,21 @@ of constructing MLIR programmatically. In the majority of cases, the IR we wish
 to construct exhibits structured control-flow. The Declarative builders in the
 <code>EDSC</code> library (Embedded Domain Specific Constructs) provide an API to make MLIR
 construction and manipulation very idiomatic, for the structured control-flow
-case, in C++.</p><h2 id=scopedcontext>ScopedContext</h2><p><code>mlir::edsc::ScopedContext</code> provides an implicit thread-local context,
+case, in C++.</p><h2 id=scopedcontext>ScopedContext&nbsp;<a class=headline-hash href=#scopedcontext>¶</a></h2><p><code>mlir::edsc::ScopedContext</code> provides an implicit thread-local context,
 supporting a simple declarative API with globally accessible builders. These
-declarative builders are available within the lifetime of a <code>ScopedContext</code>.</p><h2 id=valuehandle-and-indexhandle>ValueHandle and IndexHandle</h2><p><code>mlir::edsc::ValueHandle</code> and <code>mlir::edsc::IndexHandle</code> provide typed
+declarative builders are available within the lifetime of a <code>ScopedContext</code>.</p><h2 id=valuehandle-and-indexhandle>ValueHandle and IndexHandle&nbsp;<a class=headline-hash href=#valuehandle-and-indexhandle>¶</a></h2><p><code>mlir::edsc::ValueHandle</code> and <code>mlir::edsc::IndexHandle</code> provide typed
 abstractions around an <code>mlir::Value</code>. These abstractions are &ldquo;delayed&rdquo;, in the
 sense that they allow separating declaration from definition. They may capture
 IR snippets, as they are built, for programmatic manipulation. Intuitive
 operators are provided to allow concise and idiomatic expressions.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>ValueHandle</span> <span class=n>zero</span> <span class=o>=</span> <span class=n>std_constant_index</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span><span class=p>;</span>
 <span class=n>IndexHandle</span> <span class=n>i</span><span class=p>,</span> <span class=n>j</span><span class=p>,</span> <span class=n>k</span><span class=p>;</span>
-</code></pre></div><h2 id=intrinsics>Intrinsics</h2><p><code>mlir::edsc::ValueBuilder</code> is a generic wrapper for the <code>mlir::Builder::create</code>
+</code></pre></div><h2 id=intrinsics>Intrinsics&nbsp;<a class=headline-hash href=#intrinsics>¶</a></h2><p><code>mlir::edsc::ValueBuilder</code> is a generic wrapper for the <code>mlir::Builder::create</code>
 method that operates on <code>ValueHandle</code> objects and return a single ValueHandle.
 For instructions that return no values or that return multiple values, the
 <code>mlir::edsc::InstructionBuilder</code> can be used. Named intrinsics are provided as
 syntactic sugar to further reduce boilerplate.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>using</span> <span class=n>load</span> <span class=o>=</span> <span class=n>ValueBuilder</span><span class=o>&lt;</span><span class=n>LoadOp</span><span class=o>&gt;</span><span class=p>;</span>
 <span class=k>using</span> <span class=n>store</span> <span class=o>=</span> <span class=n>InstructionBuilder</span><span class=o>&lt;</span><span class=n>StoreOp</span><span class=o>&gt;</span><span class=p>;</span>
-</code></pre></div><h2 id=loopbuilder-and-affineloopnestbuilder>LoopBuilder and AffineLoopNestBuilder</h2><p><code>mlir::edsc::AffineLoopNestBuilder</code> provides an interface to allow writing
+</code></pre></div><h2 id=loopbuilder-and-affineloopnestbuilder>LoopBuilder and AffineLoopNestBuilder&nbsp;<a class=headline-hash href=#loopbuilder-and-affineloopnestbuilder>¶</a></h2><p><code>mlir::edsc::AffineLoopNestBuilder</code> provides an interface to allow writing
 concise and structured loop nests.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>ScopedContext</span> <span class=nf>scope</span><span class=p>(</span><span class=n>f</span><span class=p>.</span><span class=n>get</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
   <span class=n>ValueHandle</span> <span class=nf>i</span><span class=p>(</span><span class=n>indexType</span><span class=p>)</span><span class=p>,</span>
               <span class=n>j</span><span class=p>(</span><span class=n>indexType</span><span class=p>)</span><span class=p>,</span>
@@ -38,9 +38,9 @@ concise and structured loop nests.</p><div class=highlight><pre class=chroma><co
           <span class=p>(</span><span class=p>(</span><span class=n>i7</span> <span class=o>+</span> <span class=n>i13</span><span class=p>)</span> <span class=o>/</span> <span class=n>i7</span><span class=p>)</span> <span class=o>%</span> <span class=n>i13</span> <span class=o>-</span> <span class=n>i7</span> <span class=o>*</span> <span class=n>i13</span><span class=p>;</span>
       <span class=p>}</span><span class=p>)</span><span class=p>;</span>
   <span class=p>}</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h2 id=indexedvalue>IndexedValue</h2><p><code>mlir::edsc::IndexedValue</code> provides an index notation around load and store
+</code></pre></div><h2 id=indexedvalue>IndexedValue&nbsp;<a class=headline-hash href=#indexedvalue>¶</a></h2><p><code>mlir::edsc::IndexedValue</code> provides an index notation around load and store
 operations on abstract data types by overloading the C++ assignment and
-parenthesis operators. The relevant loads and stores are emitted as appropriate.</p><h2 id=putting-it-all-together>Putting it all together</h2><p>With declarative builders, it becomes fairly concise to build rank and
+parenthesis operators. The relevant loads and stores are emitted as appropriate.</p><h2 id=putting-it-all-together>Putting it all together&nbsp;<a class=headline-hash href=#putting-it-all-together>¶</a></h2><p>With declarative builders, it becomes fairly concise to build rank and
 type-agnostic custom operations even though MLIR does not yet have generic
 types. Here is what a definition of a general pointwise add looks in
 Tablegen with declarative builders.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>def</span> <span class=nl>AddOp</span> <span class=p>:</span> <span class=n>Op</span><span class=o>&lt;</span><span class=sa></span><span class=s>&#34;</span><span class=s>x.add</span><span class=s>&#34;</span><span class=o>&gt;</span><span class=p>,</span>

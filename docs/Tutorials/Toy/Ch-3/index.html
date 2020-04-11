@@ -16,7 +16,7 @@ rule-based pattern-match and rewrite using table-driven
 (DRR). Note that the
 use of DRR requires that the operations be defined using ODS, as described in
 <a href=/docs/Tutorials/Toy/Ch-2/>Chapter 2</a>
-.</p><h2 id=optimize-transpose-using-c-style-pattern-match-and-rewrite>Optimize Transpose using C++ style pattern-match and rewrite</h2><p>Let&rsquo;s start with a simple pattern and try to eliminate a sequence of two
+.</p><h2 id=optimize-transpose-using-c-style-pattern-match-and-rewrite>Optimize Transpose using C++ style pattern-match and rewrite&nbsp;<a class=headline-hash href=#optimize-transpose-using-c-style-pattern-match-and-rewrite>¶</a></h2><p>Let&rsquo;s start with a simple pattern and try to eliminate a sequence of two
 transposes that cancel out: <code>transpose(transpose(X)) -> X</code>. Here is the
 corresponding Toy example:</p><pre><code class=language-toy data-lang=toy>def transpose_transpose(x) {
   return transpose(transpose(x));
@@ -109,7 +109,7 @@ adding a new trait, <code>NoSideEffect</code>, to our <code>TransposeOp</code>:<
   toy<span class=p>.</span><span class=kt>return</span> <span class=nv>%arg0</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
 <span class=p>}</span>
 </code></pre></div><p>Perfect! No <code>transpose</code> operation is left - the code is optimal.</p><p>In the next section, we use DRR for pattern match optimizations associated with
-the Reshape op.</p><h2 id=optimize-reshapes-using-drr>Optimize Reshapes using DRR</h2><p>Declarative, rule-based pattern-match and rewrite (DRR) is an operation
+the Reshape op.</p><h2 id=optimize-reshapes-using-drr>Optimize Reshapes using DRR&nbsp;<a class=headline-hash href=#optimize-reshapes-using-drr>¶</a></h2><p>Declarative, rule-based pattern-match and rewrite (DRR) is an operation
 DAG-based declarative rewriter that provides a table-based syntax for
 pattern-match and rewrite rules:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>class</span> <span class=nv>Pattern</span><span class=p>&lt;</span>
     <span class=k>dag</span> <span class=nv>sourcePattern</span><span class=p>,</span> <span class=k>list</span><span class=p>&lt;</span><span class=k>dag</span><span class=p>&gt;</span> <span class=nv>resultPatterns</span><span class=p>,</span>

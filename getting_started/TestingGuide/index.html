@@ -7,10 +7,10 @@ reviewer why the change doesn&rsquo;t/shouldn&rsquo;t include a test.</p><p>MLIR
 <a href=#check-tests>Check</a>
 tests and
 <a href=#unit-tests>Unit</a>
-tests.</p><h2 id=check-tests>Check tests</h2><p>Check tests are tests that verify that some set of string tags appear in the
+tests.</p><h2 id=check-tests>Check tests&nbsp;<a class=headline-hash href=#check-tests>¶</a></h2><p>Check tests are tests that verify that some set of string tags appear in the
 output of some program. These tests generally encompass anything related to the
 state of the IR (and more); analysis, parsing, transformation, verification,
-etc. They are written utilizing several different tools:</p><h3 id=filecheck-tests>FileCheck tests</h3><p><a href=https://llvm.org/docs/CommandGuide/FileCheck.html>FileCheck</a>
+etc. They are written utilizing several different tools:</p><h3 id=filecheck-tests>FileCheck tests&nbsp;<a class=headline-hash href=#filecheck-tests>¶</a></h3><p><a href=https://llvm.org/docs/CommandGuide/FileCheck.html>FileCheck</a>
 is a utility tool
 that &ldquo;reads two files (one from standard input, and one specified on the command
 line) and uses one to verify the other.&rdquo; Essentially, one file contains a set of
@@ -30,7 +30,7 @@ different aspects of the IR - such as the output of a transformation pass.</p><p
   <span class=kt>return</span> <span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span> <span class=p>:</span> <span class=k>i32</span><span class=p>,</span> <span class=k>i32</span>
 <span class=p>}</span>
 </code></pre></div><p>The above test performs a check that after running Common Sub-Expression
-elimination, only one constant remains in the IR.</p><h4 id=filecheck-best-practices>FileCheck best practices</h4><p>FileCheck is an extremely useful utility, it allows for easily matching various
+elimination, only one constant remains in the IR.</p><h4 id=filecheck-best-practices>FileCheck best practices&nbsp;<a class=headline-hash href=#filecheck-best-practices>¶</a></h4><p>FileCheck is an extremely useful utility, it allows for easily matching various
 parts of the output. This ease of use means that it becomes easy to write
 brittle tests that are essentially <code>diff</code> tests. FileCheck tests should be as
 self-contained as possible and focus on testing the minimal set of
@@ -87,7 +87,7 @@ section.</p><div class=highlight><pre class=chroma><code class=language-mlir dat
   <span class=nv>%1</span> <span class=p>=</span> <span class=kt>constant</span> <span class=m>1</span> <span class=p>:</span> <span class=k>i32</span>
   <span class=kt>return</span> <span class=nv>%0</span><span class=p>,</span> <span class=nv>%1</span> <span class=p>:</span> <span class=k>i32</span><span class=p>,</span> <span class=k>i32</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=diagnostic-verification-tests>Diagnostic verification tests</h3><p>MLIR provides rich source location tracking that can be used to emit errors,
+</code></pre></div><h3 id=diagnostic-verification-tests>Diagnostic verification tests&nbsp;<a class=headline-hash href=#diagnostic-verification-tests>¶</a></h3><p>MLIR provides rich source location tracking that can be used to emit errors,
 warnings, etc. easily from anywhere throughout the codebase. Certain classes of
 tests are written to check that certain diagnostics are emitted for a given
 input program, such as an MLIR file. These tests are useful in that they allow
@@ -112,7 +112,7 @@ accessible via the <code>verify-diagnostics</code> flag in mlir-opt.</p><p>An ex
 </span><span class=c></span>  <span class=nv>%result</span> <span class=p>=</span> cmpf <span class=s>&#34;foo&#34;</span><span class=p>,</span> <span class=nv>%a</span><span class=p>,</span> <span class=nv>%a</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=kt>return</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=unit-tests>Unit tests</h2><p>Unit tests are written using
+</code></pre></div><h2 id=unit-tests>Unit tests&nbsp;<a class=headline-hash href=#unit-tests>¶</a></h2><p>Unit tests are written using
 <a href=https://github.com/google/googletest/blob/master/googletest/docs/primer.md>Google Test</a>
 and are located in the unittests/ directory. Tests of these form <em>should</em> be
 limited to API tests that cannot be reasonably written as

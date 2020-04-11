@@ -19,7 +19,7 @@ into the system.</p><p>The <code>Symbol</code> infrastructure essentially provid
 refer to an operation symbolically with a name. This allows for referring to
 operations defined above regions that were defined as <code>IsolatedFromAbove</code> in a
 safe way. It also allows for symbolically referencing operations define below
-other regions as well.</p><h2 id=symbol>Symbol</h2><p>A <code>Symbol</code> is a named operation that resides immediately within a region that
+other regions as well.</p><h2 id=symbol>Symbol&nbsp;<a class=headline-hash href=#symbol>¶</a></h2><p>A <code>Symbol</code> is a named operation that resides immediately within a region that
 defines a
 <a href=#symbol-table><code>SymbolTable</code></a>
 . The name of a symbol <em>must</em> be unique
@@ -31,7 +31,7 @@ link, or use, to the symbol. An example of a <code>Symbol</code> operation is
 <a href=#referencing-a-symbol>referred to</a>
 by operations like
 <a href=/docs/Dialects/Standard/#call><code>std.call</code></a>
-.</p><h3 id=defining-a-symbol>Defining a Symbol</h3><p>A <code>Symbol</code> operation may use the <code>OpTrait::Symbol</code> trait to provide the
+.</p><h3 id=defining-a-symbol>Defining a Symbol&nbsp;<a class=headline-hash href=#defining-a-symbol>¶</a></h3><p>A <code>Symbol</code> operation may use the <code>OpTrait::Symbol</code> trait to provide the
 necessary verification and accessors, but this is not required as some
 operations, such as <code>module</code>, conditionally define a symbol. <code>Symbol</code>s must have
 the following properties:</p><ul><li>A <code>StringAttr</code> attribute named
@@ -40,13 +40,13 @@ the following properties:</p><ul><li>A <code>StringAttr</code> attribute named
 <a href=#symbol-visibility>visibility</a>
 of the
 symbol, or more specifically in-which scopes it may be accessed.</li></ul></li><li>No SSA results<ul><li>Intermixing the different ways to <code>use</code> an operation quickly becomes
-unwieldy and difficult to analyze.</li></ul></li></ul><h2 id=symbol-table>Symbol Table</h2><p>Described above are <code>Symbol</code>s, which reside within a region of an operation
+unwieldy and difficult to analyze.</li></ul></li></ul><h2 id=symbol-table>Symbol Table&nbsp;<a class=headline-hash href=#symbol-table>¶</a></h2><p>Described above are <code>Symbol</code>s, which reside within a region of an operation
 defining a <code>SymbolTable</code>. A <code>SymbolTable</code> operation provides the container for
 the
 <a href=#symbol><code>Symbol</code></a>
 operations. It verifies that all <code>Symbol</code> operations
 have a unique name, and provides facilities for looking up symbols by name.
-Operations defining a <code>SymbolTable</code> must use the <code>OpTrait::SymbolTable</code> trait.</p><h3 id=referencing-a-symbol>Referencing a Symbol</h3><p><code>Symbol</code>s are referenced symbolically by name via the
+Operations defining a <code>SymbolTable</code> must use the <code>OpTrait::SymbolTable</code> trait.</p><h3 id=referencing-a-symbol>Referencing a Symbol&nbsp;<a class=headline-hash href=#referencing-a-symbol>¶</a></h3><p><code>Symbol</code>s are referenced symbolically by name via the
 <a href=/docs/LangRef/#symbol-reference-attribute><code>SymbolRefAttr</code></a>
 attribute. A symbol
 reference attribute contains a named reference to an operation that is nested
@@ -112,14 +112,14 @@ is one example of
 such an operation.</p><p>See the <code>LangRef</code> definition of the
 <a href=/docs/LangRef/#symbol-reference-attribute><code>SymbolRefAttr</code></a>
 for more information
-about the structure of this attribute.</p><h3 id=manipulating-a-symbol>Manipulating a Symbol</h3><p>As described above, <code>SymbolRefs</code> act as an auxiliary way of defining uses of
+about the structure of this attribute.</p><h3 id=manipulating-a-symbol>Manipulating a Symbol&nbsp;<a class=headline-hash href=#manipulating-a-symbol>¶</a></h3><p>As described above, <code>SymbolRefs</code> act as an auxiliary way of defining uses of
 operations to the traditional SSA use-list. As such, it is imperative to provide
 similar functionality to manipulate and inspect the list of uses and the users.
 The following are a few of the utilities provided by the <code>SymbolTable</code>:</p><ul><li><p><code>SymbolTable::getSymbolUses</code></p><ul><li>Access an iterator range over all of the uses on and nested within a
 particular operation.</li></ul></li><li><p><code>SymbolTable::symbolKnownUseEmpty</code></p><ul><li>Check if a particular symbol is known to be unused within a specific
 section of the IR.</li></ul></li><li><p><code>SymbolTable::replaceAllSymbolUses</code></p><ul><li>Replace all of the uses of one symbol with a new one within a specific
 section of the IR.</li></ul></li><li><p><code>SymbolTable::lookupNearestSymbolFrom</code></p><ul><li>Lookup the definition of a symbol in the nearest symbol table from some
-anchor operation.</li></ul></li></ul><h2 id=symbol-visibility>Symbol Visibility</h2><p>Along with a name, a <code>Symbol</code> also has a <code>visibility</code> attached to it. The
+anchor operation.</li></ul></li></ul><h2 id=symbol-visibility>Symbol Visibility&nbsp;<a class=headline-hash href=#symbol-visibility>¶</a></h2><p>Along with a name, a <code>Symbol</code> also has a <code>visibility</code> attached to it. The
 <code>visibility</code> of a symbol defines its structural reachability within the IR. A
 symbol has one of the following visibilities:</p><ul><li><p>Public (Default)</p><ul><li>The symbol may be referenced from outside of the visible IR. We cannot
 assume that all of the uses of this symbol are observable.</li></ul></li><li><p>Private</p><ul><li>The symbol may only be referenced from within the current symbol table.</li></ul></li><li><p>Nested</p><ul><li>The symbol may be referenced by operations outside of the current symbol

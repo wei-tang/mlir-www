@@ -1,6 +1,6 @@
 <!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Chapter 2: Emitting Basic MLIR - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.64.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/Tutorials/Toy/Ch-2/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
 MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/mlir/31>Forums</a></li><li class=child><a href=https://discord.gg/xS7Z362>Chat</a></li></ul></li><li><a href=/getting_started/Debugging/>Debugging</a></li><li><a href=/getting_started/Faq/>FAQ</a></li><li class=parent><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=doxygen/>Doxygen</a></li><li class=child><a href=https://github.com/llvm/llvm-project/tree/master/mlir>GitHub</a></li></ul></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>Chapter 2: Emitting Basic MLIR</h1><p><nav id=TableOfContents><ul><li><a href=#introduction-multi-level-intermediate-representation>Introduction: Multi-Level Intermediate Representation</a></li><li><a href=#interfacing-with-mlir>Interfacing with MLIR</a><ul><li><a href=#opaque-api>Opaque API</a></li></ul></li><li><a href=#defining-a-toy-dialect>Defining a Toy Dialect</a></li><li><a href=#defining-toy-operations>Defining Toy Operations</a><ul><li><a href=#op-vs-operation-using-mlir-operations>Op vs Operation: Using MLIR Operations</a></li><li><a href=#using-the-operation-definition-specification-ods-framework>Using the Operation Definition Specification (ODS) Framework</a></li></ul></li><li><a href=#complete-toy-example>Complete Toy Example</a></li></ul></nav><p>Now that we&rsquo;re familiar with our language and the AST, let&rsquo;s see how MLIR can
-help to compile Toy.</p><h2 id=introduction-multi-level-intermediate-representation>Introduction: Multi-Level Intermediate Representation</h2><p>Other compilers, like LLVM (see the
+help to compile Toy.</p><h2 id=introduction-multi-level-intermediate-representation>Introduction: Multi-Level Intermediate Representation&nbsp;<a class=headline-hash href=#introduction-multi-level-intermediate-representation>¶</a></h2><p>Other compilers, like LLVM (see the
 <a href=https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html>Kaleidoscope tutorial</a>
 ),
 offer a fixed set of predefined types and (usually <em>low-level</em> / RISC-like)
@@ -12,7 +12,7 @@ and rewrite. Finally, languages with construction at a higher-level than C/C++
 may require non-trivial lowering from their AST to generate LLVM IR.</p><p>As a consequence, multiple frontends end up reimplementing significant pieces of
 infrastructure to support the need for these analyses and transformation. MLIR
 addresses this issue by being designed for extensibility. As such, there are few
-pre-defined instructions (<em>operations</em> in MLIR terminology) or types.</p><h2 id=interfacing-with-mlir>Interfacing with MLIR</h2><p><a href=/docs/LangRef/>Language reference</a></p><p>MLIR is designed to be a completely extensible infrastructure; there is no
+pre-defined instructions (<em>operations</em> in MLIR terminology) or types.</p><h2 id=interfacing-with-mlir>Interfacing with MLIR&nbsp;<a class=headline-hash href=#interfacing-with-mlir>¶</a></h2><p><a href=/docs/LangRef/>Language reference</a></p><p>MLIR is designed to be a completely extensible infrastructure; there is no
 closed set of attributes (think: constant metadata), operations, or types. MLIR
 supports this extensibility with the concept of
 <a href=/docs/LangRef/#dialects>Dialects</a>
@@ -61,7 +61,7 @@ Dropping a location is thus an explicit choice which cannot happen by mistake.</
 another, that new operation must still have a location attached. This makes it
 possible to track where that operation came from.</p><p>It&rsquo;s worth noting that the mlir-opt tool - a tool for testing
 compiler passes - does not include locations in the output by default. The
-<code>-mlir-print-debuginfo</code> flag specifies to include locations. (Run <code>mlir-opt --help</code> for more options.)</p><h3 id=opaque-api>Opaque API</h3><p>MLIR is designed to be a completely extensible system, and as such, the
+<code>-mlir-print-debuginfo</code> flag specifies to include locations. (Run <code>mlir-opt --help</code> for more options.)</p><h3 id=opaque-api>Opaque API&nbsp;<a class=headline-hash href=#opaque-api>¶</a></h3><p>MLIR is designed to be a completely extensible system, and as such, the
 infrastructure has the capability to opaquely represent all of its core
 components: attributes, operations, types, etc. This allows MLIR to parse,
 represent, and
@@ -86,7 +86,7 @@ and seeing it round-trip without tripping the verifier:</p><div class=highlight>
 </code></pre></div><p>There are multiple problems here: the <code>toy.print</code> operation is not a terminator;
 it should take an operand; and it shouldn&rsquo;t return any values. In the next
 section, we will register our dialect and operations with MLIR, plug into the
-verifier, and add nicer APIs to manipulate our operations.</p><h2 id=defining-a-toy-dialect>Defining a Toy Dialect</h2><p>To effectively interface with MLIR, we will define a new Toy dialect. This
+verifier, and add nicer APIs to manipulate our operations.</p><h2 id=defining-a-toy-dialect>Defining a Toy Dialect&nbsp;<a class=headline-hash href=#defining-a-toy-dialect>¶</a></h2><p>To effectively interface with MLIR, we will define a new Toy dialect. This
 dialect will properly model the semantics of the Toy language, as well as
 provide an easy avenue for high-level analysis and transformation.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This is the definition of the Toy dialect. A dialect inherits from
 </span><span class=c1></span><span class=c1>/// mlir::Dialect and registers custom attributes, operations, and types (in its
@@ -102,7 +102,7 @@ provide an easy avenue for high-level analysis and transformation.</p><div class
 <span class=p>}</span><span class=p>;</span>
 </code></pre></div><p>The dialect can now be registered in the global registry:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>registerDialect</span><span class=o>&lt;</span><span class=n>ToyDialect</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 </code></pre></div><p>Any new <code>MLIRContext</code> created from now on will contain an instance of the Toy
-dialect and invoke specific hooks for things like parsing attributes and types.</p><h2 id=defining-toy-operations>Defining Toy Operations</h2><p>Now that we have a <code>Toy</code> dialect, we can start registering operations. This will
+dialect and invoke specific hooks for things like parsing attributes and types.</p><h2 id=defining-toy-operations>Defining Toy Operations&nbsp;<a class=headline-hash href=#defining-toy-operations>¶</a></h2><p>Now that we have a <code>Toy</code> dialect, we can start registering operations. This will
 allow for providing semantic information that the rest of the system can hook
 into. Let&rsquo;s walk through the creation of the <code>toy.constant</code> operation:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir> <span class=nv>%4</span> <span class=p>=</span> <span class=s>&#34;toy.constant&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span><span class=nl>value =</span> dense<span class=p>&lt;</span><span class=m>1.0</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
 </code></pre></div><p>This operation takes zero operands, a
@@ -159,7 +159,7 @@ verification, etc.</p><div class=highlight><pre class=chroma><code class=languag
     <span class=o>:</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Dialect</span><span class=p>(</span><span class=n>getDialectNamespace</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=n>ctx</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>addOperations</span><span class=o>&lt;</span><span class=n>ConstantOp</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=op-vs-operation-using-mlir-operations>Op vs Operation: Using MLIR Operations</h3><p>Now that we have defined an operation, we will want to access and transform it.
+</code></pre></div><h3 id=op-vs-operation-using-mlir-operations>Op vs Operation: Using MLIR Operations&nbsp;<a class=headline-hash href=#op-vs-operation-using-mlir-operations>¶</a></h3><p>Now that we have defined an operation, we will want to access and transform it.
 In MLIR, there are two main classes related to operations: <code>Operation</code> and <code>Op</code>.
 Operation is the actual opaque instance of the operation, and represents the
 general API into an operation instance. An <code>Op</code> is the base class of a derived
@@ -182,7 +182,7 @@ casting infrastructure:</p><div class=highlight><pre class=chroma><code class=la
   <span class=n>assert</span><span class=p>(</span><span class=n>internalOperation</span> <span class=o>=</span><span class=o>=</span> <span class=n>operation</span> <span class=o>&amp;</span><span class=o>&amp;</span>
          <span class=sa></span><span class=s>&#34;</span><span class=s>these operation instances are the same</span><span class=s>&#34;</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=using-the-operation-definition-specification-ods-framework>Using the Operation Definition Specification (ODS) Framework</h3><p>In addition to specializing the <code>mlir::Op</code> C++ template, MLIR also supports
+</code></pre></div><h3 id=using-the-operation-definition-specification-ods-framework>Using the Operation Definition Specification (ODS) Framework&nbsp;<a class=headline-hash href=#using-the-operation-definition-specification-ods-framework>¶</a></h3><p>In addition to specializing the <code>mlir::Op</code> C++ template, MLIR also supports
 defining operations in a declarative manner. This is achieved via the
 <a href=/docs/OpDefinitions/>Operation Definition Specification</a>
 framework. Facts
@@ -227,7 +227,7 @@ TableGen looks like. Simply run the <code>mlir-tblgen</code> command with the
 <code>gen-op-decls</code> or the <code>gen-op-defs</code> action like so:</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell><span class=si>${</span><span class=nv>build_root</span><span class=si>}</span>/bin/mlir-tblgen -gen-op-defs <span class=si>${</span><span class=nv>mlir_src_root</span><span class=si>}</span>/examples/toy/Ch2/include/toy/Ops.td -I <span class=si>${</span><span class=nv>mlir_src_root</span><span class=si>}</span>/include/
 </code></pre></div><p>Depending on the selected action, this will print either the <code>ConstantOp</code> class
 declaration or its implementation. Comparing this output to the hand-crafted
-implementation is incredibly useful when getting started with TableGen.</p><h4 id=defining-arguments-and-results>Defining Arguments and Results</h4><p>With the shell of the operation defined, we can now provide the
+implementation is incredibly useful when getting started with TableGen.</p><h4 id=defining-arguments-and-results>Defining Arguments and Results&nbsp;<a class=headline-hash href=#defining-arguments-and-results>¶</a></h4><p>With the shell of the operation defined, we can now provide the
 <a href=/docs/OpDefinitions/#operation-arguments>inputs</a>
 and
 <a href=/docs/OpDefinitions/#operation-results>outputs</a>
@@ -244,7 +244,7 @@ operation:</p><div class=highlight><pre class=chroma><code class=language-tableg
 </span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
 </code></pre></div><p>By providing a name to the arguments or results, e.g. <code>$value</code>, ODS will
-automatically generate a matching accessor: <code>DenseElementsAttr ConstantOp::value()</code>.</p><h4 id=adding-documentation>Adding Documentation</h4><p>The next step after defining the operation is to document it. Operations may
+automatically generate a matching accessor: <code>DenseElementsAttr ConstantOp::value()</code>.</p><h4 id=adding-documentation>Adding Documentation&nbsp;<a class=headline-hash href=#adding-documentation>¶</a></h4><p>The next step after defining the operation is to document it. Operations may
 provide
 <a href=/docs/OpDefinitions/#operation-documentation><code>summary</code> and <code>description</code></a>
 fields to describe the semantics of the operation. This information is useful
@@ -270,7 +270,7 @@ documents.</p><div class=highlight><pre class=chroma><code class=language-tableg
 </span><span class=c></span>  <span class=c>// F64Tensor corresponds to a 64-bit floating-point TensorType.
 </span><span class=c></span>  <span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span> <span class=nv>F64Tensor</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=verifying-operation-semantics>Verifying Operation Semantics</h4><p>At this point we&rsquo;ve already covered a majority of the original C++ operation
+</code></pre></div><h4 id=verifying-operation-semantics>Verifying Operation Semantics&nbsp;<a class=headline-hash href=#verifying-operation-semantics>¶</a></h4><p>At this point we&rsquo;ve already covered a majority of the original C++ operation
 definition. The next piece to define is the verifier. Luckily, much like the
 named accessor, the ODS framework will automatically generate a lot of the
 necessary verification logic based upon the constraints we have given. This
@@ -308,7 +308,7 @@ invariants of the operation have already been verified:</p><div class=highlight>
 </span><span class=c></span>  <span class=c>// operation instance.
 </span><span class=c></span>  <span class=k>let</span> <span class=nv>verifier</span> <span class=p>=</span> <span class=s>[{ return ::verify(*this); }]</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=attaching-build-methods>Attaching <code>build</code> Methods</h4><p>The final missing component here from our original C++ example are the <code>build</code>
+</code></pre></div><h4 id=attaching-build-methods>Attaching <code>build</code> Methods&nbsp;<a class=headline-hash href=#attaching-build-methods>¶</a></h4><p>The final missing component here from our original C++ example are the <code>build</code>
 methods. ODS can generate some simple build methods automatically, and in this
 case it will generate our first build method for us. For the rest, we define the
 <a href=/docs/OpDefinitions/#custom-builder-methods><code>builders</code></a>
@@ -334,7 +334,7 @@ the implementation inline.</p><div class=highlight><pre class=chroma><code class
 </span><span class=c></span>    <span class=nv>OpBuilder</span><span class=p>&lt;</span><span class=s>&#34;Builder *builder, OperationState &amp;result, double value&#34;</span><span class=p>&gt;</span>
   <span class=p>]</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=specifying-a-custom-assembly-format>Specifying a Custom Assembly Format</h4><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
+</code></pre></div><h4 id=specifying-a-custom-assembly-format>Specifying a Custom Assembly Format&nbsp;<a class=headline-hash href=#specifying-a-custom-assembly-format>¶</a></h4><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
 example:</p><pre><code class=language-toy data-lang=toy># User defined generic function that operates on unknown shaped arguments.
 def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);
@@ -374,7 +374,7 @@ or
 imperatively via C++. Defining a custom assembly format allows for tailoring the
 generated IR into something a bit more readable by removing a lot of the fluff
 that is required by the generic format. Let&rsquo;s walk through an example of an
-operation format that we would like to simplify.</p><h5 id=toyprint><code>toy.print</code></h5><p>The current form of <code>toy.print</code> is a little verbose. There are a lot of
+operation format that we would like to simplify.</p><h5 id=toyprint><code>toy.print</code>&nbsp;<a class=headline-hash href=#toyprint>¶</a></h5><p>The current form of <code>toy.print</code> is a little verbose. There are a lot of
 additional characters that we would like to strip away. Let&rsquo;s begin by thinking
 of what a good format of <code>toy.print</code> would be, and see how we can implement it.
 Looking at the basics of <code>toy.print</code> we get:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>toy<span class=p>.</span>print <span class=nv>%5</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span> <span class=kt>loc</span><span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span>
@@ -466,7 +466,7 @@ now get a much more readable:</p><div class=highlight><pre class=chroma><code cl
 framework, but there are many more that we haven&rsquo;t had a chance to: regions,
 variadic operands, etc. Check out the
 <a href=/docs/OpDefinitions/>full specification</a>
-for more details.</p><h2 id=complete-toy-example>Complete Toy Example</h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
+for more details.</p><h2 id=complete-toy-example>Complete Toy Example&nbsp;<a class=headline-hash href=#complete-toy-example>¶</a></h2><p>At this point we can generate our &ldquo;Toy IR&rdquo;. A simplified version of the previous
 example:</p><pre><code class=language-toy data-lang=toy># User defined generic function that operates on unknown shaped arguments.
 def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);

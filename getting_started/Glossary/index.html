@@ -4,7 +4,7 @@ to be a quick reference document. For terms which are well-documented elsewhere,
 definitions are kept brief and the header links to the more in-depth
 documentation.</p><h4 id=blocklangrefmdblocks><a href=/docs/LangRef/#blocks>Block</a></h4><p>A sequential list of operations without control flow.</p><p>Also called a
 <a href=https://en.wikipedia.org/wiki/Basic_block>basic block</a>
-.</p><h4 id=conversion>Conversion</h4><p>The transformation of code represented in one dialect into a semantically
+.</p><h4 id=conversion>Conversion&nbsp;<a class=headline-hash href=#conversion>¶</a></h4><p>The transformation of code represented in one dialect into a semantically
 equivalent representation in another dialect (i.e. inter-dialect conversion) or
 the same dialect (i.e. intra-dialect conversion).</p><p>In the context of MLIR, conversion is distinct from
 <a href=#translation>translation</a>
@@ -35,7 +35,7 @@ in this
 way.</p><p>(Note that we have intentionally selected the term &ldquo;dialect&rdquo; instead of
 &ldquo;language&rdquo;, as the latter would wrongly suggest that these different namespaces
 define entirely distinct IRs.)</p><h4 id=edscdocsedscmd><a href=/docs/EDSC/>EDSC</a></h4><p>Embedded Domain Specific Constructs, a library of declarative builders for
-constructing MLIR programmatically with an idiomatic C++ API.</p><h4 id=export>Export</h4><p>To transform code represented in MLIR into a semantically equivalent
+constructing MLIR programmatically with an idiomatic C++ API.</p><h4 id=export>Export&nbsp;<a class=headline-hash href=#export>¶</a></h4><p>To transform code represented in MLIR into a semantically equivalent
 representation which is external to MLIR.</p><p>The tool that performs such a transformation is called an exporter.</p><p>See also:
 <a href=#translation>translation</a>
 .</p><h4 id=functionlangrefmdfunctions><a href=/docs/LangRef/#functions>Function</a></h4><p>An
@@ -44,14 +44,14 @@ with a name containing one
 <a href=#region>region</a>
 .</p><p>The region of a function is not allowed to implicitly capture values defined
 outside of the function, and all external references must use function arguments
-or attributes that establish a symbolic connection.</p><h4 id=import>Import</h4><p>To transform code represented in an external representation into a semantically
+or attributes that establish a symbolic connection.</p><h4 id=import>Import&nbsp;<a class=headline-hash href=#import>¶</a></h4><p>To transform code represented in an external representation into a semantically
 equivalent representation in MLIR.</p><p>The tool that performs such a transformation is called an importer.</p><p>See also:
 <a href=#translation>translation</a>
-.</p><h4 id=legalization>Legalization</h4><p>The process of transforming operations into a semantically equivalent
+.</p><h4 id=legalization>Legalization&nbsp;<a class=headline-hash href=#legalization>¶</a></h4><p>The process of transforming operations into a semantically equivalent
 representation which adheres to the requirements set by the
 <a href=/docs/DialectConversion/#conversion-target>conversion target</a>
 .</p><p>That is, legalization is accomplished if and only if the new representation
-contains only operations which are legal, as specified in the conversion target.</p><h4 id=lowering>Lowering</h4><p>The process of transforming a higher-level representation of an operation into a
+contains only operations which are legal, as specified in the conversion target.</p><h4 id=lowering>Lowering&nbsp;<a class=headline-hash href=#lowering>¶</a></h4><p>The process of transforming a higher-level representation of an operation into a
 lower-level, but semantically equivalent, representation.</p><p>In MLIR, this is typically accomplished through
 <a href=/docs/DialectConversion/>dialect conversion</a>
 . This provides a framework by which
@@ -79,7 +79,7 @@ operation, like <code>ConstantOp</code>, and acts as smart pointer wrapper aroun
 <a href=https://en.wikipedia.org/wiki/Control-flow_graph>CFG</a>
 of MLIR
 <a href=#block>blocks</a>
-.</p><h4 id=round-trip>Round-trip</h4><p>The process of converting from a source format to a target format and then back
+.</p><h4 id=round-trip>Round-trip&nbsp;<a class=headline-hash href=#round-trip>¶</a></h4><p>The process of converting from a source format to a target format and then back
 to the source format.</p><p>This is a good way of gaining confidence that the target format richly models
 the source format. This is particularly relevant in the MLIR context, since
 MLIR&rsquo;s multi-level nature allows for easily writing target dialects that model a
@@ -93,7 +93,7 @@ cleanups/lowering in MLIR - has proven to be a useful design pattern.</p><h4 id=
 which <em>must</em> terminate a
 <a href=#block>block</a>
 .
-Terminator operations are a special category of operations.</p><h4 id=transitive-lowering>Transitive lowering</h4><p>An A->B->C
+Terminator operations are a special category of operations.</p><h4 id=transitive-lowering>Transitive lowering&nbsp;<a class=headline-hash href=#transitive-lowering>¶</a></h4><p>An A->B->C
 <a href=#lowering>lowering</a>
 ; that is, a lowering in which multiple patterns
 may be applied in order to fully transform an illegal operation into a set of
@@ -104,7 +104,7 @@ perform the lowering in multiple stages of applying patterns (which may utilize
 intermediate patterns not in the conversion target) in order to fully legalize
 an operation. This is accomplished through
 <a href=/docs/DialectConversion/#modes-of-conversion>partial conversion</a>
-.</p><h4 id=translation>Translation</h4><p>The transformation of code represented in an external (non-MLIR) representation
+.</p><h4 id=translation>Translation&nbsp;<a class=headline-hash href=#translation>¶</a></h4><p>The transformation of code represented in an external (non-MLIR) representation
 into a semantically equivalent representation in MLIR (i.e.
 <a href=#import>importing</a>
 ), or the inverse (i.e.

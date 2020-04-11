@@ -6,9 +6,9 @@ that explored the tradeoffs of using this simplified form vs the traditional
 polyhedral schedule list form. At some point, this document could be dusted off
 and written as a proper academic paper, but until now, it is better to included
 it in this crafty form than not to. Beware that this document uses archaic
-syntax and should not be considered a canonical reference to modern MLIR.</p><h2 id=introduction>Introduction</h2><p>This document discusses general goals of the project, introduces context and the
+syntax and should not be considered a canonical reference to modern MLIR.</p><h2 id=introduction>Introduction&nbsp;<a class=headline-hash href=#introduction>¶</a></h2><p>This document discusses general goals of the project, introduces context and the
 two alternatives, then talks about the tradeoffs of these designs. Written by
-Chris Lattner.</p><h2 id=general-goals-of-an-ir-and-goals-of-mlfuncs-specifically>General goals of an IR, and goals of mlfunc&rsquo;s specifically</h2><p>Our currently planned representation for MLIR consists of two kinds of
+Chris Lattner.</p><h2 id=general-goals-of-an-ir-and-goals-of-mlfuncs-specifically>General goals of an IR, and goals of mlfunc&rsquo;s specifically&nbsp;<a class=headline-hash href=#general-goals-of-an-ir-and-goals-of-mlfuncs-specifically>¶</a></h2><p>Our currently planned representation for MLIR consists of two kinds of
 functions: an LLVM-like &ldquo;CFG Function&rdquo; and an &ldquo;ML Function&rdquo;: a function
 represented in multidimensional loop form. The idea is that a CFG function is
 capable of full generality for expressing arbitrary computation, but is awkward
@@ -35,7 +35,7 @@ introducing a redundant and limited way to express code and transformations,
 exactly what form is best to perform the analyses and transformations we want?</p><p>We explore two different design points that are capable of expressing the same
 class of affine loop computations, but which use different representational
 forms. These forms trade off verbosity, ease of transformation, and ease of
-analysis in interesting ways.</p><h2 id=context-traditional-polyhedral-form>Context: Traditional Polyhedral Form</h2><p>We started by discussing a representation that uses the traditional polyhedral
+analysis in interesting ways.</p><h2 id=context-traditional-polyhedral-form>Context: Traditional Polyhedral Form&nbsp;<a class=headline-hash href=#context-traditional-polyhedral-form>¶</a></h2><p>We started by discussing a representation that uses the traditional polyhedral
 schedule set + domain representation, e.g. consider C-like code like:</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c>  <span class=kt>void</span> <span class=nf>simple_example</span><span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span> <span class=p>{</span>
     <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=o>+</span><span class=o>+</span><span class=n>i</span><span class=p>)</span> <span class=p>{</span>
       <span class=k>for</span> <span class=p>(</span><span class=kt>int</span> <span class=n>j</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>j</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=o>+</span><span class=o>+</span><span class=n>j</span><span class=p>)</span> <span class=p>{</span>
@@ -115,7 +115,7 @@ instructions:</p><div class=highlight><pre class=chroma><code class=language-mli
 </code></pre></div><p>This form has great power, and the polyhedral code generator (which lowers from
 an mlfunc to a cfgfunc representation) handles this power so things that
 introduce loop transformations don&rsquo;t have to explicitly manipulate the looping
-structure.</p><h2 id=proposal-simplified-polyhedral-form>Proposal: Simplified Polyhedral Form</h2><p>This document proposes and explores the idea of going one step further, moving
+structure.</p><h2 id=proposal-simplified-polyhedral-form>Proposal: Simplified Polyhedral Form&nbsp;<a class=headline-hash href=#proposal-simplified-polyhedral-form>¶</a></h2><p>This document proposes and explores the idea of going one step further, moving
 all of the domain and schedule information into the &ldquo;schedule tree&rdquo;. In this
 form, we would have a representation where all instructions inside of a given
 for-loop are known to have the same domain, which is maintained by the loop. In
@@ -167,14 +167,14 @@ that transformations call into):</p><div class=highlight><pre class=chroma><code
     <span class=p>}</span>
   <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=evaluation>Evaluation</h2><p>Both of these forms are capable of expressing the same class of computation:
+</code></pre></div><h2 id=evaluation>Evaluation&nbsp;<a class=headline-hash href=#evaluation>¶</a></h2><p>Both of these forms are capable of expressing the same class of computation:
 multidimensional loop nests with affine loop bounds and affine memory
-references. That said, they pose very different tradeoffs in other ways.</p><h3 id=commonality-can-express-same-computation>Commonality: can express same computation</h3><p>Both of these can express the same sorts of computation, e.g. kernels written in
-one form are representable in the other form in all cases.</p><h3 id=commonality-dependence-analysis>Commonality: dependence analysis</h3><p>These representations both use affine functions for data layout mapping and
-access subscripts, and dependence analysis works the same way.</p><h3 id=commonality-difficulty-of-determining-optimal-transformation-series>Commonality: difficulty of determining optimal transformation series</h3><p>One major challenge in performance of optimization of this sort of code is
+references. That said, they pose very different tradeoffs in other ways.</p><h3 id=commonality-can-express-same-computation>Commonality: can express same computation&nbsp;<a class=headline-hash href=#commonality-can-express-same-computation>¶</a></h3><p>Both of these can express the same sorts of computation, e.g. kernels written in
+one form are representable in the other form in all cases.</p><h3 id=commonality-dependence-analysis>Commonality: dependence analysis&nbsp;<a class=headline-hash href=#commonality-dependence-analysis>¶</a></h3><p>These representations both use affine functions for data layout mapping and
+access subscripts, and dependence analysis works the same way.</p><h3 id=commonality-difficulty-of-determining-optimal-transformation-series>Commonality: difficulty of determining optimal transformation series&nbsp;<a class=headline-hash href=#commonality-difficulty-of-determining-optimal-transformation-series>¶</a></h3><p>One major challenge in performance of optimization of this sort of code is
 choosing the ordering and behavior of various loop transformations that get
 applied. There are non-local effects of every decision, and neither
-representation helps solve this inherently hard problem.</p><h3 id=commonality-compactness-of-ir>Commonality: compactness of IR</h3><p>In the cases that are most relevant to us (hyper rectangular spaces) these forms
+representation helps solve this inherently hard problem.</p><h3 id=commonality-compactness-of-ir>Commonality: compactness of IR&nbsp;<a class=headline-hash href=#commonality-compactness-of-ir>¶</a></h3><p>In the cases that are most relevant to us (hyper rectangular spaces) these forms
 are directly equivalent: a traditional instruction with a limited domain (e.g.
 the &ldquo;reduced_domain_example&rdquo; above) ends up having one level of ML &lsquo;if&rsquo; inside
 its loops. The simplified form pays for this by eliminating schedules and
@@ -183,13 +183,13 @@ branches in the IR: the traditional approach allows instruction splitting, the
 simplified form supports instruction duplication.</p><p>It is important to point out that the traditional form wins on compactness in
 the extreme cases: e.g. the loop skewing case. These cases will be rare in
 practice for our workloads, and are exactly the cases that downstream
-transformations want to be explicit about what they are doing.</p><h3 id=simplicity-of-code-generation>Simplicity of code generation</h3><p>A key final stage of an mlfunc is its conversion to a CFG function, which is
+transformations want to be explicit about what they are doing.</p><h3 id=simplicity-of-code-generation>Simplicity of code generation&nbsp;<a class=headline-hash href=#simplicity-of-code-generation>¶</a></h3><p>A key final stage of an mlfunc is its conversion to a CFG function, which is
 required as part of lowering to the target machine. The simplified form has a
 clear advantage here: the IR has a direct correspondence to the structure of the
 generated code.</p><p>In contrast, the traditional form has significant complexity in the lowering
 process to a CFG function, because the verbosity not imbued in the IR needs to
 come out during code generation. Code generation from ISL shows that it is
-possible to do this, but it is a non-trivial transformation.</p><h3 id=ease-of-transformation>Ease of transformation</h3><p>An advantage for the traditional form is that it is easier to perform certain
+possible to do this, but it is a non-trivial transformation.</p><h3 id=ease-of-transformation>Ease of transformation&nbsp;<a class=headline-hash href=#ease-of-transformation>¶</a></h3><p>An advantage for the traditional form is that it is easier to perform certain
 transformations on it: skewing and tiling are just transformations on the
 schedule of the instructions in question, it doesn&rsquo;t require changing the loop
 structure.</p><p>In practice, the simplified form requires moving the complexity of code
@@ -200,13 +200,13 @@ transformations call into, instead of an opaque block that happens at the end of
 the mlfunc processing.</p><p>Also, the sorts of transformations performed today by XLA (including tiling,
 padding, unrolling, and other rectangular transformations) should be easy enough
 to implement on either representation. The only cases that are a challenge are
-more advanced cases like skewing, e.g. for DMA data movement generation.</p><h3 id=ease-of-analysis-cost-models>Ease of analysis: Cost models</h3><p>The simplified form is much easier for analyses and transformations to build
+more advanced cases like skewing, e.g. for DMA data movement generation.</p><h3 id=ease-of-analysis-cost-models>Ease of analysis: Cost models&nbsp;<a class=headline-hash href=#ease-of-analysis-cost-models>¶</a></h3><p>The simplified form is much easier for analyses and transformations to build
 cost models for (e.g. answering the question of &ldquo;how much code bloat will be
 caused by unrolling a loop at this level?"), because it is easier to predict
 what target code will be generated. With the traditional form, these analyses
 will have to anticipate what polyhedral codegen will do to a set of instructions
 under consideration: something that is non-trivial in the interesting cases in
-question (see &ldquo;Cost of code generation&rdquo;).</p><h3 id=cost-of-code-generation>Cost of code generation</h3><p>State of the art polyhedral code generation is
+question (see &ldquo;Cost of code generation&rdquo;).</p><h3 id=cost-of-code-generation>Cost of code generation&nbsp;<a class=headline-hash href=#cost-of-code-generation>¶</a></h3><p>State of the art polyhedral code generation is
 <a href=https://lirias.kuleuven.be/bitstream/123456789/497238/1/toplas-astgen.pdf>expensive and complicated</a>
 ,
 sometimes exponential time complexity. We expect that most machine learning
@@ -218,7 +218,7 @@ the IR need to be prepared to handle the full generality of IR that may come to
 them.</p><p>The simplified form defines this away: the concepts in the IR remain simple, and
 the code much more directly reflects the cost model for lowering to CFG
 functions and machine code. This is expected to be very important in the late
-stages of a code generator for an accelerator.</p><h3 id=ssa-in-ml-functions>SSA in ML Functions</h3><p>We agree already that values defined in an mlfunc can include scalar values and
+stages of a code generator for an accelerator.</p><h3 id=ssa-in-ml-functions>SSA in ML Functions&nbsp;<a class=headline-hash href=#ssa-in-ml-functions>¶</a></h3><p>We agree already that values defined in an mlfunc can include scalar values and
 they are defined based on traditional dominance. In the simplified form, this is
 very simple: arguments and induction variables defined in for-loops are live
 inside their lexical body, and linear series of instructions have the same &ldquo;top
@@ -235,12 +235,12 @@ form is correct or not. For example, this is invalid code:</p><div class=highlig
 significantly, it means that load promotion and other optimizations that will
 produce SSA form will need to be aware of this and be able to model what codegen
 does.</p><p>An emergent property of this that we discussed recently is that PHI nodes in
-mlfunc&rsquo;s (if we support them) will also have to have domains.</p><h3 id=lack-of-redundancy-in-ir>Lack of redundancy in IR</h3><p>The traditional form has multiple encodings for the same sorts of behavior: you
+mlfunc&rsquo;s (if we support them) will also have to have domains.</p><h3 id=lack-of-redundancy-in-ir>Lack of redundancy in IR&nbsp;<a class=headline-hash href=#lack-of-redundancy-in-ir>¶</a></h3><p>The traditional form has multiple encodings for the same sorts of behavior: you
 end up having bits on <code>affine.for</code> loops to specify whether codegen should use
 &ldquo;atomic/separate&rdquo; policies, unroll loops, etc. Instructions can be split or can
 generate multiple copies of their instruction because of overlapping domains,
 etc.</p><p>This is a problem for analyses and cost models, because they each have to reason
-about these additional forms in the IR.</p><h3 id=suitability-to-purpose-lowering-to-machine-code>Suitability to purpose: lowering to machine code</h3><p>One of the main drivers for this work is lowering to low-level accelerator code,
+about these additional forms in the IR.</p><h3 id=suitability-to-purpose-lowering-to-machine-code>Suitability to purpose: lowering to machine code&nbsp;<a class=headline-hash href=#suitability-to-purpose-lowering-to-machine-code>¶</a></h3><p>One of the main drivers for this work is lowering to low-level accelerator code,
 including two-dimensional vectorization, insertion of DMAs, and other
 utilization of the matrix accelerator units. In the author&rsquo;s opinion, the extra
 compactness of the traditional form is a negative for this purpose: reasoning
@@ -248,7 +248,7 @@ about the generated machine code will require understanding the mapping from
 mlfunc to lowered code, which means that it must understand what code generation
 will do.</p><p>In the simplified form, the effect of &ldquo;code generation&rdquo; is always obvious from
 the IR itself, which should make it easier to perform vectorization to target
-instructions and other analyses we need to perform.</p><h2 id=third-alternative-two-different-levels-of-mlfunc>Third Alternative: two different levels of mlfunc</h2><p>One hybrid alternative is to support both the traditional and simplified forms
+instructions and other analyses we need to perform.</p><h2 id=third-alternative-two-different-levels-of-mlfunc>Third Alternative: two different levels of mlfunc&nbsp;<a class=headline-hash href=#third-alternative-two-different-levels-of-mlfunc>¶</a></h2><p>One hybrid alternative is to support both the traditional and simplified forms
 of mlfunc in our IR.</p><p>The stages could look like this, for example:</p><ol><li>Early performance transformations could be done on the traditional form.</li><li>Partial code generation lowers to the simplified form</li><li>Target specific lowering phases for tiling, and vectorization and other 2D
 transforms that don&rsquo;t benefit much from the traditional form could be run.</li><li>Final codegen to a cfg func can be done when all of the instructions are
 replaced with ones valid on the target.</li></ol><p>While this is possible, it isn&rsquo;t clear what would justify the complexity of this

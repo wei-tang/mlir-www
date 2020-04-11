@@ -5,12 +5,12 @@ This allows for dialects to be very expressive in their semantics and for MLIR
 to capture many different levels of abstraction. The downside to this is that
 transformations and analyses must be extremely conservative about the operations
 that they encounter, and must special-case the different dialects that they
-support. To combat this, MLIR provides the concept of <code>interfaces</code>.</p><h2 id=motivation>Motivation</h2><p>Interfaces provide a generic way of interacting with the IR. The goal is to be
+support. To combat this, MLIR provides the concept of <code>interfaces</code>.</p><h2 id=motivation>Motivation&nbsp;<a class=headline-hash href=#motivation>¶</a></h2><p>Interfaces provide a generic way of interacting with the IR. The goal is to be
 able to express transformations/analyses in terms of these interfaces without
 encoding specific knowledge about the exact operation or dialect involved. This
 makes the compiler more extensible by allowing the addition of new dialects and
 operations in a decoupled way with respect to the implementation of
-transformations/analyses.</p><h3 id=dialect-interfaces>Dialect Interfaces</h3><p>Dialect interfaces are generally useful for transformation passes or analyses
+transformations/analyses.</p><h3 id=dialect-interfaces>Dialect Interfaces&nbsp;<a class=headline-hash href=#dialect-interfaces>¶</a></h3><p>Dialect interfaces are generally useful for transformation passes or analyses
 that want to opaquely operate on operations, even <em>across</em> dialects. These
 interfaces generally involve wide coverage over the entire dialect and are only
 used for a handful of transformations/analyses. In these cases, registering the
@@ -56,7 +56,7 @@ in a similar mechanism to Attributes, Operations, Types, etc.</p><div class=high
 the transformation/analysis that wants to use them:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>Dialect</span> <span class=o>*</span><span class=n>dialect</span> <span class=o>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>;</span>
 <span class=k>if</span> <span class=p>(</span><span class=k>auto</span> <span class=o>*</span><span class=n>interface</span> <span class=o>=</span> <span class=n>dialect</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getInterface</span><span class=o>&lt;</span><span class=n>DialectInlinerInterface</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>)</span>
     <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=c1>// The dialect provides this interface.
-</span></code></pre></div><h4 id=dialectinterfacecollections>DialectInterfaceCollections</h4><p>An additional utility is provided via DialectInterfaceCollection. This CRTP
+</span></code></pre></div><h4 id=dialectinterfacecollections>DialectInterfaceCollections&nbsp;<a class=headline-hash href=#dialectinterfacecollections>¶</a></h4><p>An additional utility is provided via DialectInterfaceCollection. This CRTP
 class allows for collecting all of the dialects that have registered a given
 interface within the context.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>InlinerInterface</span> <span class=o>:</span> <span class=k>public</span>
     <span class=n>DialectInterfaceCollection</span><span class=o>&lt;</span><span class=n>DialectInlinerInterface</span><span class=o>&gt;</span> <span class=p>{</span>
@@ -74,7 +74,7 @@ interface within the context.</p><div class=highlight><pre class=chroma><code cl
 <span class=n>InlinerInterface</span> <span class=nf>interface</span><span class=p>(</span><span class=n>ctx</span><span class=p>)</span><span class=p>;</span>
 <span class=k>if</span><span class=p>(</span><span class=o>!</span><span class=n>interface</span><span class=p>.</span><span class=n>isLegalToInline</span><span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span><span class=p>)</span>
    <span class=p>.</span><span class=p>.</span><span class=p>.</span>
-</code></pre></div><h3 id=operation-interfaces>Operation Interfaces</h3><p>Operation interfaces, as the name suggests, are those registered at the
+</code></pre></div><h3 id=operation-interfaces>Operation Interfaces&nbsp;<a class=headline-hash href=#operation-interfaces>¶</a></h3><p>Operation interfaces, as the name suggests, are those registered at the
 Operation level. These interfaces provide an opaque view into derived operations
 by providing a virtual interface that must be implemented. As an example, the
 <code>Linalg</code> dialect may implement an interface that provides general queries about
@@ -132,7 +132,7 @@ like using any other derived operation type, i.e. casting:</p><div class=highlig
 </span><span class=c1></span><span class=n>Operation</span> <span class=o>*</span><span class=n>op</span> <span class=o>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>;</span>
 <span class=k>if</span> <span class=p>(</span><span class=n>ExampleOpInterface</span> <span class=n>example</span> <span class=o>=</span> <span class=n>dyn_cast</span><span class=o>&lt;</span><span class=n>ExampleOpInterface</span><span class=o>&gt;</span><span class=p>(</span><span class=n>op</span><span class=p>)</span><span class=p>)</span>
   <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>errs</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>num inputs = </span><span class=s>&#34;</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=n>example</span><span class=p>.</span><span class=n>getNumInputs</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
-</code></pre></div><h4 id=utilizing-the-ods-framework>Utilizing the ODS Framework</h4><p>Operation interfaces require a bit of boiler plate to connect all of the pieces
+</code></pre></div><h4 id=utilizing-the-ods-framework>Utilizing the ODS Framework&nbsp;<a class=headline-hash href=#utilizing-the-ods-framework>¶</a></h4><p>Operation interfaces require a bit of boiler plate to connect all of the pieces
 together. The ODS(Operation Definition Specification) framework provides
 simplified mechanisms for
 <a href=/docs/OpDefinitions/#operation-interfaces>defining interfaces</a>

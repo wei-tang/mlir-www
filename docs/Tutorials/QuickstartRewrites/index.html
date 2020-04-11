@@ -12,7 +12,7 @@ and
 <a href=/docs/DeclarativeRewrites/>Declarative Rewrite Rule</a>
 for the detailed explanation
 of all available mechanisms for defining operations and rewrites in a
-table-driven manner.</p><h2 id=adding-operation>Adding operation</h2><p>An operation in MLIR is specified using a definition in
+table-driven manner.</p><h2 id=adding-operation>Adding operation&nbsp;<a class=headline-hash href=#adding-operation>¶</a></h2><p>An operation in MLIR is specified using a definition in
 <a href=https://llvm.org/docs/TableGen/LangIntro.html>TableGen</a>
 file. TableGen is a
 modeling tool to specify the ops and the C++ code to interact with these
@@ -62,12 +62,12 @@ have a folder, the constant folder also needs to be added, e.g.,:</p><div class=
   <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>.</span>
   <span class=k>return</span> <span class=n>val</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=adding-patterns>Adding patterns</h2><p>There are multiple forms of graph rewrite that can be performed in MLIR. One of
+</code></pre></div><h2 id=adding-patterns>Adding patterns&nbsp;<a class=headline-hash href=#adding-patterns>¶</a></h2><p>There are multiple forms of graph rewrite that can be performed in MLIR. One of
 the most common is DAG tile to DAG tile rewrite. Patterns provide a concise way
 to express this transformation as a pair of source pattern to match and
 resultant pattern. There are both the C++ classes to represent this
 transformation, as well as the patterns in TableGen from which these can be
-generated.</p><h3 id=tablegen-patterns>TableGen patterns</h3><p>Let us continue with LeakyRelu. To map from TensorFlow&rsquo;s <code>LeakyRelu</code> to
+generated.</p><h3 id=tablegen-patterns>TableGen patterns&nbsp;<a class=headline-hash href=#tablegen-patterns>¶</a></h3><p>Let us continue with LeakyRelu. To map from TensorFlow&rsquo;s <code>LeakyRelu</code> to
 TensorFlow Lite&rsquo;s <code>LeakyRelu</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=p>:</span> <span class=nv>Pat</span><span class=p>&lt;</span><span class=p>(</span><span class=nv>TF_LeakyReluOp</span> <span class=nv>$arg</span><span class=p>,</span> <span class=nv>F32Attr</span><span class=p>:</span><span class=nv>$a</span><span class=p>)</span><span class=p>,</span> <span class=p>(</span><span class=nv>TFL_LeakyReluOp</span> <span class=nv>$arg</span><span class=p>,</span> <span class=nv>$a</span><span class=p>)</span><span class=p>&gt;</span>
 </code></pre></div><p>The pattern is specified by instantiating a <code>Pat</code> with a source and result DAG.
 The arguments in the source pattern is captured and can be used in the result
@@ -92,7 +92,7 @@ replacement:</p><div class=highlight><pre class=chroma><code class=language-tabl
 <span class=p>}</span>
 </code></pre></div><p>This allows for arbitrarily complex builders. Input pattern side one can express
 multi-op patterns with constraints on input operands and attributes. But input
-patterns cannot yet express constraints across multiple operands/attributes.</p><h3 id=register-the-pattern>Register the pattern</h3><p>The file containing the patterns need to be processed using <code>mlir-tblgen</code>
+patterns cannot yet express constraints across multiple operands/attributes.</p><h3 id=register-the-pattern>Register the pattern&nbsp;<a class=headline-hash href=#register-the-pattern>¶</a></h3><p>The file containing the patterns need to be processed using <code>mlir-tblgen</code>
 <code>-gen-rewriters</code> during compilation time. It can be invoked with the following
 configuration in CMake:</p><div class=highlight><pre class=chroma><code class=language-cmake data-lang=cmake><span class=nb>set</span><span class=p>(</span><span class=s>LLVM_TARGET_DEFINITIONS</span> <span class=s>&lt;name-of-the-td-file&gt;</span><span class=p>)</span><span class=err>
 </span><span class=err></span><span class=nb>mlir_tablegen</span><span class=p>(</span><span class=s>&lt;name-of-the-generated-inc-file&gt;</span> <span class=s>-gen-rewriters</span><span class=p>)</span><span class=err>
@@ -101,7 +101,7 @@ configuration in CMake:</p><div class=highlight><pre class=chroma><code class=la
 like. (You will also need to make sure the library depends on the CMake target
 defined in the above.) The generated file will have a <code>populateWithGenerated( MLIRContext *context, OwningRewritePatternList *patterns)</code> function that you can
 use to collect all the generated patterns inside <code>patterns</code> and then use
-<code>patterns</code> in any pass you would like.</p><h3 id=c-rewrite-specification>C++ rewrite specification</h3><p>In case patterns are not sufficient there is also the fully C++ way of
+<code>patterns</code> in any pass you would like.</p><h3 id=c-rewrite-specification>C++ rewrite specification&nbsp;<a class=headline-hash href=#c-rewrite-specification>¶</a></h3><p>In case patterns are not sufficient there is also the fully C++ way of
 expressing a rewrite:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Multi-step rewrite using &#34;match&#34; and &#34;rewrite&#34;. This allows for separating
 </span><span class=c1></span><span class=c1>/// the concerns of matching and rewriting.
 </span><span class=c1></span><span class=k>struct</span> <span class=nc>ConvertTFLeakyRelu</span> <span class=o>:</span> <span class=k>public</span> <span class=n>RewritePattern</span> <span class=p>{</span>
@@ -140,7 +140,7 @@ the <code>match</code> function in a multi-step rewrite may populate and return 
 <code>PatternState</code> (or class derived from one) to pass information extracted during
 matching to the rewrite. A single-step rewrite with the <code>matchAndRewrite</code>
 function has the benefit of being able to directly use any values created when
-matching; removing the need for <code>PatternState</code>.</p><h2 id=testing>Testing</h2><p>MLIR uses
+matching; removing the need for <code>PatternState</code>.</p><h2 id=testing>Testing&nbsp;<a class=headline-hash href=#testing>¶</a></h2><p>MLIR uses
 <a href=https://llvm.org/docs/CommandGuide/lit.html>lit</a>
 (LLVM Integrated
 Testing) tool for performing testing. Testing is performed by way of creating
@@ -165,7 +165,7 @@ particular it uses the CHECK expressions to verify the given output is produced.
 And in addition multiple independent tests separated by <code>// -----</code> and
 <code>mlir-opt</code> invoked with <code>-split-input-file</code> flag. This is especially useful for
 error testing.</p><p>This results in very simple, directed testing without need to work around
-constant propagation or other, unrelated, optimization passes.</p><h2 id=adding-optimization-pass>Adding optimization pass</h2><p>Optimization passes that do not fit/are difficult to specify in the above
+constant propagation or other, unrelated, optimization passes.</p><h2 id=adding-optimization-pass>Adding optimization pass&nbsp;<a class=headline-hash href=#adding-optimization-pass>¶</a></h2><p>Optimization passes that do not fit/are difficult to specify in the above
 structure can be specified as general iterations across modules/functions. See
 <a href=WritingAPass.md>Writing a Pass</a>
 for a general overview and introduction to

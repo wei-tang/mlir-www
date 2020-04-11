@@ -3,7 +3,7 @@ MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></heade
 <a href=/docs/Tutorials/Toy/Ch-6/>previous chapter</a>
 , we demonstrated an end-to-end compilation
 flow from our Toy front-end to LLVM IR. In this chapter, we will extend the Toy
-language to support a new composite <code>struct</code> type.</p><h2 id=defining-a-struct-in-toy>Defining a <code>struct</code> in Toy</h2><p>The first thing we need to define is the interface of this type in our <code>toy</code>
+language to support a new composite <code>struct</code> type.</p><h2 id=defining-a-struct-in-toy>Defining a <code>struct</code> in Toy&nbsp;<a class=headline-hash href=#defining-a-struct-in-toy>¶</a></h2><p>The first thing we need to define is the interface of this type in our <code>toy</code>
 source language. The general syntax of a <code>struct</code> type in Toy is as follows:</p><pre><code class=language-toy data-lang=toy># A struct is defined by using the `struct` keyword followed by a name.
 struct MyStruct {
   # Inside of the struct is a list of variable declarations without initializers
@@ -34,12 +34,12 @@ def main() {
   var c = multiply_transpose(value);
   print(c);
 }
-</code></pre><h2 id=defining-a-struct-in-mlir>Defining a <code>struct</code> in MLIR</h2><p>In MLIR, we will also need a representation for our struct types. MLIR does not
+</code></pre><h2 id=defining-a-struct-in-mlir>Defining a <code>struct</code> in MLIR&nbsp;<a class=headline-hash href=#defining-a-struct-in-mlir>¶</a></h2><p>In MLIR, we will also need a representation for our struct types. MLIR does not
 provide a type that does exactly what we need, so we will need to define our
 own. We will simply define our <code>struct</code> as an unnamed container of a set of
 element types. The name of the <code>struct</code> and its elements are only useful for the
 AST of our <code>toy</code> compiler, so we don&rsquo;t need to encode it in the MLIR
-representation.</p><h3 id=defining-the-type-class>Defining the Type Class</h3><h4 id=reserving-a-range-of-type-kinds>Reserving a Range of Type Kinds</h4><p>Types in MLIR rely on having a unique <code>kind</code> value to ensure that casting checks
+representation.</p><h3 id=defining-the-type-class>Defining the Type Class&nbsp;<a class=headline-hash href=#defining-the-type-class>¶</a></h3><h4 id=reserving-a-range-of-type-kinds>Reserving a Range of Type Kinds&nbsp;<a class=headline-hash href=#reserving-a-range-of-type-kinds>¶</a></h4><p>Types in MLIR rely on having a unique <code>kind</code> value to ensure that casting checks
 remain extremely efficient
 (
 <a href=../../Rationale.md#reserving-dialect-type-kinds>rationale</a>
@@ -60,7 +60,7 @@ defining the derived types.</p><div class=highlight><pre class=chroma><code clas
   <span class=n>Struct</span> <span class=o>=</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Type</span><span class=o>:</span><span class=o>:</span><span class=n>FIRST_TOY_TYPE</span><span class=p>,</span>
 <span class=p>}</span><span class=p>;</span>
 <span class=p>}</span> <span class=c1>// end namespace ToyTypes
-</span></code></pre></div><h4 id=defining-the-type-class-1>Defining the Type Class</h4><p>As mentioned in
+</span></code></pre></div><h4 id=defining-the-type-class-1>Defining the Type Class&nbsp;<a class=headline-hash href=#defining-the-type-class-1>¶</a></h4><p>As mentioned in
 <a href=/docs/Tutorials/Toy/Ch-2/>chapter 2</a>
 ,
 <a href=/docs/LangRef/#type-system><code>Type</code></a>
@@ -73,7 +73,7 @@ constructing and uniquing an instance of a storage class.</p><p>When defining a 
 the element types), we will need to provide a derived storage class. The
 <code>primitive</code> types that don&rsquo;t have any additional data (e.g. the
 <a href=/docs/LangRef/#index-type><code>index</code> type</a>
-) don&rsquo;t require a storage class.</p><h5 id=defining-the-storage-class>Defining the Storage Class</h5><p>Type storage objects contain all of the data necessary to construct and unique a
+) don&rsquo;t require a storage class.</p><h5 id=defining-the-storage-class>Defining the Storage Class&nbsp;<a class=headline-hash href=#defining-the-storage-class>¶</a></h5><p>Type storage objects contain all of the data necessary to construct and unique a
 type instance. Derived storage classes must inherit from the base
 <code>mlir::TypeStorage</code> and provide a set of aliases and hooks that will be used by
 the <code>MLIRContext</code> for uniquing. Below is the definition of the storage instance
@@ -128,7 +128,7 @@ for our <code>struct</code> type, with each of the necessary requirements detail
   <span class=c1>/// The following field contains the element types of the struct.
 </span><span class=c1></span>  <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>ArrayRef</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Type</span><span class=o>&gt;</span> <span class=n>elementTypes</span><span class=p>;</span>
 <span class=p>}</span><span class=p>;</span>
-</code></pre></div><h5 id=defining-the-type-class-2>Defining the Type Class</h5><p>With the storage class defined, we can add the definition for the user-visible
+</code></pre></div><h5 id=defining-the-type-class-2>Defining the Type Class&nbsp;<a class=headline-hash href=#defining-the-type-class-2>¶</a></h5><p>With the storage class defined, we can add the definition for the user-visible
 <code>StructType</code> class. This is the class that we will actually interface with.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// This class defines the Toy struct type. It represents a collection of
 </span><span class=c1></span><span class=c1>/// element types. All derived types in MLIR must inherit from the CRTP class
 </span><span class=c1></span><span class=c1>/// &#39;Type::TypeBase&#39;. It takes as template parameters the concrete type
@@ -172,7 +172,7 @@ did with operations:</p><div class=highlight><pre class=chroma><code class=langu
   <span class=n>addTypes</span><span class=o>&lt;</span><span class=n>StructType</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
 </code></pre></div><p>With this we can now use our <code>StructType</code> when generating MLIR from Toy. See
-examples/toy/Ch7/mlir/MLIRGen.cpp for more details.</p><h3 id=parsing-and-printing>Parsing and Printing</h3><p>At this point we can use our <code>StructType</code> during MLIR generation and
+examples/toy/Ch7/mlir/MLIRGen.cpp for more details.</p><h3 id=parsing-and-printing>Parsing and Printing&nbsp;<a class=headline-hash href=#parsing-and-printing>¶</a></h3><p>At this point we can use our <code>StructType</code> during MLIR generation and
 transformation, but we can&rsquo;t output or parse <code>.mlir</code>. For this we need to add
 support for parsing and printing instances of the <code>StructType</code>. This can be done
 by overriding the <code>parseType</code> and <code>printType</code> methods on the <code>ToyDialect</code>.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>ToyDialect</span> <span class=o>:</span> <span class=k>public</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Dialect</span> <span class=p>{</span>
@@ -194,7 +194,7 @@ generally represented as: <code>! dialect-namespace &lt; type-data ></code>, wit
 form available under certain circumstances. The responsibility of our <code>Toy</code>
 parser and printer is to provide the <code>type-data</code> bits. We will define our
 <code>StructType</code> as having the following form:</p><pre><code>  struct-type ::= `struct` `&lt;` type (`,` type)* `&gt;`
-</code></pre><h4 id=parsing>Parsing</h4><p>An implementation of the parser is shown below:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Parse an instance of a type registered to the toy dialect.
+</code></pre><h4 id=parsing>Parsing&nbsp;<a class=headline-hash href=#parsing>¶</a></h4><p>An implementation of the parser is shown below:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Parse an instance of a type registered to the toy dialect.
 </span><span class=c1></span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Type</span> <span class=n>ToyDialect</span><span class=o>:</span><span class=o>:</span><span class=n>parseType</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>DialectAsmParser</span> <span class=o>&amp;</span><span class=n>parser</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
   <span class=c1>// Parse a struct type in the following form:
 </span><span class=c1></span>  <span class=c1>//   struct-type ::= `struct` `&lt;` type (`,` type)* `&gt;`
@@ -235,7 +235,7 @@ parser and printer is to provide the <code>type-data</code> bits. We will define
     <span class=k>return</span> <span class=n>Type</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=k>return</span> <span class=n>StructType</span><span class=o>:</span><span class=o>:</span><span class=n>get</span><span class=p>(</span><span class=n>elementTypes</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=printing>Printing</h4><p>An implementation of the printer is shown below:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Print an instance of a type registered to the toy dialect.
+</code></pre></div><h4 id=printing>Printing&nbsp;<a class=headline-hash href=#printing>¶</a></h4><p>An implementation of the printer is shown below:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=c1>/// Print an instance of a type registered to the toy dialect.
 </span><span class=c1></span><span class=kt>void</span> <span class=n>ToyDialect</span><span class=o>:</span><span class=o>:</span><span class=n>printType</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>Type</span> <span class=n>type</span><span class=p>,</span>
                            <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>DialectAsmPrinter</span> <span class=o>&amp;</span><span class=n>printer</span><span class=p>)</span> <span class=k>const</span> <span class=p>{</span>
   <span class=c1>// Currently the only toy type is a struct type.
@@ -259,8 +259,8 @@ def multiply_transpose(Struct value) {
     toy<span class=p>.</span><span class=kt>return</span>
   <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=operating-on-structtype>Operating on <code>StructType</code></h3><p>Now that the <code>struct</code> type has been defined, and we can round-trip it through
-the IR. The next step is to add support for using it within our operations.</p><h4 id=updating-existing-operations>Updating Existing Operations</h4><p>A few of our existing operations will need to be updated to handle <code>StructType</code>.
+</code></pre></div><h3 id=operating-on-structtype>Operating on <code>StructType</code>&nbsp;<a class=headline-hash href=#operating-on-structtype>¶</a></h3><p>Now that the <code>struct</code> type has been defined, and we can round-trip it through
+the IR. The next step is to add support for using it within our operations.</p><h4 id=updating-existing-operations>Updating Existing Operations&nbsp;<a class=headline-hash href=#updating-existing-operations>¶</a></h4><p>A few of our existing operations will need to be updated to handle <code>StructType</code>.
 The first step is to make the ODS framework aware of our Type so that we can use
 it in the operation definitions. A simple example is shown below:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=c>// Provide a definition for the Toy StructType for use in ODS. This allows for
 </span><span class=c></span><span class=c>// using StructType in a similar way to Tensor or MemRef.
@@ -275,14 +275,14 @@ it in the operation definitions. A simple example is shown below:</p><div class=
   <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>Variadic</span><span class=p>&lt;</span><span class=nv>Toy_Type</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$input</span><span class=p>)</span><span class=p>;</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=adding-new-toy-operations>Adding New <code>Toy</code> Operations</h4><p>In addition to the existing operations, we will be adding a few new operations
-that will provide more specific handling of <code>structs</code>.</p><h5 id=toystruct_constant><code>toy.struct_constant</code></h5><p>This new operation materializes a constant value for a struct. In our current
+</code></pre></div><h4 id=adding-new-toy-operations>Adding New <code>Toy</code> Operations&nbsp;<a class=headline-hash href=#adding-new-toy-operations>¶</a></h4><p>In addition to the existing operations, we will be adding a few new operations
+that will provide more specific handling of <code>structs</code>.</p><h5 id=toystruct_constant><code>toy.struct_constant</code>&nbsp;<a class=headline-hash href=#toystruct_constant>¶</a></h5><p>This new operation materializes a constant value for a struct. In our current
 modeling, we just use an
 <a href=/docs/LangRef/#array-attribute>array attribute</a>
 that contains a set of constant values for each of the <code>struct</code> elements.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=nv>%0</span> <span class=p>=</span> toy<span class=p>.</span>struct_constant <span class=p>[</span>
     dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.0</span><span class=p>,</span> <span class=m>2.0</span><span class=p>,</span> <span class=m>3.0</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.0</span><span class=p>,</span> <span class=m>5.0</span><span class=p>,</span> <span class=m>6.0</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
   <span class=p>]</span> <span class=p>:</span> <span class=p>!</span>toy<span class=p>.</span>struct<span class=p>&lt;</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>&gt;</span>
-</code></pre></div><h5 id=toystruct_access><code>toy.struct_access</code></h5><p>This new operation materializes the Nth element of a <code>struct</code> value.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=c>// Using %0 from above
+</code></pre></div><h5 id=toystruct_access><code>toy.struct_access</code>&nbsp;<a class=headline-hash href=#toystruct_access>¶</a></h5><p>This new operation materializes the Nth element of a <code>struct</code> value.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>  <span class=c>// Using %0 from above
 </span><span class=c></span>  <span class=nv>%1</span> <span class=p>=</span> toy<span class=p>.</span>struct_access <span class=nv>%0</span><span class=p>[</span><span class=m>0</span><span class=p>]</span> <span class=p>:</span> <span class=p>!</span>toy<span class=p>.</span>struct<span class=p>&lt;</span><span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span><span class=p>&gt;</span> <span class=p>-&gt;</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=p>*</span>xf64<span class=p>&gt;</span>
 </code></pre></div><p>With these operations, we can revisit our original example:</p><pre><code class=language-toy data-lang=toy>struct Struct {
   var a;
@@ -322,7 +322,7 @@ def main() {
     toy<span class=p>.</span><span class=kt>return</span>
   <span class=p>}</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=optimizing-operations-on-structtype>Optimizing Operations on <code>StructType</code></h4><p>Now that we have a few operations operating on <code>StructType</code>, we also have many
+</code></pre></div><h4 id=optimizing-operations-on-structtype>Optimizing Operations on <code>StructType</code>&nbsp;<a class=headline-hash href=#optimizing-operations-on-structtype>¶</a></h4><p>Now that we have a few operations operating on <code>StructType</code>, we also have many
 new constant folding opportunities.</p><p>After inlining, the MLIR module in the previous section looks something like:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>module <span class=p>{</span>
   <span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
     <span class=nv>%0</span> <span class=p>=</span> toy<span class=p>.</span>struct_constant <span class=p>[</span>

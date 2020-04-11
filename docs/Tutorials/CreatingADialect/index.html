@@ -15,7 +15,7 @@ typically described in TableGen file using the
 format</a>
 .</p><p>Note that dialect names should not generally be suffixed with “Ops”,
 although some files pertaining to the operations of a dialect (e.g.
-FooOps.cpp) might be.</p><h2 id=cmake-best-practices>CMake best practices</h2><h3 id=tablegen-targets>TableGen Targets</h3><p>Operations in dialects are typically declared using the ODS format in
+FooOps.cpp) might be.</p><h2 id=cmake-best-practices>CMake best practices&nbsp;<a class=headline-hash href=#cmake-best-practices>¶</a></h2><h3 id=tablegen-targets>TableGen Targets&nbsp;<a class=headline-hash href=#tablegen-targets>¶</a></h3><p>Operations in dialects are typically declared using the ODS format in
 tablegen in a file FooOps.td. This file forms the core of a dialect and
 is declared using add_mlir_dialect().</p><div class=highlight><pre class=chroma><code class=language-cmake data-lang=cmake><span class=err>
 </span><span class=err></span><span class=nb>add_mlir_dialect</span><span class=p>(</span><span class=s>FooOps</span> <span class=s>foo</span><span class=p>)</span><span class=err>
@@ -26,7 +26,7 @@ is declared using add_mlir_dialect().</p><div class=highlight><pre class=chroma>
 Targets for TableGen are described in typical llvm fashion.</p><div class=highlight><pre class=chroma><code class=language-cmake data-lang=cmake><span class=nb>set</span><span class=p>(</span><span class=s>LLVM_TARGET_DEFINITIONS</span> <span class=s>FooTransforms.td</span><span class=p>)</span><span class=err>
 </span><span class=err></span><span class=nb>mlir_tablegen</span><span class=p>(</span><span class=s>FooTransforms.h.inc</span> <span class=s>-gen-rewriters</span><span class=p>)</span><span class=err>
 </span><span class=err></span><span class=nb>add_public_tablegen_target</span><span class=p>(</span><span class=s>MLIRFooTransformIncGen</span><span class=p>)</span><span class=err>
-</span></code></pre></div><p>The result is another &lsquo;IncGen&rsquo; target, which runs mlir-tblgen.</p><h3 id=library-targets>Library Targets</h3><p>Dialects may have multiple libraries. Each library is typically
+</span></code></pre></div><p>The result is another &lsquo;IncGen&rsquo; target, which runs mlir-tblgen.</p><h3 id=library-targets>Library Targets&nbsp;<a class=headline-hash href=#library-targets>¶</a></h3><p>Dialects may have multiple libraries. Each library is typically
 declared with add_mlir_dialect_library(). Dialect libraries often
 depend on the generation of header files from TableGen (specified
 using the DEPENDS keyword). Dialect libraries may also depend on
@@ -64,7 +64,7 @@ implementation with patterns or other infrastructure. For example
 include/mlir/VectorToLLVM/VectorToLLVMPass.h.</p><p>Common conversion functionality from or to dialect “X” that does not
 belong to the dialect definition can be located in
 mlir/lib/Conversion/XCommon, for example
-mlir/lib/Conversion/GPUCommon.</p><h2 id=cmake-best-practices-1>CMake best practices</h2><p>Each conversion typically exists in a separate library, declared with
+mlir/lib/Conversion/GPUCommon.</p><h2 id=cmake-best-practices-1>CMake best practices&nbsp;<a class=headline-hash href=#cmake-best-practices-1>¶</a></h2><p>Each conversion typically exists in a separate library, declared with
 add_mlir_conversion_library(). Conversion libraries typically depend
 on their source and target dialects, but may also depend on other
 dialects (e.g. MLIRStandard). Typically this dependence is specified

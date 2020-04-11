@@ -35,7 +35,7 @@ used to
 convert <em>illegal</em> operations into a set of zero or more <em>legal</em> ones.</li></ul></li><li><p>Optionally, a
 <a href=/docs/DialectConversion/#type-conversion>Type Converter</a>
 .</p><ul><li>If provided, this is used to convert the types of block arguments. We
-won&rsquo;t be needing this for our conversion.</li></ul></li></ul><h2 id=conversion-target>Conversion Target</h2><p>For our purposes, we want to convert the compute-intensive <code>Toy</code> operations into
+won&rsquo;t be needing this for our conversion.</li></ul></li></ul><h2 id=conversion-target>Conversion Target&nbsp;<a class=headline-hash href=#conversion-target>¶</a></h2><p>For our purposes, we want to convert the compute-intensive <code>Toy</code> operations into
 a combination of operations from the <code>Affine</code> <code>Standard</code> dialects for further
 optimization. To start off the lowering, we first define our conversion target:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=n>ToyToAffineLoweringPass</span><span class=o>:</span><span class=o>:</span><span class=n>runOnFunction</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
   <span class=c1>// The first thing to define is the conversion target. This will define the
@@ -59,7 +59,7 @@ optimization. To start off the lowering, we first define our conversion target:<
 as legal. We could have done this the other way around.
 Individual operations always take precendence over the (more generic) dialect
 definitions, so the order doesn&rsquo;t matter. See <code>ConversionTarget::getOpInfo</code>
-for the details.</p><h2 id=conversion-patterns>Conversion Patterns</h2><p>After the conversion target has been defined, we can define how to convert the
+for the details.</p><h2 id=conversion-patterns>Conversion Patterns&nbsp;<a class=headline-hash href=#conversion-patterns>¶</a></h2><p>After the conversion target has been defined, we can define how to convert the
 <em>illegal</em> operations into <em>legal</em> ones. Similarly to the canonicalization
 framework introduced in
 <a href=/docs/Tutorials/Toy/Ch-3/>chapter 3</a>
@@ -124,7 +124,7 @@ the <code>toy.transpose</code> operation:</p><div class=highlight><pre class=chr
   <span class=n>patterns</span><span class=p>.</span><span class=n>insert</span><span class=o>&lt;</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>,</span> <span class=n>TransposeOpLowering</span><span class=o>&gt;</span><span class=p>(</span><span class=o>&amp;</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
 
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
-</code></pre></div><h2 id=partial-lowering>Partial Lowering</h2><p>Once the patterns have been defined, we can perform the actual lowering. The
+</code></pre></div><h2 id=partial-lowering>Partial Lowering&nbsp;<a class=headline-hash href=#partial-lowering>¶</a></h2><p>Once the patterns have been defined, we can perform the actual lowering. The
 <code>DialectConversion</code> framework provides several different modes of lowering, but,
 for our purposes, we will perform a partial lowering, as we will not convert
 <code>toy.print</code> at this time.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>void</span> <span class=n>ToyToAffineLoweringPass</span><span class=o>:</span><span class=o>:</span><span class=n>runOnFunction</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
@@ -137,7 +137,7 @@ for our purposes, we will perform a partial lowering, as we will not convert
   <span class=k>if</span> <span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>failed</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>applyPartialConversion</span><span class=p>(</span><span class=n>function</span><span class=p>,</span> <span class=n>target</span><span class=p>,</span> <span class=n>patterns</span><span class=p>)</span><span class=p>)</span><span class=p>)</span>
     <span class=n>signalPassFailure</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=design-considerations-with-partial-lowering>Design Considerations With Partial Lowering</h3><p>Before diving into the result of our lowering, this is a good time to discuss
+</code></pre></div><h3 id=design-considerations-with-partial-lowering>Design Considerations With Partial Lowering&nbsp;<a class=headline-hash href=#design-considerations-with-partial-lowering>¶</a></h3><p>Before diving into the result of our lowering, this is a good time to discuss
 potential design considerations when it comes to partial lowering. In our
 lowering, we transform from a value-type, TensorType, to an allocated
 (buffer-like) type, MemRefType. However, given that we do not lower the
@@ -167,7 +167,7 @@ definition file:</p><div class=highlight><pre class=chroma><code class=language-
 </span><span class=c></span>  <span class=c>// We also allow a F64MemRef to enable interop during partial lowering.
 </span><span class=c></span>  <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span> <span class=nv>AnyTypeOf</span><span class=p>&lt;</span><span class=p>[</span><span class=nv>F64Tensor</span><span class=p>,</span> <span class=nv>F64MemRef</span><span class=p>]</span><span class=p>&gt;</span><span class=p>:</span><span class=nv>$input</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=complete-toy-example>Complete Toy Example</h2><p>Looking back at our current working example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
+</code></pre></div><h2 id=complete-toy-example>Complete Toy Example&nbsp;<a class=headline-hash href=#complete-toy-example>¶</a></h2><p>Looking back at our current working example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@main</span><span class=p>(</span><span class=p>)</span> <span class=p>{</span>
   <span class=nv>%0</span> <span class=p>=</span> toy<span class=p>.</span><span class=kt>constant</span> dense<span class=p>&lt;</span><span class=p>[</span><span class=p>[</span><span class=m>1.000000e+00</span><span class=p>,</span> <span class=m>2.000000e+00</span><span class=p>,</span> <span class=m>3.000000e+00</span><span class=p>]</span><span class=p>,</span> <span class=p>[</span><span class=m>4.000000e+00</span><span class=p>,</span> <span class=m>5.000000e+00</span><span class=p>,</span> <span class=m>6.000000e+00</span><span class=p>]</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span>
   <span class=nv>%2</span> <span class=p>=</span> toy<span class=p>.</span>transpose<span class=p>(</span><span class=nv>%0</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>2x3x</span><span class=k>f64</span><span class=p>&gt;</span><span class=p>)</span> to <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
   <span class=nv>%3</span> <span class=p>=</span> toy<span class=p>.</span>mul <span class=nv>%2</span><span class=p>,</span> <span class=nv>%2</span> <span class=p>:</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
@@ -221,7 +221,7 @@ definition file:</p><div class=highlight><pre class=chroma><code class=language-
   dealloc <span class=nv>%0</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>3x2x</span><span class=k>f64</span><span class=p>&gt;</span>
   <span class=kt>return</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=taking-advantage-of-affine-optimization>Taking Advantage of Affine Optimization</h2><p>Our naive lowering is correct, but it leaves a lot to be desired with regards to
+</code></pre></div><h2 id=taking-advantage-of-affine-optimization>Taking Advantage of Affine Optimization&nbsp;<a class=headline-hash href=#taking-advantage-of-affine-optimization>¶</a></h2><p>Our naive lowering is correct, but it leaves a lot to be desired with regards to
 efficiency. For example, the lowering of <code>toy.mul</code> has generated some redundant
 loads. Let&rsquo;s look at how adding a few existing optimizations to the pipeline can
 help clean this up. Adding the <code>LoopFusion</code> and <code>MemRefDataFlowOpt</code> passes to

@@ -19,7 +19,7 @@ be a dry reference document - the
 form suitable for debugging, an in-memory form suitable for programmatic
 transformations and analysis, and a compact serialized form suitable for storage
 and transport. The different forms all describe the same semantic content. This
-document describes the human-readable textual form.</p><p><nav id=TableOfContents><ul><li><a href=#high-level-structure>High-Level Structure</a></li><li><a href=#notation>Notation</a><ul><li><a href=#common-syntax>Common syntax</a></li><li><a href=#identifiers-and-keywords>Identifiers and keywords</a></li></ul></li><li><a href=#dialects>Dialects</a><ul><li><a href=#target-specific-operations>Target specific operations</a></li></ul></li><li><a href=#operations>Operations</a><ul><li><a href=#terminator-operations>Terminator Operations</a></li><li><a href=#module>Module</a></li><li><a href=#functions>Functions</a></li></ul></li><li><a href=#blocks>Blocks</a></li><li><a href=#regions>Regions</a><ul><li><a href=#definition>Definition</a></li><li><a href=#control-and-value-scoping>Control and Value Scoping</a></li><li><a href=#control-flow>Control Flow</a></li><li><a href=#arguments-and-results>Arguments and Results</a></li></ul></li><li><a href=#type-system>Type System</a><ul><li><a href=#type-aliases>Type Aliases</a></li><li><a href=#dialect-types>Dialect Types</a></li><li><a href=#standard-types>Standard Types</a></li></ul></li><li><a href=#attributes>Attributes</a><ul><li><a href=#attribute-value-aliases>Attribute Value Aliases</a></li><li><a href=#dialect-attribute-values>Dialect Attribute Values</a></li><li><a href=#standard-attribute-values>Standard Attribute Values</a></li></ul></li></ul></nav><h2 id=high-level-structure>High-Level Structure</h2><p>MLIR is an
+document describes the human-readable textual form.</p><p><nav id=TableOfContents><ul><li><a href=#high-level-structure>High-Level Structure</a></li><li><a href=#notation>Notation</a><ul><li><a href=#common-syntax>Common syntax</a></li><li><a href=#identifiers-and-keywords>Identifiers and keywords</a></li></ul></li><li><a href=#dialects>Dialects</a><ul><li><a href=#target-specific-operations>Target specific operations</a></li></ul></li><li><a href=#operations>Operations</a><ul><li><a href=#terminator-operations>Terminator Operations</a></li><li><a href=#module>Module</a></li><li><a href=#functions>Functions</a></li></ul></li><li><a href=#blocks>Blocks</a></li><li><a href=#regions>Regions</a><ul><li><a href=#definition>Definition</a></li><li><a href=#control-and-value-scoping>Control and Value Scoping</a></li><li><a href=#control-flow>Control Flow</a></li><li><a href=#arguments-and-results>Arguments and Results</a></li></ul></li><li><a href=#type-system>Type System</a><ul><li><a href=#type-aliases>Type Aliases</a></li><li><a href=#dialect-types>Dialect Types</a></li><li><a href=#standard-types>Standard Types</a></li></ul></li><li><a href=#attributes>Attributes</a><ul><li><a href=#attribute-value-aliases>Attribute Value Aliases</a></li><li><a href=#dialect-attribute-values>Dialect Attribute Values</a></li><li><a href=#standard-attribute-values>Standard Attribute Values</a></li></ul></li></ul></nav><h2 id=high-level-structure>High-Level Structure&nbsp;<a class=headline-hash href=#high-level-structure>¶</a></h2><p>MLIR is an
 <a href=https://en.wikipedia.org/wiki/Static_single_assignment_form>SSA-based</a>
 IR,
 which means that values are defined before use and have scope defined by their
@@ -99,7 +99,7 @@ that represent a Control Flow Graph (CFG) of
   <span class=p>}</span>
   <span class=kt>return</span> <span class=nv>%C</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>100x50x</span><span class=k>f32</span><span class=p>&gt;</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=notation>Notation</h2><p>MLIR has a simple and unambiguous grammar, allowing it to reliably round-trip
+</code></pre></div><h2 id=notation>Notation&nbsp;<a class=headline-hash href=#notation>¶</a></h2><p>MLIR has a simple and unambiguous grammar, allowing it to reliably round-trip
 through a textual form. This is important for development of the compiler - e.g.
 for understanding the state of code as it is being transformed and writing test
 cases.</p><p>This document describes the grammar using
@@ -114,7 +114,7 @@ literal     ::= `abcd` // Matches the literal `abcd`.
 </code></pre><p>Code examples are presented in blue boxes.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// This is an example use of the grammar above:
 </span><span class=c></span><span class=c>// This matches things like: ba, bana, boma, banana, banoma, bomana...
 </span><span class=c></span>example <span class=p>:</span><span class=p>:</span><span class=p>=</span> <span class=err>`</span>b<span class=err>`</span> <span class=p>(</span><span class=err>`</span>an<span class=err>`</span> <span class=err>|</span> <span class=err>`</span>om<span class=err>`</span><span class=p>)</span><span class=p>*</span> <span class=err>`</span>a<span class=err>`</span>
-</code></pre></div><h3 id=common-syntax>Common syntax</h3><p>The following core grammar productions are used in this document:</p><pre><code>// TODO: Clarify the split between lexing (tokens) and parsing (grammar).
+</code></pre></div><h3 id=common-syntax>Common syntax&nbsp;<a class=headline-hash href=#common-syntax>¶</a></h3><p>The following core grammar productions are used in this document:</p><pre><code>// TODO: Clarify the split between lexing (tokens) and parsing (grammar).
 digit     ::= [0-9]
 hex_digit ::= [0-9a-fA-F]
 letter    ::= [a-zA-Z]
@@ -126,7 +126,7 @@ hexadecimal-literal ::= `0x` hex_digit+
 float-literal ::= [-+]?[0-9]+[.][0-9]*([eE][-+]?[0-9]+)?
 string-literal  ::= `&quot;` [^&quot;\n\f\v\r]* `&quot;`   TODO define escaping rules
 </code></pre><p>Not listed here, but MLIR does support comments. They use standard BCPL syntax,
-starting with a <code>//</code> and going until the end of the line.</p><h3 id=identifiers-and-keywords>Identifiers and keywords</h3><p>Syntax:</p><pre><code>// Identifiers
+starting with a <code>//</code> and going until the end of the line.</p><h3 id=identifiers-and-keywords>Identifiers and keywords&nbsp;<a class=headline-hash href=#identifiers-and-keywords>¶</a></h3><p>Syntax:</p><pre><code>// Identifiers
 bare-id ::= (letter|[_]) (letter|digit|[_$.])*
 bare-id-list ::= bare-id (`,` bare-id)*
 ssa-id ::= `%` suffix-id
@@ -151,7 +151,7 @@ with existing identifiers.</p><p>The scope of SSA values is defined based on the
 <a href=https://en.wikipedia.org/wiki/Dominator_%5c%28graph_theory%5c%29>dominance</a>
 . Argument
 identifiers in mapping functions are in scope for the mapping body. Function
-identifiers and mapping identifiers are visible across the entire module.</p><h2 id=dialects>Dialects</h2><p>Dialects are the mechanism by which to engage with and extend the MLIR
+identifiers and mapping identifiers are visible across the entire module.</p><h2 id=dialects>Dialects&nbsp;<a class=headline-hash href=#dialects>¶</a></h2><p>Dialects are the mechanism by which to engage with and extend the MLIR
 ecosystem. They allow for defining new
 <a href=#operations>operations</a>
 , as well as
@@ -168,7 +168,7 @@ co-exist together within one module. Dialects are produced and consumed by
 certain passes. MLIR provides a
 <a href=/docs/DialectConversion/>framework</a>
 to convert
-between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=/docs/Dialects/Affine/>Affine dialect</a></li><li><a href=/docs/Dialects/GPU/>GPU dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations</h3><p>Dialects provide a modular way in which targets can expose target-specific
+between, and within, different dialects.</p><p>A few of the dialects supported by MLIR:</p><ul><li><a href=/docs/Dialects/Affine/>Affine dialect</a></li><li><a href=/docs/Dialects/GPU/>GPU dialect</a></li><li><a href=/docs/Dialects/LLVM/>LLVM dialect</a></li><li><a href=/docs/Dialects/SPIR-V/>SPIR-V dialect</a></li><li><a href=/docs/Dialects/Standard/>Standard dialect</a></li><li><a href=/docs/Dialects/Vector/>Vector dialect</a></li></ul><h3 id=target-specific-operations>Target specific operations&nbsp;<a class=headline-hash href=#target-specific-operations>¶</a></h3><p>Dialects provide a modular way in which targets can expose target-specific
 operations directly through to MLIR. As an example, some targets go through
 LLVM. LLVM has a rich set of intrinsics for certain target-independent
 operations (e.g. addition with overflow check) as well as providing access to
@@ -177,7 +177,7 @@ operations). LLVM intrinsics in MLIR are represented via operations that start
 with an &ldquo;llvm.&rdquo; name.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// LLVM: %x = call {i16, i1} @llvm.sadd.with.overflow.i16(i16 %a, i16 %b)
 </span><span class=c></span><span class=nv>%x</span><span class=p>:</span><span class=nl>2 =</span> <span class=s>&#34;llvm.sadd.with.overflow.i16&#34;</span><span class=p>(</span><span class=nv>%a</span><span class=p>,</span> <span class=nv>%b</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=k>i16</span><span class=p>,</span> <span class=k>i16</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i16</span><span class=p>,</span> <span class=k>i1</span><span class=p>)</span>
 </code></pre></div><p>These operations only work when targeting LLVM as a backend (e.g. for CPUs and
-GPUs), and are required to align with the LLVM definition of these intrinsics.</p><h2 id=operations>Operations</h2><p>Syntax:</p><pre><code>operation         ::= op-result-list? (generic-operation | custom-operation)
+GPUs), and are required to align with the LLVM definition of these intrinsics.</p><h2 id=operations>Operations&nbsp;<a class=headline-hash href=#operations>¶</a></h2><p>Syntax:</p><pre><code>operation         ::= op-result-list? (generic-operation | custom-operation)
                       trailing-location?
 generic-operation ::= string-literal `(` ssa-use-list? `)`  successor-list?
                       (`(` region-list `)`)? attribute-dict? `:` function-type
@@ -217,7 +217,7 @@ types of the results and operands.</p><p>Example:</p><div class=highlight><pre c
 </span><span class=c></span><span class=nv>%2</span> <span class=p>=</span> <span class=s>&#34;tf.scramble&#34;</span><span class=p>(</span><span class=nv>%result</span><span class=nv>#0</span><span class=p>,</span> <span class=nv>%bar</span><span class=p>)</span> <span class=p>{</span>fruit<span class=p>:</span> <span class=s>&#34;banana&#34;</span><span class=p>}</span> <span class=p>:</span> <span class=p>(</span><span class=k>f32</span><span class=p>,</span> <span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=k>f32</span>
 </code></pre></div><p>In addition to the basic syntax above, dialects may register known operations.
 This allows those dialects to support <em>custom assembly form</em> for parsing and
-printing operations. In the operation sets listed below, we show both forms.</p><h3 id=terminator-operations>Terminator Operations</h3><p>These are a special category of operations that <em>must</em> terminate a block, e.g.
+printing operations. In the operation sets listed below, we show both forms.</p><h3 id=terminator-operations>Terminator Operations&nbsp;<a class=headline-hash href=#terminator-operations>¶</a></h3><p>These are a special category of operations that <em>must</em> terminate a block, e.g.
 <a href=/docs/Dialects/Standard/#terminator-operations>branches</a>
 . These operations may
 also have a list of successors (
@@ -225,12 +225,12 @@ also have a list of successors (
 and their arguments).</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Branch to ^bb1 or ^bb2 depending on the condition %cond.
 </span><span class=c></span><span class=c>// Pass value %v to ^bb2, but not to ^bb1.
 </span><span class=c></span><span class=s>&#34;cond_br&#34;</span><span class=p>(</span><span class=nv>%cond</span><span class=p>)</span><span class=p>[</span><span class=nl>^bb1</span><span class=p>,</span> <span class=nl>^bb2</span><span class=p>(</span><span class=nv>%v</span> <span class=p>:</span> <span class=k>index</span><span class=p>)</span><span class=p>]</span> <span class=p>:</span> <span class=p>(</span><span class=k>i1</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
-</code></pre></div><h3 id=module>Module</h3><pre><code>module ::= `module` symbol-ref-id? (`attributes` attribute-dict)? region
+</code></pre></div><h3 id=module>Module&nbsp;<a class=headline-hash href=#module>¶</a></h3><pre><code>module ::= `module` symbol-ref-id? (`attributes` attribute-dict)? region
 </code></pre><p>An MLIR module represents an opaque top-level container operation. It contains a
 single region containing a single block that is comprised of any operations.
 Operations within this region must not implicitly capture values defined above
 it. Modules have an optional symbol name that can be used to refer to them in
-operations.</p><h3 id=functions>Functions</h3><p>An MLIR Function is an operation with a name containing one
+operations.</p><h3 id=functions>Functions&nbsp;<a class=headline-hash href=#functions>¶</a></h3><p>An MLIR Function is an operation with a name containing one
 <a href=#regions>region</a>
 .
 The region of a function is not allowed to implicitly capture values defined
@@ -278,7 +278,7 @@ function arguments, results, or the function itself.</p><p>Examples:</p><div cla
 
 <span class=c>// A function with an attribute
 </span><span class=c></span><span class=kt>func</span> <span class=nf>@example_fn_attr</span><span class=p>(</span><span class=p>)</span> attributes <span class=p>{</span><span class=nl>dialectName.attrName =</span> false<span class=p>}</span>
-</code></pre></div><h2 id=blocks>Blocks</h2><p>Syntax:</p><pre><code>block           ::= block-label operation+
+</code></pre></div><h2 id=blocks>Blocks&nbsp;<a class=headline-hash href=#blocks>¶</a></h2><p>Syntax:</p><pre><code>block           ::= block-label operation+
 block-label     ::= block-id block-arg-list? `:`
 block-id        ::= caret-id
 caret-id        ::= `^` suffix-id
@@ -326,7 +326,7 @@ of SSA is immediately apparent, and function arguments are no longer a special
 case: they become arguments to the entry block
 [
 <a href=/docs/Rationale/Rationale/#block-arguments-vs-phi-nodes>more rationale</a>
-].</p><h2 id=regions>Regions</h2><h3 id=definition>Definition</h3><p>A region is a CFG of MLIR
+].</p><h2 id=regions>Regions&nbsp;<a class=headline-hash href=#regions>¶</a></h2><h3 id=definition>Definition&nbsp;<a class=headline-hash href=#definition>¶</a></h3><p>A region is a CFG of MLIR
 <a href=#blocks>Blocks</a>
 . Regions serve to group semantically
 connected blocks, where the semantics is not imposed by the IR. Instead, the
@@ -339,7 +339,7 @@ syntax for the region is as follows:</p><pre><code>region ::= `{` block* `}`
 has additional semantic restrictions that other types of regions may not have
 (block terminators must either branch to a different block, or return from a
 function where the types of the <code>return</code> arguments must match the result types
-of the function signature).</p><h3 id=control-and-value-scoping>Control and Value Scoping</h3><p>Regions provide nested control isolation: it is impossible to branch to a block
+of the function signature).</p><h3 id=control-and-value-scoping>Control and Value Scoping&nbsp;<a class=headline-hash href=#control-and-value-scoping>¶</a></h3><p>Regions provide nested control isolation: it is impossible to branch to a block
 within a region from outside it or to branch from within a region to a block
 outside it. Similarly, it provides a natural scoping for value visibility: SSA
 values defined in a region don&rsquo;t escape to the enclosing region, if any. By
@@ -367,7 +367,7 @@ would have been legal to use them as operands to the enclosing operation.</p><p>
 <span class=p>}</span>
 </code></pre></div><p>This can be further restricted using the custom verifier associated with the
 enclosing operation, for example, disallowing references to values defined
-outside the region completely.</p><h3 id=control-flow>Control Flow</h3><p>Regions are Single-Entry-Multiple-Exit (SEME). This means that control can only
+outside the region completely.</p><h3 id=control-flow>Control Flow&nbsp;<a class=headline-hash href=#control-flow>¶</a></h3><p>Regions are Single-Entry-Multiple-Exit (SEME). This means that control can only
 flow into the first block of the region, but can flow out of the region at the
 end of any of the contained blocks (This behavior is similar to that of a
 function body in most programming languages). A terminator of a block within a
@@ -385,15 +385,15 @@ transmit control into regions that were specified in other operations, in
 particular those that defined the values the given operation uses. Thus such
 operations can be treated opaquely in the enclosing control flow graph,
 providing a level of control flow isolation similar to that of the call
-operation.</p><h4 id=closure>Closure</h4><p>Regions allow defining an operation that creates a closure, for example by
+operation.</p><h4 id=closure>Closure&nbsp;<a class=headline-hash href=#closure>¶</a></h4><p>Regions allow defining an operation that creates a closure, for example by
 “boxing” the body of the region into a value they produce. It remains up to the
 operation to define its semantics. Note that if an operation triggers
 asynchronous execution of the region, it is under the responsibility of the
 operation caller to wait for the region to be executed guaranteeing that any
-directly used values remain live.</p><h3 id=arguments-and-results>Arguments and Results</h3><p>The arguments of the first block of a region are treated as arguments of the
+directly used values remain live.</p><h3 id=arguments-and-results>Arguments and Results&nbsp;<a class=headline-hash href=#arguments-and-results>¶</a></h3><p>The arguments of the first block of a region are treated as arguments of the
 region. The source of these arguments is defined by the semantics of the parent
 operation. They may correspond to some of the values the operation itself uses.</p><p>Regions produce a (possibly empty) list of values. The operation semantics
-defines the relation between the region results and the operation results.</p><h2 id=type-system>Type System</h2><p>Each SSA value in MLIR has a type defined by the type system below. There are a
+defines the relation between the region results and the operation results.</p><h2 id=type-system>Type System&nbsp;<a class=headline-hash href=#type-system>¶</a></h2><p>Each SSA value in MLIR has a type defined by the type system below. There are a
 number of primitive types (like integers) and also aggregate types for tensors
 and memory buffers. MLIR
 <a href=#standard-types>standard types</a>
@@ -412,7 +412,7 @@ ssa-use-and-type ::= ssa-use `:` type
 
 // Non-empty list of names and types.
 ssa-use-and-type-list ::= ssa-use-and-type (`,` ssa-use-and-type)*
-</code></pre><h3 id=type-aliases>Type Aliases</h3><pre><code>type-alias-def ::= '!' alias-name '=' 'type' type
+</code></pre><h3 id=type-aliases>Type Aliases&nbsp;<a class=headline-hash href=#type-aliases>¶</a></h3><pre><code>type-alias-def ::= '!' alias-name '=' 'type' type
 type-alias ::= '!' alias-name
 </code></pre><p>MLIR supports defining named aliases for types. A type alias is an identifier
 that can be used in the place of the type that it defines. These aliases <em>must</em>
@@ -426,7 +426,7 @@ names are reserved for
 
 <span class=c>// Using the type alias.
 </span><span class=c></span><span class=s>&#34;foo&#34;</span><span class=p>(</span><span class=nv>%x</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>avx_m128 <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
-</code></pre></div><h3 id=dialect-types>Dialect Types</h3><p>Similarly to operations, dialects may define custom extensions to the type
+</code></pre></div><h3 id=dialect-types>Dialect Types&nbsp;<a class=headline-hash href=#dialect-types>¶</a></h3><p>Similarly to operations, dialects may define custom extensions to the type
 system.</p><pre><code>dialect-namespace ::= bare-id
 
 opaque-dialect-item ::= dialect-namespace '&lt;' string-literal '&gt;'
@@ -467,7 +467,7 @@ the lighter syntax: <code>!foo.something&lt;a%%123^^^>>></code> because it conta
 that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;></code>
 characters.</p><p>See
 <a href=/docs/Tutorials/DefiningAttributesAndTypes/>here</a>
-to learn how to define dialect types.</p><h3 id=standard-types>Standard Types</h3><p>Standard types are a core set of
+to learn how to define dialect types.</p><h3 id=standard-types>Standard Types&nbsp;<a class=headline-hash href=#standard-types>¶</a></h3><p>Standard types are a core set of
 <a href=#dialect-types>dialect types</a>
 that are
 defined in a builtin dialect and thus available to all users of MLIR.</p><pre><code>standard-type ::=     complex-type
@@ -480,15 +480,15 @@ defined in a builtin dialect and thus available to all users of MLIR.</p><pre><c
                     | tensor-type
                     | tuple-type
                     | vector-type
-</code></pre><h4 id=complex-type>Complex Type</h4><p>Syntax:</p><pre><code>complex-type ::= `complex` `&lt;` type `&gt;`
+</code></pre><h4 id=complex-type>Complex Type&nbsp;<a class=headline-hash href=#complex-type>¶</a></h4><p>Syntax:</p><pre><code>complex-type ::= `complex` `&lt;` type `&gt;`
 </code></pre><p>The value of <code>complex</code> type represents a complex number with a parameterized
 element type, which is composed of a real and imaginary value of that element
 type. The element must be a floating point or integer scalar type.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir>complex<span class=p>&lt;</span><span class=k>f32</span><span class=p>&gt;</span>
 complex<span class=p>&lt;</span><span class=k>i32</span><span class=p>&gt;</span>
-</code></pre></div><h4 id=floating-point-types>Floating Point Types</h4><p>Syntax:</p><pre><code>// Floating point.
+</code></pre></div><h4 id=floating-point-types>Floating Point Types&nbsp;<a class=headline-hash href=#floating-point-types>¶</a></h4><p>Syntax:</p><pre><code>// Floating point.
 float-type ::= `f16` | `bf16` | `f32` | `f64`
 </code></pre><p>MLIR supports float types of certain widths that are widely used as indicated
-above.</p><h4 id=function-type>Function Type</h4><p>Syntax:</p><pre><code>// MLIR functions can return multiple values.
+above.</p><h4 id=function-type>Function Type&nbsp;<a class=headline-hash href=#function-type>¶</a></h4><p>Syntax:</p><pre><code>// MLIR functions can return multiple values.
 function-result-type ::= type-list-parens
                        | non-function-type
 
@@ -503,7 +503,7 @@ returned from functions, merged across control flow boundaries with
 <a href=/docs/Dialects/Standard/#call-indirect-operation><code>call_indirect</code> operation</a>
 .</p><p>Function types are also used to indicate the arguments and results of
 <a href=#operations>operations</a>
-.</p><h4 id=index-type>Index Type</h4><p>Syntax:</p><pre><code>// Target word-sized integer.
+.</p><h4 id=index-type>Index Type&nbsp;<a class=headline-hash href=#index-type>¶</a></h4><p>Syntax:</p><pre><code>// Target word-sized integer.
 index-type ::= `index`
 </code></pre><p>The <code>index</code> type is a signless integer whose size is equal to the natural
 machine word of the target (
@@ -514,7 +514,7 @@ used as an element of vector, tensor or memref type
 (
 <a href=/docs/Rationale/Rationale/#index-type-disallowed-in-vectortensormemref-types>rationale</a>
 ).</p><p><strong>Rationale:</strong> integers of platform-specific bit widths are practical to express
-sizes, dimensionalities and subscripts.</p><h4 id=integer-type>Integer Type</h4><p>Syntax:</p><pre><code>// Sized integers like i1, i4, i8, i16, i32.
+sizes, dimensionalities and subscripts.</p><h4 id=integer-type>Integer Type&nbsp;<a class=headline-hash href=#integer-type>¶</a></h4><p>Syntax:</p><pre><code>// Sized integers like i1, i4, i8, i16, i32.
 signed-integer-type ::= `si` [1-9][0-9]*
 unsigned-integer-type ::= `ui` [1-9][0-9]*
 signless-integer-type ::= `i` [1-9][0-9]*
@@ -528,7 +528,7 @@ hardware synthesis (where a 13 bit multiplier is a lot cheaper/smaller than a 16
 bit one).</p><p>TODO: Need to decide on a representation for quantized integers
 (
 <a href=/docs/Rationale/Rationale/#quantized-integer-operations>initial thoughts</a>
-).</p><h4 id=memref-type>Memref Type</h4><p>Syntax:</p><pre><code>memref-type ::= ranked-memref-type | unranked-memref-type
+).</p><h4 id=memref-type>Memref Type&nbsp;<a class=headline-hash href=#memref-type>¶</a></h4><p>Syntax:</p><pre><code>memref-type ::= ranked-memref-type | unranked-memref-type
 
 ranked-memref-type ::= `memref` `&lt;` dimension-list-ranked tensor-memref-element-type
                       (`,` layout-specification)? |
@@ -549,7 +549,7 @@ tensor types. Note that <code>memref&lt;f32></code>, <code>memref&lt;0 x f32></c
 and <code>memref&lt;0 x 1 x f32></code> are all different types.</p><p>A <code>memref</code> is allowed to have an unknown rank (e.g. <code>memref&lt;*xf32></code>). The
 purpose of unranked memrefs is to allow external library functions to receive
 memref arguments of any rank without versioning the functions based on the rank.
-Other uses of this type are disallowed or will have undefined behavior.</p><h5 id=codegen-of-unranked-memref>Codegen of Unranked Memref</h5><p>Using unranked memref in codegen besides the case mentioned above is highly
+Other uses of this type are disallowed or will have undefined behavior.</p><h5 id=codegen-of-unranked-memref>Codegen of Unranked Memref&nbsp;<a class=headline-hash href=#codegen-of-unranked-memref>¶</a></h5><p>Using unranked memref in codegen besides the case mentioned above is highly
 discouraged. Codegen is concerned with generating loop nests and specialized
 instructions for high-performance, unranked memref is concerned with hiding the
 rank and thus, the number of enclosing loops required to iterate over the data.
@@ -645,15 +645,15 @@ and index maps.</p><p>Examples of memref static type</p><div class=highlight><pr
 </span><span class=c></span><span class=nv>%n</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=nv>%o</span> <span class=p>=</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=nv>%A</span> <span class=p>=</span> alloc <span class=p>(</span><span class=nv>%n</span><span class=p>)</span><span class=p>[</span><span class=nv>%o</span><span class=p>]</span> <span class=p>:</span> <span class=p>&lt;</span><span class=m>16x?x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#imapS</span><span class=p>&gt;</span>
-</code></pre></div><h5 id=index-space>Index Space</h5><p>A memref dimension list defines an index space within which the memref can be
-indexed to access data.</p><h5 id=index>Index</h5><p>Data is accessed through a memref type using a multidimensional index into the
+</code></pre></div><h5 id=index-space>Index Space&nbsp;<a class=headline-hash href=#index-space>¶</a></h5><p>A memref dimension list defines an index space within which the memref can be
+indexed to access data.</p><h5 id=index>Index&nbsp;<a class=headline-hash href=#index>¶</a></h5><p>Data is accessed through a memref type using a multidimensional index into the
 multidimensional index space defined by the memref&rsquo;s dimension list.</p><p>Examples</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Allocates a memref with 2D index space:
 </span><span class=c></span><span class=c>//   { (i, j) : 0 &lt;= i &lt; 16, 0 &lt;= j &lt; 32 }
 </span><span class=c></span><span class=nv>%A</span> <span class=p>=</span> alloc<span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#imapA</span><span class=p>,</span> memspace0<span class=p>&gt;</span>
 
 <span class=c>// Loads data from memref &#39;%A&#39; using a 2D index: (%i, %j)
 </span><span class=c></span><span class=nv>%v</span> <span class=p>=</span> load <span class=nv>%A</span><span class=p>[</span><span class=nv>%i</span><span class=p>,</span> <span class=nv>%j</span><span class=p>]</span> <span class=p>:</span> <span class=kt>memref</span><span class=p>&lt;</span><span class=m>16x32x</span><span class=k>f32</span><span class=p>,</span> <span class=nv>#imapA</span><span class=p>,</span> memspace0<span class=p>&gt;</span>
-</code></pre></div><h5 id=index-map>Index Map</h5><p>An index map is a one-to-one
+</code></pre></div><h5 id=index-map>Index Map&nbsp;<a class=headline-hash href=#index-map>¶</a></h5><p>An index map is a one-to-one
 <a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a>
 that transforms a
 multidimensional index from one index space to another. For example, the
@@ -663,7 +663,7 @@ different, but must match the number of dimensions of the input and output index
 spaces on which the map operates. The index space is always non-negative and
 integral. In addition, an index map must specify the size of each of its range
 dimensions onto which it maps. Index map symbols must be listed in order with
-symbols for dynamic dimension sizes first, followed by other required symbols.</p><h5 id=layout-map>Layout Map</h5><p>A layout map is a
+symbols for dynamic dimension sizes first, followed by other required symbols.</p><h5 id=layout-map>Layout Map&nbsp;<a class=headline-hash href=#layout-map>¶</a></h5><p>A layout map is a
 <a href=/docs/Dialects/Affine/#semi-affine-maps>semi-affine map</a>
 which
 encodes logical to physical index space mapping, by mapping input dimensions to
@@ -680,7 +680,7 @@ maps, <code>memref&lt;?x?xf32></code>.</p><p>Layout map examples:</p><div class=
 
 <span class=c>// MxN matrix stored in a 2-d blocked/tiled layout with 64x64 tiles.
 </span><span class=c></span><span class=nv>#layout_tiled</span> <span class=p>=</span> <span class=p>(</span>i<span class=p>,</span> j<span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span>i floordiv <span class=m>64</span><span class=p>,</span> j floordiv <span class=m>64</span><span class=p>,</span> i mod <span class=m>64</span><span class=p>,</span> j mod <span class=m>64</span><span class=p>)</span>
-</code></pre></div><h5 id=affine-map-composition>Affine Map Composition</h5><p>A memref specifies a semi-affine map composition as part of its type. A
+</code></pre></div><h5 id=affine-map-composition>Affine Map Composition&nbsp;<a class=headline-hash href=#affine-map-composition>¶</a></h5><p>A memref specifies a semi-affine map composition as part of its type. A
 semi-affine map composition is a composition of semi-affine maps beginning with
 zero or more index maps, and ending with a layout map. The composition must be
 conformant: the number of dimensions of the range of one map, must match the
@@ -692,7 +692,7 @@ and thus its composition is required to
 be one-to-one.</p><p>The semi-affine map composition can be used in dependence analysis, memory
 access pattern analysis, and for performance optimizations like vectorization,
 copy elision and in-place updates. If an affine map composition is not specified
-for the memref, the identity affine map is assumed.</p><h5 id=strided-memref>Strided MemRef</h5><p>A memref may specify strides as part of its type. A stride specification is a
+for the memref, the identity affine map is assumed.</p><h5 id=strided-memref>Strided MemRef&nbsp;<a class=headline-hash href=#strided-memref>¶</a></h5><p>A memref may specify strides as part of its type. A stride specification is a
 list of integer values that are either static or <code>?</code> (dynamic case). Strides
 encode the distance, in number of elements, in (linear) memory between
 successive entries along a particular dimension. A stride specification is
@@ -707,9 +707,9 @@ indices <code>(i1, ..., in)</code> and <code>(j1, ..., jn)</code> may not refer 
 address unless <code>i1 == j1, ..., in == jn</code>.</p><p>Strided memrefs represent a view abstraction over preallocated data. They are
 constructed with special ops, yet to be introduced. Strided memrefs are a
 special subclass of memrefs with generic semi-affine map and correspond to a
-normalized memref descriptor when lowering to LLVM.</p><h4 id=none-type>None Type</h4><p>Syntax:</p><pre><code>none-type ::= `none`
+normalized memref descriptor when lowering to LLVM.</p><h4 id=none-type>None Type&nbsp;<a class=headline-hash href=#none-type>¶</a></h4><p>Syntax:</p><pre><code>none-type ::= `none`
 </code></pre><p>The <code>none</code> type is a unit type, i.e. a type with exactly one possible value,
-where its value does not have a defined dynamic representation.</p><h4 id=tensor-type>Tensor Type</h4><p>Syntax:</p><pre><code>tensor-type ::= `tensor` `&lt;` dimension-list tensor-memref-element-type `&gt;`
+where its value does not have a defined dynamic representation.</p><h4 id=tensor-type>Tensor Type&nbsp;<a class=headline-hash href=#tensor-type>¶</a></h4><p>Syntax:</p><pre><code>tensor-type ::= `tensor` `&lt;` dimension-list tensor-memref-element-type `&gt;`
 tensor-memref-element-type ::= vector-element-type | vector-type | complex-type
 
 // memref requires a known rank, but tensor does not.
@@ -751,7 +751,7 @@ types, such tensors should be optimized away before lowering tensors to vectors.
 
 <span class=c>// Zero-element tensor of f32 type (hexadecimal literals not allowed here).
 </span><span class=c></span><span class=kt>tensor</span><span class=p>&lt;</span><span class=m>0xf32</span><span class=p>&gt;</span>
-</code></pre></div><h4 id=tuple-type>Tuple Type</h4><p>Syntax:</p><pre><code>tuple-type ::= `tuple` `&lt;` (type ( `,` type)*)? `&gt;`
+</code></pre></div><h4 id=tuple-type>Tuple Type&nbsp;<a class=headline-hash href=#tuple-type>¶</a></h4><p>Syntax:</p><pre><code>tuple-type ::= `tuple` `&lt;` (type ( `,` type)*)? `&gt;`
 </code></pre><p>The value of <code>tuple</code> type represents a fixed-size collection of elements, where
 each element may be of a different type.</p><p><strong>Rationale:</strong> Though this type is first class in the type system, MLIR provides
 no standard operations for operating on <code>tuple</code> types
@@ -765,7 +765,7 @@ no standard operations for operating on <code>tuple</code> types
 
 <span class=c>// Many elements.
 </span><span class=c></span>tuple<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> <span class=k>f32</span><span class=p>,</span> <span class=kt>tensor</span><span class=p>&lt;</span><span class=k>i1</span><span class=p>&gt;</span><span class=p>,</span> <span class=k>i5</span><span class=p>&gt;</span>
-</code></pre></div><h4 id=vector-type>Vector Type</h4><p>Syntax:</p><pre><code>vector-type ::= `vector` `&lt;` static-dimension-list vector-element-type `&gt;`
+</code></pre></div><h4 id=vector-type>Vector Type&nbsp;<a class=headline-hash href=#vector-type>¶</a></h4><p>Syntax:</p><pre><code>vector-type ::= `vector` `&lt;` static-dimension-list vector-element-type `&gt;`
 vector-element-type ::= float-type | integer-type
 
 static-dimension-list ::= (decimal-literal `x`)+
@@ -774,7 +774,7 @@ operation sets like AVX. While the most common use is for 1D vectors (e.g.
 vector&lt;16 x f32>) we also support multidimensional registers on targets that
 support them (like TPUs).</p><p>Vector shapes must be positive decimal integers.</p><p>Note: hexadecimal integer literals are not allowed in vector type declarations,
 <code>vector&lt;0x42xi32></code> is invalid because it is interpreted as a 2D vector with
-shape <code>(0, 42)</code> and zero shapes are not allowed.</p><h2 id=attributes>Attributes</h2><p>Syntax:</p><pre><code>attribute-dict ::= `{` `}`
+shape <code>(0, 42)</code> and zero shapes are not allowed.</p><h2 id=attributes>Attributes&nbsp;<a class=headline-hash href=#attributes>¶</a></h2><p>Syntax:</p><pre><code>attribute-dict ::= `{` `}`
                  | `{` attribute-entry (`,` attribute-entry)* `}`
 attribute-entry ::= dialect-attribute-entry | dependent-attribute-entry
 dialect-attribute-entry ::= dialect-namespace `.` bare-id `=` attribute-value
@@ -795,7 +795,7 @@ and meaning from a specific dialect. An example of a dialect attribute may be a
 <code>swift.self</code> function argument attribute that indicates an argument is the
 self/context parameter. The context of this attribute is defined by the <code>swift</code>
 dialect and not the function argument.</p><p>Attribute values are represented by the following forms:</p><pre><code>attribute-value ::= attribute-alias | dialect-attribute | standard-attribute
-</code></pre><h3 id=attribute-value-aliases>Attribute Value Aliases</h3><pre><code>attribute-alias ::= '#' alias-name '=' attribute-value
+</code></pre><h3 id=attribute-value-aliases>Attribute Value Aliases&nbsp;<a class=headline-hash href=#attribute-value-aliases>¶</a></h3><pre><code>attribute-alias ::= '#' alias-name '=' attribute-value
 attribute-alias ::= '#' alias-name
 </code></pre><p>MLIR supports defining named aliases for attribute values. An attribute alias is
 an identifier that can be used in the place of the attribute that it defines.
@@ -809,7 +809,7 @@ These aliases <em>must</em> be defined before their uses. Alias names may not co
 
 <span class=c>// Using the attribute alias.
 </span><span class=c></span><span class=nv>%b</span> <span class=p>=</span> affine<span class=p>.</span>apply <span class=nv>#map</span><span class=p>(</span><span class=nv>%a</span><span class=p>)</span>
-</code></pre></div><h3 id=dialect-attribute-values>Dialect Attribute Values</h3><p>Similarly to operations, dialects may define custom attribute values. The
+</code></pre></div><h3 id=dialect-attribute-values>Dialect Attribute Values&nbsp;<a class=headline-hash href=#dialect-attribute-values>¶</a></h3><p>Similarly to operations, dialects may define custom attribute values. The
 syntactic structure of these values is identical to custom dialect type values,
 except that dialect attributes values are distinguished with a leading &lsquo;#',
 while dialect types are distinguished with a leading &lsquo;!'.</p><pre><code>dialect-attribute ::= '#' opaque-dialect-item
@@ -829,7 +829,7 @@ that are not allowed in the lighter syntax, as well as unbalanced <code>&lt;></c
 characters.</p><p>See
 <a href=/docs/Tutorials/DefiningAttributesAndTypes/>here</a>
 to learn how to define dialect
-attribute values.</p><h3 id=standard-attribute-values>Standard Attribute Values</h3><p>Standard attributes are a core set of
+attribute values.</p><h3 id=standard-attribute-values>Standard Attribute Values&nbsp;<a class=headline-hash href=#standard-attribute-values>¶</a></h3><p>Standard attributes are a core set of
 <a href=#dialect-attribute-values>dialect attributes</a>
 that are defined in a builtin
 dialect and thus available to all users of MLIR.</p><pre><code>standard-attribute ::=   affine-map-attribute
@@ -844,33 +844,33 @@ dialect and thus available to all users of MLIR.</p><pre><code>standard-attribut
                        | symbol-ref-attribute
                        | type-attribute
                        | unit-attribute
-</code></pre><h4 id=affinemap-attribute>AffineMap Attribute</h4><p>Syntax:</p><pre><code>affine-map-attribute ::= `affine_map` `&lt;` affine-map `&gt;`
-</code></pre><p>An affine-map attribute is an attribute that represents an affine-map object.</p><h4 id=array-attribute>Array Attribute</h4><p>Syntax:</p><pre><code>array-attribute ::= `[` (attribute-value (`,` attribute-value)*)? `]`
+</code></pre><h4 id=affinemap-attribute>AffineMap Attribute&nbsp;<a class=headline-hash href=#affinemap-attribute>¶</a></h4><p>Syntax:</p><pre><code>affine-map-attribute ::= `affine_map` `&lt;` affine-map `&gt;`
+</code></pre><p>An affine-map attribute is an attribute that represents an affine-map object.</p><h4 id=array-attribute>Array Attribute&nbsp;<a class=headline-hash href=#array-attribute>¶</a></h4><p>Syntax:</p><pre><code>array-attribute ::= `[` (attribute-value (`,` attribute-value)*)? `]`
 </code></pre><p>An array attribute is an attribute that represents a collection of attribute
-values.</p><h4 id=boolean-attribute>Boolean Attribute</h4><p>Syntax:</p><pre><code>bool-attribute ::= bool-literal
+values.</p><h4 id=boolean-attribute>Boolean Attribute&nbsp;<a class=headline-hash href=#boolean-attribute>¶</a></h4><p>Syntax:</p><pre><code>bool-attribute ::= bool-literal
 </code></pre><p>A boolean attribute is a literal attribute that represents a one-bit boolean
-value, true or false.</p><h4 id=dictionary-attribute>Dictionary Attribute</h4><p>Syntax:</p><pre><code>dictionary-attribute ::= `{` (attribute-entry (`,` attribute-entry)*)? `}`
+value, true or false.</p><h4 id=dictionary-attribute>Dictionary Attribute&nbsp;<a class=headline-hash href=#dictionary-attribute>¶</a></h4><p>Syntax:</p><pre><code>dictionary-attribute ::= `{` (attribute-entry (`,` attribute-entry)*)? `}`
 </code></pre><p>A dictionary attribute is an attribute that represents a sorted collection of
 named attribute values. The elements are sorted by name, and each name must be
-unique within the collection.</p><h4 id=elements-attributes>Elements Attributes</h4><p>Syntax:</p><pre><code>elements-attribute ::= dense-elements-attribute
+unique within the collection.</p><h4 id=elements-attributes>Elements Attributes&nbsp;<a class=headline-hash href=#elements-attributes>¶</a></h4><p>Syntax:</p><pre><code>elements-attribute ::= dense-elements-attribute
                      | opaque-elements-attribute
                      | sparse-elements-attribute
 </code></pre><p>An elements attribute is a literal attribute that represents a constant
 <a href=#vector-type>vector</a>
 or
 <a href=#tensor-type>tensor</a>
-value.</p><h5 id=dense-elements-attribute>Dense Elements Attribute</h5><p>Syntax:</p><pre><code>dense-elements-attribute ::= `dense` `&lt;` attribute-value `&gt;` `:`
+value.</p><h5 id=dense-elements-attribute>Dense Elements Attribute&nbsp;<a class=headline-hash href=#dense-elements-attribute>¶</a></h5><p>Syntax:</p><pre><code>dense-elements-attribute ::= `dense` `&lt;` attribute-value `&gt;` `:`
                              ( tensor-type | vector-type )
 </code></pre><p>A dense elements attribute is an elements attribute where the storage for the
 constant vector or tensor value has been packed to the element bitwidth. The
 element type of the vector or tensor constant must be of integer, index, or
-floating point type.</p><h5 id=opaque-elements-attribute>Opaque Elements Attribute</h5><p>Syntax:</p><pre><code>opaque-elements-attribute ::= `opaque` `&lt;` dialect-namespace  `,`
+floating point type.</p><h5 id=opaque-elements-attribute>Opaque Elements Attribute&nbsp;<a class=headline-hash href=#opaque-elements-attribute>¶</a></h5><p>Syntax:</p><pre><code>opaque-elements-attribute ::= `opaque` `&lt;` dialect-namespace  `,`
                               hex-string-literal `&gt;` `:`
                               ( tensor-type | vector-type )
 </code></pre><p>An opaque elements attribute is an elements attribute where the content of the
 value is opaque. The representation of the constant stored by this elements
 attribute is only understood, and thus decodable, by the dialect that created
-it.</p><p>Note: The parsed string literal must be in hexadecimal form.</p><h5 id=sparse-elements-attribute>Sparse Elements Attribute</h5><p>Syntax:</p><pre><code>sparse-elements-attribute ::= `sparse` `&lt;` attribute-value `,` attribute-value
+it.</p><p>Note: The parsed string literal must be in hexadecimal form.</p><h5 id=sparse-elements-attribute>Sparse Elements Attribute&nbsp;<a class=headline-hash href=#sparse-elements-attribute>¶</a></h5><p>Syntax:</p><pre><code>sparse-elements-attribute ::= `sparse` `&lt;` attribute-value `,` attribute-value
                               `&gt;` `:` ( tensor-type | vector-type )
 </code></pre><p>A sparse elements attribute is an elements attribute that represents a sparse
 vector or tensor object. This is where very few of the elements are non-zero.</p><p>The attribute uses COO (coordinate list) encoding to represent the sparse
@@ -884,7 +884,7 @@ corresponding values for the indices.</p><p>Example:</p><div class=highlight><pr
 </span><span class=c></span><span class=c>///  [[1, 0, 0, 0],
 </span><span class=c></span><span class=c>///   [0, 0, 5, 0],
 </span><span class=c></span><span class=c>///   [0, 0, 0, 0]]
-</span></code></pre></div><h4 id=float-attribute>Float Attribute</h4><p>Syntax:</p><pre><code>float-attribute ::= (float-literal (`:` float-type)?)
+</span></code></pre></div><h4 id=float-attribute>Float Attribute&nbsp;<a class=headline-hash href=#float-attribute>¶</a></h4><p>Syntax:</p><pre><code>float-attribute ::= (float-literal (`:` float-type)?)
                   | (hexadecimal-literal `:` float-type)
 </code></pre><p>A float attribute is a literal attribute that represents a floating point value
 of the specified
@@ -899,12 +899,12 @@ attribute.</p><p>Examples:</p><pre><code>42.0         // float attribute default
 0x7C00 : f16 // positive infinity
 0x7CFF : f16 // NaN (one of possible values)
 42 : f32     // Error: expected integer type
-</code></pre><h4 id=integer-attribute>Integer Attribute</h4><p>Syntax:</p><pre><code>integer-attribute ::= integer-literal ( `:` (index-type | integer-type) )?
+</code></pre><h4 id=integer-attribute>Integer Attribute&nbsp;<a class=headline-hash href=#integer-attribute>¶</a></h4><p>Syntax:</p><pre><code>integer-attribute ::= integer-literal ( `:` (index-type | integer-type) )?
 </code></pre><p>An integer attribute is a literal attribute that represents an integral value of
 the specified integer or index type. The default type for this attribute, if one
-is not specified, is a 64-bit integer.</p><h5 id=integer-set-attribute>Integer Set Attribute</h5><p>Syntax:</p><pre><code>integer-set-attribute ::= `affine_set` `&lt;` integer-set `&gt;`
-</code></pre><p>An integer-set attribute is an attribute that represents an integer-set object.</p><h4 id=string-attribute>String Attribute</h4><p>Syntax:</p><pre><code>string-attribute ::= string-literal (`:` type)?
-</code></pre><p>A string attribute is an attribute that represents a string literal value.</p><h4 id=symbol-reference-attribute>Symbol Reference Attribute</h4><p>Syntax:</p><pre><code>symbol-ref-attribute ::= symbol-ref-id (`::` symbol-ref-id)*
+is not specified, is a 64-bit integer.</p><h5 id=integer-set-attribute>Integer Set Attribute&nbsp;<a class=headline-hash href=#integer-set-attribute>¶</a></h5><p>Syntax:</p><pre><code>integer-set-attribute ::= `affine_set` `&lt;` integer-set `&gt;`
+</code></pre><p>An integer-set attribute is an attribute that represents an integer-set object.</p><h4 id=string-attribute>String Attribute&nbsp;<a class=headline-hash href=#string-attribute>¶</a></h4><p>Syntax:</p><pre><code>string-attribute ::= string-literal (`:` type)?
+</code></pre><p>A string attribute is an attribute that represents a string literal value.</p><h4 id=symbol-reference-attribute>Symbol Reference Attribute&nbsp;<a class=headline-hash href=#symbol-reference-attribute>¶</a></h4><p>Syntax:</p><pre><code>symbol-ref-attribute ::= symbol-ref-id (`::` symbol-ref-id)*
 </code></pre><p>A symbol reference attribute is a literal attribute that represents a named
 reference to an operation that is nested within an operation with the
 <code>OpTrait::SymbolTable</code> trait. As such, this reference is given meaning by the
@@ -922,10 +922,10 @@ about their uses. By restricting the places that can legally hold a symbol
 reference, we can always opaquely reason about a symbols usage characteristics.</p><p>See
 <a href=/docs/SymbolsAndSymbolTables/><code>Symbols And SymbolTables</code></a>
 for more
-information.</p><h4 id=type-attribute>Type Attribute</h4><p>Syntax:</p><pre><code>type-attribute ::= type
+information.</p><h4 id=type-attribute>Type Attribute&nbsp;<a class=headline-hash href=#type-attribute>¶</a></h4><p>Syntax:</p><pre><code>type-attribute ::= type
 </code></pre><p>A type attribute is an attribute that represents a
 <a href=#type-system>type object</a>
-.</p><h4 id=unit-attribute>Unit Attribute</h4><pre><code>unit-attribute ::= `unit`
+.</p><h4 id=unit-attribute>Unit Attribute&nbsp;<a class=headline-hash href=#unit-attribute>¶</a></h4><pre><code>unit-attribute ::= `unit`
 </code></pre><p>A unit attribute is an attribute that represents a value of <code>unit</code> type. The
 <code>unit</code> type allows only one value forming a singleton set. This attribute value
 is used to represent attributes that only have meaning from their existence.</p><p>One example of such an attribute could be the <code>swift.self</code> attribute. This

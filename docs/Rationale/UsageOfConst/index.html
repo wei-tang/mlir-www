@@ -24,7 +24,7 @@ into the MLIR codebase, argues that the cost/benefit tradeoff of this design is
 a poor tradeoff, and proposes switching to a much simpler approach - eliminating
 the use of const of these IR types entirely.</p><p><strong>Note:</strong> <strong>This document is only discussing things like <code>const Value</code> and
 <code>const Operation*</code>. There is no proposed change for other types, e.g.
-<code>SmallVector</code> references, the immutable types like <code>Attribute</code>, etc.</strong></p><h2 id=background-the-llvm-const-model>Background: The LLVM Const Model</h2><p>The LLVM and MLIR data structures provide the IR data structures (like
+<code>SmallVector</code> references, the immutable types like <code>Attribute</code>, etc.</strong></p><h2 id=background-the-llvm-const-model>Background: The LLVM Const Model&nbsp;<a class=headline-hash href=#background-the-llvm-const-model>¶</a></h2><p>The LLVM and MLIR data structures provide the IR data structures (like
 <code>mlir::Operation</code>s and their users) as a structured cyclic graph data structure.
 Clients of the IR typically walk up and down the graph, perform dynamic down
 casting (of various sorts) to check for patterns, and use some high-abstraction
@@ -56,7 +56,7 @@ IR object and bind a non-const IR object.</p><p>LLVM is a mature technology with
 it still isn&rsquo;t correctly following the const model it set out for strongly hints
 that one of: 1) The design is too complicated to be practical, 2) the benefits
 of the model aren&rsquo;t worth the cost of the complexity, or 3) both 1 and 2,
-together in some combination.</p><h2 id=advantages-of-const-correctness-in-mlir>Advantages of Const-correctness in MLIR</h2><p>Even though this doc argues for eliminating const from MLIR, it is important to
+together in some combination.</p><h2 id=advantages-of-const-correctness-in-mlir>Advantages of Const-correctness in MLIR&nbsp;<a class=headline-hash href=#advantages-of-const-correctness-in-mlir>¶</a></h2><p>Even though this doc argues for eliminating const from MLIR, it is important to
 evaluate that as a tradeoff with the advantages the const model provides,
 allowing us to do a cost/benefit tradeoff. These are the benefits we see:</p><p>The major advantage of allowing const on MLIR types is as a marker in APIs that
 indicate that the function will not modify the specified values. For example,
@@ -65,10 +65,10 @@ the consts provide a way of indicating that the call won&rsquo;t modify the bloc
 passed in - similarly predicates like <code>Instruction::isTerminator() const</code> do not
 modify the receiver object.</p><p>It is also an advantage that MLIR follows the generally prevailing pattern of
 C++ code, which generally uses const. Consistency with the community norm is
-important.</p><h2 id=costs-of-const-correctness-in-mlir>Costs of Const-correctness in MLIR</h2><p>As mentioned above, early work on MLIR adopted the same design as LLVM intended,
+important.</p><h2 id=costs-of-const-correctness-in-mlir>Costs of Const-correctness in MLIR&nbsp;<a class=headline-hash href=#costs-of-const-correctness-in-mlir>¶</a></h2><p>As mentioned above, early work on MLIR adopted the same design as LLVM intended,
 allowing const-correct traversals in the APIs. Here we discuss the various costs
 of doing this by looking at some examples, listed in roughly increasing order of
-severity.</p><h3 id=pervasively-duplicated-accessors>Pervasively duplicated accessors</h3><p>Just as the getParent() example above shows, achieving this const model requires
+severity.</p><h3 id=pervasively-duplicated-accessors>Pervasively duplicated accessors&nbsp;<a class=headline-hash href=#pervasively-duplicated-accessors>¶</a></h3><p>Just as the getParent() example above shows, achieving this const model requires
 that all of the graph traversal accessors be duplicated into const and non-const
 versions. This causes API bloat and slows compile time, but these are minor
 problems.</p><p>The more significant issue is that this duplication can be so significant that
@@ -103,13 +103,13 @@ const.</p><div class=highlight><pre class=chroma><code class=language-c++ data-l
     <span class=k>return</span> <span class=nf>getOpOperands</span><span class=p>(</span><span class=p>)</span><span class=p>[</span><span class=n>idx</span><span class=p>]</span><span class=p>;</span>
   <span class=p>}</span>
 
-</code></pre></div><h3 id=templated-accessors>Templated accessors</h3><p>A related issue is that having to provide both const and non-const versions of
+</code></pre></div><h3 id=templated-accessors>Templated accessors&nbsp;<a class=headline-hash href=#templated-accessors>¶</a></h3><p>A related issue is that having to provide both const and non-const versions of
 accessors leads to us having to turn more code into templates than would
 otherwise be desirable. Things like <code>ResultIterator</code> and <code>ResultTypeIterator</code>
 are templates <em><em>only</em></em> because they are generic over const and non-const
 versions of types. This leads to them being defined inline in headers (instead
 of in .cpp files).</p><p>Thus, our const model is leading to more code in headers and more complexity in
-the implementation.</p><h3 id=const-incorrect-in-practice>Const incorrect in practice</h3><p>For some things, const is more trouble than it is worth, so they never get
+the implementation.</p><h3 id=const-incorrect-in-practice>Const incorrect in practice&nbsp;<a class=headline-hash href=#const-incorrect-in-practice>¶</a></h3><p>For some things, const is more trouble than it is worth, so they never get
 updated.</p><p>This means that certain API in practice don&rsquo;t provide a const variant, leading
 to pervasive use of <code>const_cast</code> to drop the const qualifier. For example the
 logic in <code>Matchers.h</code> doesn&rsquo;t support const pointers at all (b/123355851), even
@@ -123,7 +123,7 @@ cloning methods are defined on Operation like this:</p><div class=highlight><pre
 operation isn&rsquo;t modified) this is a violation of the model, since the returned
 operation must be mutable, and provides access to the full graph of operands as
 the original operation, violating the graph based const model we were shooting
-for.</p><h3 id=the-oppointer-and-constoppointer-classes>The <code>OpPointer</code> and <code>ConstOpPointer</code> Classes</h3><p>The &ldquo;typed operation&rdquo; classes for registered operations (e.g. like <code>DimOp</code> for
+for.</p><h3 id=the-oppointer-and-constoppointer-classes>The <code>OpPointer</code> and <code>ConstOpPointer</code> Classes&nbsp;<a class=headline-hash href=#the-oppointer-and-constoppointer-classes>¶</a></h3><p>The &ldquo;typed operation&rdquo; classes for registered operations (e.g. like <code>DimOp</code> for
 the &ldquo;std.dim&rdquo; operation in standard ops) contain a pointer to an operation and
 provide typed APIs for processing it.</p><p>However, this is a problem for our current <code>const</code> design - <code>const DimOp</code> means
 the pointer itself is immutable, not the pointee. The current solution for this
@@ -154,7 +154,7 @@ directly. For example, instead of:</p><div class=highlight><pre class=chroma><co
 </code></pre></div><p>It would be a lot nicer to just have:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=n>LogicalResult</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>getIndexSet</span><span class=p>(</span><span class=n>MutableArrayRef</span><span class=o>&lt;</span><span class=n>AffineForOp</span><span class=o>&gt;</span> <span class=n>forOps</span><span class=p>,</span>
                                 <span class=n>FlatAffineConstraints</span> <span class=o>*</span><span class=n>domain</span><span class=p>)</span> <span class=p>{</span>
 </code></pre></div><p>Particularly since all of the <code>FooOp</code> classes are already semantically a smart
-pointer to their underlying operation.</p><h2 id=proposal-remove-const-from-ir-objects>Proposal: Remove <code>const</code> from IR objects</h2><p>As we can see above, there is very little benefit to our const design and
+pointer to their underlying operation.</p><h2 id=proposal-remove-const-from-ir-objects>Proposal: Remove <code>const</code> from IR objects&nbsp;<a class=headline-hash href=#proposal-remove-const-from-ir-objects>¶</a></h2><p>As we can see above, there is very little benefit to our const design and
 significant cost, and given that the primary purpose of an IR is to represent
 transformations of code, const is providing very little benefit.</p><p>As such, we propose eliminating support for const references in MLIR. This
 implies the following changes to the codebase:</p><ol><li>All of the const-duplicated accessors would be eliminated, e.g.

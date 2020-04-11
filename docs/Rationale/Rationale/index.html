@@ -3,7 +3,7 @@ MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></heade
 open debates in the design of MLIR, along with the rationale for certain
 decisions we made. This is not intended to be a &ldquo;finely groomed&rdquo; document - we
 prefer the ability to dump in interesting tidbits without worrying too much
-about their consistency or readability.</p><p><nav id=TableOfContents><ul><li><a href=#abstract>Abstract</a></li><li><a href=#introduction-and-motivation>Introduction and Motivation</a></li><li><a href=#design-decisions>Design Decisions</a><ul><li><a href=#loads-and-stores>Loads and stores</a></li><li><a href=#symbols-and-types>Symbols and types</a></li><li><a href=#block-arguments-vs-phi-nodes>Block Arguments vs PHI nodes</a></li><li><a href=#index-type-disallowed-in-vectormemref-types>Index type disallowed in vector/memref types</a></li><li><a href=#bit-width-of-a-non-primitive-types-and-index-is-undefined>Bit width of a non-primitive types and index is undefined</a></li><li><a href=#integer-signedness-semantics>Integer signedness semantics</a></li><li><a href=#splitting-floating-point-vs-integer-operations>Splitting floating point vs integer operations</a></li><li><a href=#specifying-sign-in-integer-comparison-operations>Specifying sign in integer comparison operations</a></li><li><a href=#specifying-comparison-kind-as-attribute>Specifying comparison kind as attribute</a></li><li><a href=#select-operation-to-implement-minmax>&lsquo;select&rsquo; operation to implement min/max</a></li><li><a href=#regions>Regions</a></li><li><a href=#quantized-integer-operations>Quantized integer operations</a></li><li><a href=#dialect-type-extensions>Dialect type extensions</a></li><li><a href=#tuple-types>Tuple types</a></li><li><a href=#assembly-forms>Assembly forms</a></li></ul></li><li><a href=#examples>Examples</a><ul><li><a href=#non-affine-control-flow>Non-affine control flow</a></li><li><a href=#non-affine-loop-bounds>Non-affine loop bounds</a></li><li><a href=#reference-2d-convolution>Reference 2D Convolution</a></li></ul></li><li><a href=#design-alternatives-and-extensions>Design alternatives and extensions</a><ul><li><a href=#polyhedral-code-representation-alternatives-schedule-lists-vs-schedules-trees-vs-affine-loopif-forms>Polyhedral code representation alternatives: schedule lists vs schedules trees vs affine loop/if forms</a></li><li><a href=#affine-relations>Affine Relations</a></li><li><a href=#regions-1>Regions</a></li><li><a href=#readwritemay_readmay_write-sets-for-external-functions>Read/Write/May_Read/May_Write sets for External Functions</a></li><li><a href=#memref-extensions>Memref Extensions</a></li><li><a href=#affineif-and-affinefor-extensions-for-escaping-scalars>affine.if and affine.for Extensions for &ldquo;Escaping Scalars&rdquo;</a></li><li><a href=#multithreading-the-compiler>Multithreading the compiler</a></li></ul></li></ul></nav><h2 id=abstract>Abstract</h2><p>MLIR is a compiler intermediate representation with similarities to traditional
+about their consistency or readability.</p><p><nav id=TableOfContents><ul><li><a href=#abstract>Abstract</a></li><li><a href=#introduction-and-motivation>Introduction and Motivation</a></li><li><a href=#design-decisions>Design Decisions</a><ul><li><a href=#loads-and-stores>Loads and stores</a></li><li><a href=#symbols-and-types>Symbols and types</a></li><li><a href=#block-arguments-vs-phi-nodes>Block Arguments vs PHI nodes</a></li><li><a href=#index-type-disallowed-in-vectormemref-types>Index type disallowed in vector/memref types</a></li><li><a href=#bit-width-of-a-non-primitive-types-and-index-is-undefined>Bit width of a non-primitive types and index is undefined</a></li><li><a href=#integer-signedness-semantics>Integer signedness semantics</a></li><li><a href=#splitting-floating-point-vs-integer-operations>Splitting floating point vs integer operations</a></li><li><a href=#specifying-sign-in-integer-comparison-operations>Specifying sign in integer comparison operations</a></li><li><a href=#specifying-comparison-kind-as-attribute>Specifying comparison kind as attribute</a></li><li><a href=#select-operation-to-implement-minmax>&lsquo;select&rsquo; operation to implement min/max</a></li><li><a href=#regions>Regions</a></li><li><a href=#quantized-integer-operations>Quantized integer operations</a></li><li><a href=#dialect-type-extensions>Dialect type extensions</a></li><li><a href=#tuple-types>Tuple types</a></li><li><a href=#assembly-forms>Assembly forms</a></li></ul></li><li><a href=#examples>Examples</a><ul><li><a href=#non-affine-control-flow>Non-affine control flow</a></li><li><a href=#non-affine-loop-bounds>Non-affine loop bounds</a></li><li><a href=#reference-2d-convolution>Reference 2D Convolution</a></li></ul></li><li><a href=#design-alternatives-and-extensions>Design alternatives and extensions</a><ul><li><a href=#polyhedral-code-representation-alternatives-schedule-lists-vs-schedules-trees-vs-affine-loopif-forms>Polyhedral code representation alternatives: schedule lists vs schedules trees vs affine loop/if forms</a></li><li><a href=#affine-relations>Affine Relations</a></li><li><a href=#regions-1>Regions</a></li><li><a href=#readwritemay_readmay_write-sets-for-external-functions>Read/Write/May_Read/May_Write sets for External Functions</a></li><li><a href=#memref-extensions>Memref Extensions</a></li><li><a href=#affineif-and-affinefor-extensions-for-escaping-scalars>affine.if and affine.for Extensions for &ldquo;Escaping Scalars&rdquo;</a></li><li><a href=#multithreading-the-compiler>Multithreading the compiler</a></li></ul></li></ul></nav><h2 id=abstract>Abstract&nbsp;<a class=headline-hash href=#abstract>¶</a></h2><p>MLIR is a compiler intermediate representation with similarities to traditional
 three-address SSA representations (like
 <a href=http://llvm.org/docs/LangRef.html>LLVM IR</a>
 or
@@ -18,7 +18,7 @@ high performance target specific code.</p><p>MLIR stands for one of &ldquo;Multi
 &ldquo;Machine Learning IR&rdquo; or &ldquo;Mid Level IR&rdquo;, we prefer the first. This document only
 provides the rationale behind MLIR &ndash; its actual
 <a href=/docs/LangRef/>specification document</a>
-and other content is hosted elsewhere.</p><h2 id=introduction-and-motivation>Introduction and Motivation</h2><p>The Multi-Level Intermediate Representation (MLIR) is intended for easy
+and other content is hosted elsewhere.</p><h2 id=introduction-and-motivation>Introduction and Motivation&nbsp;<a class=headline-hash href=#introduction-and-motivation>¶</a></h2><p>The Multi-Level Intermediate Representation (MLIR) is intended for easy
 expression and optimization of computations involving deep loop nests and dense
 matrices of high dimensionality. It is thus well-suited to deep learning
 computations in particular. Yet it is general enough to also represent arbitrary
@@ -78,8 +78,8 @@ libraries operating on data at higher levels (or at the highest level) of the
 memory hierarchy.</p><p>In summary, MLIR is convenient for and closed under the kind of transformations
 needed to lower to general-purpose as well as specialized accelerators. It also
 allows one to build modular and reusable target independent and target dependent
-passes.</p><h2 id=design-decisions>Design Decisions</h2><p>This section sheds light on some of the design decisions &ndash; some of these are
-indirectly implied by the specification document.</p><h3 id=loads-and-stores>Loads and stores</h3><p>The &lsquo;load&rsquo; and &lsquo;store&rsquo; instructions are specifically crafted to fully resolve to
+passes.</p><h2 id=design-decisions>Design Decisions&nbsp;<a class=headline-hash href=#design-decisions>¶</a></h2><p>This section sheds light on some of the design decisions &ndash; some of these are
+indirectly implied by the specification document.</p><h3 id=loads-and-stores>Loads and stores&nbsp;<a class=headline-hash href=#loads-and-stores>¶</a></h3><p>The &lsquo;load&rsquo; and &lsquo;store&rsquo; instructions are specifically crafted to fully resolve to
 an element of a memref. These instructions take as arguments n+1 indices for an
 n-ranked tensor. This disallows the equivalent of pointer arithmetic or the
 ability to index into the same memref in other ways (something which C arrays
@@ -99,7 +99,7 @@ live out of for loops and if conditionals in a function, for which we don&rsquo;
 have an SSA representation &ndash;
 <a href=#mlfunction-extensions-for-%22escaping-scalars%22>an extension</a>
 to allow that is
-described later in this doc.</p><h3 id=symbols-and-types>Symbols and types</h3><p>The current MLIR disallows use of symbols in types. For example, when a tensor
+described later in this doc.</p><h3 id=symbols-and-types>Symbols and types&nbsp;<a class=headline-hash href=#symbols-and-types>¶</a></h3><p>The current MLIR disallows use of symbols in types. For example, when a tensor
 or memref dimension is statically unknown, it is denoted in the type as &lsquo;?'. An
 SSA symbol is then bound to it when a memref is created. The actual value of the
 unknown dimension can be queried using the &ldquo;dim&rdquo; builtin as shown below.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> foo<span class=p>(</span><span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>)</span> <span class=p>{</span>
@@ -128,7 +128,7 @@ unknown dimension can be queried using the &ldquo;dim&rdquo; builtin as shown be
 </code></pre></div><p>An alternative design is to embed the reference to symbols directly in the
 type - memref&lt;8x%Nxf32>. We went for the current approach in MLIR because it
 simplifies the design &mdash; types remain immutable when the values of symbols
-change.</p><h3 id=block-arguments-vs-phi-nodes>Block Arguments vs PHI nodes</h3><p>MLIR Regions represent SSA using &ldquo;
+change.</p><h3 id=block-arguments-vs-phi-nodes>Block Arguments vs PHI nodes&nbsp;<a class=headline-hash href=#block-arguments-vs-phi-nodes>¶</a></h3><p>MLIR Regions represent SSA using &ldquo;
 <a href=/docs/LangRef/#blocks>block arguments</a>
 &rdquo; rather
 than
@@ -163,7 +163,7 @@ and described in
 . The section of
 interest
 <a href="https://www.google.com/url?q=https://youtu.be/Ntj8ab-5cvE?t%3D596&sa=D&ust=1529450150971000&usg=AFQjCNFQHEWL7m8q3eO-1DiKw9zqC2v24Q">starts here</a>
-.</p><h3 id=index-type-disallowed-in-vectormemref-types>Index type disallowed in vector/memref types</h3><p>Index types are not allowed as elements of <code>vector</code> and <code>memref</code> types. Index
+.</p><h3 id=index-type-disallowed-in-vectormemref-types>Index type disallowed in vector/memref types&nbsp;<a class=headline-hash href=#index-type-disallowed-in-vectormemref-types>¶</a></h3><p>Index types are not allowed as elements of <code>vector</code> and <code>memref</code> types. Index
 types are intended to be used for platform-specific &ldquo;size&rdquo; values and may appear
 in subscripts, sizes of aggregate types and affine expressions. They are also
 tightly coupled with <code>affine.apply</code> and affine.load/store operations; having
@@ -182,7 +182,7 @@ of supporting smaller integer types, e.g. <code>i8</code> or <code>i16</code>, f
 instead of (presumably larger) <code>index</code> type.</p><p>Index types are allowed as element types of <code>tensor</code> types. The <code>tensor</code> type
 specifically abstracts the target-specific aspects that intersect with the
 code-generation-related/lowering-related concerns explained above. In fact, the
-<code>tensor</code> type even allows dialect-specific types as element types.</p><h3 id=bit-width-of-a-non-primitive-types-and-index-is-undefined>Bit width of a non-primitive types and <code>index</code> is undefined</h3><p>The bit width of a compound type is not defined by MLIR, it may be defined by a
+<code>tensor</code> type even allows dialect-specific types as element types.</p><h3 id=bit-width-of-a-non-primitive-types-and-index-is-undefined>Bit width of a non-primitive types and <code>index</code> is undefined&nbsp;<a class=headline-hash href=#bit-width-of-a-non-primitive-types-and-index-is-undefined>¶</a></h3><p>The bit width of a compound type is not defined by MLIR, it may be defined by a
 specific lowering pass. In MLIR, bit width is a property of certain primitive
 <em>type</em>, in particular integers and floats. It is equal to the number that
 appears in the type definition, e.g. the bit width of <code>i32</code> is <code>32</code>, so is the
@@ -196,7 +196,7 @@ than <code>(3 x 57) ceildiv 8 = 22</code> bytes as can be naively computed from 
 bitwidth. Individual components of MLIR that allocate space for storing values
 may use the bit size as the baseline and query the target description when it is
 introduced.</p><p>The bit width is not defined for dialect-specific types at MLIR level. Dialects
-are free to define their own quantities for type sizes.</p><h3 id=integer-signedness-semantics>Integer signedness semantics</h3><p>Integers in the builtin MLIR type system have a bitwidth (note that the <code>index</code>
+are free to define their own quantities for type sizes.</p><h3 id=integer-signedness-semantics>Integer signedness semantics&nbsp;<a class=headline-hash href=#integer-signedness-semantics>¶</a></h3><p>Integers in the builtin MLIR type system have a bitwidth (note that the <code>index</code>
 type has a symbolic width equal to the machine word size), and they <em>may</em>
 additionally have signedness semantics. The purpose is to satisfy the needs of
 different dialects, which can model different levels of abstractions. Certain
@@ -231,7 +231,7 @@ simpler.</p><p>More information about this split is available in an old
 talking about
 LLVM 2.0.</p><p>Note that this rationale only applies to the &ldquo;standard ops&rdquo; dialect in which we
 can express an opinion about its design. Other dialects generally try to model
-an external system, and should aim to reflect its design as closely as possible.</p><h3 id=splitting-floating-point-vs-integer-operations>Splitting floating point vs integer operations</h3><p>The MLIR &ldquo;standard&rdquo; operation set splits many integer and floating point
+an external system, and should aim to reflect its design as closely as possible.</p><h3 id=splitting-floating-point-vs-integer-operations>Splitting floating point vs integer operations&nbsp;<a class=headline-hash href=#splitting-floating-point-vs-integer-operations>¶</a></h3><p>The MLIR &ldquo;standard&rdquo; operation set splits many integer and floating point
 operations into different categories, for example <code>addf</code> vs <code>addi</code> and <code>cmpf</code> vs
 <code>cmpi</code>
 (
@@ -254,7 +254,7 @@ for performance.</p><p>We are a long way from this sort of thing being a priorit
 MLIR, but since we have experience and know the right way to do this, we&rsquo;d
 rather design it in from the beginning.</p><p>Note that this rationale only applies to the &ldquo;standard ops&rdquo; dialect in which we
 can express an opinion about its design. Other dialects generally try to model
-an external system, and should aim to reflect its design as closely as possible.</p><h3 id=specifying-sign-in-integer-comparison-operations>Specifying sign in integer comparison operations</h3><p>Since integers are
+an external system, and should aim to reflect its design as closely as possible.</p><h3 id=specifying-sign-in-integer-comparison-operations>Specifying sign in integer comparison operations&nbsp;<a class=headline-hash href=#specifying-sign-in-integer-comparison-operations>¶</a></h3><p>Since integers are
 <a href=#signless-types>signless</a>
 , it is necessary to define the
 sign for integer comparison operations. This sign indicates how to treat the
@@ -266,7 +266,7 @@ comparisons. Indeed, for the latter all bits must have the same value
 independently of the sign. Since both arguments have exactly the same bit width
 and cannot be padded by this operation, it is impossible to compare two values
 whose bit representations would differ while the values are interpreted as
-equal.</p><h3 id=specifying-comparison-kind-as-attribute>Specifying comparison kind as attribute</h3><p>Unlike arithmetic, comparison operators share several common properties, e.g.
+equal.</p><h3 id=specifying-comparison-kind-as-attribute>Specifying comparison kind as attribute&nbsp;<a class=headline-hash href=#specifying-comparison-kind-as-attribute>¶</a></h3><p>Unlike arithmetic, comparison operators share several common properties, e.g.
 they cannot be considered associative. In practice, comparisons are sometimes
 implemented by the same instruction or its variants so it makes sense to group
 them together at the IR level.</p><p>An alternative would be introducing ten distinct operators for all currently
@@ -282,7 +282,7 @@ Supporting it in the full notation would have required changing how the main
 parsing algorithm works and may have unexpected repercussions. While it had been
 possible to store the predicate as string attribute, it would have rendered
 impossible to implement switching logic based on the comparison kind and made
-attribute validity checks (one out of ten possible kinds) more complex.</p><h3 id=select-operation-to-implement-minmax>&lsquo;select&rsquo; operation to implement min/max</h3><p>Although <code>min</code> and <code>max</code> operations are likely to occur as a result of
+attribute validity checks (one out of ten possible kinds) more complex.</p><h3 id=select-operation-to-implement-minmax>&lsquo;select&rsquo; operation to implement min/max&nbsp;<a class=headline-hash href=#select-operation-to-implement-minmax>¶</a></h3><p>Although <code>min</code> and <code>max</code> operations are likely to occur as a result of
 transforming affine loops in ML functions, we did not make them first-class
 operations. Instead, we provide the <code>select</code> operation that can be combined with
 <code>cmpi</code> to implement the minimum and maximum computation. Although they now
@@ -297,22 +297,22 @@ trivial.</p><p>This operation could have been implemented with additional contro
 <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%r</span><span class=p>)</span><span class=p>:</span>
 </code></pre></div><p>However, this control flow granularity is not available in the ML functions
 where min/max, and thus <code>select</code>, are likely to appear. In addition, simpler
-control flow may be beneficial for optimization in general.</p><h3 id=regions>Regions</h3><h4 id=attributes-of-type-block>Attributes of type &lsquo;Block&rsquo;</h4><p>We considered representing regions through <code>ArrayAttr</code>s containing a list of a
+control flow may be beneficial for optimization in general.</p><h3 id=regions>Regions&nbsp;<a class=headline-hash href=#regions>¶</a></h3><h4 id=attributes-of-type-block>Attributes of type &lsquo;Block&rsquo;&nbsp;<a class=headline-hash href=#attributes-of-type-block>¶</a></h4><p>We considered representing regions through <code>ArrayAttr</code>s containing a list of a
 special type <code>IRBlockAttr</code>, which in turn would contain a list of operations.
 All attributes in MLIR are unique’d within the context, which would make the IR
-inside the regions immortal for no good reason.</p><h4 id=use-inlined-functions-as-regions>Use &ldquo;inlined&rdquo; functions as regions</h4><p>We considered attaching a &ldquo;force-inline&rdquo; attribute on a function and/or a
+inside the regions immortal for no good reason.</p><h4 id=use-inlined-functions-as-regions>Use &ldquo;inlined&rdquo; functions as regions&nbsp;<a class=headline-hash href=#use-inlined-functions-as-regions>¶</a></h4><p>We considered attaching a &ldquo;force-inline&rdquo; attribute on a function and/or a
 function <code>call</code> operation. Even the minimal region support (use cases in
 affine.for and affine.if existing before the regions) requires access to the
 values defined in the dominating block, which is not supported by functions.
 Conceptually, function bodies are instances of regions rather than the inverse;
-regions can also be device kernels, alternative sections, etc.</p><h4 id=dedicated-region-operation>Dedicated <code>region</code> operation</h4><p>This would mean we have a special kind of operation that is allowed to have
+regions can also be device kernels, alternative sections, etc.</p><h4 id=dedicated-region-operation>Dedicated <code>region</code> operation&nbsp;<a class=headline-hash href=#dedicated-region-operation>¶</a></h4><p>This would mean we have a special kind of operation that is allowed to have
 regions while other operations are not. Such distinction is similar to the
 Stmt/Op difference we have had and chose to remove to make the IR simpler and
 more flexible. It would also require analyses and passes to consider the
 interplay between operations (e.g., an <code>affine.for</code> operation must be followed
 by a region operation). Finally, a region operation can be introduced using the
 current implementation, among other operations and without being special in any
-sense.</p><h4 id=explicit-capture-of-the-values-used-in-a-region>Explicit capture of the values used in a region</h4><p>Being able to use values defined outside the region implies that use-def chains
+sense.</p><h4 id=explicit-capture-of-the-values-used-in-a-region>Explicit capture of the values used in a region&nbsp;<a class=headline-hash href=#explicit-capture-of-the-values-used-in-a-region>¶</a></h4><p>Being able to use values defined outside the region implies that use-def chains
 may contain uses from different nested regions. Consequently, IR transformations
 and analyses can pull the instruction defining the value across region
 boundaries, for example in case of TableGen-defined canonicalization patterns.
@@ -333,7 +333,7 @@ semantic barriers, making it possible to unknowingly break region semantics.
 This is expected to be caught in the verifier after the transformation.</p><p>At the same time, one may choose to pass certain or all values as region
 arguments to explicitly break the use-def chains in the current proposal. This
 can be combined with an attribute-imposed semantic requirement disallowing the
-body of the region to refer to any value from outside it.</p><h3 id=quantized-integer-operations>Quantized integer operations</h3><p>We haven&rsquo;t designed integer quantized operations in MLIR, but experience from
+body of the region to refer to any value from outside it.</p><h3 id=quantized-integer-operations>Quantized integer operations&nbsp;<a class=headline-hash href=#quantized-integer-operations>¶</a></h3><p>We haven&rsquo;t designed integer quantized operations in MLIR, but experience from
 TensorFlow suggests that it is better to put information about the quantization
 range/scale into the type itself, rather than have a single type like &ldquo;qint8&rdquo;
 and put these on attributes of the operation.</p><p>There are a few ways to do this with MLIR, including at least:</p><ul><li>We could do the same thing TensorFlow does - and we will <em>have</em> to support
@@ -348,11 +348,11 @@ more implementation experience with the rest of the system first, then come back
 to re-examine the representation for quantized arithmetic when we have that
 experience. When we do, we should chat with benoitjacob@ and
 <a href=https://arxiv.org/abs/1712.05877>read the paper</a>
-.</p><h3 id=dialect-type-extensions>Dialect type extensions</h3><p>This section describes the design decisions that shaped the dialect extensible
-type system present in MLIR.</p><h4 id=reserving-dialect-type-kinds>Reserving dialect type kinds</h4><p>Dialects that wish to define type extensions must reserve a range of type kinds
+.</p><h3 id=dialect-type-extensions>Dialect type extensions&nbsp;<a class=headline-hash href=#dialect-type-extensions>¶</a></h3><p>This section describes the design decisions that shaped the dialect extensible
+type system present in MLIR.</p><h4 id=reserving-dialect-type-kinds>Reserving dialect type kinds&nbsp;<a class=headline-hash href=#reserving-dialect-type-kinds>¶</a></h4><p>Dialects that wish to define type extensions must reserve a range of type kinds
 within a &lsquo;.def&rsquo; file within the core IR library. This means that every dialect
 wishing to define custom types must modify this file, but it guarantees that all
-type casting checkings are performed in O(1) time.</p><h4 id=interactions-between-dialects>Interactions between dialects</h4><p>There are two different interactions between dialects that are important to
+type casting checkings are performed in O(1) time.</p><h4 id=interactions-between-dialects>Interactions between dialects&nbsp;<a class=headline-hash href=#interactions-between-dialects>¶</a></h4><p>There are two different interactions between dialects that are important to
 understand. When types of a dialect are:</p><ul><li><p>In operations of other dialects</p><ul><li>For standard/builtin operations, only standard/builtin types are
 allowed. This restriction allows for operations to clearly understand
 the invariants that they are working under.</li><li>Outside of standard/builtin operations, dialects are expected to verify
@@ -363,21 +363,21 @@ tensor, as well as the memref type. Dialects are expected to verify that
 a specific type is valid within a standard type, e.g. if a type can be
 an element of a tensor.</li><li>For dialect types, the dialect is expected to verify any type
 invariants, e.g. if the standard tensor type can contain a specific type
-of that dialect.</li></ul></li></ul><h4 id=separating-builtin-and-standard-types>Separating builtin and standard types</h4><p>Following the separation between the built-in and standard dialect, it makes
+of that dialect.</li></ul></li></ul><h4 id=separating-builtin-and-standard-types>Separating builtin and standard types&nbsp;<a class=headline-hash href=#separating-builtin-and-standard-types>¶</a></h4><p>Following the separation between the built-in and standard dialect, it makes
 sense to separate built-in types and standard dialect types. Built-in types are
 required for the validity of the IR itself, e.g. the function type (which
 appears in function signatures and generic assembly forms of operations).
 Integer, float, vector, memref and tensor types, while important, are not
-necessary for IR validity.</p><h4 id=unregistered-types>Unregistered types</h4><p>MLIR supports unregistered operations in generic assembly form. MLIR also
+necessary for IR validity.</p><h4 id=unregistered-types>Unregistered types&nbsp;<a class=headline-hash href=#unregistered-types>¶</a></h4><p>MLIR supports unregistered operations in generic assembly form. MLIR also
 supports a similar concept for types. When parsing, if the dialect for dialect
 type has not been registered the type is modeled as an &lsquo;OpaqueType&rsquo;. This allows
 for types to be round-tripped without needing to link in the dialect library
 that defined them. No additional information about opaque types, outside of
-parsing/printing, will be available.</p><h4 id=dialect-type-syntax>Dialect type syntax</h4><p>Dialect extended types are represented as string literals wrapped inside of the
+parsing/printing, will be available.</p><h4 id=dialect-type-syntax>Dialect type syntax&nbsp;<a class=headline-hash href=#dialect-type-syntax>¶</a></h4><p>Dialect extended types are represented as string literals wrapped inside of the
 dialect namespace. This means that the parser delegates to the dialect for
 parsing specific type instances. This differs from the representation of dialect
 defined operations, of which have an identifier name that the parser uses to
-identify and parse them.</p><p>This representation was chosen for several reasons:</p><h5 id=dialects-must-provide-custom-type-parsers>Dialects must provide custom type parsers</h5><p>Dialect type parsing cannot plug into the existing parser infrastructure as
+identify and parse them.</p><p>This representation was chosen for several reasons:</p><h5 id=dialects-must-provide-custom-type-parsers>Dialects must provide custom type parsers&nbsp;<a class=headline-hash href=#dialects-must-provide-custom-type-parsers>¶</a></h5><p>Dialect type parsing cannot plug into the existing parser infrastructure as
 operations do with the OpAsmParser/Printer. Operations have a defined syntax
 structure that is the same across all dialects. Types, on the other hand, may
 have many different, and sometimes conflicting, parsing constraints that would
@@ -385,7 +385,7 @@ be difficult/unmaintainable to provide within a single interface.</p><p>This als
 external type parsers. For example, an LLVM dialect may provide an MLIR LLVM
 type that is simply a wrapper around LLVM types. The LLVM dialect would then use
 the existing LLVM type parsing infrastructure.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=nv>%s</span> <span class=p>=</span> <span class=s>&#34;foo&#34;</span><span class=p>(</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32*&#34;</span><span class=p>&gt;</span>
-</code></pre></div><h5 id=types-do-not-always-have-canonical-names>Types do not always have canonical names</h5><p>Unlike operations, types generally do not have a formal canonical name. For
+</code></pre></div><h5 id=types-do-not-always-have-canonical-names>Types do not always have canonical names&nbsp;<a class=headline-hash href=#types-do-not-always-have-canonical-names>¶</a></h5><p>Unlike operations, types generally do not have a formal canonical name. For
 example, function types have no defined keyword and integer types are defined by
 a regular expression to support arbitrary bitwidth. Dialects with existing type
 systems, e.g. LLVM, are likely to provide wrappers around their existing type
@@ -393,7 +393,7 @@ systems. For these wrapper types there is no simple canonical name, it&rsquo;s l
 to think of these types as existing within the namespace of the dialect. If a
 dialect wishes to assign a canonical name to a type, it can be done via
 <a href=/docs/LangRef/#type-aliases>type aliases</a>
-.</p><h3 id=tuple-types>Tuple types</h3><p>The MLIR type system provides first class support for defining
+.</p><h3 id=tuple-types>Tuple types&nbsp;<a class=headline-hash href=#tuple-types>¶</a></h3><p>The MLIR type system provides first class support for defining
 <a href=/docs/LangRef/#tuple-type>tuple types</a>
 . This is due to the fact that <code>Tuple</code>
 represents a universal concept that is likely to, and has already begun to,
@@ -404,7 +404,7 @@ for interfacing with <code>tuple</code> types. It is up to dialect authors to pr
 operations, e.g. extract_tuple_element, to interpret and manipulate them. When
 possible, operations should prefer to use multiple results instead. These
 provide a myriad of benefits, such as alleviating any need for tuple-extract
-operations that merely get in the way of analysis and transformation.</p><h3 id=assembly-forms>Assembly forms</h3><p>MLIR decides to support both generic and custom assembly forms under the
+operations that merely get in the way of analysis and transformation.</p><h3 id=assembly-forms>Assembly forms&nbsp;<a class=headline-hash href=#assembly-forms>¶</a></h3><p>MLIR decides to support both generic and custom assembly forms under the
 following considerations:</p><p>MLIR is an open system; it is designed to support modular and pluggable
 dialects. Depending on whether there exists a corresponding dialect and whether
 the dialect is plugged in, operations may or may not be registered into MLIR
@@ -416,8 +416,8 @@ certain ops. Therefore, MLIR gives each dialect the choice to define a custom
 assembly form for each operation according to the operation&rsquo;s semantics and
 specific needs. The custom assembly form can de-duplicate information from the
 operation to derive a more concise form, thus better facilitating the
-comprehension of the IR.</p><h2 id=examples>Examples</h2><p>This section describes a few very simple examples that help understand how MLIR
-represents computation.</p><h3 id=non-affine-control-flow>Non-affine control flow</h3><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A simple linear search in every row of a matrix
+comprehension of the IR.</p><h2 id=examples>Examples&nbsp;<a class=headline-hash href=#examples>¶</a></h2><p>This section describes a few very simple examples that help understand how MLIR
+represents computation.</p><h3 id=non-affine-control-flow>Non-affine control flow&nbsp;<a class=headline-hash href=#non-affine-control-flow>¶</a></h3><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A simple linear search in every row of a matrix
 </span><span class=c></span>for <span class=p>(</span><span class=nl>i =</span> <span class=m>0</span><span class=err>;</span> i <span class=p>&lt;</span> N<span class=err>;</span> i<span class=err>+</span><span class=err>+</span><span class=p>)</span> <span class=p>{</span>
   for <span class=p>(</span><span class=nl>j =</span> <span class=m>0</span><span class=err>;</span> j <span class=p>&lt;</span> N<span class=err>;</span> j<span class=err>+</span><span class=err>+</span><span class=p>)</span> <span class=p>{</span>
     <span class=c>// dynamic control flow
@@ -468,7 +468,7 @@ identifiers to be used with the affine.apply operation only apply to accesses
 inside <code>affine.for</code> and <code>affine.if</code> operations. However, an analysis of accesses
 inside the called function (<code>@search_body</code>) is necessary to determine if the
 <code>%i</code> loop could be parallelized: such function access analysis is calling
-context sensitive.</p><h3 id=non-affine-loop-bounds>Non-affine loop bounds</h3><p>Loop bounds that are not affine lead to a nesting of functions as shown below.</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=o>+</span><span class=o>+</span><span class=p>)</span>
+context sensitive.</p><h3 id=non-affine-loop-bounds>Non-affine loop bounds&nbsp;<a class=headline-hash href=#non-affine-loop-bounds>¶</a></h3><p>Loop bounds that are not affine lead to a nesting of functions as shown below.</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=k>for</span> <span class=p>(</span><span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span><span class=o>+</span><span class=o>+</span><span class=p>)</span>
   <span class=k>for</span> <span class=p>(</span><span class=n>j</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>j</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>j</span><span class=o>+</span><span class=o>+</span><span class=p>)</span>
     <span class=c1>// Non-affine loop bound for k loop.
 </span><span class=c1></span>    <span class=k>for</span> <span class=p>(</span><span class=n>k</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>k</span> <span class=o>&lt;</span> <span class=n>pow</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=n>j</span><span class=p>)</span><span class=p>;</span> <span class=n>k</span><span class=o>+</span><span class=o>+</span><span class=p>)</span>
@@ -494,7 +494,7 @@ context sensitive.</p><h3 id=non-affine-loop-bounds>Non-affine loop bounds</h3><
   <span class=p>}</span>
   <span class=kt>return</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=reference-2d-convolution>Reference 2D Convolution</h3><p>The following example illustrates a reference implementation of a 2D
+</code></pre></div><h3 id=reference-2d-convolution>Reference 2D Convolution&nbsp;<a class=headline-hash href=#reference-2d-convolution>¶</a></h3><p>The following example illustrates a reference implementation of a 2D
 convolution, which uses an integer set <code>#domain</code> to represent valid input data
 in a dilated convolution.</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Dilation factors S0 and S1 can be constant folded if constant at compile time.
 </span><span class=c></span><span class=nv>#domain</span> <span class=p>=</span> <span class=p>(</span>d0<span class=p>,</span> d1<span class=p>)</span><span class=p>[</span>S0<span class=p>,</span>S1<span class=p>,</span>S2<span class=p>,</span>S3<span class=p>]</span><span class=p>:</span> <span class=p>(</span>d0 <span class=err>%</span> <span class=nl>S0 =</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d1 <span class=err>%</span> <span class=nl>S1 =</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d0 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span> d1 <span class=p>&gt;</span><span class=p>=</span> <span class=m>0</span><span class=p>,</span>
@@ -555,11 +555,11 @@ in a dilated convolution.</p><div class=highlight><pre class=chroma><code class=
   <span class=p>}</span>
   <span class=kt>return</span>
 <span class=p>}</span>
-</code></pre></div><p>TODO (Add more examples showing the IR for a variety of interesting cases)</p><h2 id=design-alternatives-and-extensions>Design alternatives and extensions</h2><p>This is a list of some design alternatives and extensions that we discussed in
+</code></pre></div><p>TODO (Add more examples showing the IR for a variety of interesting cases)</p><h2 id=design-alternatives-and-extensions>Design alternatives and extensions&nbsp;<a class=headline-hash href=#design-alternatives-and-extensions>¶</a></h2><p>This is a list of some design alternatives and extensions that we discussed in
 detail but did not include in the spec or postponed them for future
 consideration on demand. We will revisit these discussions when we have more
 implementation experience and learn more about the challenges and limitations of
-our current design in practice.</p><h3 id=polyhedral-code-representation-alternatives-schedule-lists-vs-schedules-trees-vs-affine-loopif-forms>Polyhedral code representation alternatives: schedule lists vs schedules trees vs affine loop/if forms</h3><p>The current MLIR uses a representation of polyhedral schedules using a tree of
+our current design in practice.</p><h3 id=polyhedral-code-representation-alternatives-schedule-lists-vs-schedules-trees-vs-affine-loopif-forms>Polyhedral code representation alternatives: schedule lists vs schedules trees vs affine loop/if forms&nbsp;<a class=headline-hash href=#polyhedral-code-representation-alternatives-schedule-lists-vs-schedules-trees-vs-affine-loopif-forms>¶</a></h3><p>The current MLIR uses a representation of polyhedral schedules using a tree of
 if/for loops. We extensively debated the tradeoffs involved in the typical
 unordered polyhedral instruction representation (where each instruction has
 multidimensional schedule information), discussed the benefits of schedule tree
@@ -582,7 +582,7 @@ code. An example and more detail on the schedule tree form is in the next
 section.</li><li>Having two different forms of &ldquo;affine regions&rdquo;: an affine loop tree form
 and a polyhedral schedule tree form. In the latter, ops could carry
 attributes capturing domain, scheduling, and other polyhedral code
-generation options with IntegerSet, AffineMap, and other attributes.</li></ol><h4 id=schedule-tree-representation-for-affine-regions>Schedule Tree Representation for Affine Regions</h4><p>This representation is based on a simplified form of the domain/schedule
+generation options with IntegerSet, AffineMap, and other attributes.</li></ol><h4 id=schedule-tree-representation-for-affine-regions>Schedule Tree Representation for Affine Regions&nbsp;<a class=headline-hash href=#schedule-tree-representation-for-affine-regions>¶</a></h4><p>This representation is based on a simplified form of the domain/schedule
 representation used by the polyhedral compiler community. Domains represent what
 has to be executed while schedules represent the order in which domain elements
 are interleaved. We model domains as non-piece-wise convex integer sets, and
@@ -628,7 +628,7 @@ instruction that appears in that branch. Each leaf node is an ML Instruction.</p
 </span><span class=c></span>  <span class=kt>return</span>
 <span class=p>}</span>
 
-</code></pre></div><h3 id=affine-relations>Affine Relations</h3><p>The current MLIR spec includes affine maps and integer sets, but not affine
+</code></pre></div><h3 id=affine-relations>Affine Relations&nbsp;<a class=headline-hash href=#affine-relations>¶</a></h3><p>The current MLIR spec includes affine maps and integer sets, but not affine
 relations. Affine relations are a natural way to model read and write access
 information, which can be very useful to capture the behavior of opaque external
 library calls, high-performance vendor libraries, or user-provided / user-tuned
@@ -670,14 +670,14 @@ bb0 <span class=p>(</span><span class=nv>%0</span><span class=p>,</span> <span c
   <span class=nv>%p</span> <span class=p>=</span> mulf <span class=nv>%val</span><span class=p>,</span> <span class=nv>%val</span> <span class=p>:</span> <span class=k>f32</span>
   <span class=kt>return</span> <span class=nv>%p</span> <span class=p>:</span> <span class=k>f32</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=regions-1>Regions</h3><h4 id=making-function-definition-an-operation>Making function definition an operation</h4><p>MLIR supports values of a Function type. Instead of having first-class IR
+</code></pre></div><h3 id=regions-1>Regions&nbsp;<a class=headline-hash href=#regions-1>¶</a></h3><h4 id=making-function-definition-an-operation>Making function definition an operation&nbsp;<a class=headline-hash href=#making-function-definition-an-operation>¶</a></h4><p>MLIR supports values of a Function type. Instead of having first-class IR
 concept for functions, one could define an operation with a body region that
 defines a function value. The particularity of functions is that their names are
 globally visible and can be referred to before being defined, unlike SSA values
 that must be defined first. Implementing a &ldquo;function definition&rdquo; operation would
 require to relax some of the SSA constraints in a region, and also make the IR
 Module a region as well. It would also affect the core infrastructure (e.g.,
-function passes) only for the sake of concept unification.</p><h4 id=having-types-on-a-region>Having types on a region</h4><p>Instead of inspecting the types of arguments of the first block, one could give
+function passes) only for the sake of concept unification.</p><h4 id=having-types-on-a-region>Having types on a region&nbsp;<a class=headline-hash href=#having-types-on-a-region>¶</a></h4><p>Instead of inspecting the types of arguments of the first block, one could give
 the region itself a type. This type would be redundant with block argument
 types, which must have values and create room for type mismatches. While
 functions do have types that are partly redundant with the arguments of the
@@ -686,7 +686,7 @@ that do not have a body which we can refer to in order to obtain the argument
 types. A region is always contained in an operation or a function that can be
 queried to obtain the “type” of the region if necessary.</p><p>A type on a region can be justified if Regions were to be considered separately
 from the enclosing entity (operation or function) and had their own semantics
-that should be checked.</p><h4 id=attaching-attributes-to-regions>Attaching attributes to regions</h4><p>Regions could be annotated with dialect attributes to use attribute verification
+that should be checked.</p><h4 id=attaching-attributes-to-regions>Attaching attributes to regions&nbsp;<a class=headline-hash href=#attaching-attributes-to-regions>¶</a></h4><p>Regions could be annotated with dialect attributes to use attribute verification
 hooks. An operation could take multiple regions as arguments, and each of them
 may require different attributes. However, there are currently very few
 practical cases where this would be necessary. Instead, one could simulate
@@ -696,7 +696,7 @@ IR and enables more concise and op-specific forms, e.g., when all regions of an
 op have the same attribute that can be only mentioned once. Since the semantics
 of the region is entirely defined by the enclosing entity, it also makes sense
 to have attributes attached to that entity rather than to the region itself.</p><p>This can be reconsidered in the future if we see a non-neglectable amount of use
-cases.</p><h3 id=readwritemay_readmay_write-sets-for-external-functions>Read/Write/May_Read/May_Write sets for External Functions</h3><p>Having read, write, may_read, and may_write sets for external functions which
+cases.</p><h3 id=readwritemay_readmay_write-sets-for-external-functions>Read/Write/May_Read/May_Write sets for External Functions&nbsp;<a class=headline-hash href=#readwritemay_readmay_write-sets-for-external-functions>¶</a></h3><p>Having read, write, may_read, and may_write sets for external functions which
 include opaque ones, high-performance vendor libraries such as CuDNN, CuB, MKL,
 FFT libraries, user-provided/optimized functions, or data movement runtimes such
 as DMA ones is a powerful feature. It allows the compiler to perform analysis,
@@ -722,7 +722,7 @@ of the external function signature or they could be part of a database.</p><p>TO
   may_writes<span class=p>:</span> <span class=err>/</span><span class=p>*</span> empty <span class=p>*</span><span class=err>/</span>
  <span class=p>]</span>
 
-</code></pre></div><h3 id=memref-extensions>Memref Extensions</h3><ol><li><p>Arbitrary polyhedral shapes for tensors: e.g., triangular shapes in tensor
+</code></pre></div><h3 id=memref-extensions>Memref Extensions&nbsp;<a class=headline-hash href=#memref-extensions>¶</a></h3><ol><li><p>Arbitrary polyhedral shapes for tensors: e.g., triangular shapes in tensor
 dimensions where there is symmetry: use integer set (affine constraints) to
 model tensor data space (instead of just extents). Requires some changes to
 the IR and the in-memory form.</p></li><li><p>Layout maps</p><ol><li>Allow piece-wise affine maps for layouts: allows clean modeling of
@@ -733,13 +733,13 @@ proposal are bijective. Extending them to many-to-one layout maps allows
 cleaner(?) modeling of broadcast/reduce style computations while reusing
 memory.</li></ol><p>Proposal 2(a) requires non-trivial changes to the IR and the in-memory
 representation. 2(b) requires no change, but impacts how cost models look at
-index and layout maps.</p></li></ol><h3 id=affineif-and-affinefor-extensions-for-escaping-scalars><code>affine.if</code> and <code>affine.for</code> Extensions for &ldquo;Escaping Scalars&rdquo;</h3><p>We considered providing a representation for SSA values that are live out of
+index and layout maps.</p></li></ol><h3 id=affineif-and-affinefor-extensions-for-escaping-scalars><code>affine.if</code> and <code>affine.for</code> Extensions for &ldquo;Escaping Scalars&rdquo;&nbsp;<a class=headline-hash href=#affineif-and-affinefor-extensions-for-escaping-scalars>¶</a></h3><p>We considered providing a representation for SSA values that are live out of
 <code>if/else</code> conditional bodies and loop carried in <code>affine.for</code> loops. We
 ultimately abandoned this approach due to its complexity. In the current design
 of MLIR, scalar variables cannot escape for loops or if instructions. In
 situations, where escaping is necessary, we use zero-dimensional tensors and
 memrefs instead of scalars.</p><p><strong>TODO</strong>: This whole section is obsolete and should be updated to use block
-arguments and a yield like terminator in for/if instructions.</p><p>The abandoned design of supporting escaping scalars is as follows:</p><h4 id=affinefor-instruction>affine.for Instruction</h4><p>Syntax:</p><pre><code>[&lt;out-var-list&gt; =]
+arguments and a yield like terminator in for/if instructions.</p><p>The abandoned design of supporting escaping scalars is as follows:</p><h4 id=affinefor-instruction>affine.for Instruction&nbsp;<a class=headline-hash href=#affinefor-instruction>¶</a></h4><p>Syntax:</p><pre><code>[&lt;out-var-list&gt; =]
 for %&lt;index-variable-name&gt; = &lt;lower-bound&gt; ... &lt;upper-bound&gt; step &lt;step&gt;
    [with &lt;in-var-list&gt;] { &lt;loop-instruction-list&gt; }
 </code></pre><p>out-var-list is a comma separated list of SSA values defined in the loop body
@@ -755,7 +755,7 @@ is a list of instructions that may also include a yield instruction.</p><p>Examp
    <span class=p>}</span>
    <span class=kt>return</span> <span class=nv>%result</span> <span class=p>:</span> <span class=k>i32</span>
 <span class=p>}</span>
-</code></pre></div><h4 id=affineifelse-instruction>affine.if/else Instruction</h4><p>Syntax:</p><pre><code>&lt;out-var-list&gt; = affine.if (&lt;cond-list&gt;) {...} [else {...}]
+</code></pre></div><h4 id=affineifelse-instruction>affine.if/else Instruction&nbsp;<a class=headline-hash href=#affineifelse-instruction>¶</a></h4><p>Syntax:</p><pre><code>&lt;out-var-list&gt; = affine.if (&lt;cond-list&gt;) {...} [else {...}]
 </code></pre><p>Out-var-list is a list of SSA values defined by the if-instruction. The values
 are arguments to the yield-instruction that occurs in both then and else clauses
 when else clause is present. When if instruction contains only if clause, the
@@ -774,7 +774,7 @@ this situation.</p><p>Example:</p><div class=highlight><pre class=chroma><code c
    <span class=p>}</span>
    <span class=kt>return</span> <span class=nv>%s1</span> <span class=p>:</span> <span class=k>i32</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=multithreading-the-compiler>Multithreading the compiler</h3><p>People want compilers to go fast, and one simple way to do that is to
+</code></pre></div><h3 id=multithreading-the-compiler>Multithreading the compiler&nbsp;<a class=headline-hash href=#multithreading-the-compiler>¶</a></h3><p>People want compilers to go fast, and one simple way to do that is to
 multi-thread them. There are multiple strategies for this, but a simple one is
 to optimize and compile separate functions in parallel. LLVM&rsquo;s original pass
 manager anticipated this demand, and the CallGraphSCCPass manager is even

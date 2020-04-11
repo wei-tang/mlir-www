@@ -7,19 +7,19 @@ performed by the specialized dialect conversion pass by running:</p><div class=h
 standard dialect (operations on scalars and vectors, control flow operations) as
 described in this document. We use the terminology defined by the
 <a href=/docs/Dialects/LLVM/>LLVM IR Dialect description</a>
-throughout this document.</p><p><nav id=TableOfContents><ul><li><a href=#type-conversion>Type Conversion</a><ul><li><a href=#scalar-types>Scalar Types</a></li><li><a href=#index-type>Index Type</a></li><li><a href=#vector-types>Vector Types</a></li><li><a href=#memref-types>Memref Types</a></li><li><a href=#function-types>Function Types</a></li></ul></li><li><a href=#calling-convention>Calling Convention</a><ul><li><a href=#function-signature-conversion>Function Signature Conversion</a></li><li><a href=#result-packing>Result Packing</a></li><li><a href=#calling-convention-for-memref>Calling Convention for memref</a></li><li><a href=#c-compatible-wrapper-emission>C-compatible wrapper emission</a></li></ul></li><li><a href=#repeated-successor-removal>Repeated Successor Removal</a></li><li><a href=#default-memref-model>Default Memref Model</a><ul><li><a href=#memref-descriptor>Memref Descriptor</a></li><li><a href=#index-linearization>Index Linearization</a></li></ul></li></ul></nav><h2 id=type-conversion>Type Conversion</h2><h3 id=scalar-types>Scalar Types</h3><p>Scalar types are converted to their LLVM counterparts if they exist. The
-following conversions are currently implemented:</p><ul><li><code>i*</code> converts to <code>!llvm.i*</code></li><li><code>f16</code> converts to <code>!llvm.half</code></li><li><code>f32</code> converts to <code>!llvm.float</code></li><li><code>f64</code> converts to <code>!llvm.double</code></li></ul><p>Note: <code>bf16</code> type is not supported by LLVM IR and cannot be converted.</p><h3 id=index-type>Index Type</h3><p>Index type is converted to a wrapped LLVM IR integer with bitwidth equal to the
+throughout this document.</p><p><nav id=TableOfContents><ul><li><a href=#type-conversion>Type Conversion</a><ul><li><a href=#scalar-types>Scalar Types</a></li><li><a href=#index-type>Index Type</a></li><li><a href=#vector-types>Vector Types</a></li><li><a href=#memref-types>Memref Types</a></li><li><a href=#function-types>Function Types</a></li></ul></li><li><a href=#calling-convention>Calling Convention</a><ul><li><a href=#function-signature-conversion>Function Signature Conversion</a></li><li><a href=#result-packing>Result Packing</a></li><li><a href=#calling-convention-for-memref>Calling Convention for memref</a></li><li><a href=#c-compatible-wrapper-emission>C-compatible wrapper emission</a></li></ul></li><li><a href=#repeated-successor-removal>Repeated Successor Removal</a></li><li><a href=#default-memref-model>Default Memref Model</a><ul><li><a href=#memref-descriptor>Memref Descriptor</a></li><li><a href=#index-linearization>Index Linearization</a></li></ul></li></ul></nav><h2 id=type-conversion>Type Conversion&nbsp;<a class=headline-hash href=#type-conversion>¶</a></h2><h3 id=scalar-types>Scalar Types&nbsp;<a class=headline-hash href=#scalar-types>¶</a></h3><p>Scalar types are converted to their LLVM counterparts if they exist. The
+following conversions are currently implemented:</p><ul><li><code>i*</code> converts to <code>!llvm.i*</code></li><li><code>f16</code> converts to <code>!llvm.half</code></li><li><code>f32</code> converts to <code>!llvm.float</code></li><li><code>f64</code> converts to <code>!llvm.double</code></li></ul><p>Note: <code>bf16</code> type is not supported by LLVM IR and cannot be converted.</p><h3 id=index-type>Index Type&nbsp;<a class=headline-hash href=#index-type>¶</a></h3><p>Index type is converted to a wrapped LLVM IR integer with bitwidth equal to the
 bitwidth of the pointer size as specified by the
 <a href=https://llvm.org/docs/LangRef.html#data-layout>data layout</a>
 of the LLVM module
 <a href=/docs/Dialects/LLVM/#context-and-module-association>contained</a>
 in the LLVM Dialect
-object. For example, on x86-64 CPUs it converts to <code>!llvm.i64</code>.</p><h3 id=vector-types>Vector Types</h3><p>LLVM IR only supports <em>one-dimensional</em> vectors, unlike MLIR where vectors can
+object. For example, on x86-64 CPUs it converts to <code>!llvm.i64</code>.</p><h3 id=vector-types>Vector Types&nbsp;<a class=headline-hash href=#vector-types>¶</a></h3><p>LLVM IR only supports <em>one-dimensional</em> vectors, unlike MLIR where vectors can
 be multi-dimensional. Vector types cannot be nested in either IR. In the
 one-dimensional case, MLIR vectors are converted to LLVM IR vectors of the same
 size with element type converted using these conversion rules. In the
 n-dimensional case, MLIR vectors are converted to (n-1)-dimensional array types
-of one-dimensional vectors.</p><p>For example, <code>vector&lt;4 x f32></code> converts to <code>!llvm&lt;"&lt;4 x float>"></code> and <code>vector&lt;4 x 8 x 16 x f32></code> converts to <code>!llvm&lt;"[4 x [8 x &lt;16 x float>]]"></code>.</p><h3 id=memref-types>Memref Types</h3><p>Memref types in MLIR have both static and dynamic information associated with
+of one-dimensional vectors.</p><p>For example, <code>vector&lt;4 x f32></code> converts to <code>!llvm&lt;"&lt;4 x float>"></code> and <code>vector&lt;4 x 8 x 16 x f32></code> converts to <code>!llvm&lt;"[4 x [8 x &lt;16 x float>]]"></code>.</p><h3 id=memref-types>Memref Types&nbsp;<a class=headline-hash href=#memref-types>¶</a></h3><p>Memref types in MLIR have both static and dynamic information associated with
 them. The dynamic information comprises the buffer pointer as well as sizes and
 strides of any dynamically-sized dimensions. Memref types are normalized and
 converted to a descriptor that is only dependent on the rank of the memref. The
@@ -55,7 +55,7 @@ defined above to comply with the calling convention.</p><p>Example:</p><div clas
 </span><span class=c></span><span class=p>(</span><span class=kt>memref</span><span class=p>&lt;</span><span class=m>?x</span><span class=k>f32</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
 <span class=c>// is transformed into the LLVM function with pointer-to-structure argument.
 </span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void({ float*, float*, i64, [1 x i64], [1 x i64]}*) &#34;</span><span class=p>&gt;</span>
-</code></pre></div><h3 id=function-types>Function Types</h3><p>Function types get converted to LLVM function types. The arguments are converted
+</code></pre></div><h3 id=function-types>Function Types&nbsp;<a class=headline-hash href=#function-types>¶</a></h3><p>Function types get converted to LLVM function types. The arguments are converted
 individually according to these rules. The result types need to accommodate the
 fact that LLVM IR functions always have a return type, which may be a Void type.
 The converted function always has a single result type. If the original function
@@ -91,7 +91,7 @@ converted using these rules.</p><p>Examples:</p><div class=highlight><pre class=
 </span><span class=c></span><span class=p>(</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span><span class=p>)</span>
 <span class=c>// are converted into pointers to functions
 </span><span class=c></span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()* (void ()*)&#34;</span><span class=p>&gt;</span>
-</code></pre></div><h2 id=calling-convention>Calling Convention</h2><h3 id=function-signature-conversion>Function Signature Conversion</h3><p>LLVM IR functions are defined by a custom operation. The function itself has a
+</code></pre></div><h2 id=calling-convention>Calling Convention&nbsp;<a class=headline-hash href=#calling-convention>¶</a></h2><h3 id=function-signature-conversion>Function Signature Conversion&nbsp;<a class=headline-hash href=#function-signature-conversion>¶</a></h3><p>LLVM IR functions are defined by a custom operation. The function itself has a
 wrapped LLVM IR function type converted as described above. The function
 definition operation uses MLIR syntax.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// zero-ary function type with no results.
 </span><span class=c></span><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
@@ -114,7 +114,7 @@ definition operation uses MLIR syntax.</p><p>Examples:</p><div class=highlight><
 </span><span class=c></span><span class=kt>func</span> <span class=nf>@quux</span><span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()*&#34;</span><span class=p>&gt;</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;void ()*&#34;</span><span class=p>&gt;</span>
 <span class=c>// the call flow is handled by the LLVM dialect `call` operation supporting both
 </span><span class=c></span><span class=c>// direct and indirect calls
-</span></code></pre></div><h3 id=result-packing>Result Packing</h3><p>In case of multi-result functions, the returned values are inserted into a
+</span></code></pre></div><h3 id=result-packing>Result Packing&nbsp;<a class=headline-hash href=#result-packing>¶</a></h3><p>In case of multi-result functions, the returned values are inserted into a
 structure-typed value before being returned and extracted from it at the call
 site. This transformation is a part of the conversion and is transparent to the
 defines and uses of the values being returned.</p><p>Example:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=kt>func</span> <span class=nf>@foo</span><span class=p>(</span><span class=nv>%arg0</span><span class=p>:</span> <span class=k>i32</span><span class=p>,</span> <span class=nv>%arg1</span><span class=p>:</span> <span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=k>i32</span><span class=p>,</span> <span class=k>i64</span><span class=p>)</span> <span class=p>{</span>
@@ -152,7 +152,7 @@ defines and uses of the values being returned.</p><p>Example:</p><div class=high
 </span><span class=c></span>  <span class=s>&#34;use_i32&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
   <span class=s>&#34;use_i64&#34;</span><span class=p>(</span><span class=nv>%4</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i64</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=calling-convention-for-memref>Calling Convention for <code>memref</code></h3><p>Function <em>arguments</em> of <code>memref</code> type, ranked or unranked, are <em>expanded</em> into a
+</code></pre></div><h3 id=calling-convention-for-memref>Calling Convention for <code>memref</code>&nbsp;<a class=headline-hash href=#calling-convention-for-memref>¶</a></h3><p>Function <em>arguments</em> of <code>memref</code> type, ranked or unranked, are <em>expanded</em> into a
 list of arguments of non-aggregate types that the memref descriptor defined
 above comprises. That is, the outer struct type and the inner array types are
 replaced with individual arguments.</p><p>This convention is implemented in the conversion of <code>std.func</code> and <code>std.call</code> to
@@ -250,7 +250,7 @@ llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@bar</span><
   llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
 </code></pre></div><p><em>This convention may or may not apply if the conversion of MemRef types is
-overridden by the user.</em></p><h3 id=c-compatible-wrapper-emission>C-compatible wrapper emission</h3><p>In practical cases, it may be desirable to have externally-facing functions with
+overridden by the user.</em></p><h3 id=c-compatible-wrapper-emission>C-compatible wrapper emission&nbsp;<a class=headline-hash href=#c-compatible-wrapper-emission>¶</a></h3><p>In practical cases, it may be desirable to have externally-facing functions with
 a single attribute corresponding to a MemRef argument. When interfacing with
 LLVM IR produced from C, the code needs to respect the corresponding calling
 convention. The conversion to the LLVM dialect provides an option to generate
@@ -350,7 +350,7 @@ targeting accelerators with separate memory spaces such as GPUs, stack-allocated
 descriptors passed by pointer would have to be transferred to the device memory,
 which introduces significant overhead. In such situations, auxiliary interface
 functions are executed on host and only pass the values through device function
-invocation mechanism.</p><h2 id=repeated-successor-removal>Repeated Successor Removal</h2><p>Since the goal of the LLVM IR dialect is to reflect LLVM IR in MLIR, the dialect
+invocation mechanism.</p><h2 id=repeated-successor-removal>Repeated Successor Removal&nbsp;<a class=headline-hash href=#repeated-successor-removal>¶</a></h2><p>Since the goal of the LLVM IR dialect is to reflect LLVM IR in MLIR, the dialect
 and the conversion procedure must account for the differences between block
 arguments and LLVM IR PHI nodes. In particular, LLVM IR disallows PHI nodes with
 different values coming from the same source. Therefore, the LLVM IR dialect
@@ -373,13 +373,13 @@ are used instead of them in the original terminator operation.</p><p>Example:</p
   <span class=s>&#34;use&#34;</span><span class=p>(</span><span class=nv>%3</span><span class=p>)</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>(</span><span class=p>)</span>
 <span class=nl>^dummy</span><span class=p>:</span>
   llvm<span class=p>.</span>br <span class=nl>^bb1</span><span class=p>(</span><span class=nv>%2</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span>
-</code></pre></div><h2 id=default-memref-model>Default Memref Model</h2><h3 id=memref-descriptor>Memref Descriptor</h3><p>Within a converted function, a <code>memref</code>-typed value is represented by a memref
+</code></pre></div><h2 id=default-memref-model>Default Memref Model&nbsp;<a class=headline-hash href=#default-memref-model>¶</a></h2><h3 id=memref-descriptor>Memref Descriptor&nbsp;<a class=headline-hash href=#memref-descriptor>¶</a></h3><p>Within a converted function, a <code>memref</code>-typed value is represented by a memref
 <em>descriptor</em>, the type of which is the structure type obtained by converting
 from the memref type. This descriptor holds all the necessary information to
 produce an address of a specific element. In particular, it holds dynamic values
 for static sizes, and they are expected to match at all times.</p><p>It is created by the allocation operation and is updated by the conversion
 operations that may change static dimensions into dynamic dimensions and vice versa.</p><p><strong>Note</strong>: LLVM IR conversion does not support <code>memref</code>s with layouts that are
-not amenable to the strided form.</p><h3 id=index-linearization>Index Linearization</h3><p>Accesses to a memref element are transformed into an access to an element of the
+not amenable to the strided form.</p><h3 id=index-linearization>Index Linearization&nbsp;<a class=headline-hash href=#index-linearization>¶</a></h3><p>Accesses to a memref element are transformed into an access to an element of the
 buffer pointed to by the descriptor. The position of the element in the buffer
 is calculated by linearizing memref indices in row-major order (lexically first
 index is the slowest varying, similar to C, but accounting for strides). The

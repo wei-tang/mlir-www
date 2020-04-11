@@ -11,7 +11,7 @@ of a tutorial. Please refer to
 <a href=/docs/Tutorials/QuickstartRewrites/>Quickstart tutorial to adding MLIR graph
 rewrite</a>
 for the latter.</p><p>In addition to detailing each mechanism, this manual also tries to capture
-best practices. They are rendered as quoted bullet points.</p><h2 id=motivation>Motivation</h2><p>MLIR allows pluggable dialects, and dialects contain, among others, a list of
+best practices. They are rendered as quoted bullet points.</p><h2 id=motivation>Motivation&nbsp;<a class=headline-hash href=#motivation>¶</a></h2><p>MLIR allows pluggable dialects, and dialects contain, among others, a list of
 operations. This open and extensible ecosystem leads to the &ldquo;stringly&rdquo; type IR
 problem, e.g., repetitive string comparisons during optimization and analysis
 passes, unintuitive accessor methods (e.g., generic/error prone <code>getOperand(3)</code>
@@ -21,7 +21,7 @@ so on. Furthermore, operation verification is:</p><ol><li>best case: a central s
 dialect, we can have a central place that contains everything you need to know
 about each op, including its constraints, custom assembly form, etc. This
 description is also used to generate helper functions and classes to allow
-building, verification, parsing, printing, analysis, and many more.</p><h2 id=benefits>Benefits</h2><p>Compared to the C++ template, this table-driven approach has several benefits
+building, verification, parsing, printing, analysis, and many more.</p><h2 id=benefits>Benefits&nbsp;<a class=headline-hash href=#benefits>¶</a></h2><p>Compared to the C++ template, this table-driven approach has several benefits
 including but not limited to:</p><ul><li><strong>Single source of truth</strong>: We strive to encode all facts regarding an
 operation into the record, so that readers don&rsquo;t need to jump among code
 snippets to fully understand an operation.</li><li><strong>Removing boilerplate</strong>: We can automatically generate
@@ -30,7 +30,7 @@ verify methods, and many more utilities from the record. This greatly reduces
 the boilerplate needed for defining a new op.</li><li><strong>Facilitating auto-generation</strong>: The usage of these operation information
 records are by no means limited to op definition itself. We can use them to
 drive the auto-generation of many other components, like computation graph
-serialization.</li></ul><h2 id=tablegen-syntax>TableGen Syntax</h2><p>We use TableGen as the language for specifying operation information. TableGen
+serialization.</li></ul><h2 id=tablegen-syntax>TableGen Syntax&nbsp;<a class=headline-hash href=#tablegen-syntax>¶</a></h2><p>We use TableGen as the language for specifying operation information. TableGen
 itself just provides syntax for writing records; the syntax and constructs
 allowed in a TableGen file (typically with filename suffix <code>.td</code>) can be found
 <a href=https://llvm.org/docs/TableGen/LangIntro.html>here</a>
@@ -46,7 +46,7 @@ be anything, including <code>dag</code> itself. We can have names attached to bo
 operator and the arguments like <code>(MyOp:$op_name MyArg:$arg_name)</code>.</li></ul><p>Please see the
 <a href=https://llvm.org/docs/TableGen/LangIntro.html>language introduction</a>
 to learn about all the
-types and expressions supported by TableGen.</p><h2 id=operation-definition>Operation Definition</h2><p>MLIR defines several common constructs to help operation definition and provide
+types and expressions supported by TableGen.</p><h2 id=operation-definition>Operation Definition&nbsp;<a class=headline-hash href=#operation-definition>¶</a></h2><p>MLIR defines several common constructs to help operation definition and provide
 their semantics via a special
 <a href=https://llvm.org/docs/TableGen/BackEnds.html#introduction>TableGen backend</a>
 :
@@ -89,13 +89,13 @@ for all the fields it requires. For example, <code>tf.AvgPool</code> is defined 
   <span class=nv>TF_DerivedOperandTypeAttr</span> <span class=nv>T</span> <span class=p>=</span> <span class=nv>TF_DerivedOperandTypeAttr</span><span class=p>&lt;</span><span class=m>0</span><span class=p>&gt;</span><span class=p>;</span>
 <span class=p>}</span>
 </code></pre></div><p>In the following we describe all the fields needed. Please see the definition
-of the <code>Op</code> class for the complete list of fields supported.</p><h3 id=operation-name>Operation name</h3><p>The operation name is a unique identifier of the operation within MLIR, e.g.,
+of the <code>Op</code> class for the complete list of fields supported.</p><h3 id=operation-name>Operation name&nbsp;<a class=headline-hash href=#operation-name>¶</a></h3><p>The operation name is a unique identifier of the operation within MLIR, e.g.,
 <code>tf.Add</code> for addition operation in the TensorFlow dialect. This is the
 equivalent of the mnemonic in assembly language. It is used for parsing and
 printing in the textual format. It is also used for pattern matching in graph
 rewrites.</p><p>The full operation name is composed of the dialect name and the op name, with
 the former provided via the dialect and the latter provided as the second
-template parameter to the <code>Op</code> class.</p><h3 id=operation-documentation>Operation documentation</h3><p>This includes both an one-line <code>summary</code> and a longer human-readable
+template parameter to the <code>Op</code> class.</p><h3 id=operation-documentation>Operation documentation&nbsp;<a class=headline-hash href=#operation-documentation>¶</a></h3><p>This includes both an one-line <code>summary</code> and a longer human-readable
 <code>description</code>. They will be used to drive automatic generation of dialect
 documentation. They need to be provided in the operation&rsquo;s definition body:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>summary</span> <span class=p>=</span> <span class=s>&#34;...&#34;</span><span class=p>;</span>
 
@@ -104,7 +104,7 @@ documentation. They need to be provided in the operation&rsquo;s definition body
 </span><span class=s>}]</span><span class=p>;</span>
 </code></pre></div><p><code>description</code> should be written in Markdown syntax.</p><p>Placing the documentation at the beginning is recommended since
 it helps in understanding the operation.</p><blockquote><ul><li>Place documentation at the beginning of the operation definition</li><li>The summary should be short and concise. It should be a one-liner without
-trailing punctuation. Put expanded explanation in description.</li></ul></blockquote><h3 id=operation-arguments>Operation arguments</h3><p>There are two kinds of arguments: operands and attributes. Operands are runtime
+trailing punctuation. Put expanded explanation in description.</li></ul></blockquote><h3 id=operation-arguments>Operation arguments&nbsp;<a class=headline-hash href=#operation-arguments>¶</a></h3><p>There are two kinds of arguments: operands and attributes. Operands are runtime
 values produced by other ops; while attributes are compile-time known constant
 values, including two categories:</p><ol><li><p>Natural attributes: these attributes affect the behavior of the operations
 (e.g., padding for convolution);</p></li><li><p>Derived attributes: these attributes are not needed to define the operation
@@ -133,7 +133,7 @@ attribute&rsquo;s raw value (e.g., as stored) can also be accessed via generated
 <code>&lt;name>Attr</code> getters for use in transformation passes where the more user
 friendly return type is less suitable.</p><p>All the arguments should be named to 1) provide documentation, 2) drive
 auto-generation of getter methods, 3) provide a handle to reference for other
-places like constraints.</p><h4 id=variadic-operands>Variadic operands</h4><p>To declare a variadic operand, wrap the <code>TypeConstraint</code> for the operand with
+places like constraints.</p><h4 id=variadic-operands>Variadic operands&nbsp;<a class=headline-hash href=#variadic-operands>¶</a></h4><p>To declare a variadic operand, wrap the <code>TypeConstraint</code> for the operand with
 <code>Variadic&lt;...></code>.</p><p>Normally operations have no variadic operands or just one variadic operand. For
 the latter case, it is easy to deduce which dynamic operands are for the static
 variadic operand definition. Though, if an operation has more than one variable
@@ -142,7 +142,7 @@ attribute dynamic operands to the corresponding static variadic operand
 definitions without further information from the operation. Therefore, either
 the <code>SameVariadicOperandSize</code> or <code>AttrSizedOperandSegments</code> trait is needed to
 indicate that all variable length operands have the same number of dynamic
-values.</p><h4 id=optional-operands>Optional operands</h4><p>To declare an optional operand, wrap the <code>TypeConstraint</code> for the operand with
+values.</p><h4 id=optional-operands>Optional operands&nbsp;<a class=headline-hash href=#optional-operands>¶</a></h4><p>To declare an optional operand, wrap the <code>TypeConstraint</code> for the operand with
 <code>Optional&lt;...></code>.</p><p>Normally operations have no optional operands or just one optional operand. For
 the latter case, it is easy to deduce which dynamic operands are for the static
 operand definition. Though, if an operation has more than one variable length
@@ -151,12 +151,12 @@ dynamic operands to the corresponding static variadic operand definitions
 without further information from the operation. Therefore, either the
 <code>SameVariadicOperandSize</code> or <code>AttrSizedOperandSegments</code> trait is needed to
 indicate that all variable length operands have the same number of dynamic
-values.</p><h4 id=optional-attributes>Optional attributes</h4><p>To declare an optional attribute, wrap the <code>AttrConstraint</code> for the attribute
-with <code>OptionalAttr&lt;...></code>.</p><h4 id=attributes-with-default-values>Attributes with default values</h4><p>To declare an attribute with a default value, wrap the <code>AttrConstraint</code> for the
+values.</p><h4 id=optional-attributes>Optional attributes&nbsp;<a class=headline-hash href=#optional-attributes>¶</a></h4><p>To declare an optional attribute, wrap the <code>AttrConstraint</code> for the attribute
+with <code>OptionalAttr&lt;...></code>.</p><h4 id=attributes-with-default-values>Attributes with default values&nbsp;<a class=headline-hash href=#attributes-with-default-values>¶</a></h4><p>To declare an attribute with a default value, wrap the <code>AttrConstraint</code> for the
 attribute with <code>DefaultValuedAttr&lt;..., "..."></code>.</p><p>The second parameter to <code>DefaultValuedAttr</code> should be a string containing the
 C++ default value. For example, a float default value should be specified as
 like <code>"0.5f"</code>, and an integer array default value should be specified as like
-<code>"{1, 2, 3}"</code>.</p><h4 id=confining-attributes>Confining attributes</h4><p><code>Confined</code> is provided as a general mechanism to help modelling further
+<code>"{1, 2, 3}"</code>.</p><h4 id=confining-attributes>Confining attributes&nbsp;<a class=headline-hash href=#confining-attributes>¶</a></h4><p><code>Confined</code> is provided as a general mechanism to help modelling further
 constraints on attributes beyond the ones brought by value types. You can use
 <code>Confined</code> to compose complex constraints out of more primitive ones. For
 example, a 32-bit integer attribute whose minimum value must be 10 can be
@@ -165,28 +165,28 @@ equal to <code>N</code></li><li><code>IntMaxValue&lt;N></code>: Specifying an in
 to <code>N</code></li><li><code>ArrayMinCount&lt;N></code>: Specifying an array attribute to have at least <code>N</code>
 elements</li><li><code>IntArrayNthElemEq&lt;I, N></code>: Specifying an integer array attribute&rsquo;s <code>I</code>-th
 element to be equal to <code>N</code></li><li><code>IntArrayNthElemMinValue&lt;I, N></code>: Specifying an integer array attribute&rsquo;s
-<code>I</code>-th element to be greater than or equal to <code>N</code></li></ul><p>TODO: Design and implement more primitive constraints</p><h3 id=operation-regions>Operation regions</h3><p>The regions of an operation are specified inside of the <code>dag</code>-typed <code>regions</code>,
+<code>I</code>-th element to be greater than or equal to <code>N</code></li></ul><p>TODO: Design and implement more primitive constraints</p><h3 id=operation-regions>Operation regions&nbsp;<a class=headline-hash href=#operation-regions>¶</a></h3><p>The regions of an operation are specified inside of the <code>dag</code>-typed <code>regions</code>,
 led by <code>region</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>regions</span> <span class=p>=</span> <span class=p>(</span><span class=nv>region</span>
   <span class=p>&lt;</span><span class=nv>region</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>region</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=p>)</span><span class=p>;</span>
-</code></pre></div><h4 id=variadic-regions>Variadic regions</h4><p>Similar to the <code>Variadic</code> class used for variadic operands and results,
+</code></pre></div><h4 id=variadic-regions>Variadic regions&nbsp;<a class=headline-hash href=#variadic-regions>¶</a></h4><p>Similar to the <code>Variadic</code> class used for variadic operands and results,
 <code>VariadicRegion&lt;...></code> can be used for regions. Variadic regions can currently
-only be specified as the last region in the regions list.</p><h3 id=operation-results>Operation results</h3><p>Similar to operands, results are specified inside the <code>dag</code>-typed <code>results</code>, led
+only be specified as the last region in the regions list.</p><h3 id=operation-results>Operation results&nbsp;<a class=headline-hash href=#operation-results>¶</a></h3><p>Similar to operands, results are specified inside the <code>dag</code>-typed <code>results</code>, led
 by <code>outs</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>results</span> <span class=p>=</span> <span class=p>(</span><span class=nv>outs</span>
   <span class=p>&lt;</span><span class=nv>type</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>result</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=p>)</span><span class=p>;</span>
-</code></pre></div><h4 id=variadic-results>Variadic results</h4><p>Similar to variadic operands, <code>Variadic&lt;...></code> can also be used for results.
+</code></pre></div><h4 id=variadic-results>Variadic results&nbsp;<a class=headline-hash href=#variadic-results>¶</a></h4><p>Similar to variadic operands, <code>Variadic&lt;...></code> can also be used for results.
 And similarly, <code>SameVariadicResultSize</code> for multiple variadic results in the
-same operation.</p><h3 id=operation-successors>Operation successors</h3><p>For terminator operations, the successors are specified inside of the
+same operation.</p><h3 id=operation-successors>Operation successors&nbsp;<a class=headline-hash href=#operation-successors>¶</a></h3><p>For terminator operations, the successors are specified inside of the
 <code>dag</code>-typed <code>successors</code>, led by <code>successor</code>:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>successors</span> <span class=p>=</span> <span class=p>(</span><span class=nv>successor</span>
   <span class=p>&lt;</span><span class=nv>successor</span><span class=err>-</span><span class=nv>constraint</span><span class=p>&gt;</span><span class=p>:</span><span class=err>$</span><span class=p>&lt;</span><span class=nv>successor</span><span class=err>-</span><span class=nv>name</span><span class=p>&gt;</span><span class=p>,</span>
   <span class=p>.</span><span class=p>.</span><span class=p>.</span>
 <span class=p>)</span><span class=p>;</span>
-</code></pre></div><h4 id=variadic-successors>Variadic successors</h4><p>Similar to the <code>Variadic</code> class used for variadic operands and results,
+</code></pre></div><h4 id=variadic-successors>Variadic successors&nbsp;<a class=headline-hash href=#variadic-successors>¶</a></h4><p>Similar to the <code>Variadic</code> class used for variadic operands and results,
 <code>VariadicSuccessor&lt;...></code> can be used for successors. Variadic successors can
-currently only be specified as the last successor in the successor list.</p><h3 id=operation-traits-and-constraints>Operation traits and constraints</h3><p>Traits are operation properties that affect syntax or semantics. MLIR C++
+currently only be specified as the last successor in the successor list.</p><h3 id=operation-traits-and-constraints>Operation traits and constraints&nbsp;<a class=headline-hash href=#operation-traits-and-constraints>¶</a></h3><p>Traits are operation properties that affect syntax or semantics. MLIR C++
 models various traits in the <code>mlir::OpTrait</code> namespace.</p><p>Both operation traits,
 <a href=#operation-interfaces>interfaces</a>
 , and constraints
@@ -194,7 +194,7 @@ involving multiple operands/attributes/results are provided as the second
 template parameter to the <code>Op</code> class. They should be deriving from the <code>OpTrait</code>
 class. See
 <a href=#constraints>Constraints</a>
-for more information.</p><h3 id=operation-interfaces>Operation interfaces</h3><p><a href=/docs/Interfaces/#operation-interfaces>Operation interfaces</a>
+for more information.</p><h3 id=operation-interfaces>Operation interfaces&nbsp;<a class=headline-hash href=#operation-interfaces>¶</a></h3><p><a href=/docs/Interfaces/#operation-interfaces>Operation interfaces</a>
 are a mechanism by
 which to opaquely call methods and access information on an <em>Op instance</em>,
 without knowing the exact operation type. Operation interfaces defined in C++
@@ -273,7 +273,7 @@ below).</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=la
     <span class=p>[</span><span class=nv>DeclareOpInterfaceMethods</span><span class=p>&lt;</span><span class=nv>MyInterface</span><span class=p>&gt;</span><span class=p>]</span><span class=p>&gt;</span> <span class=p>{</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>}</span>
 </code></pre></div><p>A verification method can also be specified on the <code>OpInterface</code> by setting
 <code>verify</code>. Setting <code>verify</code> results in the generated trait having a <code>verifyTrait</code>
-method that is applied to all operations implementing the trait.</p><h3 id=builder-methods>Builder methods</h3><p>For each operation, there are a few builders automatically generated based on
+method that is applied to all operations implementing the trait.</p><h3 id=builder-methods>Builder methods&nbsp;<a class=headline-hash href=#builder-methods>¶</a></h3><p>For each operation, there are a few builders automatically generated based on
 the arguments and returns types. For example, given the following op definition:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>MyOp</span> <span class=p>:</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span> <span class=p>{</span>
   <span class=k>let</span> <span class=nv>arguments</span> <span class=p>=</span> <span class=p>(</span><span class=nv>ins</span>
     <span class=nv>I32</span><span class=p>:</span><span class=nv>$i32_operand</span><span class=p>,</span>
@@ -344,7 +344,7 @@ will not be supplied in the builder&rsquo;s signature.</p><p>And there may poten
 please refer to the
 <a href=#run-mlir-tblgen-to-see-the-generated-content>generated C++ file</a>
 for the
-complete list.</p><h4 id=custom-builder-methods>Custom builder methods</h4><p>However, if the above cases cannot satisfy all needs, you can define additional
+complete list.</p><h4 id=custom-builder-methods>Custom builder methods&nbsp;<a class=headline-hash href=#custom-builder-methods>¶</a></h4><p>However, if the above cases cannot satisfy all needs, you can define additional
 convenience build methods with <code>OpBuilder</code>.</p><p><code>OpBuilder</code> is a class that takes the parameter list and the optional <code>build()</code>
 method body. They are separated because we need to generate op declaration and
 definition into separate files. The parameter list should <em>include</em> <code>Builder *builder, OperationState &state</code>. If the <code>body</code> is not provided, <em>only</em> the
@@ -367,14 +367,14 @@ can add into <code>MyOp</code>:</p><div class=highlight><pre class=chroma><code 
 </code></pre></div><p>The generated builder will look like:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>static</span> <span class=kt>void</span> <span class=nf>build</span><span class=p>(</span><span class=n>Builder</span> <span class=o>*</span><span class=n>builder</span><span class=p>,</span> <span class=n>OperationState</span> <span class=o>&amp;</span><span class=n>state</span><span class=p>,</span> <span class=kt>float</span> <span class=n>val</span> <span class=o>=</span> <span class=mf>0.5f</span><span class=p>)</span> <span class=p>{</span>
   <span class=n>state</span><span class=p>.</span><span class=n>addAttribute</span><span class=p>(</span><span class=sa></span><span class=s>&#34;</span><span class=s>attr</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>builder</span><span class=o>-</span><span class=o>&gt;</span><span class=n>getF32FloatAttr</span><span class=p>(</span><span class=n>val</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=custom-parser-and-printer-methods>Custom parser and printer methods</h3><p>Functions to parse and print the operation&rsquo;s custom assembly form.</p><h3 id=custom-verifier-code>Custom verifier code</h3><p>Verification code will be automatically generated for
+</code></pre></div><h3 id=custom-parser-and-printer-methods>Custom parser and printer methods&nbsp;<a class=headline-hash href=#custom-parser-and-printer-methods>¶</a></h3><p>Functions to parse and print the operation&rsquo;s custom assembly form.</p><h3 id=custom-verifier-code>Custom verifier code&nbsp;<a class=headline-hash href=#custom-verifier-code>¶</a></h3><p>Verification code will be automatically generated for
 <a href=#constraints>constraints</a>
 specified on various entities of the op. To
 perform <em>additional</em> verification, you can use</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>let</span> <span class=nv>verifier</span> <span class=p>=</span> <span class=s>[{
 </span><span class=s>  ...
 </span><span class=s>}]</span><span class=p>;</span>
 </code></pre></div><p>Code placed in <code>verifier</code> will be called after the auto-generated verification
-code.</p><h3 id=declarative-assembly-format>Declarative Assembly Format</h3><p>The custom assembly form of the operation may be specified in a declarative
+code.</p><h3 id=declarative-assembly-format>Declarative Assembly Format&nbsp;<a class=headline-hash href=#declarative-assembly-format>¶</a></h3><p>The custom assembly form of the operation may be specified in a declarative
 string that matches the operations operands, attributes, etc. With the ability
 to express additional information that needs to be parsed to build the
 operation:</p><div class=highlight><pre class=chroma><code class=language-tablegen data-lang=tablegen><span class=k>def</span> <span class=nv>CallOp</span> <span class=p>:</span> <span class=nv>Std_Op</span><span class=p>&lt;</span><span class=s>&#34;call&#34;</span><span class=p>,</span> <span class=p>.</span><span class=p>.</span><span class=p>.</span><span class=p>&gt;</span> <span class=p>{</span>
@@ -385,7 +385,7 @@ operation:</p><div class=highlight><pre class=chroma><code class=language-tableg
 </span><span class=s>    $callee `(` $args `)` attr-dict `:` functional-type($args, results)
 </span><span class=s>  }]</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><p>The format is comprised of three components:</p><h4 id=directives>Directives</h4><p>A directive is a type of builtin function, with an optional set of arguments.
+</code></pre></div><p>The format is comprised of three components:</p><h4 id=directives>Directives&nbsp;<a class=headline-hash href=#directives>¶</a></h4><p>A directive is a type of builtin function, with an optional set of arguments.
 The available directives are as follows:</p><ul><li><p><code>attr-dict</code></p><ul><li>Represents the attribute dictionary of the operation.</li></ul></li><li><p><code>attr-dict-with-keyword</code></p><ul><li>Represents the attribute dictionary of the operation, but prefixes the
 dictionary with an <code>attributes</code> keyword.</li></ul></li><li><p><code>functional-type</code> ( inputs , results )</p><ul><li>Formats the <code>inputs</code> and <code>results</code> arguments as a
 <a href=/docs/LangRef/#function-type>function type</a>
@@ -393,11 +393,11 @@ dictionary with an <code>attributes</code> keyword.</li></ul></li><li><p><code>f
 the <code>type</code> directive.</li></ul></li><li><p><code>operands</code></p><ul><li>Represents all of the operands of an operation.</li></ul></li><li><p><code>results</code></p><ul><li>Represents all of the results of an operation.</li></ul></li><li><p><code>successors</code></p><ul><li>Represents all of the successors of an operation.</li></ul></li><li><p><code>type</code> ( input )</p><ul><li>Represents the type of the given input.</li><li><code>input</code> must be either an operand or result
 <a href=#variables>variable</a>
 , the
-<code>operands</code> directive, or the <code>results</code> directive.</li></ul></li></ul><h4 id=literals>Literals</h4><p>A literal is either a keyword or punctuation surrounded by ``.</p><p>The following are the set of valid punctuation:
-<code>:</code>, <code>,</code>, <code>=</code>, <code>&lt;</code>, <code>></code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>-></code></p><h4 id=variables>Variables</h4><p>A variable is an entity that has been registered on the operation itself, i.e.
+<code>operands</code> directive, or the <code>results</code> directive.</li></ul></li></ul><h4 id=literals>Literals&nbsp;<a class=headline-hash href=#literals>¶</a></h4><p>A literal is either a keyword or punctuation surrounded by ``.</p><p>The following are the set of valid punctuation:
+<code>:</code>, <code>,</code>, <code>=</code>, <code>&lt;</code>, <code>></code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>-></code></p><h4 id=variables>Variables&nbsp;<a class=headline-hash href=#variables>¶</a></h4><p>A variable is an entity that has been registered on the operation itself, i.e.
 an argument(attribute or operand), result, successor, etc. In the <code>CallOp</code>
 example above, the variables would be <code>$callee</code> and <code>$args</code>.</p><p>Attribute variables are printed with their respective value type, unless that
-value type is buildable. In those cases, the type of the attribute is elided.</p><h4 id=optional-groups>Optional Groups</h4><p>In certain situations operations may have &ldquo;optional&rdquo; information, e.g.
+value type is buildable. In those cases, the type of the attribute is elided.</p><h4 id=optional-groups>Optional Groups&nbsp;<a class=headline-hash href=#optional-groups>¶</a></h4><p>In certain situations operations may have &ldquo;optional&rdquo; information, e.g.
 attributes or an empty set of variadic operands. In these situations a section
 of the assembly format can be marked as <code>optional</code> based on the presence of this
 information. An optional group is defined by wrapping a set of elements within
@@ -414,14 +414,14 @@ variadic number of operands.</p><pre><code>def ReturnOp : ... {
   // of operands.
   let assemblyFormat = &quot;attr-dict ($operands^ `:` type($operands))?&quot;;
 }
-</code></pre><h4 id=requirements>Requirements</h4><p>The format specification has a certain set of requirements that must be adhered
+</code></pre><h4 id=requirements>Requirements&nbsp;<a class=headline-hash href=#requirements>¶</a></h4><p>The format specification has a certain set of requirements that must be adhered
 to:</p><ol><li>The output and operation name are never shown as they are fixed and cannot be
 altered.</li><li>All operands within the operation must appear within the format, either
 individually or with the <code>operands</code> directive.</li><li>All operand and result types must appear within the format using the various
 <code>type</code> directives, either individually or with the <code>operands</code> or <code>results</code>
 directives.</li><li>The <code>attr-dict</code> directive must always be present.</li><li>Must not contain overlapping information; e.g. multiple instances of
 &lsquo;attr-dict&rsquo;, types, operands, etc.<ul><li>Note that <code>attr-dict</code> does not overlap with individual attributes. These
-attributes will simply be elided when printing the attribute dictionary.</li></ul></li></ol><h5 id=type-inference>Type Inference</h5><p>One requirement of the format is that the types of operands and results must
+attributes will simply be elided when printing the attribute dictionary.</li></ul></li></ol><h5 id=type-inference>Type Inference&nbsp;<a class=headline-hash href=#type-inference>¶</a></h5><p>One requirement of the format is that the types of operands and results must
 always be present. In certain instances, the type of a variable may be deduced
 via type constraints or other information available. In these cases, the type of
 that variable may be elided from the format.</p><ul><li>Buildable Types</li></ul><p>Some type constraints may only have one representation, allowing for them to
@@ -432,16 +432,16 @@ as traits on the operation; for example the true, false, and result values of a
 <code>select</code> operation often have the same type. The assembly format may inspect
 these equal constraints to discern the types of missing variables. The currently
 supported traits are: <code>AllTypesMatch</code>, <code>SameTypeOperands</code>, and
-<code>SameOperandsAndResultType</code>.</p><h3 id=hascanonicalizer><code>hasCanonicalizer</code></h3><p>This boolean field indicate whether canonicalization patterns have been defined
+<code>SameOperandsAndResultType</code>.</p><h3 id=hascanonicalizer><code>hasCanonicalizer</code>&nbsp;<a class=headline-hash href=#hascanonicalizer>¶</a></h3><p>This boolean field indicate whether canonicalization patterns have been defined
 for this operation. If it is <code>1</code>, then <code>::getCanonicalizationPatterns()</code> should
-be defined.</p><h3 id=hasfolder><code>hasFolder</code></h3><p>This boolean field indicate whether general folding rules have been defined
-for this operation. If it is <code>1</code>, then <code>::fold()</code> should be defined.</p><h3 id=extra-declarations>Extra declarations</h3><p>One of the goals of table-driven op definition is to auto-generate as much logic
+be defined.</p><h3 id=hasfolder><code>hasFolder</code>&nbsp;<a class=headline-hash href=#hasfolder>¶</a></h3><p>This boolean field indicate whether general folding rules have been defined
+for this operation. If it is <code>1</code>, then <code>::fold()</code> should be defined.</p><h3 id=extra-declarations>Extra declarations&nbsp;<a class=headline-hash href=#extra-declarations>¶</a></h3><p>One of the goals of table-driven op definition is to auto-generate as much logic
 and methods needed for each op as possible. With that said, there will always be
 long-tail cases that won&rsquo;t be covered. For such cases, you can use
 <code>extraClassDeclaration</code>. Code in <code>extraClassDeclaration</code> will be copied
 literally to the generated C++ op class.</p><p>Note that <code>extraClassDeclaration</code> is a mechanism intended for long-tail cases
 by power users; for not-yet-implemented widely-applicable cases, improving the
-infrastructure is preferable.</p><h3 id=generated-c-code>Generated C++ code</h3><p><a href=../tools/mlir-tblgen/OpDefinitionsGen.cpp>OpDefinitionsGen</a>
+infrastructure is preferable.</p><h3 id=generated-c-code>Generated C++ code&nbsp;<a class=headline-hash href=#generated-c-code>¶</a></h3><p><a href=../tools/mlir-tblgen/OpDefinitionsGen.cpp>OpDefinitionsGen</a>
 processes the op definition spec file and
 generates two files containing the corresponding C++ code: one for declarations,
 the other for definitions. The former is generated via the <code>-gen-op-decls</code>
@@ -451,7 +451,7 @@ OpDefinitionsGen generates an operation class and an
 <a href=#operand-adaptors>operand adaptor</a>
 class. Besides, it also contains a
 comma-separated list of all defined ops, which can be included and enabled by
-defining <code>GET_OP_LIST</code>.</p><h4 id=class-name-and-namespaces>Class name and namespaces</h4><p>For each operation, its generated C++ class name is the symbol <code>def</code>ed with
+defining <code>GET_OP_LIST</code>.</p><h4 id=class-name-and-namespaces>Class name and namespaces&nbsp;<a class=headline-hash href=#class-name-and-namespaces>¶</a></h4><p>For each operation, its generated C++ class name is the symbol <code>def</code>ed with
 TableGen with dialect prefix removed. The first <code>_</code> serves as the delimiter.
 For example, for <code>def TF_AddOp</code>, the C++ class name would be <code>AddOp</code>.
 We remove the <code>TF</code> prefix because it is for scoping ops; other dialects
@@ -463,7 +463,7 @@ then an op of that dialect will be placed in
 match exactly with the operation name as explained in
 <a href=#operation-name>Operation name</a>
 . This is to allow flexible naming to satisfy
-coding style requirements.</p><h4 id=operand-adaptors>Operand adaptors</h4><p>For each operation, we automatically generate an <em>operand adaptor</em>. This class
+coding style requirements.</p><h4 id=operand-adaptors>Operand adaptors&nbsp;<a class=headline-hash href=#operand-adaptors>¶</a></h4><p>For each operation, we automatically generate an <em>operand adaptor</em>. This class
 solves the problem of accessing operands provided as a list of <code>Value</code>s without
 using &ldquo;magic&rdquo; constants. The operand adaptor takes a reference to an array of
 <code>Value</code> and provides methods with the same names as those in the operation class
@@ -481,14 +481,14 @@ the given operation.</p><p>Operand adaptors can be used in function templates th
   <span class=n>zip</span><span class=p>(</span><span class=n>OperandAdaptor</span><span class=o>&lt;</span><span class=n>AddOp</span><span class=o>&gt;</span><span class=p>(</span><span class=n>newOperands</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
   <span class=cm>/*...*/</span>
 <span class=p>}</span>
-</code></pre></div><h2 id=constraints>Constraints</h2><p>Constraint is a core concept in table-driven operation definition: operation
+</code></pre></div><h2 id=constraints>Constraints&nbsp;<a class=headline-hash href=#constraints>¶</a></h2><p>Constraint is a core concept in table-driven operation definition: operation
 verification and graph operation matching are all based on satisfying
 constraints. So both the operation definition and rewrite rules specification
 significantly involve writing constraints. We have the <code>Constraint</code> class in
 <a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 has the common base class for all constraints.</p><p>An operation&rsquo;s constraint can cover different range; it may</p><ul><li>Only concern a single attribute (e.g. being an 32-bit integer greater than 5),</li><li>Multiple operands and results (e.g., the 1st result&rsquo;s shape must be the same
 as the 1st operand), or</li><li>Intrinsic to the operation itself (e.g., having no side effect).</li></ul><p>We call them as single-entity constraint, multi-entity constraint, and traits,
-respectively.</p><h3 id=single-entity-constraint>Single-entity constraint</h3><p>Constraints scoped to a single operand, attribute, or result are specified at
+respectively.</p><h3 id=single-entity-constraint>Single-entity constraint&nbsp;<a class=headline-hash href=#single-entity-constraint>¶</a></h3><p>Constraints scoped to a single operand, attribute, or result are specified at
 the entity&rsquo;s declaration place as described in
 <a href=#operation-arguments>Operation arguments</a>
 and
@@ -499,7 +499,7 @@ constraints of being a float, <code>TensorOf&lt;[F32]></code> for the constraint
 a float tensor, and so on.</p><p>Similarly, a set of <code>AttrConstraint</code>s are created for helping modelling
 constraints of common attribute kinds. They are the <code>Attr</code> subclass hierarchy.
 It includes <code>F32Attr</code> for the constraints of being a float attribute,
-<code>F32ArrayAttr</code> for the constraints of being a float array attribute, and so on.</p><h3 id=multi-entity-constraint>Multi-entity constraint</h3><p>Constraints involving more than one operand/attribute/result are quite common
+<code>F32ArrayAttr</code> for the constraints of being a float array attribute, and so on.</p><h3 id=multi-entity-constraint>Multi-entity constraint&nbsp;<a class=headline-hash href=#multi-entity-constraint>¶</a></h3><p>Constraints involving more than one operand/attribute/result are quite common
 on operations, like the element type and shape relation between operands and
 results. These constraints should be specified as the <code>Op</code> class template
 parameter as described in
@@ -510,14 +510,14 @@ in
 .A bunch of constraint primitives are provided to help
 specification. See
 <a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
-for the complete list.</p><h3 id=trait>Trait</h3><p>Traits are intrinsic properties of the operation like having side effect or not,
+for the complete list.</p><h3 id=trait>Trait&nbsp;<a class=headline-hash href=#trait>¶</a></h3><p>Traits are intrinsic properties of the operation like having side effect or not,
 commutative or not, whether is a terminator, etc. These constraints should be
 specified as the <code>Op</code> class template parameter as described in
 <a href=#operation-traits-and-constraints>Operation traits and constraints</a>
 .</p><p>Traits are modeled as <code>NativeOpTrait</code> (a subclass of <code>OpTrait</code>) in
 <a href=../include/mlir/IR/OpBase.td><code>OpBase.td</code></a>
 . They are backed and will be translated into the
-corresponding C++ <code>mlir::OpTrait</code> classes.</p><h3 id=how-to-specify-new-constraint>How to specify new constraint</h3><p>To write a constraint, you need to provide its predicates and give it a
+corresponding C++ <code>mlir::OpTrait</code> classes.</p><h3 id=how-to-specify-new-constraint>How to specify new constraint&nbsp;<a class=headline-hash href=#how-to-specify-new-constraint>¶</a></h3><p>To write a constraint, you need to provide its predicates and give it a
 descriptive name. Predicates, modeled with the <code>Pred</code> class, are the workhorse
 for composing constraints. The predicate for a constraint is typically built up
 in a nested manner, using the two categories of predicates:</p><ol><li><code>CPred</code>: the primitive leaf predicate.</li><li>Compound predicate: a predicate composed from child predicates using
@@ -579,7 +579,7 @@ the whole expression, multiple <code>CPred</code>s with predicate combiners, or 
 (instead hiding all the logic behind a C++ function) into the op definition spec
 so that it can potentially drive more auto-generation cases. But it will
 require a nice library of common predicates as the building blocks to avoid the
-duplication, which is being worked on right now.</p><h2 id=attribute-definition>Attribute Definition</h2><h3 id=enum-attributes>Enum attributes</h3><p>Some attributes can only take values from an predefined enum, e.g., the
+duplication, which is being worked on right now.</p><h2 id=attribute-definition>Attribute Definition&nbsp;<a class=headline-hash href=#attribute-definition>¶</a></h2><h3 id=enum-attributes>Enum attributes&nbsp;<a class=headline-hash href=#enum-attributes>¶</a></h3><p>Some attributes can only take values from an predefined enum, e.g., the
 comparison kind of a comparison op. To define such attributes, ODS provides
 several mechanisms: <code>StrEnumAttr</code>, <code>IntEnumAttr</code>, and <code>BitEnumAttr</code>.</p><ul><li><code>StrEnumAttr</code>: each enum case is a string, the attribute is stored as a
 <a href=/docs/LangRef/#string-attribute><code>StringAttr</code></a>
@@ -764,7 +764,7 @@ class of <code>mlir::Attribute</code>), a return type (that corresponds to the C
 use in the generation of the helper accessors) as well as method to convert
 between the internal storage and the helper method. Derived attributes are a
 special class of attributes that do not have storage but are instead calculated
-based on the operation and its attributes.</p><h2 id=debugging-tips>Debugging Tips</h2><h3 id=run-mlir-tblgen-to-see-the-generated-content>Run <code>mlir-tblgen</code> to see the generated content</h3><p>TableGen syntax sometimes can be obscure; reading the generated content can be
+based on the operation and its attributes.</p><h2 id=debugging-tips>Debugging Tips&nbsp;<a class=headline-hash href=#debugging-tips>¶</a></h2><h3 id=run-mlir-tblgen-to-see-the-generated-content>Run <code>mlir-tblgen</code> to see the generated content&nbsp;<a class=headline-hash href=#run-mlir-tblgen-to-see-the-generated-content>¶</a></h3><p>TableGen syntax sometimes can be obscure; reading the generated content can be
 a very helpful way to understand and debug issues. To build <code>mlir-tblgen</code>, run
 <code>cmake --build . --target mlir-tblgen</code> in your build directory and find the
 <code>mlir-tblgen</code> binary in the <code>bin/</code> subdirectory. All the supported generators
@@ -785,7 +785,7 @@ mlir-tblgen --gen-op-interface-decls -I /path/to/mlir/include /path/to/input/td/
 mlir-tblgen --gen-op-interface-defs -I /path/to/mlir/include /path/to/input/td/file
 <span class=c1># To see op interface documentation</span>
 mlir-tblgen --gen-op-interface-doc -I /path/to/mlir/include /path/to/input/td/file
-</code></pre></div><h2 id=appendix>Appendix</h2><h3 id=requirements-and-existing-mechanisms-analysis>Requirements and existing mechanisms analysis</h3><p>The op description should as declarative as possible to allow a wide range of
+</code></pre></div><h2 id=appendix>Appendix&nbsp;<a class=headline-hash href=#appendix>¶</a></h2><h3 id=requirements-and-existing-mechanisms-analysis>Requirements and existing mechanisms analysis&nbsp;<a class=headline-hash href=#requirements-and-existing-mechanisms-analysis>¶</a></h3><p>The op description should as declarative as possible to allow a wide range of
 tools to work with them and query methods generated from them. In particular
 this means specifying traits, constraints and shape inference information in
 a way that is easily analyzable (e.g., avoid opaque calls to C++ functions where

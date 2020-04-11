@@ -5,7 +5,7 @@ MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></heade
 <a href=/docs/DialectConversion/>dialect conversion</a>
 framework and partially lowered
 many of the <code>Toy</code> operations to affine loop nests for optimization. In this
-chapter, we will finally lower to LLVM for code generation.</p><h2 id=lowering-to-llvm>Lowering to LLVM</h2><p>For this lowering, we will again use the dialect conversion framework to perform
+chapter, we will finally lower to LLVM for code generation.</p><h2 id=lowering-to-llvm>Lowering to LLVM&nbsp;<a class=headline-hash href=#lowering-to-llvm>¶</a></h2><p>For this lowering, we will again use the dialect conversion framework to perform
 the heavy lifting. However, this time, we will be performing a full conversion
 to the
 <a href=/docs/Dialects/LLVM/>LLVM dialect</a>
@@ -46,18 +46,18 @@ loop operations to LLVM, the lowering will still succeed.</p><p>During lowering 
 the components necessary for the lowering. These are largely the same as the
 components defined in the
 <a href=/docs/Tutorials/Toy/Ch-5/>previous chapter</a>
-.</p><h3 id=conversion-target>Conversion Target</h3><p>For this conversion, aside from the top-level module, we will be lowering
+.</p><h3 id=conversion-target>Conversion Target&nbsp;<a class=headline-hash href=#conversion-target>¶</a></h3><p>For this conversion, aside from the top-level module, we will be lowering
 everything to the LLVM dialect.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ConversionTarget</span> <span class=n>target</span><span class=p>(</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
   <span class=n>target</span><span class=p>.</span><span class=n>addLegalDialect</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>LLVM</span><span class=o>:</span><span class=o>:</span><span class=n>LLVMDialect</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=n>target</span><span class=p>.</span><span class=n>addLegalOp</span><span class=o>&lt;</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ModuleOp</span><span class=p>,</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ModuleTerminatorOp</span><span class=o>&gt;</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=type-converter>Type Converter</h3><p>This lowering will also transform the MemRef types which are currently being
+</code></pre></div><h3 id=type-converter>Type Converter&nbsp;<a class=headline-hash href=#type-converter>¶</a></h3><p>This lowering will also transform the MemRef types which are currently being
 operated on into a representation in LLVM. To perform this conversion, we use a
 TypeConverter as part of the lowering. This converter specifies how one type
 maps to another. This is necessary now that we are performing more complicated
 lowerings involving block arguments. Given that we don&rsquo;t have any
 Toy-dialect-specific types that need to be lowered, the default converter is
 enough for our use case.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>LLVMTypeConverter</span> <span class=nf>typeConverter</span><span class=p>(</span><span class=o>&amp;</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=conversion-patterns>Conversion Patterns</h3><p>Now that the conversion target has been defined, we need to provide the patterns
+</code></pre></div><h3 id=conversion-patterns>Conversion Patterns&nbsp;<a class=headline-hash href=#conversion-patterns>¶</a></h3><p>Now that the conversion target has been defined, we need to provide the patterns
 used for lowering. At this point in the compilation process, we have a
 combination of <code>toy</code>, <code>affine</code>, and <code>std</code> operations. Luckily, the <code>std</code> and
 <code>affine</code> dialects already provide the set of patterns needed to transform them
@@ -72,7 +72,7 @@ by relying on
   <span class=c1>// The only remaining operation, to lower from the `toy` dialect, is the
 </span><span class=c1></span>  <span class=c1>// PrintOp.
 </span><span class=c1></span>  <span class=n>patterns</span><span class=p>.</span><span class=n>insert</span><span class=o>&lt;</span><span class=n>PrintOpLowering</span><span class=o>&gt;</span><span class=p>(</span><span class=o>&amp;</span><span class=n>getContext</span><span class=p>(</span><span class=p>)</span><span class=p>)</span><span class=p>;</span>
-</code></pre></div><h3 id=full-lowering>Full Lowering</h3><p>We want to completely lower to LLVM, so we use a <code>FullConversion</code>. This ensures
+</code></pre></div><h3 id=full-lowering>Full Lowering&nbsp;<a class=headline-hash href=#full-lowering>¶</a></h3><p>We want to completely lower to LLVM, so we use a <code>FullConversion</code>. This ensures
 that only legal operations will remain after the conversion.</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ModuleOp</span> <span class=n>module</span> <span class=o>=</span> <span class=n>getOperation</span><span class=p>(</span><span class=p>)</span><span class=p>;</span>
   <span class=k>if</span> <span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>failed</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>applyFullConversion</span><span class=p>(</span><span class=n>module</span><span class=p>,</span> <span class=n>target</span><span class=p>,</span> <span class=n>patterns</span><span class=p>,</span>
                                              <span class=o>&amp;</span><span class=n>typeConverter</span><span class=p>)</span><span class=p>)</span><span class=p>)</span>
@@ -125,9 +125,9 @@ llvm<span class=p>.</span><span class=kt>func</span> <span class=nf>@main</span>
 </code></pre></div><p>See
 <a href=/docs/ConversionToLLVMDialect/>Conversion to the LLVM IR Dialect</a>
 for
-more in-depth details on lowering to the LLVM dialect.</p><h2 id=codegen-getting-out-of-mlir>CodeGen: Getting Out of MLIR</h2><p>At this point we are right at the cusp of code generation. We can generate code
+more in-depth details on lowering to the LLVM dialect.</p><h2 id=codegen-getting-out-of-mlir>CodeGen: Getting Out of MLIR&nbsp;<a class=headline-hash href=#codegen-getting-out-of-mlir>¶</a></h2><p>At this point we are right at the cusp of code generation. We can generate code
 in the LLVM dialect, so now we just need to export to LLVM IR and setup a JIT to
-run it.</p><h3 id=emitting-llvm-ir>Emitting LLVM IR</h3><p>Now that our module is comprised only of operations in the LLVM dialect, we can
+run it.</p><h3 id=emitting-llvm-ir>Emitting LLVM IR&nbsp;<a class=headline-hash href=#emitting-llvm-ir>¶</a></h3><p>Now that our module is comprised only of operations in the LLVM dialect, we can
 export to LLVM IR. To do this programmatically, we can invoke the following
 utility:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++>  <span class=n>std</span><span class=o>:</span><span class=o>:</span><span class=n>unique_ptr</span><span class=o>&lt;</span><span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>Module</span><span class=o>&gt;</span> <span class=n>llvmModule</span> <span class=o>=</span> <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>translateModuleToLLVMIR</span><span class=p>(</span><span class=n>module</span><span class=p>)</span><span class=p>;</span>
   <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>llvmModule</span><span class=p>)</span>
@@ -200,7 +200,7 @@ a bit:</p><div class=highlight><pre class=chroma><code class=language-llvm data-
   <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>errs</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=o>*</span><span class=n>llvmModule</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>;</span>
   <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 <span class=p>}</span>
-</code></pre></div><h3 id=setting-up-a-jit>Setting up a JIT</h3><p>Setting up a JIT to run the module containing the LLVM dialect can be done using
+</code></pre></div><h3 id=setting-up-a-jit>Setting up a JIT&nbsp;<a class=headline-hash href=#setting-up-a-jit>¶</a></h3><p>Setting up a JIT to run the module containing the LLVM dialect can be done using
 the <code>mlir::ExecutionEngine</code> infrastructure. This is a utility wrapper around
 LLVM&rsquo;s JIT that accepts <code>.mlir</code> as input. The full code listing for setting up
 the JIT can be found in <code>Ch6/toyc.cpp</code> in the <code>runJit()</code> function:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=kt>int</span> <span class=nf>runJit</span><span class=p>(</span><span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>ModuleOp</span> <span class=n>module</span><span class=p>)</span> <span class=p>{</span>

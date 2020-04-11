@@ -1,5 +1,5 @@
 <!doctype html><html lang=en-us><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>MLIR Generic DAG Rewriter Infrastructure - MLIR</title><meta name=description content="Multi-Level IR Compiler Framework"><meta name=generator content="Hugo 0.64.1"><link href=https://mlir.llvm.org/index.xml rel=alternate type=application/rss+xml><link rel=canonical href=https://mlir.llvm.org/docs/GenericDAGRewriter/><link rel=stylesheet href=https://mlir.llvm.org/css/theme.css><script src=https://use.fontawesome.com/releases/v5.0.6/js/all.js></script><link rel=stylesheet href=https://mlir.llvm.org/css/chroma.min.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js></script><script src=https://cdn.jsdelivr.net/npm/jquery.easing@1.4.1/jquery.easing.min.js></script><script src=https://mlir.llvm.org/js/bundle.js></script><style>:root{}</style></head><body><div class=container><header><h1><div><img src=https://mlir.llvm.org//mlir-logo.png width=40px align=absmiddle>
-MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/mlir/31>Forums</a></li><li class=child><a href=https://discord.gg/xS7Z362>Chat</a></li></ul></li><li><a href=/getting_started/Debugging/>Debugging</a></li><li><a href=/getting_started/Faq/>FAQ</a></li><li class=parent><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=doxygen/>Doxygen</a></li><li class=child><a href=https://github.com/llvm/llvm-project/tree/master/mlir>GitHub</a></li></ul></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>MLIR Generic DAG Rewriter Infrastructure</h1><h2 id=introduction-and-motivation>Introduction and Motivation</h2><p>The goal of a compiler IR is to represent code - at various levels of
+MLIR</div></h1><p class=description>Multi-Level IR Compiler Framework</p></header><div class=global-menu><nav><ul><li class=parent><a href>Community<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=https://llvm.discourse.group/c/mlir/31>Forums</a></li><li class=child><a href=https://discord.gg/xS7Z362>Chat</a></li></ul></li><li><a href=/getting_started/Debugging/>Debugging</a></li><li><a href=/getting_started/Faq/>FAQ</a></li><li class=parent><a href=https://github.com/llvm/llvm-project/tree/master/mlir>Source<i class="fas fa-angle-right"></i></a><ul class=sub-menu><li class=child><a href=doxygen/>Doxygen</a></li><li class=child><a href=https://github.com/llvm/llvm-project/tree/master/mlir>GitHub</a></li></ul></li><li><a href="https://bugs.llvm.org/buglist.cgi?bug_status=__open__&list_id=177877&order=changeddate%20DESC%2Cpriority%2Cbug_severity&product=MLIR&query_format=specific">Bugs</a></li></ul></nav></div><div class=content-container><main><h1>MLIR Generic DAG Rewriter Infrastructure</h1><h2 id=introduction-and-motivation>Introduction and Motivation&nbsp;<a class=headline-hash href=#introduction-and-motivation>¶</a></h2><p>The goal of a compiler IR is to represent code - at various levels of
 abstraction which pose different sets of tradeoffs in terms of representational
 capabilities and ease of transformation. However, the ability to represent code
 is not itself very useful - you also need to be able to implement those
@@ -31,14 +31,14 @@ defines and explores a set of abstractions that we feel can solve a wide range
 of different problems, and can be applied to many different sorts of problems
 that MLIR is - and is expected to - face over time. We do this by separating the
 pattern definition and matching algorithm from the &ldquo;driver&rdquo; of the computation
-loop, and make space for the patterns to be defined declaratively in the future.</p><h2 id=related-work>Related Work</h2><p>There is a huge amount of related work to consider, given that pretty much every
+loop, and make space for the patterns to be defined declaratively in the future.</p><h2 id=related-work>Related Work&nbsp;<a class=headline-hash href=#related-work>¶</a></h2><p>There is a huge amount of related work to consider, given that pretty much every
 compiler in existence has to solve this problem many times over. Here are a few
 graph rewrite systems we have used, along with the pros and cons of this related
 work. One unifying problem with all of these is that these systems are only
 trying to solve one particular and usually narrow problem: our proposal would
 like to solve many of these problems with a single infrastructure. Of these, the
 most similar design to our proposal is the LLVM DAG-to-DAG instruction selection
-algorithm at the end.</p><h3 id=constant-folding>Constant folding</h3><p>A degenerate but pervasive case of DAG-to-DAG pattern matching is constant
+algorithm at the end.</p><h3 id=constant-folding>Constant folding&nbsp;<a class=headline-hash href=#constant-folding>¶</a></h3><p>A degenerate but pervasive case of DAG-to-DAG pattern matching is constant
 folding: given an operation whose operands contain constants can often be folded
 to a result constant value.</p><p>MLIR already has constant folding routines which provide a simpler API than a
 general DAG-to-DAG pattern matcher, and we expect it to remain because the
@@ -46,7 +46,7 @@ simpler contract makes it applicable in some cases that a generic matcher would
 not. For example, a DAG-rewrite can remove arbitrary nodes in the current
 function, which could invalidate iterators. Constant folding as an API does not
 remove any nodes, it just provides a (list of) constant values and allows the
-clients to update their data structures as necessary.</p><h3 id=ast-level-pattern-matchers>AST-Level Pattern Matchers</h3><p>The literature is full of source-to-source translators which transform
+clients to update their data structures as necessary.</p><h3 id=ast-level-pattern-matchers>AST-Level Pattern Matchers&nbsp;<a class=headline-hash href=#ast-level-pattern-matchers>¶</a></h3><p>The literature is full of source-to-source translators which transform
 identities in order to improve performance (e.g. transforming <code>X*0</code> into <code>0</code>).
 One large example that I&rsquo;m aware of is the GCC <code>fold</code> function, which performs
 <a href=https://github.com/gcc-mirror/gcc/blob/master/gcc/fold-const.c>many optimizations</a>
@@ -58,7 +58,7 @@ that have multiple uses. It is
 <a href=https://llvm.org/pubs/2008-06-LCTES-ISelUsingSSAGraphs.pdf>well known in literature</a>
 that DAG pattern matching is more powerful than tree pattern matching, but OTOH,
 DAG pattern matching can lead to duplication of computation which needs to be
-checked for.</p><h3 id=combiners-and-other-peephole-optimizers>&ldquo;Combiners&rdquo; and other peephole optimizers</h3><p>Compilers end up with a lot of peephole optimizers for various things, e.g. the
+checked for.</p><h3 id=combiners-and-other-peephole-optimizers>&ldquo;Combiners&rdquo; and other peephole optimizers&nbsp;<a class=headline-hash href=#combiners-and-other-peephole-optimizers>¶</a></h3><p>Compilers end up with a lot of peephole optimizers for various things, e.g. the
 GCC
 <a href=https://github.com/gcc-mirror/gcc/blob/master/gcc/combine.c>&ldquo;combine&rdquo; routines</a>
 (which try to merge two machine instructions into a single one), the LLVM
@@ -106,7 +106,7 @@ based on the order the patterns are matched in code.</li><li>They are non-extens
 patterns - they cannot be reused for other purposes.</li></ul><p>In addition to structured &ldquo;combiners&rdquo; like these, there are lots of ad-hoc
 systems like the
 <a href="http://llvm.org/viewvc/llvm-project/llvm/trunk/lib/CodeGen/PeepholeOptimizer.cpp?view=markup">LLVM Machine code peephole optimizer</a>
-which are related.</p><h3 id=llvms-dag-to-dag-instruction-selection-infrastructure>LLVM&rsquo;s DAG-to-DAG Instruction Selection Infrastructure</h3><p>The instruction selection subsystem in LLVM is the result of many years worth of
+which are related.</p><h3 id=llvms-dag-to-dag-instruction-selection-infrastructure>LLVM&rsquo;s DAG-to-DAG Instruction Selection Infrastructure&nbsp;<a class=headline-hash href=#llvms-dag-to-dag-instruction-selection-infrastructure>¶</a></h3><p>The instruction selection subsystem in LLVM is the result of many years worth of
 iteration and discovery, driven by the need for LLVM to support code generation
 for lots of targets, the complexity of code generators for modern instruction
 sets (e.g. X86), and the fanatical pursuit of reusing code across targets. Eli
@@ -135,10 +135,10 @@ to extend it.</li><li>The error messages when failing to match a pattern
 .</li><li>It has lots of implementation problems and limitations (e.g. can&rsquo;t write a
 pattern for a multi-result operation) as a result of working with the
 awkward SelectionDAG representation and being designed and implemented
-lazily.</li><li>This stuff all grew organically over time and has lots of sharp edges.</li></ul><h3 id=summary>Summary</h3><p>MLIR will face a wide range of pattern matching and graph rewrite problems, and
+lazily.</li><li>This stuff all grew organically over time and has lots of sharp edges.</li></ul><h3 id=summary>Summary&nbsp;<a class=headline-hash href=#summary>¶</a></h3><p>MLIR will face a wide range of pattern matching and graph rewrite problems, and
 one of the major advantages of having a common representation for code at
 multiple levels that it allows us to invest in - and highly leverage - a single
-infra for doing this sort of work.</p><h2 id=goals>Goals</h2><p>This proposal includes support for defining pattern matching and rewrite
+infra for doing this sort of work.</p><h2 id=goals>Goals&nbsp;<a class=headline-hash href=#goals>¶</a></h2><p>This proposal includes support for defining pattern matching and rewrite
 algorithms on MLIR. We&rsquo;d like these algorithms to encompass many problems in the
 MLIR space, including 1-to-N expansions (e.g. as seen in the TF/XLA bridge when
 lowering a &ldquo;tf.AddN&rdquo; to multiple &ldquo;add&rdquo; HLOs), M-to-1 patterns (as seen in
@@ -171,7 +171,7 @@ malfunction is too great to be fully enumerated and handled optimally, but there
 are better and worse ways to handle the situation. MLIR is already designed to
 represent the provenance of an operation well. This project aims to propagate
 that provenance information precisely, as well as diagnose pattern match
-failures with the rationale for why a set of patterns do not apply.</p><h3 id=non-goals>Non goals</h3><p>This proposal doesn&rsquo;t aim to solve all compiler problems, it is simply a
+failures with the rationale for why a set of patterns do not apply.</p><h3 id=non-goals>Non goals&nbsp;<a class=headline-hash href=#non-goals>¶</a></h3><p>This proposal doesn&rsquo;t aim to solve all compiler problems, it is simply a
 DAG-to-DAG pattern matching system, starting with a greedy driver algorithm.
 Compiler algorithms that require global dataflow analysis (e.g. common
 subexpression elimination, conditional constant propagation, and many many
@@ -183,10 +183,10 @@ to solve - we don&rsquo;t know of any other system that attempts to do so, and
 consider the payoff of worrying about this to be low.</p><p>This design includes the ability for DAG patterns to have associated costs
 (benefits), but those costs are defined in terms of magic numbers (typically
 equal to the number of nodes being replaced). For any given application, the
-units of magic numbers will have to be defined.</p><h2 id=overall-design>Overall design</h2><p>We decompose the problem into four major pieces:</p><ol><li>the code that is used to define patterns to match, cost, and their
+units of magic numbers will have to be defined.</p><h2 id=overall-design>Overall design&nbsp;<a class=headline-hash href=#overall-design>¶</a></h2><p>We decompose the problem into four major pieces:</p><ol><li>the code that is used to define patterns to match, cost, and their
 replacement actions</li><li>the driver logic to pick the best match for a given root node</li><li>the client that is implementing some transformation (e.g. a combiner)</li><li>(future) the subsystem that allows patterns to be described with a
 declarative syntax, which sugars step #1.</li></ol><p>We sketch the first three of these pieces, each in turn. This is not intended to
-be a concrete API proposal, merely to describe the design</p><h3 id=defining-patterns>Defining Patterns</h3><p>Each pattern will be an instance of a mlir::Pattern class, whose subclasses
+be a concrete API proposal, merely to describe the design</p><h3 id=defining-patterns>Defining Patterns&nbsp;<a class=headline-hash href=#defining-patterns>¶</a></h3><p>Each pattern will be an instance of a mlir::Pattern class, whose subclasses
 implement methods like this. Note that this API is meant for exposition, the
 actual details are different for efficiency and coding standards reasons (e.g.
 the memory management of <code>PatternState</code> is not specified below, etc):</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>Pattern</span> <span class=p>{</span>
@@ -234,7 +234,7 @@ graph, and only rewrite after committing to one tiling. 2) We want to support
 runtime extensibility of the pattern sets, but want to be able to statically
 compile the bulk of known patterns into a state machine at &ldquo;compiler compile
 time&rdquo;. Both of these reasons lead to us needing to match multiple patterns
-before committing to an answer.</p><h3 id=picking-and-performing-a-replacement>Picking and performing a replacement</h3><p>In the short term, this API can be very simple, something like this can work and
+before committing to an answer.</p><h3 id=picking-and-performing-a-replacement>Picking and performing a replacement&nbsp;<a class=headline-hash href=#picking-and-performing-a-replacement>¶</a></h3><p>In the short term, this API can be very simple, something like this can work and
 will be useful for many clients:</p><div class=highlight><pre class=chroma><code class=language-c++ data-lang=c++><span class=k>class</span> <span class=nc>PatternMatcher</span> <span class=p>{</span>
    <span class=c1>// Create a pattern matcher with a bunch of patterns.  This constructor
 </span><span class=c1></span>   <span class=c1>// looks across all of the specified patterns, and builds an internal
@@ -250,7 +250,7 @@ will be useful for many clients:</p><div class=highlight><pre class=chroma><code
 </code></pre></div><p>In practice the interesting part of this class is the acceleration structure it
 builds internally. It buckets up the patterns by root operation, and sorts them
 by their static benefit. When performing a match, it tests any dynamic patterns,
-then tests statically known patterns from highest to lowest benefit.</p><h3 id=first-client-a-greedy-worklist-combiner>First Client: A Greedy Worklist Combiner</h3><p>We expect that there will be lots of clients for this, but a simple greedy
+then tests statically known patterns from highest to lowest benefit.</p><h3 id=first-client-a-greedy-worklist-combiner>First Client: A Greedy Worklist Combiner&nbsp;<a class=headline-hash href=#first-client-a-greedy-worklist-combiner>¶</a></h3><p>We expect that there will be lots of clients for this, but a simple greedy
 worklist-driven combiner should be powerful enough to serve many important ones,
 including the
 <a href=https://github.com/tensorflow/tensorflow/tree/master/tensorflow/compiler/tf2xla/kernels>TF2XLA op expansion logic</a>
@@ -261,7 +261,7 @@ for TF-Lite, many
 <a href=https://github.com/tensorflow/tensorflow/tree/master/tensorflow/core/grappler>Grappler</a>
 passes, and other general performance optimizations for applying identities.</p><p>The structure of this algorithm is straight-forward, here is pseudo code:</p><ul><li>Walk a function in preorder, adding each operation to a worklist.</li><li>While the worklist is non-empty, pull something off the back (processing
 things generally in postorder)<ul><li>Perform matchAndRewrite on the operation. If failed, continue to the
-next operation.</li><li>On success, add the newly created ops to the worklist and continue.</li></ul></li></ul><h2 id=future-directions>Future directions</h2><p>It is important to get implementation and usage experience with this, and many
+next operation.</li><li>On success, add the newly created ops to the worklist and continue.</li></ul></li></ul><h2 id=future-directions>Future directions&nbsp;<a class=headline-hash href=#future-directions>¶</a></h2><p>It is important to get implementation and usage experience with this, and many
 patterns can be defined using this sort of framework. Over time, we can look to
 make it easier to declare patterns in a declarative form (e.g. with the LLVM
 tblgen tool or something newer/better). Once we have that, we can define an

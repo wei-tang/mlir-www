@@ -16,7 +16,7 @@ MLIR&rsquo;s relationship to XLA, Eigen, etc, are out of scope for this particul
 doc.</p><p>This document uses TensorFlow as the example given that it is the focus of our
 immediate work, but we believe that the same viewpoint could be useful for
 people working in the context of other ML frameworks that may consider adopting
-MLIR in the future.</p><h3 id=how-is-mlir-relevant>How is MLIR relevant?</h3><p>MLIR is an overloaded acronym which unpacks as &ldquo;Multi-Level Intermediate
+MLIR in the future.</p><h3 id=how-is-mlir-relevant>How is MLIR relevant?&nbsp;<a class=headline-hash href=#how-is-mlir-relevant>¶</a></h3><p>MLIR is an overloaded acronym which unpacks as &ldquo;Multi-Level Intermediate
 Representation&rdquo;. Its high-level purpose is to provide mechanics for describing
 and transforming programs and computations in a flexible way. It provides common
 compiler infrastructure for things like constant folding, dead code elimination,
@@ -45,7 +45,7 @@ the LLVM machine instruction representation, Swift SIL IR, and learns new
 lessons from TensorFlow and XLA HLO, as well as learning from building countless
 research and production systems on top of them. Our goal is to drag the state of
 the art in compilers forward, not to merely apply a few well-known techniques to
-the machine learning domain.</p><h3 id=what-does-adoption-mean>What does adoption mean?</h3><p>The point of this document is not to advocate for rewriting any particular
+the machine learning domain.</p><h3 id=what-does-adoption-mean>What does adoption mean?&nbsp;<a class=headline-hash href=#what-does-adoption-mean>¶</a></h3><p>The point of this document is not to advocate for rewriting any particular
 subsystem in TensorFlow - indeed, the burden required to justify a rewrite is
 high, and often very specific to that subsystem. That said, there are several
 subsystems that are about to get rewritten or substantially revised anyway, so
@@ -68,12 +68,12 @@ algorithms that we&rsquo;re planning).</p><p>This is a development plan, we woul
 uses MLIR for a single pass. In practice, we&rsquo;ll have the MLIR flag gated under
 an option, build out a replacement for an entire subsystem (e.g. the TOCO
 translator) and when the time is right, we&rsquo;ll do A/B comparisons and eventually
-make a switch and phase out the old code over time.</p><h2 id=what-benefit-does-mlir-provide>What benefit does MLIR provide?</h2><p>The adoption plan above might sound like it only makes things worse in the
+make a switch and phase out the old code over time.</p><h2 id=what-benefit-does-mlir-provide>What benefit does MLIR provide?&nbsp;<a class=headline-hash href=#what-benefit-does-mlir-provide>¶</a></h2><p>The adoption plan above might sound like it only makes things worse in the
 immediate term - we have two implementations of the same functionality, we are
 dividing our efforts, etc. In order for this to be worth it, we should have a
 good sense that we are building towards an improved future that will make
 customers and TensorFlow engineers happier when it lands. Here we describe a few
-of the benefits that MLIR provides, in no particular order:</p><h3 id=a-lossless-human-editable-textual-representation>A Lossless Human Editable Textual Representation</h3><p>The MLIR in-memory data structure has a human readable and writable format, as
+of the benefits that MLIR provides, in no particular order:</p><h3 id=a-lossless-human-editable-textual-representation>A Lossless Human Editable Textual Representation&nbsp;<a class=headline-hash href=#a-lossless-human-editable-textual-representation>¶</a></h3><p>The MLIR in-memory data structure has a human readable and writable format, as
 well as
 <a href=/docs/LangRef/>a specification</a>
 for that format - built just like any
@@ -82,7 +82,7 @@ compact, easy to read, and lossless. You can dump an MLIR program out to disk
 and munge around with it, then send it through a few more passes.</p><p>If you haven&rsquo;t worked with a system that works this way, it is hard to overstate
 how big of a deal this in practice: it means that you can call <code>foo->dump()</code> on
 an IR object to see its full contents, it means you can diff the IR before and
-after a change, delta reduce IR files, and many other things.</p><h3 id=a-graph-verification-pass>A Graph Verification Pass</h3><p>Like many other popular compiler infrastructures, MLIR provides infrastructure
+after a change, delta reduce IR files, and many other things.</p><h3 id=a-graph-verification-pass>A Graph Verification Pass&nbsp;<a class=headline-hash href=#a-graph-verification-pass>¶</a></h3><p>Like many other popular compiler infrastructures, MLIR provides infrastructure
 and implementation for a &ldquo;verifier&rdquo; which checks that the IR is well formed. The
 MLIR verifier is a simple framework that makes it easy to provide a single
 source of truth for those correctness properties and is general across all
@@ -92,7 +92,7 @@ the product more reliable, and making it easier to track down bugs when they
 appear - because the verifier can be run at any time, either as a compiler pass
 or with a single function call.</p><p>While MLIR provides a well-considered infrastructure for IR verification, and
 has simple checks for existing TensorFlow operations, there is a lot that should
-be added here and lots of opportunity to get involved!</p><h3 id=designed-for-testability>Designed for Testability</h3><p>There are many aspects of this in MLIR, but we&rsquo;ll focus on compiler
+be added here and lots of opportunity to get involved!</p><h3 id=designed-for-testability>Designed for Testability&nbsp;<a class=headline-hash href=#designed-for-testability>¶</a></h3><p>There are many aspects of this in MLIR, but we&rsquo;ll focus on compiler
 transformations since they are the easiest to understand. Compiler
 transformations are modeled as subclasses of the <code>Pass</code> C++ class, which are
 driven by an <code>mlir-opt</code> tool. When combined with a lossless textual
@@ -123,7 +123,7 @@ link time. For examples, see
 allowing us to put in place a culture that expects every behavior changing
 commit to include a test case, and for these test cases to be stable and
 reliable over time, since they are testing exactly what they are supposed to.
-End to end integration tests are still super useful for some things of course!</p><h3 id=infrastructure-for-warnings-and-error-diagnostics-and-location-tracking>Infrastructure for Warnings and Error Diagnostics and Location Tracking</h3><p>MLIR benefits from the lessons learned from building other compilers - including
+End to end integration tests are still super useful for some things of course!</p><h3 id=infrastructure-for-warnings-and-error-diagnostics-and-location-tracking>Infrastructure for Warnings and Error Diagnostics and Location Tracking&nbsp;<a class=headline-hash href=#infrastructure-for-warnings-and-error-diagnostics-and-location-tracking>¶</a></h3><p>MLIR benefits from the lessons learned from building other compilers - including
 Clang which
 [
 <a href=http://blog.llvm.org/2010/04/amazing-feats-of-clang-error-recovery.html>set the standard</a>
@@ -158,7 +158,7 @@ write tests like this:</p><div class=highlight><pre class=chroma><code class=lan
 &ldquo;garbage in, garbage out&rdquo;: if the input locations to MLIR are imprecise, then
 there is nothing that it can do to recover them. There is work underway in
 TensorFlow/Python to improve the situation, and Swift for TensorFlow already has
-perfect location tracking due to its design.</p><h3 id=shape-information-captured-in-the-ir>Shape Information Captured in the IR</h3><p>In TensorFlow Graphs, each op takes and returns values using a very simple type
+perfect location tracking due to its design.</p><h3 id=shape-information-captured-in-the-ir>Shape Information Captured in the IR&nbsp;<a class=headline-hash href=#shape-information-captured-in-the-ir>¶</a></h3><p>In TensorFlow Graphs, each op takes and returns values using a very simple type
 system (TF_DataType) in which each value is a tensor of unknown rank and
 dimensions. At the same time, many graphs have static shapes easily knowable for
 wide swaths of the computation, and even dynamically shaped operations often
@@ -173,7 +173,7 @@ information, so you can have things like:</p><div class=highlight><pre class=chr
 recomputing the same info over and over again) which therefore makes it
 practical to apply stronger shape analysis algorithms. It also makes it easier
 to work with the IR, because on-the-side representations can get out of date,
-and the API is easier to work with from an ergonomics perspective.</p><h3 id=unified-graph-rewriting-infrastructure>Unified Graph Rewriting Infrastructure</h3><p>This is still a work in progress, but we have sightlines towards a
+and the API is easier to work with from an ergonomics perspective.</p><h3 id=unified-graph-rewriting-infrastructure>Unified Graph Rewriting Infrastructure&nbsp;<a class=headline-hash href=#unified-graph-rewriting-infrastructure>¶</a></h3><p>This is still a work in progress, but we have sightlines towards a
 <a href=/docs/GenericDAGRewriter/>general rewriting infrastructure</a>
 for transforming DAG
 tiles into other DAG tiles, using a declarative pattern format. DAG to DAG
@@ -184,7 +184,7 @@ reasons: they are more compact, easier to reason about, can have checkers
 written against them, and new tools can be built that inspect and manipulate the
 declarative patterns in interesting ways - e.g. applying theorem provers to
 them. It will be exciting to see this ecosystem develop as the infrastructure
-matures.</p><h3 id=clarified-semantics-for-tensorflow-operations>Clarified Semantics for TensorFlow Operations</h3><p>One of the challenging things about working with TensorFlow is that there are
+matures.</p><h3 id=clarified-semantics-for-tensorflow-operations>Clarified Semantics for TensorFlow Operations&nbsp;<a class=headline-hash href=#clarified-semantics-for-tensorflow-operations>¶</a></h3><p>One of the challenging things about working with TensorFlow is that there are
 many invariants and behaviors that need to be preserved and known about when
 working with Graphs, and these can be difficult to reason about and lead to
 bugs. Things like &lsquo;dead values&rsquo;, Switch and Merge nodes, concurrency semantics,
@@ -203,7 +203,7 @@ decisions of any given dialect are up for it to decide), but each one that works
 out will make it easier to work with and transform TensorFlow operations. We
 expect these issues to get nailed down in the next couple of months when MLIR
 effort moves beyond TF Lite / TOCO support. The discussions that are happening
-now are super valuable and making progress.</p><h3 id=ergonomics>Ergonomics</h3><p>A minor-in-theory, but important-in-practice point is that MLIR is designed to
+now are super valuable and making progress.</p><h3 id=ergonomics>Ergonomics&nbsp;<a class=headline-hash href=#ergonomics>¶</a></h3><p>A minor-in-theory, but important-in-practice point is that MLIR is designed to
 make it easy, memory efficient, and less error prone to transform code than
 other systems. <code>TensorFlow::Graph</code> has implementation issues where the same
 information is stored redundantly in different places (which must be manually
@@ -214,7 +214,7 @@ in the graph that is used by the executor, but isn&rsquo;t necessary for program
 transformation.</p><p>TensorFlow has made a lot of progress in this area over the years, and there are
 lots of ideas about further improvements in the future, we are happy that MLIR
 addresses these needs (making it much easier to implement correct program
-transformations) today, and are committed to pushing hard to make it better.</p><h3 id=compile-time-performance-and-memory-use>Compile Time Performance and Memory Use</h3><p>MLIR has been designed to be memory and compile-time efficient in its algorithms
+transformations) today, and are committed to pushing hard to make it better.</p><h3 id=compile-time-performance-and-memory-use>Compile Time Performance and Memory Use&nbsp;<a class=headline-hash href=#compile-time-performance-and-memory-use>¶</a></h3><p>MLIR has been designed to be memory and compile-time efficient in its algorithms
 and data structures, using immutable and uniqued structures, low level
 bit-packing, and other well-known techniques to avoid unnecessary heap
 allocations, and allow simple and safe multithreaded optimization of MLIR
@@ -223,7 +223,7 @@ common transformations will be more efficient than the Python and C++
 TensorFlow::Graph implementations of the same things, given the current
 implementation details of TensorFlow.</p><p>That said, this is very much a theory at this point. When the new implementation
 of various subsystems are available, we will see what happens in practice: there
-will be no reason to speculate - we can measure.</p><h2 id=common-questions-and-concerns>Common Questions and Concerns</h2><p>Here we address some frequently asked questions and concerns.</p><h3 id=isnt-mlir-a-big-dependency-to-take-on>Isn&rsquo;t MLIR a big dependency to take on?</h3><p>We&rsquo;ve heard that at least some people are concerned that MLIR is a &ldquo;big&rdquo;
+will be no reason to speculate - we can measure.</p><h2 id=common-questions-and-concerns>Common Questions and Concerns&nbsp;<a class=headline-hash href=#common-questions-and-concerns>¶</a></h2><p>Here we address some frequently asked questions and concerns.</p><h3 id=isnt-mlir-a-big-dependency-to-take-on>Isn&rsquo;t MLIR a big dependency to take on?&nbsp;<a class=headline-hash href=#isnt-mlir-a-big-dependency-to-take-on>¶</a></h3><p>We&rsquo;ve heard that at least some people are concerned that MLIR is a &ldquo;big&rdquo;
 dependency to take on, and could result in large code size. Here are some key
 points MLIR:</p><ol><li>The entire MLIR codebase is a pretty small C++ code base in absolute terms
 compared to what goes into a modern ML framework.</li><li>Like LLVM, MLIR is designed as a set of libraries that clients can link in
@@ -240,7 +240,7 @@ which provides efficient hash tables and other
 There have been discussions about splitting this set of libraries out to its
 own subproject in LLVM that the LLVM IR project depends on. This would be
 great for MLIR as well as other LLVM subprojects.</li><li>TensorFlow and many other frameworks already use LLVM - if so, MLIR would
-not be pulling in an additional dependency at all.</li></ol><h3 id=how-does-mlir-represent-control-flow-concurrency--semantics-in-tensorflow>How does MLIR represent {control flow, concurrency, …} semantics in TensorFlow?</h3><p>MLIR provides a dialect that is an isomorphic 1-1 mapping between TensorFlow
+not be pulling in an additional dependency at all.</li></ol><h3 id=how-does-mlir-represent-control-flow-concurrency--semantics-in-tensorflow>How does MLIR represent {control flow, concurrency, …} semantics in TensorFlow?&nbsp;<a class=headline-hash href=#how-does-mlir-represent-control-flow-concurrency--semantics-in-tensorflow>¶</a></h3><p>MLIR provides a dialect that is an isomorphic 1-1 mapping between TensorFlow
 graphs and MLIR, as well as a pretty complete translator back and forth (the
 only known gap is that a few TF_DataType enums aren&rsquo;t handled yet). MLIR is a
 &ldquo;Multi-Level IR&rdquo;, which allows it to represent code with different abstraction
@@ -262,7 +262,7 @@ parallelism?</li></ul><p>All of these questions have a &ldquo;conservative/safe 
 providing exactly the same abstractions that TensorFlow always has. That said,
 we are trying hard to level-up the representation (taking advantage of the
 &ldquo;Multi-Level&rdquo; part of MLIR) because doing so will make it much much easier to
-write analyses and transformations than it currently is in TensorFlow.</p><h3 id=non-goals>Non Goals</h3><p>It is important to point out things that MLIR does not aim to do. For example,
+write analyses and transformations than it currently is in TensorFlow.</p><h3 id=non-goals>Non Goals&nbsp;<a class=headline-hash href=#non-goals>¶</a></h3><p>It is important to point out things that MLIR does not aim to do. For example,
 there is no runtime component to MLIR: the TensorFlow executor, the TF Lite
 FlatBuffer interpreter, or other existing runtime should be used as-is.</p><p>Another non-goal is that MLIR currently doesn&rsquo;t support a stable binary
 encoding. We will certainly add this at some point, but existing formats should

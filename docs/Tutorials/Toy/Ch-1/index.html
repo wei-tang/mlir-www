@@ -11,7 +11,7 @@ the model of the
 .</p><p>This tutorial assumes you have cloned and built MLIR; if you have not yet done
 so, see
 <a href=https://mlir.llvm.org/getting_started/>Getting started with MLIR</a>
-.</p><h2 id=the-chapters>The Chapters</h2><p>This tutorial is divided in the following chapters:</p><ul><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter #1</a>
+.</p><h2 id=the-chapters>The Chapters&nbsp;<a class=headline-hash href=#the-chapters>¶</a></h2><p>This tutorial is divided in the following chapters:</p><ul><li><a href=/docs/Tutorials/Toy/Ch-1/>Chapter #1</a>
 : Introduction to the Toy language and the definition
 of its AST.</li><li><a href=/docs/Tutorials/Toy/Ch-2/>Chapter #2</a>
 : Traversing the AST to emit a dialect in MLIR,
@@ -30,7 +30,7 @@ target LLVM IR for code generation, and detail more of the lowering
 framework.</li><li><a href=/docs/Tutorials/Toy/Ch-7/>Chapter #7</a>
 : Extending Toy: Adding support for a composite type.
 We&rsquo;ll demonstrate how to add a custom type to MLIR, and how it fits in the
-existing pipeline.</li></ul><h2 id=the-language>The Language</h2><p>This tutorial will be illustrated with a toy language that we’ll call “Toy”
+existing pipeline.</li></ul><h2 id=the-language>The Language&nbsp;<a class=headline-hash href=#the-language>¶</a></h2><p>This tutorial will be illustrated with a toy language that we’ll call “Toy”
 (naming is hard&mldr;). Toy is a tensor-based language that allows you to define
 functions, perform some math computation, and print results.</p><p>Given that we want to keep things simple, the codegen will be limited to tensors
 of rank &lt;= 2, and the only datatype in Toy is a 64-bit floating point type (aka
@@ -81,7 +81,7 @@ def main() {
   # trigger a shape inference error.
   var f = multiply_transpose(transpose(a), c);
 }
-</code></pre><h2 id=the-ast>The AST</h2><p>The AST from the above code is fairly straightforward; here is a dump of it:</p><pre><code>Module:
+</code></pre><h2 id=the-ast>The AST&nbsp;<a class=headline-hash href=#the-ast>¶</a></h2><p>The AST from the above code is fairly straightforward; here is a dump of it:</p><pre><code>Module:
   Function
     Proto 'multiply_transpose' @test/ast.toy:5:1'
     Args: [a, b]
