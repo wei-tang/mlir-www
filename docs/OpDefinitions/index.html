@@ -136,11 +136,22 @@ auto-generation of getter methods, 3) provide a handle to reference for other
 places like constraints.</p><h4 id=variadic-operands>Variadic operands</h4><p>To declare a variadic operand, wrap the <code>TypeConstraint</code> for the operand with
 <code>Variadic&lt;...></code>.</p><p>Normally operations have no variadic operands or just one variadic operand. For
 the latter case, it is easy to deduce which dynamic operands are for the static
-variadic operand definition. But if an operation has more than one variadic
-operands, it would be impossible to attribute dynamic operands to the
-corresponding static variadic operand definitions without further information
-from the operation. Therefore, the <code>SameVariadicOperandSize</code> trait is needed to
-indicate that all variadic operands have the same number of dynamic values.</p><h4 id=optional-attributes>Optional attributes</h4><p>To declare an optional attribute, wrap the <code>AttrConstraint</code> for the attribute
+variadic operand definition. Though, if an operation has more than one variable
+length operands (either optional or variadic), it would be impossible to
+attribute dynamic operands to the corresponding static variadic operand
+definitions without further information from the operation. Therefore, either
+the <code>SameVariadicOperandSize</code> or <code>AttrSizedOperandSegments</code> trait is needed to
+indicate that all variable length operands have the same number of dynamic
+values.</p><h4 id=optional-operands>Optional operands</h4><p>To declare an optional operand, wrap the <code>TypeConstraint</code> for the operand with
+<code>Optional&lt;...></code>.</p><p>Normally operations have no optional operands or just one optional operand. For
+the latter case, it is easy to deduce which dynamic operands are for the static
+operand definition. Though, if an operation has more than one variable length
+operands (either optional or variadic), it would be impossible to attribute
+dynamic operands to the corresponding static variadic operand definitions
+without further information from the operation. Therefore, either the
+<code>SameVariadicOperandSize</code> or <code>AttrSizedOperandSegments</code> trait is needed to
+indicate that all variable length operands have the same number of dynamic
+values.</p><h4 id=optional-attributes>Optional attributes</h4><p>To declare an optional attribute, wrap the <code>AttrConstraint</code> for the attribute
 with <code>OptionalAttr&lt;...></code>.</p><h4 id=attributes-with-default-values>Attributes with default values</h4><p>To declare an attribute with a default value, wrap the <code>AttrConstraint</code> for the
 attribute with <code>DefaultValuedAttr&lt;..., "..."></code>.</p><p>The second parameter to <code>DefaultValuedAttr</code> should be a string containing the
 C++ default value. For example, a float default value should be specified as
@@ -394,7 +405,7 @@ information. An optional group is defined by wrapping a set of elements within
 of the group.<ul><li>The anchor is the element whose presence controls whether the group
 should be printed/parsed.</li><li>An element is marked as the anchor by adding a trailing <code>^</code>.</li><li>The first element is <em>not</em> required to be the anchor of the group.</li></ul></li><li>Literals, variables, and type directives are the only valid elements within
 the group.<ul><li>Any attribute variable may be used, but only optional attributes can be
-marked as the anchor.</li><li>Only variadic, i.e. optional, operand arguments can be used.</li><li>The operands to a type directive must be defined within the optional
+marked as the anchor.</li><li>Only variadic or optional operand arguments can be used.</li><li>The operands to a type directive must be defined within the optional
 group.</li></ul></li></ul><p>An example of an operation with an optional group is <code>std.return</code>, which has a
 variadic number of operands.</p><pre><code>def ReturnOp : ... {
   let arguments = (ins Variadic&lt;AnyType&gt;:$operands);
