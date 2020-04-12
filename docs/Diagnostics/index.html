@@ -106,7 +106,9 @@ destroyed.</p><div class=highlight><pre class=chroma><code class=language-c++ da
   <span class=n>InFlightDiagnostic</span> <span class=n>diag</span> <span class=o>=</span> <span class=n>op</span><span class=o>-</span><span class=o>&gt;</span><span class=n>emitError</span><span class=p>(</span><span class=p>)</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>...</span><span class=s>&#34;</span><span class=p>;</span>
 <span class=p>}</span>  <span class=c1>// The diagnostic is automatically reported here.
 </span></code></pre></div><h2 id=diagnostic-configuration-options>Diagnostic Configuration Options&nbsp;<a class=headline-hash href=#diagnostic-configuration-options>¶</a></h2><p>Several options are provided to help control and enhance the behavior of
-diagnostics. These options are listed below:</p><h3 id=print-operation-on-diagnostic>Print Operation On Diagnostic&nbsp;<a class=headline-hash href=#print-operation-on-diagnostic>¶</a></h3><p>Command Line Flag: <code>-mlir-print-op-on-diagnostic</code></p><p>When a diagnostic is emitted on an operation, via <code>Operation::emitError/...</code>,
+diagnostics. These options can be configured via the MLIRContext, and registered
+to the command line with the <code>registerMLIRContextCLOptions</code> method. These
+options are listed below:</p><h3 id=print-operation-on-diagnostic>Print Operation On Diagnostic&nbsp;<a class=headline-hash href=#print-operation-on-diagnostic>¶</a></h3><p>Command Line Flag: <code>-mlir-print-op-on-diagnostic</code></p><p>When a diagnostic is emitted on an operation, via <code>Operation::emitError/...</code>,
 the textual form of that operation is printed and attached as a note to the
 diagnostic. This option is useful for understanding the current form of an
 operation that may be invalid, especially when debugging verifier failures. An
