@@ -152,8 +152,10 @@ used for SPIR-V <code>OpTypeFunction</code> types.</p><p>The SPIR-V dialect and 
                | vector-type
                | spirv-type
 
-array-type ::= `!spv.array&lt;` integer-literal `x` element-type `&gt;`
+array-type ::= `!spv.array` `&lt;` integer-literal `x` element-type
+               (`,` `stride` `=` integer-literal)? `&gt;`
 </code></pre><p>For example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>array<span class=p>&lt;</span><span class=m>4 x</span> <span class=k>i32</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>array<span class=p>&lt;</span><span class=m>4 x</span> <span class=k>i32</span><span class=p>,</span> <span class=nl>stride =</span> <span class=m>4</span><span class=p>&gt;</span>
 <span class=p>!</span>spv<span class=p>.</span>array<span class=p>&lt;</span><span class=m>16 x</span> <span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span><span class=p>&gt;</span>
 </code></pre></div><h3 id=image-type>Image type&nbsp;<a class=headline-hash href=#image-type>¶</a></h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#OpTypeImage>image type</a>
@@ -186,8 +188,9 @@ pointer-type ::= `!spv.ptr&lt;` element-type `,` storage-class `&gt;`
 <span class=p>!</span>spv<span class=p>.</span>ptr<span class=p>&lt;</span><span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span><span class=p>,</span> Uniform<span class=p>&gt;</span>
 </code></pre></div><h3 id=runtime-array-type>Runtime array type&nbsp;<a class=headline-hash href=#runtime-array-type>¶</a></h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#OpTypeRuntimeArray>runtime array type</a>
-. Its syntax is</p><pre><code>runtime-array-type ::= `!spv.rtarray&lt;` element-type `&gt;`
+. Its syntax is</p><pre><code>runtime-array-type ::= `!spv.rtarray` `&lt;` element-type (`,` `stride` `=` integer-literal)? `&gt;`
 </code></pre><p>For example,</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=p>!</span>spv<span class=p>.</span>rtarray<span class=p>&lt;</span><span class=k>i32</span><span class=p>&gt;</span>
+<span class=p>!</span>spv<span class=p>.</span>rtarray<span class=p>&lt;</span><span class=k>i32</span><span class=p>,</span> <span class=nl>stride=</span><span class=m>4</span><span class=p>&gt;</span>
 <span class=p>!</span>spv<span class=p>.</span>rtarray<span class=p>&lt;</span><span class=kt>vector</span><span class=p>&lt;</span><span class=m>4 x</span> <span class=k>f32</span><span class=p>&gt;</span><span class=p>&gt;</span>
 </code></pre></div><h3 id=struct-type>Struct type&nbsp;<a class=headline-hash href=#struct-type>¶</a></h3><p>This corresponds to SPIR-V
 <a href=https://www.khronos.org/registry/spir-v/specs/unified1/SPIRV.html#Structure>struct type</a>
@@ -547,11 +550,16 @@ to and guide the SPIR-V compilation path.</p><h3 id=shader-interface-attributes>
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/SPIRVLowering.td>a few attributes</a>
 for specifying these
 interfaces:</p><ul><li><code>spv.entry_point_abi</code> is a struct attribute that should be attached to the
-entry function. It contains:<ul><li><code>local_size</code> for specifying the local work group size for the dispatch.</li></ul></li><li><code>spv.interface_var_abi</code> is a struct attribute that should be attached to
-each operand and result of the entry function. It contains:<ul><li><code>descriptor_set</code> for specifying the descriptor set number for the
-corresponding resource variable.</li><li><code>binding</code> for specifying the binding number for the corresponding
-resource variable.</li><li><code>storage_class</code> for specifying the storage class for the corresponding
-resource variable.</li></ul></li></ul><p>The SPIR-V dialect provides a
+entry function. It contains:<ul><li><code>local_size</code> for specifying the local work group size for the dispatch.</li></ul></li><li><code>spv.interface_var_abi</code> is attribute that should be attached to each operand
+and result of the entry function. It should be of <code>#spv.interface_var_abi</code>
+attribute kind, which is defined as:</li></ul><pre><code>spv-storage-class     ::= `StorageBuffer` | ...
+spv-descriptor-set    ::= integer-literal
+spv-binding           ::= integer-literal
+spv-interface-var-abi ::= `#` `spv.interface_var_abi` `&lt;(` spv-descriptor-set
+                          `,` spv-binding `)` (`,` spv-storage-class)? `&gt;`
+</code></pre><p>For example,</p><pre><code>#spv.interface_var_abi&lt;(0, 0), StorageBuffer&gt;
+#spv.interface_var_abi&lt;(0, 1)&gt;
+</code></pre><p>The attribute has a few fields:</p><ul><li>Descriptor set number for the corresponding resource variable.</li><li>Binding number for the corresponding resource variable.</li><li>Storage class for the corresponding resource variable.</li></ul><p>The SPIR-V dialect provides a
 <a href=https://github.com/llvm/llvm-project/blob/master/mlir/include/mlir/Dialect/SPIRV/Passes.h><code>LowerABIAttributesPass</code></a>
 for
 consuming these attributes and create SPIR-V module complying with the
