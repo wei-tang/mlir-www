@@ -60,7 +60,12 @@ LLVM IR function attributes have their value represented in the string form.</p>
   llvm<span class=p>.</span><span class=kt>return</span>
 <span class=p>}</span>
 </code></pre></div><p>If the attribute is not known to LLVM IR, it will be attached as a string
-attribute.</p><h3 id=llvm-ir-operations>LLVM IR operations&nbsp;<a class=headline-hash href=#llvm-ir-operations>¶</a></h3><p>The following operations are currently supported. The semantics of these
+attribute.</p><h4 id=linkage>Linkage&nbsp;<a class=headline-hash href=#linkage>¶</a></h4><p>An LLVM IR dialect function has a linkage attribute derived from LLVM IR
+<a href=https://llvm.org/docs/LangRef.html#linkage-types>linkage types</a>
+. Linkage is
+specified by the same keyword as in LLVM IR and is located between <code>llvm.func</code>
+and the symbol name. If no linkage keyword is present, <code>external</code> linkage is
+assumed by default.</p><h3 id=llvm-ir-operations>LLVM IR operations&nbsp;<a class=headline-hash href=#llvm-ir-operations>¶</a></h3><p>The following operations are currently supported. The semantics of these
 operations corresponds to the semantics of the similarly-named LLVM IR
 instructions.</p><h4 id=integer-binary-arithmetic-operations>Integer binary arithmetic operations&nbsp;<a class=headline-hash href=#integer-binary-arithmetic-operations>¶</a></h4><p>Take two arguments of wrapped LLVM IR integer type, produce one value of the
 same type.</p><ul><li><code>add</code></li><li><code>sub</code></li><li><code>mul</code></li><li><code>udiv</code></li><li><code>sdiv</code></li><li><code>urem</code></li><li><code>srem</code></li></ul><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// Integer addition.
@@ -216,6 +221,14 @@ other @-identifiers in it.</p><p>Examples:</p><div class=highlight><pre class=ch
   <span class=nv>%2</span> <span class=p>=</span> llvm<span class=p>.</span>getelementptr <span class=nv>%0</span><span class=p>[</span><span class=nv>%1</span><span class=p>]</span> <span class=p>:</span> <span class=p>(</span><span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32*&#34;</span><span class=p>&gt;</span><span class=p>,</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span><span class=p>)</span> <span class=p>-&gt;</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32*&#34;</span><span class=p>&gt;</span>
   llvm<span class=p>.</span><span class=kt>return</span> <span class=nv>%2</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>&lt;</span><span class=s>&#34;i32*&#34;</span><span class=p>&gt;</span>
 <span class=p>}</span>
+</code></pre></div><p>Similarly to functions, globals have a linkage attribute. In the custom syntax,
+this attribute is placed between <code>llvm.mlir.global</code> and the optional <code>constant</code>
+keyword. If the attribute is omitted, <code>external</code> linkage is assumed by default.</p><p>Examples:</p><div class=highlight><pre class=chroma><code class=language-mlir data-lang=mlir><span class=c>// A constant with internal linkage will not participate in linking.
+</span><span class=c></span>llvm<span class=p>.</span>mlir<span class=p>.</span>global internal <span class=kt>constant</span> <span class=nf>@cst</span><span class=p>(</span><span class=m>42</span> <span class=p>:</span> <span class=k>i32</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span><span class=k>i32</span>
+
+<span class=c>// By default, &#34;external&#34; linkage is assumed and the global participates in
+</span><span class=c></span><span class=c>// symbol resolution at link-time.
+</span><span class=c></span>llvm<span class=p>.</span>mlir<span class=p>.</span>global <span class=nf>@glob</span><span class=p>(</span><span class=m>0</span> <span class=p>:</span> <span class=k>f32</span><span class=p>)</span> <span class=p>:</span> <span class=p>!</span>llvm<span class=p>.</span>float
 </code></pre></div><h4 id=llvmmlirnull><code>llvm.mlir.null</code>&nbsp;<a class=headline-hash href=#llvmmlirnull>¶</a></h4><p>Unlike LLVM IR, MLIR does not have first-class null pointers. They must be
 explicitly created as SSA values using <code>llvm.mlir.null</code>. This operation has
 operands or attributes, and returns a null value of a wrapped LLVM IR pointer
