@@ -243,7 +243,7 @@ parser and printer is to provide the <code>type-data</code> bits. We will define
 
   <span class=c1>// Print the struct type according to the parser format.
 </span><span class=c1></span>  <span class=n>printer</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=s>&#34;</span><span class=s>struct&lt;</span><span class=s>&#34;</span><span class=p>;</span>
-  <span class=n>mlir</span><span class=o>:</span><span class=o>:</span><span class=n>interleaveComma</span><span class=p>(</span><span class=n>structType</span><span class=p>.</span><span class=n>getElementTypes</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=n>printer</span><span class=p>)</span><span class=p>;</span>
+  <span class=n>llvm</span><span class=o>:</span><span class=o>:</span><span class=n>interleaveComma</span><span class=p>(</span><span class=n>structType</span><span class=p>.</span><span class=n>getElementTypes</span><span class=p>(</span><span class=p>)</span><span class=p>,</span> <span class=n>printer</span><span class=p>)</span><span class=p>;</span>
   <span class=n>printer</span> <span class=o>&lt;</span><span class=o>&lt;</span> <span class=sa></span><span class=sc>&#39;</span><span class=sc>&gt;</span><span class=sc>&#39;</span><span class=p>;</span>
 <span class=p>}</span>
 </code></pre></div><p>Before moving on, let&rsquo;s look at a quick of example showcasing the functionality
